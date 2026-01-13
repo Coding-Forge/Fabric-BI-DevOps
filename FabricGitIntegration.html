@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fabric + Git Workshop Summary Poster</title>
+  <style>
+    :root {
+      --header-bg: linear-gradient(135deg, #2b5396 0%, #2b7696d1 100%);
+      --header-text: #ffffff;
+      --header-text-secondary: #e6f0f5;
+      --page-bg: #f5f9fc;
+      --page-bg-alt: #ffffff;
+      --text-primary: #1a2b3c;
+      --text-secondary: #334b63;
+      --text-muted: #667685;
+      --brand: #2c78a0;
+      --brand-hover: #2b7696;
+      --accent-bg: #dceef8;
+      --accent: #2c78a0;
+      --border: #d0dbe5;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --header-bg: linear-gradient(135deg, #2b5396 0%, #2b7696d1 100%);
+        --header-text: #ffffff;
+        --header-text-secondary: #cfdbe4;
+        --page-bg: #121a23;
+        --page-bg-alt: #18242f;
+        --text-primary: #e8f0f7;
+        --text-secondary: #b8c7d6;
+        --text-muted: #7f93a5;
+        --brand: #5bb8e6;
+        --brand-hover: #4aa1c7;
+        --accent-bg: #1f2e3a;
+        --accent: #5bb8e6;
+        --border: #2f4354;
+      }
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'SF Pro Display', 'SF Pro', sans-serif;
+      background: var(--page-bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    .poster-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: var(--page-bg-alt);
+      border-radius: 32px;
+      box-shadow: 0 8px 32px rgba(58,143,183,0.12);
+      padding: 0;
+      overflow: hidden;
+    }
+
+    header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      text-align: center;
+      padding: 56px 32px 40px 32px;
+      position: relative;
+    }
+
+    .header-title {
+      font-size: clamp(40px, 6vw, 60px);
+      font-weight: 900;
+      margin-bottom: 12px;
+      letter-spacing: 0.01em;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .header-subtitle {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--header-text-secondary);
+    }
+
+    .header-description {
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 32px;
+      max-width: 700px;
+      margin: 0 auto;
+      color: var(--header-text-secondary);
+    }
+
+    .content {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      padding: 40px;
+      flex-wrap: wrap;
+    }
+
+    .column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      min-width: 0;
+    }
+
+    .card {
+      background: var(--accent-bg);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    }
+
+    .card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .card p, .card li {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .stat-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .stat {
+      flex: 1 1 45%;
+      background: var(--page-bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat h3 {
+      font-size: 28px;
+      color: var(--brand);
+      margin: 0;
+    }
+
+    .stat p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 8px 0 0;
+    }
+
+    .checklist li::before {
+      content: "\2713";
+      color: var(--brand);
+      margin-right: 8px;
+    }
+
+    .flow-step {
+      border-left: 4px solid var(--brand);
+      padding-left: 16px;
+      margin-bottom: 16px;
+    }
+
+    .flow-step h4 {
+      margin: 0 0 4px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .flow-step p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="poster-container">
+    <header>
+      <div class="header-title">Fabric + Git Workshop Essentials</div>
+      <div class="header-subtitle">Power BI DevOps Enablement</div>
+      <div class="header-description">A visual summary of key insights, best practices, and hands-on labs from the Fabric + Git integration workshop.</div>
+    </header>
+    <div class="content">
+      <div class="column">
+        <div class="card">
+          <h2>Key Takeaways</h2>
+          <ul>
+            <li><strong>PBIP Format:</strong> Enables version control of Power BI assets via Git.</li>
+            <li><strong>CI/CD Pipelines:</strong> Automate validation and deployment using Azure DevOps.</li>
+            <li><strong>Governance:</strong> Enforce RLS/CLS, workspace roles, and naming conventions.</li>
+            <li><strong>Embedded Analytics:</strong> Use service principals for secure Power BI embedding.</li>
+            <li><strong>Collaboration:</strong> Use Teams channels and PR templates for streamlined teamwork.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>Workshop Flow</h2>
+          <div class="flow-step">
+            <h4>Kickoff & Setup</h4>
+            <p>Roles, prerequisites, and governance overview</p>
+          </div>
+          <div class="flow-step">
+            <h4>Git Integration</h4>
+            <p>Connect Fabric workspace to Git, enable PBIP sync</p>
+          </div>
+          <div class="flow-step">
+            <h4>Lab 1</h4>
+            <p>Hands-on: Git connect, branch, PR, merge</p>
+          </div>
+          <div class="flow-step">
+            <h4>Best Practices</h4>
+            <p>DataOps, workspace roles, naming, RLS/CLS</p>
+          </div>
+          <div class="flow-step">
+            <h4>Lab 2</h4>
+            <p>CI pipeline with PBIP validation & quality gates</p>
+          </div>
+          <div class="flow-step">
+            <h4>Dashboard Design</h4>
+            <p>Persona mapping, wireframes, storytelling</p>
+          </div>
+          <div class="flow-step">
+            <h4>Release & Embed</h4>
+            <p>Checklist, security, Power BI Embedded POC</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Release Checklist</h2>
+          <ul class="checklist">
+            <li>CI pipeline green on main branch</li>
+            <li>Version tag created</li>
+            <li>Deployment pipeline promotions completed</li>
+            <li>Smoke tests passed in Test & Prod</li>
+            <li>RLS/CLS validated</li>
+            <li>App published with correct audience settings</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <h2>Stat Highlights</h2>
+          <div class="stat-grid">
+            <div class="stat">
+              <h3>9</h3>
+              <p>Workshop Agenda Topics</p>
+            </div>
+            <div class="stat">
+              <h3>2</h3>
+              <p>Hands-on Labs</p>
+            </div>
+            <div class="stat">
+              <h3>16+</h3>
+              <p>Supporting Documents</p>
+            </div>
+            <div class="stat">
+              <h3>8 hrs</h3>
+              <p>Total Workshop Duration</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>CI/CD Pipeline Flow</h2>
+          <svg width="100%" height="200" viewBox="0 0 800 200">
+            <defs>
+              <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="var(--brand)" />
+              </marker>
+            </defs>
+            <g fill="var(--accent)" font-size="14" font-family="Segoe UI">
+              <rect x="20" y="60" width="120" height="40" rx="8" fill="var(--page-bg-alt)" stroke="var(--brand)" />
+              <text x="80" y="85" text-anchor="middle">Code Commit</text>
+
+              <rect x="180" y="60" width="120" height="40" rx="8" fill="var(--page-bg-alt)" stroke="var(--brand)" />
+              <text x="240" y="85" text-anchor="middle">CI Validation</text>
+
+              <rect x="340" y="60" width="120" height="40" rx="8" fill="var(--page-bg-alt)" stroke="var(--brand)" />
+              <text x="400" y="85" text-anchor="middle">Deploy to Dev</text>
+
+              <rect x="500" y="60" width="120" height="40" rx="8" fill="var(--page-bg-alt)" stroke="var(--brand)" />
+              <text x="560" y="85" text-anchor="middle">Deploy to Test</text>
+
+              <rect x="660" y="60" width="120" height="40" rx="8" fill="var(--page-bg-alt)" stroke="var(--brand)" />
+              <text x="720" y="85" text-anchor="middle">Deploy to Prod</text>
+
+              <line x1="140" y1="80" x2="180" y2="80" stroke="var(--brand)" stroke-width="2" marker-end="url(#arrow)" />
+              <line x1="300" y1="80" x2="340" y2="80" stroke="var(--brand)" stroke-width="2" marker-end="url(#arrow)" />
+              <line x1="460" y1="80" x2="500" y2="80" stroke="var(--brand)" stroke-width="2" marker-end="url(#arrow)" />
+              <line x1="620" y1="80" x2="660" y2="80" stroke="var(--brand)" stroke-width="2" marker-end="url(#arrow)" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="card">
+          <h2>Governance Best Practices</h2>
+          <ul class="checklist">
+            <li>Use Dev/Test/Prod workspace separation</li>
+            <li>Define RBAC roles and RACI matrix</li>
+            <li>Adopt naming conventions for items</li>
+            <li>Implement PR templates with checklists</li>
+            <li>Enforce RLS/CLS and sensitivity labels</li>
+            <li>Use deployment pipelines with approvals</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>Embedded Analytics Setup</h2>
+          <ul class="checklist">
+            <li>Register Azure AD App</li>
+            <li>Enable service principal in Power BI Admin</li>
+            <li>Assign workspace roles to app</li>
+            <li>Use Embed API with service principal</li>
+            <li>Validate RLS and performance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
