@@ -64,6 +64,8 @@ By the end of this lab you will have:
 
 ---
 
+<!-- _style: "font-size: 0.82em; line-height: 1.4" -->
+
 ## Prerequisites Check
 
 Before starting:
@@ -177,6 +179,7 @@ Repeat for the **Production stage**:
 
 ---
 <!-- class: step -->
+<!-- _style: "font-size: 0.82em; line-height: 1.4" -->
 
 ## Part 4 — Review the Comparison Diff
 
@@ -228,22 +231,29 @@ Work through this with your lab partner before promoting to Prod:
 ---
 <!-- class: step -->
 
-## Part 7 — Promote Test → Prod
+## Part 7 — Configure the Approval Gate
 
-**Add a manual approval gate:**
+1. Click **⋯** on the **Production stage** header → **Deployment settings**
+2. Enable **Manual approval required**
+3. Add the BI Lead (or your lab facilitator) as the approver
+4. Click **Save**
 
-1. Click the **⋯** on the **Production stage** header → **Deployment settings**
-2. Enable **Manual approval required** — add the BI Lead as approver
-3. Save
+The next promotion to Production will **pause** until the approver reviews and accepts.
 
-**Trigger the promotion:**
+---
+<!-- class: step -->
+
+## Part 7 — Trigger the Prod Promotion
+
+**Trigger the deployment:**
 1. Click **Deploy** between Test and Production
-2. Add note: `Lab 3 — initial Test → Prod promotion`
-3. Click **Deploy**
-4. The pipeline will **pause and send an approval request**
+2. Add a note: `Lab 3 — initial Test → Prod promotion`
+3. Click **Deploy** — the pipeline pauses for approval
 
 **As approver (BI Lead):**
-- Review the deployment details → click **Approve**
+1. Open the approval request notification
+2. Review the deployment details
+3. Click **Approve**
 
 ---
 <!-- class: step -->

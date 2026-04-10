@@ -120,22 +120,25 @@ stages:
 
 ---
 
-## Syncing the Dev Workspace — Two Approaches
+## Approach A — Manual Workspace Sync (Portal)
 
-### Approach A — Manual (Portal)
 1. Open `WS-Dev-<team>` in Fabric
-2. Click the **Source control icon** (top right)
-3. Review incoming changes in the panel
+2. Click the **Source control icon** (top right toolbar)
+3. Review incoming commits in the side panel
 4. Click **Update all**
 
-Good for: individual developers, ad-hoc pulls
+Good for: individual developers, on-demand pulls after a merge.
 
-### Approach B — Automated (REST API)
+---
+
+## Approach B — Automated Workspace Sync (REST API)
+
 - The `SyncFabricDev` pipeline stage calls the Fabric `updateFromGit` REST endpoint
 - Dev workspace updated automatically on every merge to `main`
-- Credentials stored in Azure Key Vault → ADO variable group
+- Credentials stored in **Azure Key Vault** → surfaced via ADO variable group
+- No human action required after a PR merges
 
-Good for: teams that want zero manual steps
+Good for: teams that want a fully automated inner loop.
 
 ---
 
@@ -170,20 +173,26 @@ Deployment rules apply these overrides automatically at promotion time.
 
 ---
 
-## Validation Gates Before Promotion
+## Validation Gates — Dev → Test
 
-**Dev → Test:**
-- [ ] CI pipeline green on `main` (all 3 stages passed)
+Before triggering the Dev → Test promotion:
+
+- [ ] CI pipeline green on `main` — all 3 stages passed
 - [ ] JUnit: 0 test failures
 - [ ] Dev workspace refresh succeeded
-- [ ] Deployment rules configured for Test environment
+- [ ] Deployment rules configured for the Test environment
 
-**Test → Prod:**
+---
+
+## Validation Gates — Test → Prod
+
+Before triggering the Test → Prod promotion:
+
 - [ ] UAT complete — stakeholder sign-off
 - [ ] RLS roles tested with representative user accounts
 - [ ] Refresh succeeded against Test database
 - [ ] Schema diff reviewed — no unexpected changes
-- [ ] **Manual approval** from BI Lead
+- [ ] **Manual approval** from BI Lead received
 
 ---
 

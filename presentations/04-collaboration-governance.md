@@ -31,7 +31,6 @@ style: |
     color: #ffffff;
   }
   section.dark h2 { color: #c8a8f9; border-color: #c8a8f9; }
-  section.dark table th { background-color: #4b0082; }
   section.warning {
     background-color: #fff8e6;
   }
@@ -165,21 +164,14 @@ Before any promotion:
 
 ---
 
+<!-- _style: "font-size: 0.78em; line-height: 1.4" -->
 ## Governance Checklist — Key Gates
 
-**Before opening a PR:**
-- `pbi-tools validate` passes locally
-- No hardcoded connection strings or passwords in PBIP files
-- New measures have descriptions
-
-**Before Dev → Test promotion:**
-- CI pipeline is green on `main`
-- JUnit test results: 0 failures
-
-**Before Test → Prod promotion:**
-- RLS roles tested with representative users
-- Dataset refresh succeeded in Test
-- Manual approval from BI Lead
+| Gate | Checks |
+|------|--------|
+| **Before PR** | `pbi-tools validate` passes · No hardcoded credentials · New measures have descriptions |
+| **Dev → Test** | CI pipeline green on `main` · JUnit: 0 failures · Dev workspace refresh succeeded |
+| **Test → Prod** | RLS roles tested with representative users · Dataset refresh succeeded in Test · BI Lead manual approval |
 
 ---
 <!-- class: lead -->

@@ -148,7 +148,12 @@ Custom Web App  →  Backend API  →  Azure AD  →  Fabric Workspace
      └──────── Embed Token ──────────┘
 ```
 
-**App-Owns-Data flow:**
+The backend acts as a **token broker** — credentials never reach the browser.
+
+---
+
+## App-Owns-Data — Authentication Flow
+
 1. Web app requests a report via the backend
 2. Backend authenticates as a **service principal**
 3. Service principal gets an access token from Microsoft Entra ID
@@ -157,6 +162,8 @@ Custom Web App  →  Backend API  →  Azure AD  →  Fabric Workspace
 6. Frontend loads the report using the **Power BI JavaScript SDK**
 
 ---
+
+<!-- _style: "font-size: 0.84em; line-height: 1.4" -->
 
 ## Power BI Embedded — Service Principal Setup
 
@@ -223,6 +230,8 @@ When rolling out Git-based workflows to a team:
 _Fabric + Git Essentials_
 
 ---
+
+<!-- _style: "font-size: 0.84em; line-height: 1.4" -->
 
 ## Next Steps
 

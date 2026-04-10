@@ -190,7 +190,7 @@ In your personal workspace (`WS-Dev-<alias>`):
 ---
 <!-- class: step -->
 
-## Part 4 — Review & Merge
+## Part 4 — Review the PR
 
 **As reviewer:**
 1. Open the PR → review the **Files changed** tab
@@ -198,12 +198,17 @@ In your personal workspace (`WS-Dev-<alias>`):
 3. Leave a comment: ✅ or request a change
 4. Click **Approve**
 
+---
+<!-- class: step -->
+
+## Part 4 — Merge & Verify
+
 **As author:**
 1. Once approved, click **Complete / Merge**
 2. Choose **Squash merge** (keeps history clean)
 3. Delete the feature branch after merging
 
-**Verify:** The shared `WS-Dev-<team>` workspace should now show your change after a manual sync.
+**Verify:** Open `WS-Dev-<team>` → **Source control → Update all** to sync the merged change into the shared workspace.
 
 ---
 

@@ -250,6 +250,7 @@ After merging a PR to `main`:
 
 ---
 <!-- class: step -->
+<!-- _style: "font-size: 0.76em; line-height: 1.35" -->
 
 ## Part 5B — Workspace Sync (Automated API)
 
