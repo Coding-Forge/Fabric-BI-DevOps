@@ -4,7 +4,7 @@
 ```mermaid
 flowchart LR
     subgraph Fabric_Workspace["Fabric Workspace"]
-        A[Reports (PBIP)] 
+        A["Reports (PBIP)"]
         B[Semantic Models]
         C[Notebooks / Dataflows]
     end
@@ -12,7 +12,7 @@ flowchart LR
     subgraph GitRepo["Azure DevOps / GitHub Repo"]
         D[PBIP Artifacts<br/>JSON/YAML/TMDL]
         E[Feature Branches]
-        F[Main Branch<br/>(Protected)]
+        F["Main Branch<br/>(Protected)"]
     end
 
     A <-- Sync --> D
@@ -21,6 +21,7 @@ flowchart LR
 
     D <-- Pull / Push --> E
     E --> F
+```
 
 ---
 
