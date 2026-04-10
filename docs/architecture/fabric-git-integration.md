@@ -26,7 +26,7 @@ flowchart LR
 ---
 
 # `/docs/architecture/pbip-dev-workflow.md`
-```markdown
+
 # PBIP Development Workflow
 
 ```mermaid
@@ -42,11 +42,12 @@ flowchart LR
     PR -->|Approved + Merged| Repo
     Repo -->|Sync| Fabric
     Repo --> Pipelines
+```
 
-    ---
+---
 
 # `/docs/architecture/ci-pipeline.md`
-```markdown
+
 # CI Pipeline for PBIP (Azure DevOps)
 
 ```mermaid
@@ -63,12 +64,12 @@ flowchart TD
     Validate --> Tests
     Tests --> Artifacts
     Artifacts --> Status
+```
 
-
-    ---
+---
 
 # `/docs/architecture/deployment-pipeline.md`
-```markdown
+
 # Fabric Deployment Pipeline (Dev → Test → Prod)
 
 ```mermaid
@@ -96,12 +97,12 @@ flowchart LR
     Promote2 --> Check2
     Promote2 --> Check3
     Promote2 --> Check4
+```
 
-
-    ---
+---
 
 # `/docs/architecture/end-to-end-devops.md`
-```markdown
+
 # End-to-End Fabric DevOps Architecture
 
 ```mermaid
@@ -132,16 +133,17 @@ flowchart TD
     Main -->|Sync| DevWS
     DevWS -->|Promote| TestWS
     TestWS -->|Promote| ProdWS
+```
 
 ---
 
 # `/docs/architecture/powerbi-embedded.md`
-```markdown
+
 # Power BI Embedded (App‑Owns‑Data) Architecture
 
 ```mermaid
 flowchart LR
-    App[Custom Web App<br/>(Frontend)]
+    App["Custom Web App<br/>(Frontend)"]
     Backend[Backend API<br/>Token Issuer]
     SP[Azure AD App Registration<br/>Service Principal]
     FabricWS[Fabric Workspace<br/>Reports / Models]
@@ -153,4 +155,6 @@ flowchart LR
     Backend -->|Generate Embed Token| Embed
     Embed --> App
     App -->|Load Report| FabricWS
+```
+
 ---
