@@ -18,6 +18,18 @@ This README provides a **topic-by-topic index** of supporting resources, archite
 | [3. Best Practices Summary](#3-best-practices-summary) | Governance, Git, CI/CD, Embedded |
 | [4. Folder Structure](#4-appendix-repository-folder-structure) | Actual repo layout |
 
+### Presentation Decks (Marp)
+- [01 — Kickoff & Overview](presentations/01-kickoff-overview.md)
+- [02 — Version Control in Fabric & PBIP](presentations/02-version-control-pbip.md)
+- [03 — Lab 1: Connect Workspace to Git](presentations/03-lab1-connect-git.md)
+- [04 — Collaboration & Governance](presentations/04-collaboration-governance.md)
+- [05 — Deployment Strategy](presentations/05-deployment-strategy.md)
+- [06 — Lab 2: CI Pipeline for PBIP](presentations/06-lab2-ci-pipeline.md)
+- [07 — Lab 3: Fabric Deployment Pipelines](presentations/07-lab3-deployment-pipelines.md)
+- [08 — Release Checklist & Power BI Embedded](presentations/08-release-embedded.md)
+
+> Render with the [Marp for VS Code](https://marketplace.visualstudio.com/items?itemName=marp-team.marp-vscode) extension, or export to PDF/HTML via `npx @marp-team/marp-cli`.
+
 ### Architecture Docs
 - [Fabric + Git Integration](docs/architecture/fabric-git-integration.md) — diagrams for the full integration, PBIP workflow, CI pipeline, deployment pipeline, end-to-end DevOps, and Power BI Embedded
 - [Branching Strategy](docs/architecture/branching-strategy.md)
@@ -302,6 +314,15 @@ Supporting documents:
 ├── README.md
 ├── Supporting_Docs_For_Workshop.md
 ├── FabricGitIntegration.html
+├── presentations/
+│   ├── 01-kickoff-overview.md
+│   ├── 02-version-control-pbip.md
+│   ├── 03-lab1-connect-git.md
+│   ├── 04-collaboration-governance.md
+│   ├── 05-deployment-strategy.md
+│   ├── 06-lab2-ci-pipeline.md
+│   ├── 07-lab3-deployment-pipelines.md
+│   └── 08-release-embedded.md
 └── docs/
     ├── index.md
     ├── architecture/
