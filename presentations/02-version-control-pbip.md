@@ -69,13 +69,13 @@ fabric-workspace/
 │   ├── definition.pbir
 │   └── StaticResources/
 │       └── SharedResources/
-├── SalesModel.SemanticModel/
-│   ├── definition/
-│   │   ├── tables/
-│   │   │   ├── Sales.tmdl   ← measures, columns, partitions
-│   │   │   └── Date.tmdl
-│   │   └── relationships.tmdl
-│   └── definition.pbism
+└── SalesModel.SemanticModel/
+    ├── definition/
+    │   ├── tables/
+    │   │   ├── Sales.tmdl   ← measures, columns, partitions
+    │   │   └── Date.tmdl
+    │   └── relationships.tmdl
+    └── definition.pbism
 ```
 
 All files are **plain text** → diffable, reviewable, mergeable.
