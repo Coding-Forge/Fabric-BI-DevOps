@@ -30,7 +30,7 @@ Participants will learn workspace–repo integration, branching strategies, PR w
 | 14:45–15:00 | Break                                                                  |
 | 15:00–16:00 | **Lab #3:** Fabric Deployment Pipelines — bind workspaces, configure deployment rules, promote Dev → Test → Prod |
 | 16:00–16:30 | Publishing artifacts & release checklist                               |
-| 16:30–17:00 | SDA webapp team POC: Power BI Embedded + communications plan           |
+| 16:30–17:00 | Webapp team POC: Power BI Embedded + communications plan           |
 
 ---
 

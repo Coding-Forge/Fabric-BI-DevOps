@@ -56,7 +56,7 @@ These are generated from the Marp source using `python-pptx` and can be opened d
 |---------------------|---------------------------------------|
 | **Kickoff, Objectives, Roles, Prerequisites**<br>(09:00–09:20) | Workshop Overview (agenda, objectives); Governance deck; Connect Fabric Workspaces to ADO prereqs |
 | **Version Control in Fabric & PBIP**<br>(09:20–10:15) | Git integration overview; PBIP basics; Branching & workspace separation guides |
-| **Lab #1 — Connect Workspace to Git**<br>(10:30–11:30) | Lab Guide for Git connection; Boeing‑branded slides; CI/CD architecture diagrams |
+| **Lab #1 — Connect Workspace to Git**<br>(10:30–11:30) | Lab Guide for Git connection; Branded slides; CI/CD architecture diagrams |
 | **Collaboration Patterns & Best Practices**<br>(11:30–12:15) | DataOps deck; Governance essentials; RACI examples; Go‑Live assessment |
 | **Deployment Strategy: Dev→Test→Prod**<br>(13:00–13:45) | CI/CD Delivery Guide; Enterprise‑scale Power BI Dev examples; Deployment pipeline docs |
 | **Lab #2 — Build CI Pipeline for PBIP**<br>(13:45–14:45) | CI lab guide (YAML examples, PBIP validation); ADO test integration; MS Learn pipeline tutorials |
@@ -116,7 +116,7 @@ Documents:
   - Verifying Git icons  
   - Creating feature branches  
   - Submitting a PR
-- **Boeing‑Branded Slide Pack**  
+- **Branded Slide Pack**  
   Step‑by‑step visuals: Git setup, PR demo.
 - **Architecture diagrams** for Git integration & PR flow
 
@@ -258,7 +258,7 @@ Checklist also applies to:
 
 ---
 
-## 2.9 SDA Webapp Team POC — Power BI Embedded & Comms Plan
+## 2.9 Webapp Team POC — Power BI Embedded & Comms Plan
 
 Supporting documents:
 - **Embedded Analytics Deck**  
