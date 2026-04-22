@@ -7,6 +7,8 @@ description: "Architecture reference for the end-to-end CI/CD pipeline supportin
 
 This document describes the end-to-end **CI/CD architecture** for Microsoft Fabric workspaces that use Power BI Projects (PBIP) and Git-based lifecycle management.
 
+For teams standardizing across many repositories, the same approach can be implemented as a **single shared Azure DevOps template repo**. In that model, one central pipeline template validates and publishes Fabric artifacts, while each project repo keeps only a thin consumer `azure-pipelines.yml` that references the shared template.
+
 ---
 
 ## Architecture Overview
@@ -57,6 +59,15 @@ flowchart TD
 
 The CI pipeline (defined in `azure-pipelines.yml`) runs on every push to `main` or `feature/*`.
 
+Two implementation patterns are valid:
+
+| Pattern | When to use it |
+|---|---|
+| **Project-local pipeline** | Single workshop repo or a team that wants one self-contained YAML file such as `projects/azure-pipelines.yml` |
+| **Shared template pipeline** | Multiple Fabric repos that should all use the same validation, test, and publish logic from a central template repo |
+
+The shared-template option is documented in [projects/universal-pipeline/README.md](../../projects/universal-pipeline/README.md).
+
 ```mermaid
 flowchart TD
     Trigger[Git Trigger\nfeature/* or main]
@@ -82,6 +93,8 @@ flowchart TD
 | **Validate** | `validate_pbip_structure.py`, dataset rules, report rules | Fails build immediately |
 | **Test** | DAX unit tests via `run_dax_tests.py` | Fails build; JUnit results published |
 | **Publish** | `PublishBuildArtifacts` | Skipped if prior stage fails |
+
+In the shared-template pattern, these same stages live in one central template file and are reused by many consumer repos via `extends:`.
 
 ---
 

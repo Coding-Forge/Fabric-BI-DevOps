@@ -161,6 +161,8 @@ Example:
 - Publish `pbip-artifacts` to Azure DevOps  
 - Set the pipeline as a required status check on `main`  
 
+This lab uses the workshop's self-contained PBIP pipeline. For enterprise rollout across many Fabric repos, the same Validate/Test/Publish pattern can be centralized as a shared template repo with thin consumer YAML files per project.
+
 ## Pipeline Stages Summary
 
 | Stage | Trigger | Purpose |
@@ -214,6 +216,8 @@ stages:
 ```
 
 See [Lab 2](labs/lab2-ci-pipeline.md) for the full hands-on walkthrough using the current project files under `projects`.
+
+For the reusable multi-repo variant, see [projects/universal-pipeline/README.md](../../projects/universal-pipeline/README.md).
 
 ---
 

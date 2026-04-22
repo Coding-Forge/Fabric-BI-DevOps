@@ -1,0 +1,46 @@
+# azure-pipelines.yml
+# ─────────────────────────────────────────────────────────────────────────────
+# Consumer pipeline — copy this file into any Fabric/PBIP project repo.
+# Update the two "name:" values below and adjust parameters as needed.
+#
+# Before first use:
+#   1. Update "name: MyOrg/fabric-pipeline-templates" to your templates repo.
+#   2. Update "ref:" to a stable release tag once available (e.g. refs/tags/v1.0).
+#   3. Place your PBIP artifacts locally under the path set in pbipPath.
+# ─────────────────────────────────────────────────────────────────────────────
+
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+
+pr:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'windows-2022'
+
+resources:
+  repositories:
+    - repository: fabric-pipeline-templates   # alias used by extends + checkout
+      type: git
+      name: MyOrg/fabric-pipeline-templates   # ← change to your org/project
+      ref: refs/heads/main                    # ← pin to refs/tags/v1.0 when ready
+
+extends:
+  template: templates/fabric-ci.yml@fabric-pipeline-templates
+  parameters:
+    pbipPath: 'pbip-local'        # folder where PBIP artifacts live locally
+    projectRoot: '.'              # offset from repo root (keep . unless in a subfolder)
+    pythonVersion: '3.11'
+
+    # ── Optional overrides (remove lines you don't need) ──────────────────
+    # rulesDatasetPath: 'ci/Rules-Dataset.json'  # custom location for dataset rules
+    # rulesReportPath:  'ci/Rules-Report.json'   # custom location for report rules
+    # skipDatasetRules: false
+    # skipReportRules:  false
+    # skipDaxTests:     false
+    # skipPublish:      false

@@ -8,6 +8,8 @@ A hands-on workshop covering Git integration, CI/CD automation, and deployment b
 This README provides a **topic-by-topic index** of supporting resources, architecture docs, lab guides, and reference materials used throughout the workshop.
 
 > PBIP artifacts are intentionally **not committed** in this repository. Bring your own PBIP files locally under `projects/` (or `projects/pbip-local/`) and keep reusable CI assets (`Rules-*.json`, `scripts/`, `tests/`, `azure-pipelines.yml`) in source control.
+>
+> This repo now also includes a reusable **universal Fabric CI pipeline** under `projects/universal-pipeline/`. The intent is to host one shared template repo for Fabric artifact validation/deployment, while each project repo keeps only a small consumer `azure-pipelines.yml`.
 
 ---
 
@@ -19,6 +21,10 @@ This README provides a **topic-by-topic index** of supporting resources, archite
 | [2. Detailed Breakdowns](#2-detailed-topicby-topic-resource-breakdown) | Per-topic doc references |
 | [3. Best Practices Summary](#3-best-practices-summary) | Governance, Git, CI/CD, Embedded |
 | [4. Folder Structure](#4-appendix-repository-folder-structure) | Actual repo layout |
+
+### CI Pipeline Options
+- Use [projects/azure-pipelines.yml](/home/brandon/projects/workshops/Fabric-Git-Essentials/projects/azure-pipelines.yml) for the workshop's PBIP-specific CI walkthrough.
+- Use [projects/universal-pipeline/README.md](projects/universal-pipeline/README.md) when you want one shared Azure DevOps template repo that can be consumed by many Fabric project repos.
 
 ### Presentation Decks (Marp)
 - [01 — Kickoff & Overview](presentations/01-kickoff-overview.md)

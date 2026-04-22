@@ -9,7 +9,9 @@ duration: "60 minutes"
 
 ## Overview
 
-In this lab you will use the existing Azure DevOps pipeline definition at `projects/azure-pipelines.yml` to validate and test the Power BI Project artifacts already in this repository.
+In this lab you will use the existing Azure DevOps pipeline definition at `projects/azure-pipelines.yml` to validate and test the Power BI Project artifacts used in the workshop.
+
+This lab focuses on the **project-local** pipeline pattern. If your organization wants one shared CI definition for many Fabric repositories, see the reusable template guidance in [projects/universal-pipeline/README.md](../../../projects/universal-pipeline/README.md). That pattern keeps a small consumer YAML in each repo and centralizes the Validate, Test, and Publish stages in one shared template repo.
 
 The pipeline runs three stages:
 
@@ -69,6 +71,8 @@ variables:
 ```
 
 This tells Azure DevOps to run on both pushes and PRs, then execute the pipeline on a Windows 2022 hosted agent.
+
+If you later move to a shared-enterprise model, these same settings become template parameters instead of hardcoded repo-local variables. The included universal example under `projects/universal-pipeline/` shows that pattern.
 
 ---
 
@@ -191,3 +195,5 @@ After this, PRs into `main` must pass the pipeline before merge.
 ## Next Steps
 
 Proceed to **[Lab 3 - Fabric Deployment Pipelines (Dev -> Test -> Prod)](lab3-deployment-pipelines.md)**.
+
+For a multi-repo operating model, review [projects/universal-pipeline/README.md](../../../projects/universal-pipeline/README.md) after completing this lab.
