@@ -38,7 +38,7 @@ By the end of the lab, every PR targeting `main` can be gated by this pipeline s
 | Azure DevOps project | Contributor access to create and run pipelines |
 | Repository | This workshop repository with the existing `projects` folder |
 | Pipeline YAML | Existing file: `projects/azure-pipelines.yml` |
-| PBIP project artifacts | Existing file and folders under `projects`, including `git-essential-demo.pbip`, `.Report`, `.SemanticModel`, rules, scripts, and tests |
+| PBIP project artifacts | Place your own PBIP files locally under `projects/pbip-local`; repository includes rules, scripts, tests, and pipeline YAML |
 | Agent pool | Microsoft-hosted Windows agent (configured as `windows-2022` in YAML) |
 
 ---
@@ -63,7 +63,8 @@ pool:
   vmImage: 'windows-2022'
 
 variables:
-  PBIP_PATH: '.'
+  PROJECT_ROOT: '.'
+  PBIP_PATH: 'pbip-local'
   PYTHON_VERSION: '3.11'
 ```
 
@@ -179,7 +180,7 @@ After this, PRs into `main` must pass the pipeline before merge.
 
 | Issue | Resolution |
 |---|---|
-| `No .pbip file found` | Ensure pipeline points to the correct repository path and PBIP project files are present under `projects`. |
+| `No .pbip file found` | Ensure your local PBIP project files are present under `projects/pbip-local`. |
 | Dataset/report quality job fails | Review logs for failing rule IDs. Adjust project content or update rules files as needed. |
 | DAX test stage fails | Check `tests/run_dax_tests.py` output and verify semantic model files exist. |
 | Test results not shown | Confirm JUnit XML files are created under `test-results` before `PublishTestResults@2` runs. |

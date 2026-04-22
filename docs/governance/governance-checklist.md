@@ -167,4 +167,4 @@ Use this checklist at each stage of the development lifecycle to ensure Fabric w
 - [Workspace Strategy](../architecture/workspace-strategy.md)  
 - [CI/CD Architecture](../architecture/cicd-architecture.md)  
 - [Lab 1 — Connect Workspace to Git](../workshop-plan/labs/lab1-connect-git.md)  
-- [Lab 2 — Build CI Pipeline for PBIP](../workshop-plan/labs/lab2-ci-pipeline.md)
+- [Lab 2 — CI Pipeline Validation for the Power BI Project](../workshop-plan/labs/lab2-ci-pipeline.md)

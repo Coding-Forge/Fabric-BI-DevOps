@@ -16,7 +16,8 @@ Use this quick brief before Lab 2 so participants follow the current repository 
 2. Lab 2 now teaches the current 3-stage flow: Validate -> Test -> Publish.
 3. References to legacy examples (`pbi-tools`, `pbip-lint`, and `SyncFabricDev`) were removed from Lab 2 materials.
 4. Folder path examples were normalized to `/projects`.
-5. Validation guidance now matches existing scripts and rule files:
+5. Repository now excludes PBIP artifacts by design; participants bring their own PBIP locally.
+6. Validation guidance now matches existing scripts and rule files:
    - `projects/tests/validate_pbip_structure.py`
    - `projects/tests/run_dax_tests.py`
    - `projects/scripts/Prepare-QualityRules.ps1`
@@ -41,7 +42,7 @@ Use this quick brief before Lab 2 so participants follow the current repository 
    A: "The workshop now mirrors the real pipeline implementation in this repo, which uses PBIP structure checks plus dataset/report quality rule execution."
 
 2. Q: "Where are the Power BI project files expected by the pipeline?"
-   A: "Under the projects folder in this repo, including the existing .pbip, report, semantic model, tests, scripts, and rules files."
+   A: "Participants add their own PBIP locally under `projects` or `projects/pbip-local`. The repo stores reusable assets only: tests, scripts, rules, and pipeline YAML."
 
 3. Q: "Are we doing automatic workspace sync in Lab 2?"
    A: "Not in the core lab flow. Lab 2 is focused on CI validation and artifact publication."

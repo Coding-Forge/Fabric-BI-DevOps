@@ -1,0 +1,10 @@
+# Local Power BI Project artifacts (do not commit)
+projects/**/*.pbip
+projects/**/*.pbir
+projects/**/*.pbism
+projects/**/*.Report/
+projects/**/*.SemanticModel/
+
+# Keep local PBIP sandbox folder in repo while ignoring artifacts inside it
+!projects/pbip-local/
+!projects/pbip-local/README.md

@@ -19,7 +19,7 @@ def validate_pbip_structure(root: Path) -> list[str]:
 
     pbip_files = sorted(root.glob("*.pbip"))
     if not pbip_files:
-        return [f"No .pbip file found under {root}"]
+        return [f"No .pbip file found under {root}. Place your PBIP project files (*.pbip, *.Report/, *.SemanticModel/) locally in projects/pbip-local."]
     if len(pbip_files) > 1:
         return [
             "Expected exactly one .pbip file at the project root, found: "

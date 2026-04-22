@@ -38,6 +38,7 @@ style: |
 - The core flow is now **Validate -> Test -> Publish**
 - Legacy examples (`pbi-tools`, `pbip-lint`, `SyncFabricDev`) were removed from participant instructions
 - Path examples were normalized to `/projects`
+- PBIP artifacts are not committed in this repo; participants bring their own local PBIP files
 
 ## What Participants Must Do
 - Create pipeline from existing YAML: `/projects/azure-pipelines.yml`

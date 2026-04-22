@@ -66,14 +66,14 @@ style: |
 
 ```
 projects/
-├── git-essential-demo.pbip
-├── git-essential-demo.Report/
+├── <your-project>.pbip
+├── <your-project>.Report/
 │   ├── definition.pbir
 │   ├── definition/
 │   │   └── report.json
 │   └── StaticResources/
 │       └── SharedResources/
-└── git-essential-demo.SemanticModel/
+└── <your-project>.SemanticModel/
   ├── definition.pbism
   └── definition/
     ├── tables/

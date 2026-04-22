@@ -16,7 +16,8 @@ pool:
   vmImage: 'windows-2022'
 
 variables:
-  PBIP_PATH: '.'
+  PROJECT_ROOT: '.'
+  PBIP_PATH: 'pbip-local'
   PYTHON_VERSION: '3.11'
 
 stages:
@@ -70,7 +71,7 @@ stages:
           inputs:
             targetType: 'inline'
             script: |
-              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PBIP_PATH)"
+              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PROJECT_ROOT)"
               $tempPath = Join-Path "$(Agent.TempDirectory)" "pbip-quality"
               $sourceRulesPath = Join-Path $repoPath "Rules-Dataset.json"
               if (!(Test-Path $sourceRulesPath)) {
@@ -89,7 +90,8 @@ stages:
           inputs:
             targetType: 'inline'
             script: |
-              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PBIP_PATH)"
+              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PROJECT_ROOT)"
+              $pbipPath = Join-Path $repoPath "$(PBIP_PATH)"
               $tempPath = Join-Path "$(Agent.TempDirectory)" "pbip-quality"
               $toolPath = Join-Path $tempPath "TE\TabularEditor.exe"
               $rulesPath = Join-Path $tempPath "Rules-Dataset.effective.json"
@@ -102,9 +104,9 @@ stages:
                   throw "Prepared dataset rules not found: $rulesPath"
               }
 
-              $itemsFolders = Get-ChildItem -Path $repoPath -Recurse -Include ("*.pbidataset", "*.pbism")
+              $itemsFolders = Get-ChildItem -Path $pbipPath -Recurse -Include ("*.pbidataset", "*.pbism")
               if (!$itemsFolders) {
-                  throw "No semantic model definitions found under $repoPath"
+                  throw "No semantic model definitions found under $pbipPath"
               }
 
               foreach ($itemFolder in $itemsFolders) {
@@ -157,7 +159,7 @@ stages:
           inputs:
             targetType: 'inline'
             script: |
-              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PBIP_PATH)"
+              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PROJECT_ROOT)"
               $tempPath = Join-Path "$(Agent.TempDirectory)" "pbip-quality"
               $sourceRulesPath = Join-Path $repoPath "Rules-Report.json"
               if (!(Test-Path $sourceRulesPath)) {
@@ -176,7 +178,8 @@ stages:
           inputs:
             targetType: 'inline'
             script: |
-              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PBIP_PATH)"
+              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PROJECT_ROOT)"
+              $pbipPath = Join-Path $repoPath "$(PBIP_PATH)"
               $tempPath = Join-Path "$(Agent.TempDirectory)" "pbip-quality"
               $toolPath = Join-Path $tempPath "PBIInspector\win-x64\CLI\PBIRInspectorCLI.exe"
               $rulesPath = Join-Path $tempPath "Rules-Report.effective.json"
@@ -189,9 +192,9 @@ stages:
                   throw "Prepared report rules not found: $rulesPath"
               }
 
-              $itemsFolders = Get-ChildItem -Path $repoPath -Recurse -Include *.pbir
+              $itemsFolders = Get-ChildItem -Path $pbipPath -Recurse -Include *.pbir
               if (!$itemsFolders) {
-                  throw "No report definitions found under $repoPath"
+                  throw "No report definitions found under $pbipPath"
               }
 
               foreach ($itemFolder in $itemsFolders) {

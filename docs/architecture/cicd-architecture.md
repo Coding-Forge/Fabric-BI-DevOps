@@ -170,7 +170,7 @@ The **branch-out strategy** extends the standard Dev/Test/Prod topology with per
 
 ## Related Documents
 
-- [Lab 2 — Build CI Pipeline for PBIP](../workshop-plan/labs/lab2-ci-pipeline.md)  
+- [Lab 2 — CI Pipeline Validation for the Power BI Project](../workshop-plan/labs/lab2-ci-pipeline.md)  
 - [Workspace Strategy](workspace-strategy.md)  
 - [Governance Checklist](../governance/governance-checklist.md)  
 - [Fabric + Git Integration Architecture](fabric-git-integration.md)

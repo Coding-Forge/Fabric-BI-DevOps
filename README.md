@@ -7,6 +7,8 @@ A hands-on workshop covering Git integration, CI/CD automation, and deployment b
 
 This README provides a **topic-by-topic index** of supporting resources, architecture docs, lab guides, and reference materials used throughout the workshop.
 
+> PBIP artifacts are intentionally **not committed** in this repository. Bring your own PBIP files locally under `projects/` (or `projects/pbip-local/`) and keep reusable CI assets (`Rules-*.json`, `scripts/`, `tests/`, `azure-pipelines.yml`) in source control.
+
 ---
 
 ## Quick Navigation
@@ -63,7 +65,7 @@ These are generated from the Marp source using `python-pptx` and can be opened d
 | **Lab #1 — Connect Workspace to Git**<br>(10:30–11:30) | Lab Guide for Git connection; Branded slides; CI/CD architecture diagrams |
 | **Collaboration Patterns & Best Practices**<br>(11:30–12:15) | DataOps deck; Governance essentials; RACI examples; Go‑Live assessment |
 | **Deployment Strategy: Dev→Test→Prod**<br>(13:00–13:45) | CI/CD Delivery Guide; Enterprise‑scale Power BI Dev examples; Deployment pipeline docs |
-| **Lab #2 — Build CI Pipeline for PBIP**<br>(13:45–14:45) | CI lab guide (YAML examples, PBIP validation); ADO test integration; MS Learn pipeline tutorials |
+| **Lab #2 — CI Pipeline Validation for the Power BI Project**<br>(13:45–14:45) | CI lab guide (YAML examples, PBIP validation); ADO test integration; MS Learn pipeline tutorials |
 | **Lab #3 — Fabric Deployment Pipelines**<br>(15:00–16:00) | [Lab 3 guide](docs/workshop-plan/labs/lab3-deployment-pipelines.md); Architecture diagrams; Governance checklist; Deployment rules & promotion guidance |
 | **Publishing Artifacts & Release Checklist**<br>(16:00–16:30) | Release checklist; Prod readiness; RLS/CLS validation; Sensitivity labels guidance |
 | **Power BI Embedded POC + Communication Plan**<br>(16:30–17:00) | Embedded analytics deck; Service principal setup guide; Comms plan templates |

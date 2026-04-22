@@ -95,6 +95,10 @@ trigger:
   branches:
     include: [main, feature/*]
 
+variables:
+  PROJECT_ROOT: '.'
+  PBIP_PATH: 'pbip-local'
+
 stages:
   - stage: Validate
     jobs:

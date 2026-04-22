@@ -126,10 +126,10 @@ From the CI pipeline `Publish` stage:
 ```
 pbip-artifacts/
   projects/
-    git-essential-demo.Report/          ← validated report PBIP
-    git-essential-demo.SemanticModel/   ← validated model PBIP
+    <your-project>.Report/          ← validated report PBIP
+    <your-project>.SemanticModel/   ← validated model PBIP
   test-results/
-    dax-test-results.xml        ← JUnit DAX test output
+    dax-test-results.xml            ← JUnit DAX test output
 ```
 
 These artifacts are stored in **Azure DevOps Pipelines** and can be:

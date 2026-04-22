@@ -22,7 +22,7 @@ It acts as a companion index to the main workshop plan, ensuring you can quickly
 | **Lab #1 — Connect Workspace to Git**<br>(10:30–11:30) | Lab Guide for Git connection; Branded slides; CI/CD architecture diagrams |
 | **Collaboration Patterns & Best Practices**<br>(11:30–12:15) | DataOps deck; Governance essentials; RACI examples; Go‑Live assessment |
 | **Deployment Strategy: Dev→Test→Prod**<br>(13:00–13:45) | CI/CD Delivery Guide; Enterprise‑scale Power BI Dev examples; Deployment pipeline docs |
-| **Lab #2 — Build CI Pipeline for PBIP**<br>(13:45–14:45) | CI lab guide (YAML examples, PBIP validation); ADO test integration; MS Learn pipeline tutorials |
+| **Lab #2 — CI Pipeline Validation for the Power BI Project**<br>(13:45–14:45) | CI lab guide (YAML examples, PBIP validation); ADO test integration; MS Learn pipeline tutorials |
 | **Dashboard Design Solving Session**<br>(15:00–16:00) | Visualization best practices; Persona & decision frameworks; Wireframe examples |
 | **Publishing Artifacts & Release Checklist**<br>(16:00–16:30) | Release checklist; Prod readiness; RLS/CLS validation; Sensitivity labels guidance |
 | **Power BI Embedded POC + Communication Plan**<br>(16:30–17:00) | Embedded analytics deck; Service principal setup guide; Comms plan templates |
@@ -298,7 +298,6 @@ Supporting documents:
     fabric-git-integration.md
 /projects
   azure-pipelines.yml
-  git-essential-demo.pbip
   Rules-Dataset.json
   Rules-Report.json
   /scripts
@@ -306,4 +305,9 @@ Supporting documents:
   /tests
     run_dax_tests.py
     validate_pbip_structure.py
+  /pbip-local
+    README.md
+    <your-project>.pbip            (local, not committed)
+    <your-project>.Report/         (local, not committed)
+    <your-project>.SemanticModel/  (local, not committed)
 ```

@@ -320,4 +320,4 @@ Invoke-PowerBIRestMethod `
 - [CI/CD Architecture](../../architecture/cicd-architecture.md)  
 - [Workspace Strategy](../../architecture/workspace-strategy.md)  
 - [Governance Checklist](../../governance/governance-checklist.md)  
-- [Lab 2 — Build CI Pipeline for PBIP](lab2-ci-pipeline.md)
+- [Lab 2 — CI Pipeline Validation for the Power BI Project](lab2-ci-pipeline.md)

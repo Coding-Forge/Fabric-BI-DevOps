@@ -182,7 +182,8 @@ pool:
   vmImage: 'windows-2022'
 
 variables:
-  PBIP_PATH: '.'
+  PROJECT_ROOT: '.'
+  PBIP_PATH: 'pbip-local'
   PYTHON_VERSION: '3.11'
 
 stages:
