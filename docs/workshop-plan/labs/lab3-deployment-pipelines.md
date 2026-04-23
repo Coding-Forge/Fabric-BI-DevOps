@@ -135,6 +135,108 @@ Repeat the process for the **Production** stage, pointing parameters to the Prod
 
 ---
 
+## Part 3b — Configure Gateway Rules for On-Premises Data Sources
+
+> **When to use this section:** If your semantic model connects to an **on-premises SQL Server** (or other on-prem source) through the on-premises data gateway, you must configure **gateway rules** in addition to the data source parameter rules in Part 3. Each stage routes through a dedicated gateway that has network access to that environment's SQL Server.
+>
+> For full architecture diagrams, gateway setup prerequisites, REST API examples, and a complete rules reference, see the [On-Premises Gateway Architecture for Deployment Pipelines](../../architecture/gateway-deployment-pipeline.md).
+
+### Environment and Gateway Mapping
+
+Each stage uses a dedicated on-premises gateway cluster and registered data source:
+
+| Stage | Workspace | Gateway Cluster | Gateway Data Source | SQL Server | Database |
+|---|---|---|---|---|---|
+| Development | `WS-Dev-<team>` | `GW-Dev` | `DS-SQL-Dev` | `sql-dev-01.corp.local` | `SalesDB_Dev` |
+| Test | `WS-Test-<team>` | `GW-Test` | `DS-SQL-Test` | `sql-test-01.corp.local` | `SalesDB_Test` |
+| Production | `WS-Prod-<team>` | `GW-Prod` | `DS-SQL-Prod` | `sql-prod-01.corp.local` | `SalesDB_Prod` |
+
+### Architecture — Multi-Gateway Deployment Pipeline
+
+```mermaid
+flowchart TB
+    subgraph FabricService["Microsoft Fabric (Cloud)"]
+        direction LR
+        DevStage["Development Stage\nWS-Dev-FinanceBI"]
+        TestStage["Test Stage\nWS-Test-FinanceBI"]
+        ProdStage["Production Stage\nWS-Prod-FinanceBI"]
+
+        DevStage -->|"Deploy\n+ Apply Test Rules"| TestStage
+        TestStage -->|"Deploy\n+ Apply Prod Rules\n(approval gate)"| ProdStage
+    end
+
+    subgraph OnPremDev["On-Premises — Dev Network"]
+        GWDev["GW-Dev\ngw-dev-01.corp.local"]
+        SQLDev["sql-dev-01.corp.local\nSalesDB_Dev"]
+        GWDev --> SQLDev
+    end
+
+    subgraph OnPremTest["On-Premises — Test Network"]
+        GWTest["GW-Test\ngw-test-01.corp.local"]
+        SQLTest["sql-test-01.corp.local\nSalesDB_Test"]
+        GWTest --> SQLTest
+    end
+
+    subgraph OnPremProd["On-Premises — Prod Network"]
+        GWProd["GW-Prod\ngw-prod-01.corp.local"]
+        SQLProd["sql-prod-01.corp.local\nSalesDB_Prod"]
+        GWProd --> SQLProd
+    end
+
+    DevStage <-->|"Refresh via gateway"| GWDev
+    TestStage <-->|"Refresh via gateway"| GWTest
+    ProdStage <-->|"Refresh via gateway"| GWProd
+```
+
+### 3b.1 — Configure Test Stage Gateway Rule
+
+1. Click **(…)** on the **Test** stage header and choose **Deployment rules**.
+2. Select `SalesModel`.
+3. Under **Gateway rules**, click **+ Add rule**.
+4. In **Original gateway data source**, select the Dev binding: `sql-dev-01.corp.local — SalesDB_Dev` (registered on `GW-Dev`).
+5. In **New gateway**, select `GW-Test`.
+6. In **New data source**, select `DS-SQL-Test`.
+7. Click **Save**.
+
+Then add the parameter overrides (as in Part 3.2):
+
+| Rule Type | Parameter | Override Value |
+|---|---|---|
+| Data source rule | `ServerName` | `sql-test-01.corp.local` |
+| Data source rule | `DatabaseName` | `SalesDB_Test` |
+
+### 3b.2 — Configure Production Stage Gateway Rule
+
+1. Click **(…)** on the **Production** stage header and choose **Deployment rules**.
+2. Select `SalesModel`.
+3. Under **Gateway rules**, click **+ Add rule**.
+4. In **Original gateway data source**, select the Dev binding: `sql-dev-01.corp.local — SalesDB_Dev` (the "original" always refers back to the Dev artifact).
+5. In **New gateway**, select `GW-Prod`.
+6. In **New data source**, select `DS-SQL-Prod`.
+7. Click **Save**.
+
+Then add the parameter overrides:
+
+| Rule Type | Parameter | Override Value |
+|---|---|---|
+| Data source rule | `ServerName` | `sql-prod-01.corp.local` |
+| Data source rule | `DatabaseName` | `SalesDB_Prod` |
+
+### Complete Rules at a Glance
+
+| Stage | Rule Type | Original (Dev) Binding | Override |
+|---|---|---|---|
+| Test | Gateway rule | `GW-Dev / DS-SQL-Dev` | `GW-Test / DS-SQL-Test` |
+| Test | `ServerName` parameter | `sql-dev-01.corp.local` | `sql-test-01.corp.local` |
+| Test | `DatabaseName` parameter | `SalesDB_Dev` | `SalesDB_Test` |
+| Prod | Gateway rule | `GW-Dev / DS-SQL-Dev` | `GW-Prod / DS-SQL-Prod` |
+| Prod | `ServerName` parameter | `sql-dev-01.corp.local` | `sql-prod-01.corp.local` |
+| Prod | `DatabaseName` parameter | `SalesDB_Dev` | `SalesDB_Prod` |
+
+> **Why both gateway rules AND parameter rules?** The gateway rule re-binds the *refresh path* (which physical gateway and registered data source is used). The parameter rules update the *connection string values* in the Power Query M code. Both are required — the gateway rule alone does not rewrite the M query parameters, and the parameter rules alone do not redirect the gateway connection.
+
+---
+
 ## Part 4 — Review the Comparison (Diff)
 
 Before promoting, always review what will change using the comparison view.
@@ -283,10 +385,11 @@ Invoke-PowerBIRestMethod `
 
 - [ ] Deployment Pipeline created and all three workspaces assigned  
 - [ ] Data source rules configured for both Test and Prod stages  
+- [ ] Gateway rules configured for both Test and Prod stages *(on-premises sources only)*  
 - [ ] Comparison (diff) reviewed before both promotions  
-- [ ] Dev → Test promotion completed; Test dataset refreshes against Test DB  
+- [ ] Dev → Test promotion completed; Test dataset refreshes against Test DB via `GW-Test`  
 - [ ] UAT checklist completed and sign-off obtained  
-- [ ] Test → Prod promotion completed; Prod dataset refreshes against Prod DB  
+- [ ] Test → Prod promotion completed; Prod dataset refreshes against Prod DB via `GW-Prod`  
 - [ ] Pipeline canvas shows no differences across all three stages  
 - [ ] *(Extension)* REST API call triggers deployment programmatically  
 
@@ -298,6 +401,13 @@ Invoke-PowerBIRestMethod `
 |---|---|
 | "Assign workspace" button is greyed out | Confirm your account is **Admin** on the target workspace. |
 | Data source rules not saving | Ensure the semantic model uses **Power Query parameters** for server/database. Hardcoded connection strings cannot be overridden with rules. |
+| Gateway rule dropdown is empty | The semantic model must already be bound to an on-premises gateway data source in the Dev workspace before gateway rules appear. Bind the Dev model to `GW-Dev / DS-SQL-Dev` and re-open Deployment Rules. |
+| Refresh fails after promotion with "Unable to connect" | Gateway rule is set but parameter rules are missing — the M query still targets the Dev server name. Add `ServerName` and `DatabaseName` parameter rules and re-promote. |
+| Refresh returns Dev data after Test promotion | Parameter rules saved but gateway rule is missing — refresh routes through `GW-Dev` to the Dev database. Add the gateway rule pointing to `GW-Test / DS-SQL-Test`. |
+| Gateway shows Offline in admin portal | Restart the **On-premises data gateway** Windows service on the gateway host; verify outbound HTTPS (port 443) is permitted from the host. |
+| "Original gateway data source" shows wrong gateway | The "original" binding always refers to the Dev artifact's gateway. If the Dev model is bound to a different gateway than expected, correct the Dev workspace binding first, then refresh the Deployment Rules view. |
+
+> For a full troubleshooting reference and REST API examples for managing gateway rules programmatically, see the [On-Premises Gateway Architecture for Deployment Pipelines](../../architecture/gateway-deployment-pipeline.md).
 | Deployment fails with "Refresh failed" | Check that the gateway (if on-premises) is online and that the deployment rule points to the correct data source. Review the error in the activity log. |
 | Comparison shows unexpected deletions | Another team member may have modified the Test workspace directly. Only promote from the pipeline — never edit Test or Prod workspaces manually. |
 | REST API returns 401 | Ensure the service principal has the **Contributor** role on the pipeline and all target workspaces. |
