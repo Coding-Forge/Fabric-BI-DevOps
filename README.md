@@ -25,6 +25,48 @@ This README provides a **topic-by-topic index** of supporting resources, archite
 ### CI Pipeline Options
 - Use [projects/azure-pipelines.yml](/home/brandon/projects/workshops/Fabric-Git-Essentials/projects/azure-pipelines.yml) for the workshop's PBIP-specific CI walkthrough.
 - Use [projects/universal-pipeline/README.md](projects/universal-pipeline/README.md) when you want one shared Azure DevOps template repo that can be consumed by many Fabric project repos.
+- Use [.github/workflows/powerbi-ci.yml](.github/workflows/powerbi-ci.yml) for GitHub Actions-based PBIP validation in GitHub-hosted repos.
+- Use [.github/README.md](.github/README.md) for a dedicated GitHub project setup guide.
+
+### GitHub Actions CI (Power BI)
+
+The GitHub Actions workflow at [.github/workflows/powerbi-ci.yml](.github/workflows/powerbi-ci.yml) mirrors the workshop CI pattern: Validate -> Quality Rules -> DAX Tests -> Publish Artifacts.
+
+Required repository structure:
+
+```text
+repo-root/
+├── .github/
+│   └── workflows/
+│       └── powerbi-ci.yml
+└── projects/
+    ├── pbip-local/                  # local PBIP artifacts used by CI checks
+    ├── Rules-Dataset.json           # optional; fallback downloaded if missing
+    ├── Rules-Report.json            # optional; fallback downloaded if missing
+    ├── scripts/
+    │   └── Prepare-QualityRules.ps1
+    └── tests/
+        ├── validate_pbip_structure.py
+        └── run_dax_tests.py
+```
+
+Skip controls (similar to universal Azure template behavior):
+- Manual run inputs in GitHub Actions: `skip_dataset_rules`, `skip_report_rules`, `skip_dax_tests`, `skip_publish`.
+- Optional repository/org variables for default behavior on all runs:
+  - `PBIP_CI_SKIP_DATASET_RULES`
+  - `PBIP_CI_SKIP_REPORT_RULES`
+  - `PBIP_CI_SKIP_DAX_TESTS`
+  - `PBIP_CI_SKIP_PUBLISH`
+
+Set variable values to `true` or `false`.
+
+Branch policy behavior:
+- The workflow triggers on `main`, `feature/*`, and pull requests targeting `main`.
+- Branch-aware severity handling is applied by [projects/scripts/Prepare-QualityRules.ps1](projects/scripts/Prepare-QualityRules.ps1):
+  - Dataset rules enforce severity >= 2 on `main` and >= 3 on non-main branches.
+  - Report rules keep selected checks as warnings on non-main branches, and promote those checks to errors on `main`.
+
+This pattern keeps feature-branch feedback fast while preserving stricter enforcement for `main`.
 
 ### Presentation Decks (Marp)
 - [01 — Kickoff & Overview](presentations/01-kickoff-overview.md)
