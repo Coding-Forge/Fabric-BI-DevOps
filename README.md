@@ -1,7 +1,7 @@
 
 # Fabric + Git Essentials Workshop
 
-> **Version:** 1.1 &nbsp;|&nbsp; **Author:** Brandon Campbell &nbsp;|&nbsp; **Updated:** April 2026
+> **Version:** 1.1 &nbsp;|&nbsp; **Author:** Brandon Campbell &nbsp;|&nbsp; **Updated:** June 2026
 
 A hands-on workshop covering Git integration, CI/CD automation, and deployment best practices for **Microsoft Fabric** and **Power BI** (PBIP format).
 
