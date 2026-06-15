@@ -25,7 +25,7 @@ Relevant validator:
 
 Symptom:
 
-- a dataset rule triggers on `main` but not on a feature branch
+- a dataset rule triggers on `main` or `develop` but not on a feature branch
 
 Cause:
 
@@ -39,18 +39,18 @@ What to check:
 
 Rule behavior summary:
 
-- `main`: `Severity >= 2`
-- non-`main`: `Severity >= 3`
+- `main` and `develop`: `Severity >= 2`
+- feature branches: `Severity >= 3`
 
 ## Report Rules Behave Differently on Branches
 
 Symptom:
 
-- a report rule is only blocking on `main`
+- a report rule is only blocking on `main` or `develop`
 
 Cause:
 
-- selected warnings are promoted to `error` on `main`
+- selected warnings are promoted to `error` on protected integration branches
 
 What to check:
 

@@ -13,12 +13,12 @@ For teams standardizing across many repositories, the same approach can be imple
 
 ## Architecture Overview
 
-The pipeline spans two complementary systems:
+The project-local workshop pipeline spans Azure DevOps automation plus Fabric-native promotion:
 
 | System | Purpose |
 |---|---|
-| **Azure DevOps / GitHub Actions** | Continuous Integration — validates PBIP artifacts on every push/PR |
-| **Fabric Deployment Pipelines** | Continuous Delivery — promotes validated content across Dev → Test → Prod workspaces |
+| **Azure DevOps CI/CD** | Validates, tests, publishes, and deploys PBIP artifacts on branch runs |
+| **Fabric Deployment Pipelines** | Promotes validated Dev workspace content across Dev → Test → Prod workspaces |
 
 Together they enforce that no unvalidated, unreviewed change can reach the production workspace.
 
@@ -31,9 +31,13 @@ flowchart TD
     Dev[Developer\nFabric Portal / VS Code]
     FeatureBranch[Feature Branch\nin Git Repo]
     PR[Pull Request\ninto main]
-    CI[Azure DevOps CI Pipeline\nValidate · Test · Publish]
+    CI[Azure DevOps CI/CD Pipeline\nValidate · Test · Publish]
+    DeployBranch{Branch target}
+    DeployFeature[deploy-dynamic.ps1\nCreate/update feature workspace]
+    DeployDev[deploy-dynamic.ps1\nUpdate Dev workspace]
     Main[main Branch\nProtected]
     FabricDev[Fabric Dev Workspace\nGit-connected]
+    FeatureWS[Fabric Feature Workspace\nEphemeral]
     DeployTest[Fabric Deployment Pipeline\nDev → Test Promotion]
     FabricTest[Fabric Test Workspace]
     ApprovalGate[Manual Approval Gate]
@@ -44,8 +48,12 @@ flowchart TD
     FeatureBranch -->|open PR| PR
     PR -->|triggers| CI
     CI -->|pass| PR
+    FeatureBranch -->|push| CI
+    CI --> DeployBranch
+    DeployBranch -->|feature/*| DeployFeature --> FeatureWS
     PR -->|approved + merged| Main
-    Main -->|Approach A: manual Source control sync\nor Approach B: pipeline REST API| FabricDev
+    Main -->|push| CI
+    DeployBranch -->|main or develop| DeployDev --> FabricDev
     FabricDev -->|promote| DeployTest
     DeployTest --> FabricTest
     FabricTest --> ApprovalGate
@@ -55,9 +63,9 @@ flowchart TD
 
 ---
 
-## CI Pipeline Detail
+## Azure DevOps Pipeline Detail
 
-The CI pipeline (defined in `azure-pipelines.yml`) runs on every push to `main` or `feature/*`.
+The project-local pipeline (defined in `projects/azure-pipelines.yml`) runs on pushes to `main`, `develop`, and `feature/*`, and on PRs targeting `main` or `develop`.
 
 Two implementation patterns are valid:
 
@@ -75,7 +83,10 @@ flowchart TD
     Validate[Run PBIP Structure Validation\nvalidate_pbip_structure.py]
     Quality[Run Dataset + Report Quality Rules\nPrepare-QualityRules.ps1]
     DaxTests[DAX Unit Tests\nJUnit XML output]
-    Publish[Publish Artifacts\npbip-artifacts]
+    Publish[Publish Pipeline Artifact\npbip-drop]
+    DeployDev[Deploy_Dev\nmain/develop]
+    DeployFeature[Deploy_Feature\nfeature/*]
+    DeployScript[deploy-dynamic.ps1\nFabric REST API]
     Status[CI Status Check\nreported to PR]
 
     Trigger --> Agent
@@ -83,6 +94,10 @@ flowchart TD
     Validate --> Quality
     Quality --> DaxTests
     DaxTests --> Publish
+    Publish --> DeployDev
+    Publish --> DeployFeature
+    DeployDev --> DeployScript
+    DeployFeature --> DeployScript
     Publish --> Status
 ```
 
@@ -92,9 +107,17 @@ flowchart TD
 |---|---|---|
 | **Validate** | `validate_pbip_structure.py`, dataset rules, report rules | Fails build immediately |
 | **Test** | DAX unit tests via `run_dax_tests.py` | Fails build; JUnit results published |
-| **Publish** | `PublishBuildArtifacts` | Skipped if prior stage fails |
+| **Publish** | `PublishPipelineArtifact` creates `pbip-drop` | Skipped if prior stage fails |
+| **Deploy_Dev** | Downloads `pbip-drop` and runs `scripts/deploy-dynamic.ps1` against the Dev workspace | Runs only for `main` and `develop`; fails if deployment variables or workspace target are missing |
+| **Deploy_Feature** | Downloads `pbip-drop`, creates or reuses a prefixed feature workspace, and deploys the PBIP definition | Runs only for `feature/*`; fails if `FeatureWorkspacePrefix` is missing |
 
 In the shared-template pattern, these same stages live in one central template file and are reused by many consumer repos via `extends:`.
+
+### Deployment Script
+
+`scripts/deploy-dynamic.ps1` authenticates with the Fabric REST API using a service principal, resolves the target workspace from the branch, and creates or updates Fabric semantic model and report items from the published PBIP definition. The script expects `.platform` metadata, deploys semantic models before reports, and rewrites report dataset references to the deployed semantic model ID.
+
+Required pipeline variables are `TenantId`, `AppId`, and `ClientSecret`. Dev deployments also need either `DevWorkspaceId` or `DEV_WORKSPACE_NAME`; feature deployments require `FeatureWorkspacePrefix`.
 
 ---
 
@@ -172,7 +195,7 @@ The **branch-out strategy** extends the standard Dev/Test/Prod topology with per
 ## Security Considerations
 
 - **Service principal** used for automated pipeline operations; no personal credentials stored in the pipeline.  
-- Secrets (connection strings, API keys) stored in **Azure Key Vault** and referenced via pipeline variable groups linked to the Key Vault.  
+- Secrets (client secrets, connection strings, API keys) stored in secured variable groups or **Azure Key Vault** and referenced via pipeline variable groups linked to the Key Vault.  
 - Branch policies on `main` require:
   - Minimum **1 reviewer** approval  
   - Linked CI build passing  

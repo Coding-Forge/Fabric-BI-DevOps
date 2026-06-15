@@ -158,7 +158,8 @@ Example:
 - Use the existing YAML pipeline at `projects/azure-pipelines.yml`  
 - Validate PBIP structure and run dataset/report quality rules  
 - Run DAX unit tests and publish JUnit results  
-- Publish `pbip-artifacts` to Azure DevOps  
+- Publish `pbip-drop` to Azure DevOps  
+- Deploy validated PBIP content to Dev or feature workspaces using `scripts/deploy-dynamic.ps1`  
 - Set the pipeline as a required status check on `main`  
 
 This lab uses the workshop's self-contained PBIP pipeline. For enterprise rollout across many Fabric repos, the same Validate/Test/Publish pattern can be centralized as a shared template repo with thin consumer YAML files per project.
@@ -169,7 +170,9 @@ This lab uses the workshop's self-contained PBIP pipeline. For enterprise rollou
 |---|---|---|
 | **Validate** | Every push / PR | PBIP structure validation + dataset/report quality rules |
 | **Test** | After Validate | DAX unit tests, JUnit XML output |
-| **Publish** | After Test | Upload `pbip-artifacts` to pipeline storage |
+| **Publish** | After Test | Upload `pbip-drop` to pipeline storage |
+| **Deploy_Dev** | After Publish on `main` or `develop` | Deploy the artifact to the Dev workspace |
+| **Deploy_Feature** | After Publish on `feature/*` | Create or update an isolated feature workspace |
 
 ## Key YAML Pattern
 
@@ -178,15 +181,22 @@ trigger:
   branches:
     include:
       - main
+      - develop
       - feature/*
 
 pool:
   vmImage: 'windows-2022'
 
 variables:
-  PROJECT_ROOT: '.'
-  PBIP_PATH: 'pbip-local'
-  PYTHON_VERSION: '3.11'
+  - group: pbip-shared-secrets
+  - name: PBIP_PATH
+    value: '.'
+  - name: PYTHON_VERSION
+    value: '3.11'
+  - name: DEPLOY_SCRIPT_PATH
+    value: 'scripts/deploy-dynamic.ps1'
+  - name: DEV_WORKSPACE_NAME
+    value: 'Git-Essentials'
 
 stages:
   - stage: Validate
@@ -209,10 +219,18 @@ stages:
     jobs:
       - job: PublishArtifacts
         steps:
-          - task: PublishBuildArtifacts@1
+          - task: PublishPipelineArtifact@1
             inputs:
-              pathToPublish: '$(Build.SourcesDirectory)/$(PBIP_PATH)'
-              artifactName: pbip-artifacts
+              targetPath: '$(Build.SourcesDirectory)/$(PBIP_PATH)'
+              artifact: pbip-drop
+
+  - stage: Deploy_Dev
+    dependsOn: Publish
+    condition: main or develop branch
+
+  - stage: Deploy_Feature
+    dependsOn: Publish
+    condition: feature branch
 ```
 
 See [Lab 2](labs/lab2-ci-pipeline.md) for the full hands-on walkthrough using the current project files under `projects`.
@@ -233,7 +251,7 @@ For the reusable multi-repo variant, see [projects/universal-pipeline/README.md]
 - Verify Prod workspace content and confirm semantic model refresh  
 
 ## Prerequisites
-- Labs 1 and 2 completed — CI pipeline passing on `main`, Dev workspace has validated PBIP content  
+- Labs 1 and 2 completed — CI/CD pipeline passing on `main`, Dev workspace has validated PBIP content  
 - Three Fabric capacity-backed workspaces: `WS-Dev-<team>`, `WS-Test-<team>`, `WS-Prod-<team>`  
 - **Admin** role on all three workspaces  
 - Fabric Admin toggle enabled: **Users can create and use deployment pipelines**  

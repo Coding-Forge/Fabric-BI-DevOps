@@ -1,7 +1,7 @@
 ---
 title: "Lab 2 Facilitator Change Log"
 description: "Facilitator summary of updates made to Lab 2 materials so attendees follow the current Power BI project and Azure pipeline files."
-updated: "2026-04-22"
+updated: "2026-06-15"
 ---
 
 # Lab 2 Facilitator Change Log
@@ -13,28 +13,30 @@ Use this quick brief before Lab 2 so participants follow the current repository 
 ## What Changed
 
 1. Lab 2 now points to the existing pipeline file at `projects/azure-pipelines.yml`.
-2. Lab 2 now teaches the current 3-stage flow: Validate -> Test -> Publish.
+2. Lab 2 now teaches the current 5-stage flow: Validate -> Test -> Publish -> Deploy_Dev or Deploy_Feature.
 3. References to legacy examples (`pbi-tools`, `pbip-lint`, and `SyncFabricDev`) were removed from Lab 2 materials.
 4. Folder path examples were normalized to `/projects`.
 5. Repository now excludes PBIP artifacts by design; participants bring their own PBIP locally.
-6. Validation guidance now matches existing scripts and rule files:
+6. Validation and deployment guidance now matches existing scripts and rule files:
    - `projects/tests/validate_pbip_structure.py`
    - `projects/tests/run_dax_tests.py`
    - `projects/scripts/Prepare-QualityRules.ps1`
+   - `projects/scripts/deploy-dynamic.ps1`
    - `projects/Rules-Dataset.json`
    - `projects/Rules-Report.json`
 
 ## Facilitator Talk Track (2-3 minutes)
 
-"For this workshop, we are not creating a new YAML pipeline from scratch. We are using the pipeline that already exists in the repo at projects/azure-pipelines.yml. Your goal in Lab 2 is to register and run that pipeline, verify the Validate, Test, and Publish stages, and enforce it as a required PR check on main."
+"For this workshop, we are not creating a new YAML pipeline from scratch. We are using the pipeline that already exists in the repo at projects/azure-pipelines.yml. Your goal in Lab 2 is to register and run that pipeline, verify Validate, Test, Publish, and the branch-appropriate deploy stage, and enforce it as a required PR check on main."
 
 ## What Participants Should Actually Do
 
 1. Select existing YAML file path: `/projects/azure-pipelines.yml` when creating the pipeline.
-2. Confirm stage sequence: Validate -> Test -> Publish.
+2. Confirm stage sequence: Validate -> Test -> Publish -> Deploy_Dev or Deploy_Feature.
 3. Review test output in the pipeline Tests tab.
-4. Verify `pbip-artifacts` in the Artifacts tab.
-5. Add pipeline as required build validation on `main`.
+4. Verify `pbip-drop` in the Artifacts tab.
+5. Confirm deployment logs show `Fabric PBIP deployment completed.`
+6. Add pipeline as required build validation on `main`.
 
 ## Common Questions and Answers
 
@@ -45,7 +47,7 @@ Use this quick brief before Lab 2 so participants follow the current repository 
    A: "Participants add their own PBIP locally under `projects` or `projects/pbip-local`. The repo stores reusable assets only: tests, scripts, rules, and pipeline YAML."
 
 3. Q: "Are we doing automatic workspace sync in Lab 2?"
-   A: "Not in the core lab flow. Lab 2 is focused on CI validation and artifact publication."
+   A: "Yes. The current pipeline deploys the validated PBIP artifact directly with `scripts/deploy-dynamic.ps1`: `main` and `develop` target Dev, while `feature/*` targets prefixed feature workspaces."
 
 ## Updated Materials
 

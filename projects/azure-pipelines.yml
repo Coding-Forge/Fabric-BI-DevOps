@@ -1,24 +1,41 @@
-#azure-pipelines.yml
-# CI pipeline for Microsoft Fabric PBIP artifacts
+# azure-pipelines.yml
+# Combined CI/CD pipeline for Microsoft Fabric PBIP artifacts.
+#
+# Deploy stages require these variables to be defined in the pipeline UI or a linked variable group:
+# - TenantId
+# - AppId
+# - ClientSecret
+# - DevWorkspaceId
+# - FeatureWorkspacePrefix (feature branches only)
+#
+# The service principal must be allowed by tenant settings and added to the target Fabric workspace.
 
 trigger:
   branches:
     include:
       - main
+      - develop
       - feature/*
 
 pr:
   branches:
     include:
       - main
+      - develop
 
 pool:
   vmImage: 'windows-2022'
 
 variables:
-  PROJECT_ROOT: '.'
-  PBIP_PATH: 'pbip-local'
-  PYTHON_VERSION: '3.11'
+  - group: pbip-shared-secrets
+  - name: PBIP_PATH
+    value: '.'
+  - name: PYTHON_VERSION
+    value: '3.11'
+  - name: DEPLOY_SCRIPT_PATH
+    value: 'scripts/deploy-dynamic.ps1'
+  - name: DEV_WORKSPACE_NAME
+    value: 'Git-Essentials'
 
 stages:
 # -----------------------------------------------------------------------------------------------------
@@ -30,6 +47,8 @@ stages:
     - job: ValidatePBIP
       displayName: 'Validate PBIP Structure'
       steps:
+        - checkout: self
+
         - task: UsePythonVersion@0
           inputs:
             versionSpec: '$(PYTHON_VERSION)'
@@ -71,7 +90,7 @@ stages:
           inputs:
             targetType: 'inline'
             script: |
-              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PROJECT_ROOT)"
+              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PBIP_PATH)"
               $tempPath = Join-Path "$(Agent.TempDirectory)" "pbip-quality"
               $sourceRulesPath = Join-Path $repoPath "Rules-Dataset.json"
               if (!(Test-Path $sourceRulesPath)) {
@@ -79,19 +98,24 @@ stages:
               }
 
               $effectiveRulesPath = Join-Path $tempPath "Rules-Dataset.effective.json"
+              $qualityBranch = "$(Build.SourceBranch)"
+              $pullRequestTargetBranch = "$(System.PullRequest.TargetBranch)"
+              if (![string]::IsNullOrWhiteSpace($pullRequestTargetBranch) -and $pullRequestTargetBranch -notlike '$(*') {
+                  $qualityBranch = $pullRequestTargetBranch
+              }
+
               & (Join-Path $repoPath "scripts\Prepare-QualityRules.ps1") `
                 -Mode dataset `
                 -SourcePath $sourceRulesPath `
                 -OutputPath $effectiveRulesPath `
-                -SourceBranch "$(Build.SourceBranch)"
+                -SourceBranch $qualityBranch
 
         - task: PowerShell@2
           displayName: 'Run dataset rules'
           inputs:
             targetType: 'inline'
             script: |
-              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PROJECT_ROOT)"
-              $pbipPath = Join-Path $repoPath "$(PBIP_PATH)"
+              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PBIP_PATH)"
               $tempPath = Join-Path "$(Agent.TempDirectory)" "pbip-quality"
               $toolPath = Join-Path $tempPath "TE\TabularEditor.exe"
               $rulesPath = Join-Path $tempPath "Rules-Dataset.effective.json"
@@ -104,9 +128,9 @@ stages:
                   throw "Prepared dataset rules not found: $rulesPath"
               }
 
-              $itemsFolders = Get-ChildItem -Path $pbipPath -Recurse -Include ("*.pbidataset", "*.pbism")
+              $itemsFolders = Get-ChildItem -Path $repoPath -Recurse -Include ("*.pbidataset", "*.pbism")
               if (!$itemsFolders) {
-                  throw "No semantic model definitions found under $pbipPath"
+                  throw "No semantic model definitions found under $repoPath"
               }
 
               foreach ($itemFolder in $itemsFolders) {
@@ -159,7 +183,7 @@ stages:
           inputs:
             targetType: 'inline'
             script: |
-              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PROJECT_ROOT)"
+              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PBIP_PATH)"
               $tempPath = Join-Path "$(Agent.TempDirectory)" "pbip-quality"
               $sourceRulesPath = Join-Path $repoPath "Rules-Report.json"
               if (!(Test-Path $sourceRulesPath)) {
@@ -167,19 +191,24 @@ stages:
               }
 
               $effectiveRulesPath = Join-Path $tempPath "Rules-Report.effective.json"
+              $qualityBranch = "$(Build.SourceBranch)"
+              $pullRequestTargetBranch = "$(System.PullRequest.TargetBranch)"
+              if (![string]::IsNullOrWhiteSpace($pullRequestTargetBranch) -and $pullRequestTargetBranch -notlike '$(*') {
+                  $qualityBranch = $pullRequestTargetBranch
+              }
+
               & (Join-Path $repoPath "scripts\Prepare-QualityRules.ps1") `
                 -Mode report `
                 -SourcePath $sourceRulesPath `
                 -OutputPath $effectiveRulesPath `
-                -SourceBranch "$(Build.SourceBranch)"
+                -SourceBranch $qualityBranch
 
         - task: PowerShell@2
           displayName: 'Run report rules'
           inputs:
             targetType: 'inline'
             script: |
-              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PROJECT_ROOT)"
-              $pbipPath = Join-Path $repoPath "$(PBIP_PATH)"
+              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PBIP_PATH)"
               $tempPath = Join-Path "$(Agent.TempDirectory)" "pbip-quality"
               $toolPath = Join-Path $tempPath "PBIInspector\win-x64\CLI\PBIRInspectorCLI.exe"
               $rulesPath = Join-Path $tempPath "Rules-Report.effective.json"
@@ -192,9 +221,9 @@ stages:
                   throw "Prepared report rules not found: $rulesPath"
               }
 
-              $itemsFolders = Get-ChildItem -Path $pbipPath -Recurse -Include *.pbir
+              $itemsFolders = Get-ChildItem -Path $repoPath -Recurse -Include *.pbir
               if (!$itemsFolders) {
-                  throw "No report definitions found under $pbipPath"
+                  throw "No report definitions found under $repoPath"
               }
 
               foreach ($itemFolder in $itemsFolders) {
@@ -211,54 +240,177 @@ stages:
 
 # -----------------------------------------------------------------------------------------------------
 # Stage 2 - Run DAX unit tests
-# ----------------------------------------------------------------------------------------------------- 
+# -----------------------------------------------------------------------------------------------------
 - stage: Test
   displayName: 'DAX Unit Tests'
   dependsOn: Validate
   condition: succeeded()
   jobs:
-  - job: DaxTests
-    displayName: 'Run DAX measure tests'
-    steps:
+    - job: DaxTests
+      displayName: 'Run DAX measure tests'
+      steps:
+        - checkout: self
 
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '$(PYTHON_VERSION)'
-      displayName: 'Set Python version'
+        - task: UsePythonVersion@0
+          inputs:
+            versionSpec: '$(PYTHON_VERSION)'
+          displayName: 'Set Python version'
 
-    - script: |
-        pip install semantic-link-labs
-      displayName: 'Install semantic-link-labs'
+        - script: |
+            pip install semantic-link-labs
+          displayName: 'Install semantic-link-labs'
 
-    - script: |
-        python tests/run_dax_tests.py --model-path "$(PBIP_PATH)"
-      displayName: 'Execute DAX unit tests'
+        - script: |
+            python tests/run_dax_tests.py --model-path "$(PBIP_PATH)"
+          displayName: 'Execute DAX unit tests'
 
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: '**/test-results/*.xml'
-        failTaskOnFailedTests: true
-      displayName: 'Publish test results'
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: '**/test-results/*.xml'
+            failTaskOnFailedTests: true
+          displayName: 'Publish test results'
 
-# ─────────────────────────────────────────────────────────────────
-# Stage 3 — Publish artifacts
-# ─────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------------------------------
+# Stage 3 - Publish deployable PBIP artifact
+# -----------------------------------------------------------------------------------------------------
 - stage: Publish
   displayName: 'Publish Artifacts'
   dependsOn: Test
   condition: succeeded()
   jobs:
-  - job: PublishArtifacts
-    displayName: 'Package and publish PBIP artifacts'
-    steps:
+    - job: PublishArtifacts
+      displayName: 'Package and publish PBIP artifacts'
+      steps:
+        - checkout: self
 
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathToPublish: '$(Build.SourcesDirectory)/$(PBIP_PATH)'
-        artifactName: 'pbip-artifacts'
-        publishLocation: 'Container'
-      displayName: 'Publish PBIP artifacts'
+        - task: PublishPipelineArtifact@1
+          inputs:
+            targetPath: '$(Build.SourcesDirectory)/$(PBIP_PATH)'
+            artifact: 'pbip-drop'
+            publishLocation: 'pipeline'
+          displayName: 'Publish PBIP artifact'
 
-          
+# -----------------------------------------------------------------------------------------------------
+# Stage 4 - Deploy to Dev workspace
+# -----------------------------------------------------------------------------------------------------
+- stage: Deploy_Dev
+  displayName: 'Deploy to Dev Workspace'
+  dependsOn: Publish
+  condition: |
+    and(
+      succeeded(),
+      or(
+        eq(variables['Build.SourceBranch'], 'refs/heads/main'),
+        eq(variables['Build.SourceBranch'], 'refs/heads/develop')
+      )
+    )
+  jobs:
+    - job: DeployDev
+      displayName: 'Deploy PBIP to Dev'
+      steps:
+        - download: current
+          artifact: pbip-drop
 
+        - task: PowerShell@2
+          displayName: 'Deploy PBIP to Dev workspace'
+          env:
+            TENANT_ID: $(TenantId)
+            APP_ID: $(AppId)
+            CLIENT_SECRET: $(ClientSecret)
+            DEV_WORKSPACE_ID: $(DevWorkspaceId)
+            DEV_WORKSPACE_NAME: $(DEV_WORKSPACE_NAME)
+          inputs:
+            targetType: 'inline'
+            script: |
+              $artifactPath = Join-Path "$(Pipeline.Workspace)" "pbip-drop"
+              $deployScriptPath = Join-Path $artifactPath "$(DEPLOY_SCRIPT_PATH)"
+              $requiredVariables = @{
+                  TenantId = $env:TENANT_ID
+                  AppId = $env:APP_ID
+                  ClientSecret = $env:CLIENT_SECRET
+              }
+
+              foreach ($variableName in $requiredVariables.Keys) {
+                  $value = $requiredVariables[$variableName]
+                  if ([string]::IsNullOrWhiteSpace($value) -or $value -like '$(*') {
+                      throw "Missing required deployment variable: $variableName"
+                  }
+              }
+
+              if (!(Test-Path $deployScriptPath)) {
+                  throw "Deployment script not found: $deployScriptPath. Add scripts/deploy-dynamic.ps1 or update DEPLOY_SCRIPT_PATH."
+              }
+
+              if ([string]::IsNullOrWhiteSpace($env:DEV_WORKSPACE_ID) -and [string]::IsNullOrWhiteSpace($env:DEV_WORKSPACE_NAME)) {
+                  throw "Missing Dev workspace target. Set DevWorkspaceId in the variable group or DEV_WORKSPACE_NAME in azure-pipelines.yml."
+              }
+
+              & $deployScriptPath `
+                -Branch "$(Build.SourceBranch)" `
+                -TenantId $env:TENANT_ID `
+                -AppId $env:APP_ID `
+                -ClientSecret $env:CLIENT_SECRET `
+                -DevWorkspaceId $env:DEV_WORKSPACE_ID `
+                -DevWorkspaceName $env:DEV_WORKSPACE_NAME `
+                -PbipPath $artifactPath
+
+# -----------------------------------------------------------------------------------------------------
+# Stage 5 - Deploy to feature workspace
+# -----------------------------------------------------------------------------------------------------
+- stage: Deploy_Feature
+  displayName: 'Deploy to Feature Workspace'
+  dependsOn: Publish
+  condition: |
+    and(
+      succeeded(),
+      startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/')
+    )
+  jobs:
+    - job: DeployFeature
+      displayName: 'Create or update feature workspace'
+      steps:
+        - download: current
+          artifact: pbip-drop
+
+        - task: PowerShell@2
+          displayName: 'Deploy PBIP to feature workspace'
+          env:
+            TENANT_ID: $(TenantId)
+            APP_ID: $(AppId)
+            CLIENT_SECRET: $(ClientSecret)
+            DEV_WORKSPACE_ID: $(DevWorkspaceId)
+            DEV_WORKSPACE_NAME: $(DEV_WORKSPACE_NAME)
+            FEATURE_WORKSPACE_PREFIX: $(FeatureWorkspacePrefix)
+          inputs:
+            targetType: 'inline'
+            script: |
+              $artifactPath = Join-Path "$(Pipeline.Workspace)" "pbip-drop"
+              $deployScriptPath = Join-Path $artifactPath "$(DEPLOY_SCRIPT_PATH)"
+              $requiredVariables = @{
+                  TenantId = $env:TENANT_ID
+                  AppId = $env:APP_ID
+                  ClientSecret = $env:CLIENT_SECRET
+                  FeatureWorkspacePrefix = $env:FEATURE_WORKSPACE_PREFIX
+              }
+
+              foreach ($variableName in $requiredVariables.Keys) {
+                  $value = $requiredVariables[$variableName]
+                  if ([string]::IsNullOrWhiteSpace($value) -or $value -like '$(*') {
+                      throw "Missing required deployment variable: $variableName"
+                  }
+              }
+
+              if (!(Test-Path $deployScriptPath)) {
+                  throw "Deployment script not found: $deployScriptPath. Add scripts/deploy-dynamic.ps1 or update DEPLOY_SCRIPT_PATH."
+              }
+
+              & $deployScriptPath `
+                -Branch "$(Build.SourceBranch)" `
+                -TenantId $env:TENANT_ID `
+                -AppId $env:APP_ID `
+                -ClientSecret $env:CLIENT_SECRET `
+                -DevWorkspaceId $env:DEV_WORKSPACE_ID `
+                -DevWorkspaceName $env:DEV_WORKSPACE_NAME `
+                -FeatureWorkspacePrefix $env:FEATURE_WORKSPACE_PREFIX `
+                -PbipPath $artifactPath

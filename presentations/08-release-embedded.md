@@ -72,11 +72,11 @@ Before any production deployment, an owner works through the checklist to confir
 
 These must be **green** before the Deployment Pipeline runs:
 
-- [ ] CI pipeline passing on `main` — all 3 stages (Validate, Test, Publish)
+- [ ] CI/CD pipeline passing on `main` — Validate, Test, Publish, and Deploy_Dev
 - [ ] JUnit test results: **0 failures**
 - [ ] Dataset and report quality rule checks pass
-- [ ] `pbip-artifacts` published to ADO and downloadable
-- [ ] Dev workspace synced to latest `main` (Approach A or B)
+- [ ] `pbip-drop` published to ADO and downloadable
+- [ ] `Deploy_Dev` updated the Dev workspace from the latest validated `main` artifact
 - [ ] Deployment rules verified for Test **and** Prod
 
 ---
@@ -124,7 +124,7 @@ These must be **green** before the Deployment Pipeline runs:
 From the CI pipeline `Publish` stage:
 
 ```
-pbip-artifacts/
+pbip-drop/
   projects/
     <your-project>.Report/          ← validated report PBIP
     <your-project>.SemanticModel/   ← validated model PBIP

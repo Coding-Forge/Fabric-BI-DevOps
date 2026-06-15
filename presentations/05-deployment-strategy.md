@@ -48,11 +48,11 @@ style: |
 
 | System | Purpose | Trigger |
 |--------|---------|---------|
-| **Azure DevOps CI Pipeline** | Validate PBIP artifacts — schema, lint, tests | Every push / PR |
+| **Azure DevOps CI/CD Pipeline** | Validate, test, publish, and deploy PBIP artifacts | Every configured branch push / PR |
 | **Fabric Deployment Pipeline** | Promote workspace content across environments | Manual (with approval) or automated |
 
 They work together:
-- **CI ensures quality** before anything merges to `main`
+- **CI/CD ensures quality** before deployment and before anything merges to `main`
 - **Deployment Pipeline ensures consistency** when content moves to Test or Prod
 
 ---
@@ -60,9 +60,9 @@ They work together:
 ## End-to-End Flow
 
 ```
-Developer → feature branch → PR → CI ✅ → merge to main
-                                              ↓
-                                     Dev Workspace (Git sync)
+Developer → feature branch → PR → CI/CD ✅ → merge to main
+  ↓                                      ↓
+Feature Workspace                     Dev Workspace deployment
                                               ↓
                               Fabric Deployment Pipeline: Dev → Test
                                               ↓
@@ -75,15 +75,17 @@ Developer → feature branch → PR → CI ✅ → merge to main
 
 ---
 
-## CI Pipeline — 3 Stages
+## Azure DevOps Pipeline — 5 Stages
 
 | Stage | Trigger | What It Does |
 |-------|---------|-------------|
 | **Validate** | Every push / PR | PBIP structure + dataset/report quality checks |
 | **Test** | After Validate | DAX unit tests → JUnit XML |
-| **Publish** | After Test | Upload `pbip-artifacts` to ADO |
+| **Publish** | After Test | Upload `pbip-drop` to ADO |
+| **Deploy_Dev** | `main` / `develop` | Deploy to Dev with `deploy-dynamic.ps1` |
+| **Deploy_Feature** | `feature/*` | Create/update feature workspace |
 
-All 3 stages must be **green** before any workspace promotion happens.
+Validation, tests, and publishing must be **green** before any workspace deployment happens.
 
 ---
 <!-- class: dark -->
@@ -93,11 +95,14 @@ All 3 stages must be **green** before any workspace promotion happens.
 ```yaml
 trigger:
   branches:
-    include: [main, feature/*]
+    include: [main, develop, feature/*]
 
 variables:
-  PROJECT_ROOT: '.'
-  PBIP_PATH: 'pbip-local'
+  - group: pbip-shared-secrets
+  - name: PBIP_PATH
+    value: '.'
+  - name: DEPLOY_SCRIPT_PATH
+    value: 'scripts/deploy-dynamic.ps1'
 
 stages:
   - stage: Validate
@@ -120,30 +125,36 @@ stages:
     jobs:
       - job: PublishArtifacts
         steps:
-          - task: PublishBuildArtifacts@1
+          - task: PublishPipelineArtifact@1
             inputs:
-              pathToPublish: '$(Build.SourcesDirectory)/$(PBIP_PATH)'
-              artifactName: 'pbip-artifacts'
+              targetPath: '$(Build.SourcesDirectory)/$(PBIP_PATH)'
+              artifact: 'pbip-drop'
+
+  - stage: Deploy_Dev
+    condition: main or develop branch
+
+  - stage: Deploy_Feature
+    condition: feature branch
 ```
 
 ---
 
-## Approach A — Manual Workspace Sync (Portal)
+## Automated Workspace Deployment
 
-1. Open `WS-Dev-<team>` in Fabric
-2. Click the **Source control icon** (top right toolbar)
-3. Review incoming commits in the side panel
-4. Click **Update all**
+1. Publish creates `pbip-drop`
+2. Deploy stage downloads the artifact
+3. `scripts/deploy-dynamic.ps1` authenticates with a service principal
+4. Semantic model deploys first, then report definitions are updated
 
-Good for: individual developers, on-demand pulls after a merge.
+Good for: repeatable Dev deployments and isolated feature branch validation.
 
 ---
 
 ## Workspace Sync in This Workshop
 
-- After merge, sync the Dev workspace from the Fabric Source control panel
-- The workshop pipeline focuses on CI validation and artifact publishing
-- Automated workspace sync can be added later as an extension if needed
+- `main` and `develop` deploy to the shared Dev workspace
+- `feature/*` deploys to a prefixed feature workspace
+- Test and Prod still receive content through Fabric Deployment Pipelines
 
 ---
 
@@ -182,7 +193,7 @@ Deployment rules apply these overrides automatically at promotion time.
 
 Before triggering the Dev → Test promotion:
 
-- [ ] CI pipeline green on `main` — all 3 stages passed
+- [ ] CI/CD pipeline green on `main` — Validate, Test, Publish, and Deploy_Dev passed
 - [ ] JUnit: 0 test failures
 - [ ] Dev workspace refresh succeeded
 - [ ] Deployment rules configured for the Test environment
@@ -220,10 +231,10 @@ Before triggering the Test → Prod promotion:
 
 ## Key Principles
 
-1. **`main` is always deployable** — CI enforces this
+1. **`main` is always deployable** — CI/CD enforces this
 2. **Dev is the only Git-connected workspace** — Test and Prod are promoted-only
 3. **No manual prod deployments** — Deployment Pipeline only
-4. **Secrets stay in Key Vault** — never in pipeline YAML or PBIP files
+4. **Secrets stay in secured variable groups or Key Vault** — never in pipeline YAML or PBIP files
 5. **Every promotion is logged** — Deployment Pipeline audit trail + ADO build history
 
 ---

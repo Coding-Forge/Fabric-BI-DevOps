@@ -7,7 +7,7 @@ A hands-on workshop covering Git integration, CI/CD automation, and deployment b
 
 This README provides a **topic-by-topic index** of supporting resources, architecture docs, lab guides, and reference materials used throughout the workshop.
 
-> PBIP artifacts are intentionally **not committed** in this repository. Bring your own PBIP files locally under `projects/` (or `projects/pbip-local/`) and keep reusable CI assets (`Rules-*.json`, `scripts/`, `tests/`, `azure-pipelines.yml`) in source control.
+> PBIP artifacts are intentionally **not committed** in this repository. Bring your own PBIP files locally under `projects/` (or `projects/pbip-local/`) and keep reusable CI/CD assets (`Rules-*.json`, `scripts/`, `tests/`, `azure-pipelines.yml`) in source control.
 >
 > This repo now also includes a reusable **universal Fabric CI pipeline** under `projects/universal-pipeline/`. The intent is to host one shared template repo for Fabric artifact validation/deployment, while each project repo keeps only a small consumer `azure-pipelines.yml`.
 
@@ -22,8 +22,8 @@ This README provides a **topic-by-topic index** of supporting resources, archite
 | [3. Best Practices Summary](#3-best-practices-summary) | Governance, Git, CI/CD, Embedded |
 | [4. Folder Structure](#4-appendix-repository-folder-structure) | Actual repo layout |
 
-### CI Pipeline Options
-- Use [projects/azure-pipelines.yml](/home/brandon/projects/workshops/Fabric-Git-Essentials/projects/azure-pipelines.yml) for the workshop's PBIP-specific CI walkthrough.
+### CI/CD Pipeline Options
+- Use [projects/azure-pipelines.yml](projects/azure-pipelines.yml) for the workshop's PBIP-specific Azure DevOps CI/CD walkthrough. It validates, tests, publishes `pbip-drop`, then deploys to Dev or feature workspaces with [projects/scripts/deploy-dynamic.ps1](projects/scripts/deploy-dynamic.ps1).
 - Use [projects/universal-pipeline/README.md](projects/universal-pipeline/README.md) when you want one shared Azure DevOps template repo that can be consumed by many Fabric project repos.
 - Use [.github/workflows/powerbi-ci.yml](.github/workflows/powerbi-ci.yml) for GitHub Actions-based PBIP validation in GitHub-hosted repos.
 - Use [.github/README.md](.github/README.md) for a dedicated GitHub project setup guide.
@@ -63,10 +63,10 @@ Set variable values to `true` or `false`.
 Branch policy behavior:
 - The workflow triggers on `main`, `feature/*`, and pull requests targeting `main`.
 - Branch-aware severity handling is applied by [projects/scripts/Prepare-QualityRules.ps1](projects/scripts/Prepare-QualityRules.ps1):
-  - Dataset rules enforce severity >= 2 on `main` and >= 3 on non-main branches.
-  - Report rules keep selected checks as warnings on non-main branches, and promote those checks to errors on `main`.
+  - Dataset rules enforce severity >= 2 on protected target branches such as `main` and `develop`, and >= 3 on feature branches.
+  - Report rules keep selected checks as warnings on feature branches, and promote those checks to errors on protected target branches.
 
-This pattern keeps feature-branch feedback fast while preserving stricter enforcement for `main`.
+This pattern keeps feature-branch feedback fast while preserving stricter enforcement for protected integration branches.
 
 ### Presentation Decks (Marp)
 - [01 — Kickoff & Overview](presentations/01-kickoff-overview.md)
@@ -227,8 +227,10 @@ Materials:
   - Automation via APIs
 
 Key messages:
-- Every merge to main triggers validations  
-- Environment-specific configs (via parameters, Key Vault)  
+- Every push to `main`, `develop`, or `feature/*` triggers validation, testing, and artifact publication  
+- `main` and `develop` runs deploy the validated PBIP artifact to the Dev workspace  
+- `feature/*` runs create or update isolated feature workspaces using a configured workspace prefix  
+- Environment-specific configs use Azure DevOps variables, variable groups, and service principal authentication  
 - No manual promotion to production  
 
 ---
@@ -241,16 +243,17 @@ Primary references:
   - PBIP schema validation  
   - DAX unit tests  
   - Lint rules  
-  - Publishing artifacts
+  - Publishing the `pbip-drop` pipeline artifact  
+  - Deploying validated PBIP definitions with `scripts/deploy-dynamic.ps1`
 - **AzureDevOps Deep Dive**  
   Shows integration with dashboards and test plans.
 - **Microsoft Learn — CI/CD Tutorial**  
   Mirrors the steps of building a working PBIP validation pipeline.
 
 Lab #2 Outcomes:
-- Working CI pipeline  
+- Working CI/CD pipeline  
 - PR branch policies enforced  
-- PBIP validation occurs automatically  
+- PBIP validation, testing, artifact publication, and workspace deployment occur automatically  
 
 ---
 
@@ -356,7 +359,7 @@ Supporting documents:
 ### CI/CD
 - Automate schema validation  
 - Treat PBIP artifacts as code  
-- Use Key Vault for secrets  
+- Use service principals and secured variable groups or Key Vault-linked variable groups for deployment secrets  
 
 ### Embedded Analytics
 - Prefer **App Owns Data** for external apps  

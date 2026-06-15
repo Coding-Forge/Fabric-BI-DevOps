@@ -174,7 +174,7 @@ Before any promotion:
 | Gate | Checks |
 |------|--------|
 | **Before PR** | `tests/validate_pbip_structure.py` passes · No hardcoded credentials · New measures have descriptions |
-| **Dev → Test** | CI pipeline green on `main` · JUnit: 0 failures · Dev workspace refresh succeeded |
+| **Dev → Test** | CI/CD pipeline green on `main` · JUnit: 0 failures · Deploy_Dev succeeded |
 | **Test → Prod** | RLS roles tested with representative users · Dataset refresh succeeded in Test · BI Lead manual approval |
 
 ---

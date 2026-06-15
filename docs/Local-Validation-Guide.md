@@ -85,7 +85,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\Prepare-QualityRules.ps1 `
 Behavior:
 
 - rules missing `logType` are defaulted to `warning`
-- selected rules are promoted from `warning` to `error` on `main`
+- selected rules are promoted from `warning` to `error` on protected branches such as `main` and `develop`
 
 ## 4. Run the DAX Test Harness
 

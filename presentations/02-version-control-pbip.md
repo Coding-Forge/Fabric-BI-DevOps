@@ -183,10 +183,10 @@ feature/<alias>-<short-description>
 5. Commit + push
 
 6. Open Pull Request → assign reviewers
-7. CI pipeline runs automatically
+7. CI/CD pipeline runs automatically
 8. Reviewer previews report in feature workspace
 9. PR approved → merge to main
-10. Dev workspace syncs automatically (or manually)
+10. Validated content deploys to Dev automatically
 ```
 
 ---

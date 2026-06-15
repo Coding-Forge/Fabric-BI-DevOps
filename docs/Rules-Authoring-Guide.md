@@ -55,13 +55,13 @@ Dataset rules are a JSON array where each object is one BPA rule.
 
 Pipeline behavior is branch-aware via `scripts/Prepare-QualityRules.ps1`:
 
-- On `main`: rules with `Severity >= 2` are enforced.
-- On non-main branches: only `Severity >= 3` are enforced.
+- On `main` and `develop`: rules with `Severity >= 2` are enforced.
+- On feature branches: only `Severity >= 3` are enforced.
 
 Practical usage:
 
 - Use `3` for must-fix, high-confidence issues.
-- Use `2` for important standards you want enforced on main.
+- Use `2` for important standards you want enforced on protected integration branches.
 - Use `1` for advisory or gradual adoption.
 
 ## Report Rules (`Rules-Report.json`)
@@ -103,8 +103,8 @@ Report rules are an object with a top-level `rules` array.
 The preparation script applies policy by branch:
 
 - Ensures every rule has `logType` (defaults to `warning` if missing).
-- Promotes selected warning rules to `error` on `main`.
-- Keeps those same rules as `warning` on non-main branches.
+- Promotes selected warning rules to `error` on `main` and `develop`.
+- Keeps those same rules as `warning` on feature branches.
 
 This supports progressive hardening without blocking early cleanup work.
 

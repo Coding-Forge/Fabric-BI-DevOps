@@ -10,24 +10,50 @@ param(
     [string]$OutputPath,
 
     [Parameter(Mandatory = $true)]
-    [string]$SourceBranch
+    [string]$SourceBranch,
+
+    [string]$TargetBranch
 )
 
 $ErrorActionPreference = 'Stop'
+
+function Test-UsableBranchRef {
+    param([string]$Value)
+
+    return ![string]::IsNullOrWhiteSpace($Value) -and $Value -notlike '$(*'
+}
+
+function ConvertTo-BranchRef {
+    param([string]$Value)
+
+    if (!(Test-UsableBranchRef -Value $Value)) {
+        return ''
+    }
+
+    if ($Value.StartsWith('refs/', [System.StringComparison]::OrdinalIgnoreCase)) {
+        return $Value
+    }
+
+    return "refs/heads/$Value"
+}
 
 $outputDirectory = Split-Path -Path $OutputPath -Parent
 if ($outputDirectory) {
     New-Item -ItemType Directory -Path $outputDirectory -Force | Out-Null
 }
 
-$isMain = $SourceBranch -eq 'refs/heads/main'
+$sourceBranchRef = ConvertTo-BranchRef -Value $SourceBranch
+$targetBranchRef = ConvertTo-BranchRef -Value $TargetBranch
+$policyBranchRef = if (Test-UsableBranchRef -Value $targetBranchRef) { $targetBranchRef } else { $sourceBranchRef }
+$strictBranchRefs = @('refs/heads/main', 'refs/heads/develop')
+$isStrictBranch = $strictBranchRefs -contains $policyBranchRef
 
 if ($Mode -eq 'dataset') {
     $rules = Get-Content -Path $SourcePath -Raw | ConvertFrom-Json
-    $minimumSeverity = if ($isMain) { 2 } else { 3 }
+    $minimumSeverity = if ($isStrictBranch) { 2 } else { 3 }
     $effectiveRules = @($rules | Where-Object { [int]$_.Severity -ge $minimumSeverity })
     $effectiveRules | ConvertTo-Json -Depth 100 | Set-Content -Path $OutputPath -Encoding UTF8
-    Write-Host "Prepared dataset rules for $SourceBranch with minimum severity $minimumSeverity."
+    Write-Host "Prepared dataset rules for $policyBranchRef with minimum severity $minimumSeverity."
     exit 0
 }
 
@@ -46,9 +72,9 @@ foreach ($rule in $reportRules.rules) {
     }
 
     if ($mainOnlyBlockingWarnings -contains $rule.id) {
-        $rule.logType = if ($isMain) { 'error' } else { 'warning' }
+        $rule.logType = if ($isStrictBranch) { 'error' } else { 'warning' }
     }
 }
 
 $reportRules | ConvertTo-Json -Depth 100 | Set-Content -Path $OutputPath -Encoding UTF8
-Write-Host "Prepared report rules for $SourceBranch. Main-only blocking rules promoted: $isMain"
+Write-Host "Prepared report rules for $policyBranchRef. Strict-branch blocking rules promoted: $isStrictBranch"

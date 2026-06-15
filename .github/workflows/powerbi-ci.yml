@@ -98,11 +98,16 @@ jobs:
           }
 
           $effectiveRulesPath = Join-Path $tempPath "Rules-Dataset.effective.json"
+          $qualityBranch = "$env:GITHUB_REF"
+          if (![string]::IsNullOrWhiteSpace($env:GITHUB_BASE_REF)) {
+              $qualityBranch = "refs/heads/$env:GITHUB_BASE_REF"
+          }
+
           & (Join-Path $repoPath "scripts\Prepare-QualityRules.ps1") `
             -Mode dataset `
             -SourcePath $sourceRulesPath `
             -OutputPath $effectiveRulesPath `
-            -SourceBranch "$env:GITHUB_REF"
+            -SourceBranch $qualityBranch
 
       - name: Run dataset rules
         shell: pwsh
@@ -182,11 +187,16 @@ jobs:
           }
 
           $effectiveRulesPath = Join-Path $tempPath "Rules-Report.effective.json"
+          $qualityBranch = "$env:GITHUB_REF"
+          if (![string]::IsNullOrWhiteSpace($env:GITHUB_BASE_REF)) {
+              $qualityBranch = "refs/heads/$env:GITHUB_BASE_REF"
+          }
+
           & (Join-Path $repoPath "scripts\Prepare-QualityRules.ps1") `
             -Mode report `
             -SourcePath $sourceRulesPath `
             -OutputPath $effectiveRulesPath `
-            -SourceBranch "$env:GITHUB_REF"
+            -SourceBranch $qualityBranch
 
       - name: Run report rules
         shell: pwsh

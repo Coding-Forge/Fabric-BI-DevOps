@@ -139,8 +139,10 @@ Materials:
   - Automation via APIs
 
 Key messages:
-- Every merge to main triggers validations  
-- Environment-specific configs (via parameters, Key Vault)  
+- Every push to `main`, `develop`, or `feature/*` triggers validation, testing, and artifact publication  
+- `main` and `develop` runs deploy the validated PBIP artifact to the Dev workspace  
+- `feature/*` runs create or update isolated feature workspaces using a configured workspace prefix  
+- Environment-specific configs use Azure DevOps variables, variable groups, and service principal authentication  
 - No manual promotion to production  
 
 ---
@@ -149,24 +151,25 @@ Key messages:
 
 Primary references:
 - **Lab #2 Guide — CI Pipeline Validation for the Power BI Project**  
-  Covers the current 3-stage Azure DevOps pipeline:
+  Covers the current 5-stage Azure DevOps CI/CD pipeline:
   - PBIP structure validation with `tests/validate_pbip_structure.py`  
   - Dataset and report quality rules using Tabular Editor, PBI Inspector, and `scripts/Prepare-QualityRules.ps1`  
   - DAX unit tests with JUnit output from `tests/run_dax_tests.py`  
-  - Publishing `pbip-artifacts`  
+  - Publishing `pbip-drop` as a pipeline artifact  
+  - Deploying to Dev or feature workspaces with `scripts/deploy-dynamic.ps1`  
 - **`projects/azure-pipelines.yml`**  
   Source-of-truth pipeline YAML used by the workshop.  
 - **Project rules and scripts**  
-  `Rules-Dataset.json`, `Rules-Report.json`, and `scripts/Prepare-QualityRules.ps1` drive branch-aware quality checks.  
+  `Rules-Dataset.json`, `Rules-Report.json`, `scripts/Prepare-QualityRules.ps1`, and `scripts/deploy-dynamic.ps1` drive branch-aware quality checks and workspace deployment.  
 - **AzureDevOps Deep Dive**  
   Shows integration with dashboards and test plans.
 - **Microsoft Learn — CI/CD Tutorial**  
   Mirrors the steps of building a working PBIP validation pipeline.
 
 Lab #2 Outcomes:
-- Working 3-stage CI pipeline (Validate → Test → Publish)  
+- Working 5-stage CI/CD pipeline (Validate → Test → Publish → Deploy Dev or Feature)  
 - PR branch policies enforced; CI is a required status check on `main`  
-- PBIP validation occurs automatically on every push  
+- PBIP validation, testing, artifact publication, and workspace deployment occur automatically on configured branches  
 - Participants use the same pipeline and project files found in the `projects` folder  
 
 ---
@@ -269,7 +272,7 @@ Supporting documents:
 ### CI/CD
 - Automate schema validation  
 - Treat PBIP artifacts as code  
-- Use Key Vault for secrets  
+- Use service principals and secured variable groups or Key Vault-linked variable groups for deployment secrets  
 
 ### Embedded Analytics
 - Prefer **App Owns Data** for external apps  
@@ -298,10 +301,12 @@ Supporting documents:
     fabric-git-integration.md
 /projects
   azure-pipelines.yml
+  azure-pipelines_ci.yml
   Rules-Dataset.json
   Rules-Report.json
   /scripts
     Prepare-QualityRules.ps1
+    deploy-dynamic.ps1
   /tests
     run_dax_tests.py
     validate_pbip_structure.py

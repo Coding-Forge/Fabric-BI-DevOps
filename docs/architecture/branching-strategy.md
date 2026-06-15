@@ -174,7 +174,7 @@ This keeps merge conflicts small and ensures your feature is always building on 
 When the feature is complete and tested in your workspace:
 
 1. Open a PR from `feature/<alias>-<task>` into `main`.  
-2. The **CI pipeline triggers automatically** — validation, DAX tests, lint.  
+2. The **CI/CD pipeline triggers automatically** — validation, DAX tests, quality rules, artifact publication, and feature workspace deployment.  
 3. Add the required reviewer(s).  
 4. In the PR description, include:
    - What changed and why  
@@ -187,7 +187,7 @@ When the feature is complete and tested in your workspace:
 
 ### Step 7 — Merge and Clean Up
 
-After the PR is approved and CI is green:
+After the PR is approved and CI/CD checks are green:
 
 1. Merge using **Squash merge** (keeps `main` history clean).  
 2. Delete the feature branch.  
@@ -195,7 +195,7 @@ After the PR is approved and CI is green:
    - Go to **Workspace settings → Other settings → Delete this workspace**.  
    - Confirm deletion.  
 
-The shared `WS-Dev-<team>` workspace syncs to `main` automatically (Approach B pipeline) or via manual **Update all** in the Source control panel (Approach A).
+After merge, the project-local Azure DevOps pipeline deploys the validated `main` artifact to the shared `WS-Dev-<team>` workspace.
 
 ---
 
@@ -296,6 +296,6 @@ The pattern mirrors how software engineering teams run feature environments (pre
 ## Related Documents
 
 - [Workspace Strategy](workspace-strategy.md) — naming conventions, roles, and workspace lifecycle  
-- [CI/CD Architecture](cicd-architecture.md) — how CI validates feature branches before merge  
+- [CI/CD Architecture](cicd-architecture.md) — how the pipeline validates branches and deploys Dev or feature workspaces  
 - [Lab 1 — Connect Workspace to Git](../workshop-plan/labs/lab1-connect-git.md) — hands-on: connect a workspace to a branch  
-- [Lab 2 — CI Pipeline & Workspace Sync](../workshop-plan/labs/lab2-ci-pipeline.md) — CI pipeline and workspace sync after merge  
+- [Lab 2 — CI/CD Pipeline for PBIP](../workshop-plan/labs/lab2-ci-pipeline.md) — validation, artifact publication, and workspace deployment  

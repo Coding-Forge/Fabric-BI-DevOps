@@ -87,8 +87,8 @@ The workflow triggers on:
 - pull requests targeting `main`
 
 Rule severity is branch-aware:
-- dataset rules are stricter on `main`
-- selected report warnings are promoted to errors on `main`
+- dataset rules are stricter on protected target branches such as `main`
+- selected report warnings are promoted to errors on protected target branches such as `main`
 - feature branches stay less strict to reduce friction during development
 
 That logic is implemented in [projects/scripts/Prepare-QualityRules.ps1](projects/scripts/Prepare-QualityRules.ps1).

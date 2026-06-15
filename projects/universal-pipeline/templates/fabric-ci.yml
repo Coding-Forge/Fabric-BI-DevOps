@@ -151,11 +151,17 @@ stages:
               }
 
               $effectiveRulesPath = Join-Path $tempPath "Rules-Dataset.effective.json"
+              $qualityBranch = "$(Build.SourceBranch)"
+              $pullRequestTargetBranch = "$(System.PullRequest.TargetBranch)"
+              if (![string]::IsNullOrWhiteSpace($pullRequestTargetBranch) -and $pullRequestTargetBranch -notlike '$(*') {
+                  $qualityBranch = $pullRequestTargetBranch
+              }
+
               & (Join-Path $templatesPath "scripts\Prepare-QualityRules.ps1") `
                 -Mode dataset `
                 -SourcePath $sourceRulesPath `
                 -OutputPath $effectiveRulesPath `
-                -SourceBranch "$(Build.SourceBranch)"
+                -SourceBranch $qualityBranch
 
         - task: PowerShell@2
           displayName: 'Run dataset rules'
@@ -247,11 +253,17 @@ stages:
               }
 
               $effectiveRulesPath = Join-Path $tempPath "Rules-Report.effective.json"
+              $qualityBranch = "$(Build.SourceBranch)"
+              $pullRequestTargetBranch = "$(System.PullRequest.TargetBranch)"
+              if (![string]::IsNullOrWhiteSpace($pullRequestTargetBranch) -and $pullRequestTargetBranch -notlike '$(*') {
+                  $qualityBranch = $pullRequestTargetBranch
+              }
+
               & (Join-Path $templatesPath "scripts\Prepare-QualityRules.ps1") `
                 -Mode report `
                 -SourcePath $sourceRulesPath `
                 -OutputPath $effectiveRulesPath `
-                -SourceBranch "$(Build.SourceBranch)"
+                -SourceBranch $qualityBranch
 
         - task: PowerShell@2
           displayName: 'Run report rules'

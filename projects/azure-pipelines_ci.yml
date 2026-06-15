@@ -1,0 +1,276 @@
+#azure-pipelines.yml
+# CI pipeline for Microsoft Fabric PBIP artifacts
+
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+
+pr:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'windows-2022'
+
+variables:
+  PROJECT_ROOT: '.'
+  PBIP_PATH: 'pbip-local'
+  PYTHON_VERSION: '3.11'
+
+stages:
+# -----------------------------------------------------------------------------------------------------
+# Stage 1 - Validate PBIP artifacts
+# -----------------------------------------------------------------------------------------------------
+- stage: Validate
+  displayName: 'Validate PBIP Artifacts'
+  jobs:
+    - job: ValidatePBIP
+      displayName: 'Validate PBIP Structure'
+      steps:
+        - task: UsePythonVersion@0
+          inputs:
+            versionSpec: '$(PYTHON_VERSION)'
+          displayName: 'Set Python version to: $(PYTHON_VERSION)'
+
+        - script: |
+            python tests/validate_pbip_structure.py --pbip-path "$(PBIP_PATH)"
+          displayName: 'Run PBIP structure validation'
+
+    - job: Build_Datasets
+      displayName: 'Run Dataset Quality Rules'
+      dependsOn: ValidatePBIP
+      steps:
+        - checkout: self
+
+        - task: PowerShell@2
+          displayName: 'Download Tabular Editor and fallback rules'
+          inputs:
+            targetType: 'inline'
+            script: |
+              $tempPath = Join-Path "$(Agent.TempDirectory)" "pbip-quality"
+              $toolPath = Join-Path $tempPath "TE"
+
+              New-Item -ItemType Directory -Path $tempPath -Force | Out-Null
+              New-Item -ItemType Directory -Path $toolPath -Force | Out-Null
+
+              Write-Host "##[debug]Downloading Tabular Editor binaries"
+              $downloadUrl = "https://github.com/TabularEditor/TabularEditor/releases/latest/download/TabularEditor.Portable.zip"
+              $zipFile = Join-Path $tempPath "TabularEditor.zip"
+              Invoke-WebRequest -Uri $downloadUrl -OutFile $zipFile
+              Expand-Archive -Path $zipFile -DestinationPath $toolPath -Force
+
+              Write-Host "##[debug]Downloading dataset fallback rules"
+              $rulesUrl = "https://raw.githubusercontent.com/microsoft/Analysis-Services/master/BestPracticeRules/BPARules.json"
+              Invoke-WebRequest -Uri $rulesUrl -OutFile (Join-Path $tempPath "Rules-Dataset.fallback.json")
+
+        - task: PowerShell@2
+          displayName: 'Prepare dataset rules for branch policy'
+          inputs:
+            targetType: 'inline'
+            script: |
+              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PROJECT_ROOT)"
+              $tempPath = Join-Path "$(Agent.TempDirectory)" "pbip-quality"
+              $sourceRulesPath = Join-Path $repoPath "Rules-Dataset.json"
+              if (!(Test-Path $sourceRulesPath)) {
+                  $sourceRulesPath = Join-Path $tempPath "Rules-Dataset.fallback.json"
+              }
+
+              $effectiveRulesPath = Join-Path $tempPath "Rules-Dataset.effective.json"
+              $qualityBranch = "$(Build.SourceBranch)"
+              $pullRequestTargetBranch = "$(System.PullRequest.TargetBranch)"
+              if (![string]::IsNullOrWhiteSpace($pullRequestTargetBranch) -and $pullRequestTargetBranch -notlike '$(*') {
+                  $qualityBranch = $pullRequestTargetBranch
+              }
+
+              & (Join-Path $repoPath "scripts\Prepare-QualityRules.ps1") `
+                -Mode dataset `
+                -SourcePath $sourceRulesPath `
+                -OutputPath $effectiveRulesPath `
+                -SourceBranch $qualityBranch
+
+        - task: PowerShell@2
+          displayName: 'Run dataset rules'
+          inputs:
+            targetType: 'inline'
+            script: |
+              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PROJECT_ROOT)"
+              $pbipPath = Join-Path $repoPath "$(PBIP_PATH)"
+              $tempPath = Join-Path "$(Agent.TempDirectory)" "pbip-quality"
+              $toolPath = Join-Path $tempPath "TE\TabularEditor.exe"
+              $rulesPath = Join-Path $tempPath "Rules-Dataset.effective.json"
+
+              if (!(Test-Path $toolPath)) {
+                  throw "Tabular Editor executable not found: $toolPath"
+              }
+
+              if (!(Test-Path $rulesPath)) {
+                  throw "Prepared dataset rules not found: $rulesPath"
+              }
+
+              $itemsFolders = Get-ChildItem -Path $pbipPath -Recurse -Include ("*.pbidataset", "*.pbism")
+              if (!$itemsFolders) {
+                  throw "No semantic model definitions found under $pbipPath"
+              }
+
+              foreach ($itemFolder in $itemsFolders) {
+                  $itemPath = Join-Path $itemFolder.Directory.FullName "definition"
+                  if (!(Test-Path $itemPath)) {
+                      $itemPath = Join-Path $itemFolder.Directory.FullName "model.bim"
+                      if (!(Test-Path $itemPath)) {
+                          throw "Cannot find semantic model definition for $($itemFolder.FullName)"
+                      }
+                  }
+
+                  Write-Host "##[group]Running rules for: '$itemPath'"
+                  $process = Start-Process -FilePath $toolPath -ArgumentList """$itemPath"" -A ""$rulesPath"" -V" -NoNewWindow -Wait -PassThru
+                  Write-Host "##[endgroup]"
+
+                  if ($process.ExitCode -ne 0) {
+                      throw "Tabular Editor rules failed for $itemPath with exit code $($process.ExitCode)"
+                  }
+              }
+
+    - job: Build_Reports
+      displayName: 'Run Report Quality Rules'
+      dependsOn: ValidatePBIP
+      steps:
+        - checkout: self
+
+        - task: PowerShell@2
+          displayName: 'Download Fab Inspector and fallback rules'
+          inputs:
+            targetType: 'inline'
+            script: |
+              $tempPath = Join-Path "$(Agent.TempDirectory)" "pbip-quality"
+              $toolPath = Join-Path $tempPath "PBIInspector"
+
+              New-Item -ItemType Directory -Path $tempPath -Force | Out-Null
+              New-Item -ItemType Directory -Path $toolPath -Force | Out-Null
+
+              Write-Host "##[debug]Downloading Fab Inspector"
+              $downloadUrl = "https://github.com/NatVanG/PBI-InspectorV2/releases/latest/download/win-x64-CLI.zip"
+              $zipFile = Join-Path $tempPath "PBIRInspector.zip"
+              Invoke-WebRequest -Uri $downloadUrl -OutFile $zipFile
+              Expand-Archive -Path $zipFile -DestinationPath $toolPath -Force
+
+              Write-Host "##[debug]Downloading report fallback rules"
+              $rulesUrl = "https://raw.githubusercontent.com/NatVanG/PBI-InspectorV2/main/Rules/Base-rules.json"
+              Invoke-WebRequest -Uri $rulesUrl -OutFile (Join-Path $tempPath "Rules-Report.fallback.json")
+
+        - task: PowerShell@2
+          displayName: 'Prepare report rules for branch policy'
+          inputs:
+            targetType: 'inline'
+            script: |
+              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PROJECT_ROOT)"
+              $tempPath = Join-Path "$(Agent.TempDirectory)" "pbip-quality"
+              $sourceRulesPath = Join-Path $repoPath "Rules-Report.json"
+              if (!(Test-Path $sourceRulesPath)) {
+                  $sourceRulesPath = Join-Path $tempPath "Rules-Report.fallback.json"
+              }
+
+              $effectiveRulesPath = Join-Path $tempPath "Rules-Report.effective.json"
+              $qualityBranch = "$(Build.SourceBranch)"
+              $pullRequestTargetBranch = "$(System.PullRequest.TargetBranch)"
+              if (![string]::IsNullOrWhiteSpace($pullRequestTargetBranch) -and $pullRequestTargetBranch -notlike '$(*') {
+                  $qualityBranch = $pullRequestTargetBranch
+              }
+
+              & (Join-Path $repoPath "scripts\Prepare-QualityRules.ps1") `
+                -Mode report `
+                -SourcePath $sourceRulesPath `
+                -OutputPath $effectiveRulesPath `
+                -SourceBranch $qualityBranch
+
+        - task: PowerShell@2
+          displayName: 'Run report rules'
+          inputs:
+            targetType: 'inline'
+            script: |
+              $repoPath = Join-Path "$(Build.SourcesDirectory)" "$(PROJECT_ROOT)"
+              $pbipPath = Join-Path $repoPath "$(PBIP_PATH)"
+              $tempPath = Join-Path "$(Agent.TempDirectory)" "pbip-quality"
+              $toolPath = Join-Path $tempPath "PBIInspector\win-x64\CLI\PBIRInspectorCLI.exe"
+              $rulesPath = Join-Path $tempPath "Rules-Report.effective.json"
+
+              if (!(Test-Path $toolPath)) {
+                  throw "Fab Inspector executable not found: $toolPath"
+              }
+
+              if (!(Test-Path $rulesPath)) {
+                  throw "Prepared report rules not found: $rulesPath"
+              }
+
+              $itemsFolders = Get-ChildItem -Path $pbipPath -Recurse -Include *.pbir
+              if (!$itemsFolders) {
+                  throw "No report definitions found under $pbipPath"
+              }
+
+              foreach ($itemFolder in $itemsFolders) {
+                  $itemPath = $itemFolder.Directory.FullName
+
+                  Write-Host "##[group]Running rules for: '$itemPath'"
+                  $process = Start-Process -FilePath $toolPath -ArgumentList "-fabricitem ""$itemPath"" -rules ""$rulesPath"" -formats ""ADO""" -NoNewWindow -Wait -PassThru
+                  Write-Host "##[endgroup]"
+
+                  if ($process.ExitCode -ne 0) {
+                      throw "Fab Inspector rules failed for $itemPath with exit code $($process.ExitCode)"
+                  }
+              }
+
+# -----------------------------------------------------------------------------------------------------
+# Stage 2 - Run DAX unit tests
+# ----------------------------------------------------------------------------------------------------- 
+- stage: Test
+  displayName: 'DAX Unit Tests'
+  dependsOn: Validate
+  condition: succeeded()
+  jobs:
+  - job: DaxTests
+    displayName: 'Run DAX measure tests'
+    steps:
+
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(PYTHON_VERSION)'
+      displayName: 'Set Python version'
+
+    - script: |
+        pip install semantic-link-labs
+      displayName: 'Install semantic-link-labs'
+
+    - script: |
+        python tests/run_dax_tests.py --model-path "$(PBIP_PATH)"
+      displayName: 'Execute DAX unit tests'
+
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/test-results/*.xml'
+        failTaskOnFailedTests: true
+      displayName: 'Publish test results'
+
+# ─────────────────────────────────────────────────────────────────
+# Stage 3 — Publish artifacts
+# ─────────────────────────────────────────────────────────────────
+- stage: Publish
+  displayName: 'Publish Artifacts'
+  dependsOn: Test
+  condition: succeeded()
+  jobs:
+  - job: PublishArtifacts
+    displayName: 'Package and publish PBIP artifacts'
+    steps:
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: '$(Build.SourcesDirectory)/$(PBIP_PATH)'
+        artifactName: 'pbip-artifacts'
+        publishLocation: 'Container'
+      displayName: 'Publish PBIP artifacts'
+
+          
+
