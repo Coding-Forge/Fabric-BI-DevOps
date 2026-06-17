@@ -51,10 +51,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.0
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.1.0
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
@@ -68,7 +68,7 @@ jobs:
     if: ${{ needs.validate_pbip.result == 'success' && vars.PBIP_CI_SKIP_DATASET_RULES != 'true' }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.0
 
       - name: Download Tabular Editor and fallback rules
         shell: pwsh
@@ -157,7 +157,7 @@ jobs:
     if: ${{ needs.validate_pbip.result == 'success' && vars.PBIP_CI_SKIP_REPORT_RULES != 'true' }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.0
 
       - name: Download Fab Inspector and fallback rules
         shell: pwsh
@@ -238,10 +238,10 @@ jobs:
     if: ${{ needs.validate_pbip.result == 'success' && vars.PBIP_CI_SKIP_DAX_TESTS != 'true' }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.0
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.1.0
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
@@ -253,7 +253,7 @@ jobs:
 
       - name: Upload JUnit test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.4.0
         with:
           name: dax-test-results
           path: test-results/*.xml
@@ -278,10 +278,10 @@ jobs:
       }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.0
 
       - name: Upload PBIP artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.4.0
         with:
           name: pbip-artifacts
           path: ${{ env.PBIP_PATH }}
@@ -295,10 +295,10 @@ jobs:
     environment: dev
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.0
 
       - name: Download PBIP artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.0
         with:
           name: pbip-artifacts
           path: pbip-drop
@@ -355,10 +355,10 @@ jobs:
     environment: feature
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.0
 
       - name: Download PBIP artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.0
         with:
           name: pbip-artifacts
           path: pbip-drop
