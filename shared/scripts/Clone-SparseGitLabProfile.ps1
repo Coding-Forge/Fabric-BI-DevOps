@@ -23,12 +23,21 @@ if ([string]::IsNullOrWhiteSpace($Destination)) {
     $Destination = $repoName
 }
 
+$destinationParent = Split-Path -Path $Destination -Parent
+if (-not [string]::IsNullOrWhiteSpace($destinationParent) -and !(Test-Path -LiteralPath $destinationParent)) {
+    New-Item -ItemType Directory -Path $destinationParent -Force | Out-Null
+}
+
 if (Test-Path -LiteralPath $Destination) {
     throw "Destination path already exists: $Destination"
 }
 
 Write-Host "Cloning $RepoUrl into $Destination (branch: $Branch)..."
 git clone --filter=blob:none --no-checkout --branch $Branch $RepoUrl $Destination
+
+if ($LASTEXITCODE -ne 0 -or !(Test-Path -LiteralPath $Destination)) {
+    throw "git clone failed. Verify repository URL, branch, and access permissions."
+}
 
 Push-Location $Destination
 try {

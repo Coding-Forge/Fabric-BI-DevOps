@@ -1,0 +1,42 @@
+---
+references:
+  - "File: /shared/scripts/Clone-SparseGitLabProfile.ps1"
+generationTime: 2026-06-18T13:08:20.703Z
+---
+flowchart TD
+    A("Start: Clone-SparseGitLabProfile.ps1") --> B["Read parameters: RepoUrl, Destination, Branch='main'"]
+    B --> C["Set strict mode and stop-on-error"]
+    C --> D{"Git available on PATH?"}
+
+    D -->|No| E["Throw error: Git is not installed or not available on PATH."]
+    E --> Z("Stop: Failure")
+
+    D -->|Yes| F{"Destination is null/whitespace?"}
+    F -->|Yes| G["Infer repoName from RepoUrl"]
+    G --> H{"repoName is valid?"}
+    H -->|No| I["Throw error: Could not infer destination. Pass -Destination."]
+    I --> Z
+    H -->|Yes| J["Set Destination = repoName"]
+
+    F -->|No| K["Keep provided Destination"]
+    J --> L["Compute destinationParent = Split-Path(Destination, Parent)"]
+    K --> L
+
+    L --> M{"destinationParent exists?"}
+    M -->|No, and parent specified| N["Create parent directory with New-Item -Force"]
+    M -->|Yes or no parent| O{"Destination path already exists?"}
+    N --> O
+
+    O -->|Yes| P["Throw error: Destination path already exists"]
+    P --> Z
+
+    O -->|No| Q["Run git clone with --filter=blob:none --no-checkout --branch"]
+    Q --> R{"Clone succeeded and Destination exists?"}
+    R -->|No| S["Throw error: git clone failed. Check URL, branch, permissions."]
+    S --> Z
+
+    R -->|Yes| T["Push-Location Destination"]
+    T --> U[["Try block: sparse-checkout init --cone; sparse-checkout set gitlab shared docs; checkout Branch; write status"]]
+    U --> V["Finally block: Pop-Location"]
+    U -.->|Error path still executes finally| V
+    V --> W("Stop: Success")
