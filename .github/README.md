@@ -25,16 +25,20 @@ repo-root/
 │   ├── README.md
 │   └── workflows/
 │       └── powerbi-ci.yml
-└── shared/
-    ├── pbip-local/
-    ├── Rules-Dataset.json
-    ├── Rules-Report.json
-    ├── scripts/
-    │   ├── Prepare-QualityRules.ps1
-    │   └── deploy-dynamic.ps1
-    └── tests/
-        ├── run_dax_tests.py
-        └── validate_pbip_structure.py
+├── shared/
+│   ├── pbip-local/
+│   ├── Rules-Dataset.json
+│   ├── Rules-Report.json
+│   ├── dax-tests.json
+│   ├── scripts/
+│   │   ├── Prepare-QualityRules.ps1
+│   │   └── deploy-dynamic.ps1
+│   └── tests/
+│       ├── run_dax_tests.py
+│       └── validate_pbip_structure.py
+├── tools/
+│   └── index.html
+└── images/
 ```
 
 Notes:
@@ -47,15 +51,17 @@ Notes:
 1. Create a GitHub repository for the Power BI project.
 2. Copy the `shared/` CI/CD support assets into the repo:
    - `shared/scripts/Prepare-QualityRules.ps1`
-    - `shared/scripts/deploy-dynamic.ps1`
+   - `shared/scripts/deploy-dynamic.ps1`
    - `shared/tests/validate_pbip_structure.py`
    - `shared/tests/run_dax_tests.py`
+   - optional `shared/dax-tests.json`
    - optional `shared/Rules-Dataset.json`
    - optional `shared/Rules-Report.json`
-3. Copy the workflow file into `.github/workflows/powerbi-ci.yml`.
-4. Place the PBIP project under `shared/pbip-local/`.
-5. Push to GitHub.
-6. Open the Actions tab and confirm the `Power BI CI/CD` workflow runs.
+3. Copy `tools/` and `images/` if you want the no-code accelerator builders, scanners, launchpad, and screenshots.
+4. Copy the workflow file into `.github/workflows/powerbi-ci.yml`.
+5. Place the PBIP project under `shared/pbip-local/`.
+6. Push to GitHub.
+7. Open the Actions tab and confirm the `Power BI CI/CD` workflow runs.
 
 ## Recommended GitHub settings
 

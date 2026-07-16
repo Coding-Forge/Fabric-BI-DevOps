@@ -88,6 +88,9 @@ These pipelines use common assets from [`../shared/`](../shared/):
 - `shared/tests/run_dax_tests.py` — DAX unit test runner
 - `shared/Rules-Dataset.json` — dataset quality rule configuration
 - `shared/Rules-Report.json` — report quality rule configuration
+- `shared/dax-tests.json` — metadata-driven DAX test catalog
+- `tools/` — no-code accelerator builders, scanners, and launchpad
+- `images/` — tool screenshots used by docs and the launchpad
 
 ## Sparse Clone (GitLab profile)
 
@@ -100,4 +103,4 @@ To clone only the GitLab-relevant folders from a shell:
   -Branch main
 ```
 
-Included folders: `gitlab`, `shared`, `docs`
+Included folders: `gitlab`, `shared`, `docs`, `tools`, `images`

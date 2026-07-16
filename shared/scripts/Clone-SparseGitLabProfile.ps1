@@ -41,14 +41,14 @@ if ($LASTEXITCODE -ne 0 -or !(Test-Path -LiteralPath $Destination)) {
 
 Push-Location $Destination
 try {
-    # GitLab profile: GitLab pipeline definitions + shared assets + docs.
+    # GitLab profile: GitLab pipeline definitions + shared CI assets + docs + no-code accelerator tools.
     git sparse-checkout init --cone
-    git sparse-checkout set gitlab shared docs
+    git sparse-checkout set gitlab shared docs tools images
     git checkout $Branch
 
     Write-Host ''
     Write-Host 'Sparse checkout configured for GitLab profile.'
-    Write-Host 'Included folders: gitlab, shared, docs'
+    Write-Host 'Included folders: gitlab, shared, docs, tools, images'
     Write-Host "Working directory: $(Get-Location)"
 }
 finally {

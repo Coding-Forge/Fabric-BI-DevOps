@@ -41,14 +41,14 @@ if ($LASTEXITCODE -ne 0 -or !(Test-Path -LiteralPath $Destination)) {
 
 Push-Location $Destination
 try {
-    # Azure DevOps profile: azdo pipeline definitions + shared assets + docs.
+    # Azure DevOps profile: pipeline definitions + shared CI assets + docs + no-code accelerator tools.
     git sparse-checkout init --cone
-    git sparse-checkout set azdo shared docs
+    git sparse-checkout set azdo shared docs tools images
     git checkout $Branch
 
     Write-Host ''
     Write-Host 'Sparse checkout configured for Azure DevOps profile.'
-    Write-Host 'Included folders: azdo, shared, docs'
+    Write-Host 'Included folders: azdo, shared, docs, tools, images'
     Write-Host "Working directory: $(Get-Location)"
 }
 finally {

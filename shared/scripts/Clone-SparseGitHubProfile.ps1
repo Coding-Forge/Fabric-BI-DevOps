@@ -41,14 +41,14 @@ if ($LASTEXITCODE -ne 0 -or !(Test-Path -LiteralPath $Destination)) {
 
 Push-Location $Destination
 try {
-    # GitHub profile: GitHub workflows + shared assets + docs.
+    # GitHub profile: GitHub workflows + shared CI assets + docs + no-code accelerator tools.
     git sparse-checkout init --cone
-    git sparse-checkout set .github shared docs
+    git sparse-checkout set .github shared docs tools images
     git checkout $Branch
 
     Write-Host ''
     Write-Host 'Sparse checkout configured for GitHub profile.'
-    Write-Host 'Included folders: .github, shared, docs'
+    Write-Host 'Included folders: .github, shared, docs, tools, images'
     Write-Host "Working directory: $(Get-Location)"
 }
 finally {

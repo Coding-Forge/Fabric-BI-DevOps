@@ -65,12 +65,12 @@ Each CI platform folder contains entry-point pipeline definitions that reference
 
 ### Sparse Clone Presets
 
-This repo includes ready-to-run PowerShell scripts that clone only the folders needed for a platform profile.
+This repo includes ready-to-run PowerShell scripts that clone only the folders needed for a platform profile plus the no-code accelerator tools and screenshots.
 
 - Azure DevOps profile script: [shared/scripts/Clone-SparseAzDoProfile.ps1](shared/scripts/Clone-SparseAzDoProfile.ps1)
 - GitHub profile script: [shared/scripts/Clone-SparseGitHubProfile.ps1](shared/scripts/Clone-SparseGitHubProfile.ps1)
 
-Run either script from any PowerShell prompt:
+Run any profile script from a PowerShell prompt:
 
 ```powershell
 # Azure DevOps profile (.github and gitlab omitted)
@@ -85,9 +85,9 @@ Run either script from any PowerShell prompt:
 
 Default included folders per profile:
 
-- Azure DevOps: `azdo`, `shared`, `docs`
-- GitHub: `.github`, `shared`, `docs`
-- GitLab: `gitlab`, `shared`, `docs`
+- Azure DevOps: `azdo`, `shared`, `docs`, `tools`, `images`
+- GitHub: `.github`, `shared`, `docs`, `tools`, `images`
+- GitLab: `gitlab`, `shared`, `docs`, `tools`, `images`
 
 Use a different branch with `-Branch`:
 
@@ -99,9 +99,11 @@ To apply a preset on an existing clone:
 
 ```powershell
 git sparse-checkout init --cone
-git sparse-checkout set azdo shared docs    # Azure DevOps preset
+git sparse-checkout set azdo shared docs tools images    # Azure DevOps preset
 # or
-git sparse-checkout set .github shared docs # GitHub preset
+git sparse-checkout set .github shared docs tools images # GitHub preset
+# or
+git sparse-checkout set gitlab shared docs tools images  # GitLab preset
 ```
 
 ### GitHub Actions CI (Power BI)

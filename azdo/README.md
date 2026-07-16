@@ -15,6 +15,9 @@ These pipelines use common project assets from sibling folders under `shared/`:
 - `shared/scripts/` for branch-aware quality rule prep and deployment scripts
 - `shared/tests/` for PBIP validation and DAX unit test runners
 - `shared/Rules-Dataset.json` and `shared/Rules-Report.json` for quality rule configuration
+- `shared/dax-tests.json` for metadata-driven DAX test definitions
+- `tools/` for the no-code accelerator builders, scanners, and launchpad
+- `images/` for tool screenshots used by docs and the launchpad
 
 ## Azure DevOps YAML Path
 
