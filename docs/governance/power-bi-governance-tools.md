@@ -16,8 +16,9 @@ Enterprise Power BI quality standards often fail when they live only in document
 
 - `shared/Rules-Report.json` for PBI Inspector report checks
 - `shared/Rules-Dataset.json` for Tabular Editor BPA dataset checks
+- `shared/dax-tests.json` for measure-level DAX validation scenarios consumed by the DAX test runner
 
-The result is a governance workflow that is easier to explain, easier to adopt, and easier to enforce through Git-based delivery.
+The result is a governance workflow that is easier to explain, easier to adopt, and easier to enforce through Git-based delivery across report checks, semantic model checks, and DAX test coverage.
 
 ## Tool Overview
 
@@ -26,6 +27,8 @@ Start from the central launchpad:
 ```text
 tools/index.html
 ```
+
+![Fabric BI DevOps Accelerator Launchpad](../../images/fabric-bi-devops-accelerator-launchpad.png)
 
 | Tool | Primary Audience | Use Case | Output |
 |---|---|---|---|
@@ -105,6 +108,8 @@ tools/dax-test-builder/index.html
 ```
 
 The DAX Test Builder captures measure-level validation scenarios in a structured `dax-tests.json` file. A starter catalog is available at `shared/dax-tests.json` with generally accepted DAX test patterns such as non-blank critical measures, non-negative totals, percentage ranges, reconciliation checks, time-intelligence sanity checks, and no-data slice behavior. The repository DAX runner reads this catalog, validates enabled test metadata, and emits JUnit results. Actual DAX query execution is still represented as skipped until semantic-link-labs, XMLA, or Tabular Editor scripting is wired in.
+
+![DAX Test Builder](../../images/dax-test-builder.png)
 
 The starter tests are disabled by default because every semantic model has different measure names, table names, filter contexts, and expected values. Teams should customize and enable them as part of model onboarding.
 
