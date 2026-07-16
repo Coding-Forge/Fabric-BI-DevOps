@@ -1,0 +1,1119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DAX Test Builder</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.45;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button,
+    .file-button {
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      cursor: pointer;
+      padding: 8px 12px;
+    }
+
+    button:hover,
+    .file-button:hover {
+      border-color: var(--cp-border-strong);
+    }
+
+    button.primary {
+      background: var(--cp-accent);
+      border-color: var(--cp-accent);
+      color: var(--cp-accent-fg);
+    }
+
+    button.primary:hover {
+      background: var(--cp-accent-hover);
+      border-color: var(--cp-accent-hover);
+    }
+
+    button.danger {
+      border-color: var(--cp-danger);
+      color: var(--cp-danger);
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      padding: 8px 10px;
+    }
+
+    textarea {
+      min-height: 88px;
+      resize: vertical;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      color: var(--cp-text-muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    pre,
+    code {
+      font-family: Consolas, "Courier New", Courier, monospace;
+    }
+
+    pre {
+      margin: 0;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .hero {
+      border-bottom: 1px solid var(--cp-border);
+      background: var(--cp-bg-elevated);
+      padding: 28px;
+    }
+
+    .hero-inner,
+    .main {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .hero-inner {
+      display: grid;
+      gap: 16px;
+    }
+
+    .eyebrow {
+      color: var(--cp-accent);
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.15;
+    }
+
+    h1 {
+      font-size: clamp(30px, 4vw, 46px);
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    h3 {
+      font-size: 16px;
+    }
+
+    .lede {
+      max-width: 960px;
+      color: var(--cp-text-muted);
+      font-size: 17px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .file-button {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+    }
+
+    .file-button input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+      gap: 20px;
+      padding: 24px 28px 40px;
+    }
+
+    .panel,
+    .card {
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+      box-shadow: var(--cp-shadow);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--cp-border);
+      padding: 16px;
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      padding: 12px;
+    }
+
+    .stat-value {
+      font-size: 26px;
+      font-weight: 850;
+    }
+
+    .muted,
+    .stat-label {
+      color: var(--cp-text-muted);
+    }
+
+    .muted {
+      font-size: 13px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      margin-bottom: 16px;
+      padding: 8px;
+    }
+
+    .tab {
+      border-color: var(--cp-surface-soft);
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      font-weight: 850;
+    }
+
+    .tab.active {
+      border-color: var(--cp-border);
+      background: var(--cp-surface);
+      color: var(--cp-text);
+    }
+
+    .test-list {
+      display: grid;
+      gap: 10px;
+      max-height: 680px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .test-card {
+      display: grid;
+      gap: 8px;
+      text-align: left;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+      padding: 12px;
+    }
+
+    .test-card.active {
+      border-color: var(--cp-accent);
+      background: var(--cp-accent-soft);
+    }
+
+    .test-title {
+      font-weight: 850;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      display: inline-flex;
+      border: 1px solid var(--cp-border);
+      border-radius: 999px;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 3px 8px;
+    }
+
+    .chip.success {
+      border-color: var(--cp-success);
+      color: var(--cp-success);
+    }
+
+    .chip.warning {
+      border-color: var(--cp-warning);
+      color: var(--cp-warning);
+    }
+
+    .chip.error {
+      border-color: var(--cp-danger);
+      color: var(--cp-danger);
+    }
+
+    .section {
+      display: grid;
+      gap: 14px;
+    }
+
+    .section + .section {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--cp-border);
+    }
+
+    .json-box,
+    .summary-box {
+      max-height: 620px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text);
+      padding: 14px;
+      font-size: 12px;
+    }
+
+    .summary-box {
+      font-size: 14px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+      border-bottom: 1px solid var(--cp-border);
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table th {
+      color: var(--cp-text-muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .empty {
+      border: 1px dashed var(--cp-border-strong);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      padding: 18px;
+      text-align: center;
+    }
+
+    .hidden { display: none; }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      max-width: 380px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-panel-strong);
+      color: var(--cp-text);
+      box-shadow: var(--cp-shadow);
+      padding: 12px 14px;
+      display: none;
+      z-index: 20;
+    }
+
+    .toast.visible { display: block; }
+
+    @media (max-width: 980px) {
+      .main { grid-template-columns: 1fr; }
+      .two,
+      .three,
+      .tabs { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Power BI CI/CD testing</div>
+      <h1>DAX Test Builder</h1>
+      <p class="lede">Define DAX measure test cases in a friendly UI, then export a platform-neutral `dax-tests.json` file and Markdown documentation that Azure DevOps, GitHub Actions, or GitLab CI can consume later.</p>
+      <div class="toolbar">
+        <label class="file-button">Load dax-tests.json
+          <input id="loadFile" type="file" accept=".json,application/json">
+        </label>
+        <button id="downloadJson" class="primary" type="button">Download dax-tests.json</button>
+        <button id="downloadMarkdown" type="button">Download test catalog</button>
+        <button id="seedExamples" type="button">Use starter examples</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <aside class="panel">
+      <div class="panel-header">
+        <div>
+          <h2>Test catalog</h2>
+          <div class="muted">Select a test to edit or add a new scenario.</div>
+        </div>
+      </div>
+      <div class="panel-body grid">
+        <div class="stats">
+          <div class="stat">
+            <div id="testCount" class="stat-value">0</div>
+            <div class="stat-label">Tests</div>
+          </div>
+          <div class="stat">
+            <div id="requiredCount" class="stat-value">0</div>
+            <div class="stat-label">Required</div>
+          </div>
+          <div class="stat">
+            <div id="measureCount" class="stat-value">0</div>
+            <div class="stat-label">Measures</div>
+          </div>
+          <div class="stat">
+            <div id="ownerCount" class="stat-value">0</div>
+            <div class="stat-label">Owners</div>
+          </div>
+        </div>
+        <label>Search tests
+          <input id="searchTests" type="search" placeholder="Search test, measure, owner, tag">
+        </label>
+        <div id="testList" class="test-list"></div>
+      </div>
+    </aside>
+
+    <section>
+      <nav class="tabs" aria-label="DAX test tabs">
+        <button class="tab active" data-tab="builder" type="button">Test builder</button>
+        <button class="tab" data-tab="bulk" type="button">Bulk import</button>
+        <button class="tab" data-tab="summary" type="button">Review summary</button>
+        <button class="tab" data-tab="json" type="button">JSON preview</button>
+      </nav>
+
+      <div id="builderTab" class="panel tab-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Guided DAX test case</h2>
+            <div class="muted">Capture intent, filter context, expected result, tolerance, and CI behavior.</div>
+          </div>
+          <div class="toolbar">
+            <button id="newTest" type="button">New test</button>
+            <button id="deleteTest" class="danger" type="button">Delete selected</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="section">
+            <div class="grid three">
+              <label>Test ID
+                <input id="testId" type="text" placeholder="TOTAL_SALES_CURRENT_YEAR">
+              </label>
+              <label>Name
+                <input id="testName" type="text" placeholder="Total Sales matches current-year baseline">
+              </label>
+              <label>Status
+                <select id="testEnabled">
+                  <option value="true">enabled</option>
+                  <option value="false">disabled</option>
+                </select>
+              </label>
+            </div>
+            <div class="grid three">
+              <label>Measure
+                <input id="measureName" type="text" placeholder="[Total Sales]">
+              </label>
+              <label>Table
+                <input id="tableName" type="text" placeholder="Sales Measures">
+              </label>
+              <label>Owner
+                <input id="owner" type="text" placeholder="BI Developer or team">
+              </label>
+            </div>
+            <label>Business scenario
+              <textarea id="scenario" placeholder="Explain the business case this test protects."></textarea>
+            </label>
+          </div>
+
+          <div class="section">
+            <div class="grid three">
+              <label>Assertion
+                <select id="assertion">
+                  <option value="equals">equals</option>
+                  <option value="notBlank">is not blank</option>
+                  <option value="blank">is blank</option>
+                  <option value="greaterThan">greater than</option>
+                  <option value="greaterThanOrEqual">greater than or equal</option>
+                  <option value="lessThan">less than</option>
+                  <option value="lessThanOrEqual">less than or equal</option>
+                  <option value="between">between</option>
+                </select>
+              </label>
+              <label>Expected value
+                <input id="expectedValue" type="text" placeholder="1000000">
+              </label>
+              <label>Upper expected value
+                <input id="expectedMax" type="text" placeholder="Only for between">
+              </label>
+            </div>
+            <div class="grid three">
+              <label>Tolerance
+                <input id="tolerance" type="number" step="0.0001" value="0">
+              </label>
+              <label>Tolerance type
+                <select id="toleranceType">
+                  <option value="absolute">absolute</option>
+                  <option value="percent">percent</option>
+                </select>
+              </label>
+              <label>Severity
+                <select id="severity">
+                  <option value="warning">warning</option>
+                  <option value="error">error</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="grid two">
+              <label>Filter context
+                <textarea id="filterContext" placeholder="One per line. Example: Calendar[Year]=2026"></textarea>
+              </label>
+              <label>Tags
+                <textarea id="tags" placeholder="One per line. Example: finance"></textarea>
+              </label>
+            </div>
+            <label>Generated DAX query preview
+              <textarea id="daxQuery" placeholder="Generated from measure and filters. Advanced users may override."></textarea>
+            </label>
+          </div>
+
+          <div class="section">
+            <div class="toolbar">
+              <button id="saveTest" class="primary" type="button">Add or update test</button>
+              <button id="copyTest" type="button">Copy selected JSON</button>
+            </div>
+            <div class="summary-box">This builder captures DAX test metadata. The current repository test runner is still a lightweight placeholder; this JSON establishes the contract for wiring real measure evaluation through semantic-link-labs, XMLA, or Tabular Editor scripting.</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="bulkTab" class="panel tab-panel hidden">
+        <div class="panel-header">
+          <div>
+            <h2>Bulk import</h2>
+            <div class="muted">Paste CSV rows to create many test shells at once.</div>
+          </div>
+        </div>
+        <div class="panel-body grid">
+          <label>CSV input
+            <textarea id="bulkCsv" placeholder="id,name,measure,table,expected,owner&#10;TOTAL_SALES,Total Sales baseline,[Total Sales],Sales Measures,1000000,Finance BI"></textarea>
+          </label>
+          <div class="toolbar">
+            <button id="importCsv" class="primary" type="button">Import CSV rows</button>
+          </div>
+          <div class="summary-box">CSV columns: `id`, `name`, `measure`, `table`, `expected`, `owner`. Imported tests use an equals assertion and can be edited after import.</div>
+        </div>
+      </div>
+
+      <div id="summaryTab" class="panel tab-panel hidden">
+        <div class="panel-header">
+          <div>
+            <h2>Review summary</h2>
+            <div class="muted">Use this catalog in PR descriptions, documentation, or governance reviews.</div>
+          </div>
+        </div>
+        <div class="panel-body grid">
+          <div id="summaryHtml" class="summary-box"></div>
+          <pre id="summaryMarkdown" class="json-box"></pre>
+        </div>
+      </div>
+
+      <div id="jsonTab" class="panel tab-panel hidden">
+        <div class="panel-header">
+          <div>
+            <h2>dax-tests.json preview</h2>
+            <div class="muted">Commit this file under `shared/` once the runner is wired to consume it.</div>
+          </div>
+          <button id="copyAllJson" type="button">Copy JSON</button>
+        </div>
+        <div class="panel-body">
+          <pre id="jsonPreview" class="json-box"></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>
+    const state = {
+      selectedId: "",
+      suite: {
+        version: 1,
+        name: "Power BI DAX Test Suite",
+        description: "Measure-level DAX test metadata for PBIP CI/CD validation.",
+        evaluator: "semantic-link-labs-or-tabular-editor",
+        tests: []
+      }
+    };
+
+    const els = {
+      loadFile: document.getElementById("loadFile"),
+      downloadJson: document.getElementById("downloadJson"),
+      downloadMarkdown: document.getElementById("downloadMarkdown"),
+      seedExamples: document.getElementById("seedExamples"),
+      testCount: document.getElementById("testCount"),
+      requiredCount: document.getElementById("requiredCount"),
+      measureCount: document.getElementById("measureCount"),
+      ownerCount: document.getElementById("ownerCount"),
+      searchTests: document.getElementById("searchTests"),
+      testList: document.getElementById("testList"),
+      newTest: document.getElementById("newTest"),
+      deleteTest: document.getElementById("deleteTest"),
+      testId: document.getElementById("testId"),
+      testName: document.getElementById("testName"),
+      testEnabled: document.getElementById("testEnabled"),
+      measureName: document.getElementById("measureName"),
+      tableName: document.getElementById("tableName"),
+      owner: document.getElementById("owner"),
+      scenario: document.getElementById("scenario"),
+      assertion: document.getElementById("assertion"),
+      expectedValue: document.getElementById("expectedValue"),
+      expectedMax: document.getElementById("expectedMax"),
+      tolerance: document.getElementById("tolerance"),
+      toleranceType: document.getElementById("toleranceType"),
+      severity: document.getElementById("severity"),
+      filterContext: document.getElementById("filterContext"),
+      tags: document.getElementById("tags"),
+      daxQuery: document.getElementById("daxQuery"),
+      saveTest: document.getElementById("saveTest"),
+      copyTest: document.getElementById("copyTest"),
+      bulkCsv: document.getElementById("bulkCsv"),
+      importCsv: document.getElementById("importCsv"),
+      summaryHtml: document.getElementById("summaryHtml"),
+      summaryMarkdown: document.getElementById("summaryMarkdown"),
+      jsonPreview: document.getElementById("jsonPreview"),
+      copyAllJson: document.getElementById("copyAllJson"),
+      toast: document.getElementById("toast")
+    };
+
+    function seedExamples() {
+      state.suite.tests = [
+        {
+          id: "TOTAL_SALES_CURRENT_YEAR",
+          name: "Total Sales current-year baseline",
+          enabled: true,
+          severity: "error",
+          owner: "Finance BI",
+          measure: { table: "Sales Measures", name: "[Total Sales]" },
+          scenario: "Protects executive revenue reporting by validating the current-year sales baseline.",
+          filterContext: ["Calendar[Year]=2026"],
+          assertion: { type: "greaterThanOrEqual", expected: 1000000, tolerance: { value: 0, type: "absolute" } },
+          tags: ["finance", "executive", "baseline"],
+          query: "EVALUATE ROW(\"Actual\", CALCULATE([Total Sales], Calendar[Year] = 2026))"
+        },
+        {
+          id: "MARGIN_PERCENT_VALID_RANGE",
+          name: "Margin percent stays in valid range",
+          enabled: true,
+          severity: "warning",
+          owner: "Sales Analytics",
+          measure: { table: "Sales Measures", name: "[Margin %]" },
+          scenario: "Ensures a ratio measure remains within a valid percentage range.",
+          filterContext: ["Calendar[Year]=2026"],
+          assertion: { type: "between", expected: 0, expectedMax: 1, tolerance: { value: 0, type: "absolute" } },
+          tags: ["sales", "quality", "ratio"],
+          query: "EVALUATE ROW(\"Actual\", CALCULATE([Margin %], Calendar[Year] = 2026))"
+        }
+      ];
+      state.selectedId = state.suite.tests[0].id;
+      fillForm(state.suite.tests[0]);
+      render();
+      toast("Starter DAX tests loaded.");
+    }
+
+    function render() {
+      renderList();
+      renderStats();
+      renderSummary();
+      els.jsonPreview.textContent = pretty(state.suite);
+    }
+
+    function renderList() {
+      const query = els.searchTests.value.trim().toLowerCase();
+      const tests = state.suite.tests.filter(test => {
+        const text = `${test.id} ${test.name} ${test.measure?.name} ${test.measure?.table} ${test.owner} ${(test.tags || []).join(" ")}`;
+        return !query || text.toLowerCase().includes(query);
+      });
+      if (!tests.length) {
+        els.testList.innerHTML = `<div class="empty">No tests yet. Add a test, import CSV rows, or load starter examples.</div>`;
+        return;
+      }
+      els.testList.innerHTML = tests.map(test => `
+        <button class="test-card ${state.selectedId === test.id ? "active" : ""}" type="button" data-id="${escapeHtml(test.id)}">
+          <span class="test-title">${escapeHtml(test.name || test.id)}</span>
+          <span class="muted">${escapeHtml(test.measure?.name || "")} ${test.filterContext?.length ? "with filters" : ""}</span>
+          <span class="chip-row">
+            <span class="chip ${test.enabled ? "success" : "warning"}">${test.enabled ? "enabled" : "disabled"}</span>
+            <span class="chip ${test.severity === "error" ? "error" : "warning"}">${escapeHtml(test.severity || "warning")}</span>
+            <span class="chip">${escapeHtml(test.assertion?.type || "equals")}</span>
+          </span>
+        </button>
+      `).join("");
+    }
+
+    function renderStats() {
+      const enabled = state.suite.tests.filter(test => test.enabled);
+      const measures = new Set(state.suite.tests.map(test => test.measure?.name).filter(Boolean));
+      const owners = new Set(state.suite.tests.map(test => test.owner).filter(Boolean));
+      els.testCount.textContent = String(state.suite.tests.length);
+      els.requiredCount.textContent = String(enabled.filter(test => test.severity === "error").length);
+      els.measureCount.textContent = String(measures.size);
+      els.ownerCount.textContent = String(owners.size);
+    }
+
+    function renderSummary() {
+      const markdown = buildMarkdown();
+      els.summaryMarkdown.textContent = markdown;
+      const rows = state.suite.tests.map(test => `
+        <tr>
+          <td>${escapeHtml(test.id)}</td>
+          <td>${escapeHtml(test.measure?.name || "")}</td>
+          <td>${escapeHtml(test.assertion?.type || "")}</td>
+          <td>${escapeHtml(test.enabled ? test.severity : "disabled")}</td>
+          <td>${escapeHtml(test.owner || "")}</td>
+        </tr>
+      `).join("");
+      els.summaryHtml.innerHTML = `
+        <h3>${escapeHtml(state.suite.name)}</h3>
+        <p>${escapeHtml(state.suite.description)}</p>
+        <table class="table">
+          <thead><tr><th>ID</th><th>Measure</th><th>Assertion</th><th>Status</th><th>Owner</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    }
+
+    function fillForm(test) {
+      els.testId.value = test.id || "";
+      els.testName.value = test.name || "";
+      els.testEnabled.value = String(test.enabled !== false);
+      els.measureName.value = test.measure?.name || "";
+      els.tableName.value = test.measure?.table || "";
+      els.owner.value = test.owner || "";
+      els.scenario.value = test.scenario || "";
+      els.assertion.value = test.assertion?.type || "equals";
+      els.expectedValue.value = test.assertion?.expected ?? "";
+      els.expectedMax.value = test.assertion?.expectedMax ?? "";
+      els.tolerance.value = test.assertion?.tolerance?.value ?? 0;
+      els.toleranceType.value = test.assertion?.tolerance?.type || "absolute";
+      els.severity.value = test.severity || "warning";
+      els.filterContext.value = (test.filterContext || []).join("\n");
+      els.tags.value = (test.tags || []).join("\n");
+      els.daxQuery.value = test.query || generateDaxQuery(test.measure?.name || "", test.filterContext || []);
+    }
+
+    function clearForm() {
+      const test = {
+        id: "NEW_DAX_TEST",
+        name: "New DAX test",
+        enabled: true,
+        severity: "warning",
+        owner: "",
+        measure: { table: "", name: "" },
+        scenario: "",
+        filterContext: [],
+        assertion: { type: "equals", expected: "", tolerance: { value: 0, type: "absolute" } },
+        tags: [],
+        query: ""
+      };
+      state.selectedId = "";
+      fillForm(test);
+    }
+
+    function readForm() {
+      const filters = lines(els.filterContext.value);
+      const measure = els.measureName.value.trim();
+      const assertion = {
+        type: els.assertion.value,
+        expected: parseExpected(els.expectedValue.value),
+        tolerance: {
+          value: Number(els.tolerance.value || 0),
+          type: els.toleranceType.value
+        }
+      };
+      if (els.expectedMax.value.trim()) {
+        assertion.expectedMax = parseExpected(els.expectedMax.value);
+      }
+      return {
+        id: slug(els.testId.value || els.testName.value || measure),
+        name: els.testName.value.trim() || els.testId.value.trim(),
+        enabled: els.testEnabled.value === "true",
+        severity: els.severity.value,
+        owner: els.owner.value.trim(),
+        measure: {
+          table: els.tableName.value.trim(),
+          name: measure
+        },
+        scenario: els.scenario.value.trim(),
+        filterContext: filters,
+        assertion,
+        tags: lines(els.tags.value),
+        query: els.daxQuery.value.trim() || generateDaxQuery(measure, filters)
+      };
+    }
+
+    function saveTest() {
+      const test = readForm();
+      const existingIndex = state.suite.tests.findIndex(item => item.id === test.id);
+      if (existingIndex >= 0) {
+        state.suite.tests.splice(existingIndex, 1, test);
+      } else {
+        state.suite.tests.push(test);
+      }
+      state.selectedId = test.id;
+      render();
+      toast("DAX test updated in memory. Download JSON to save it.");
+    }
+
+    function deleteTest() {
+      if (!state.selectedId) {
+        toast("Select a test before deleting.");
+        return;
+      }
+      state.suite.tests = state.suite.tests.filter(test => test.id !== state.selectedId);
+      state.selectedId = "";
+      clearForm();
+      render();
+      toast("DAX test deleted in memory. Download JSON to save it.");
+    }
+
+    function importCsv() {
+      const rows = els.bulkCsv.value.trim().split(/\r?\n/).filter(Boolean);
+      if (rows.length < 2) {
+        toast("Paste a header row and at least one data row.");
+        return;
+      }
+      const headers = splitCsv(rows[0]).map(header => header.trim().toLowerCase());
+      for (const row of rows.slice(1)) {
+        const values = splitCsv(row);
+        const record = Object.fromEntries(headers.map((header, index) => [header, values[index] || ""]));
+        const test = {
+          id: slug(record.id || record.name || record.measure),
+          name: record.name || record.id || "Imported DAX test",
+          enabled: true,
+          severity: "warning",
+          owner: record.owner || "",
+          measure: { table: record.table || "", name: record.measure || "" },
+          scenario: "Imported from CSV.",
+          filterContext: [],
+          assertion: { type: "equals", expected: parseExpected(record.expected), tolerance: { value: 0, type: "absolute" } },
+          tags: ["imported"],
+          query: generateDaxQuery(record.measure || "", [])
+        };
+        const index = state.suite.tests.findIndex(item => item.id === test.id);
+        if (index >= 0) state.suite.tests.splice(index, 1, test);
+        else state.suite.tests.push(test);
+      }
+      render();
+      toast("CSV rows imported.");
+    }
+
+    function splitCsv(row) {
+      const values = [];
+      let current = "";
+      let quoted = false;
+      for (let index = 0; index < row.length; index += 1) {
+        const char = row[index];
+        if (char === '"') {
+          quoted = !quoted;
+        } else if (char === "," && !quoted) {
+          values.push(current.trim());
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+      values.push(current.trim());
+      return values;
+    }
+
+    function generateDaxQuery(measure, filters) {
+      if (!measure) return "";
+      const filterText = filters.length ? `, ${filters.map(filterToDax).join(", ")}` : "";
+      return `EVALUATE ROW("Actual", CALCULATE(${measure}${filterText}))`;
+    }
+
+    function filterToDax(filter) {
+      const [left, ...rest] = String(filter).split("=");
+      const right = rest.join("=").trim();
+      if (!right) return filter;
+      if (/^-?\d+(\.\d+)?$/.test(right) || right === "TRUE" || right === "FALSE") {
+        return `${left.trim()} = ${right}`;
+      }
+      return `${left.trim()} = "${right.replaceAll('"', '\\"')}"`;
+    }
+
+    function parseExpected(value) {
+      const trimmed = String(value || "").trim();
+      if (trimmed === "") return "";
+      if (/^-?\d+(\.\d+)?$/.test(trimmed)) return Number(trimmed);
+      if (trimmed.toLowerCase() === "true") return true;
+      if (trimmed.toLowerCase() === "false") return false;
+      return trimmed;
+    }
+
+    function lines(value) {
+      return String(value || "").split(/\r?\n/).map(item => item.trim()).filter(Boolean);
+    }
+
+    function slug(value) {
+      return String(value || "DAX_TEST")
+        .trim()
+        .replace(/[^a-zA-Z0-9]+/g, "_")
+        .replace(/^_+|_+$/g, "")
+        .toUpperCase() || "DAX_TEST";
+    }
+
+    function pretty(value) {
+      return JSON.stringify(value, null, 2);
+    }
+
+    function buildMarkdown() {
+      const linesOut = [
+        `# ${state.suite.name}`,
+        "",
+        state.suite.description,
+        "",
+        `Total tests: ${state.suite.tests.length}`,
+        "",
+        "| Test ID | Measure | Assertion | Severity | Owner |",
+        "|---|---|---|---|---|",
+        ...state.suite.tests.map(test => `| ${test.id} | ${test.measure?.name || ""} | ${test.assertion?.type || ""} | ${test.enabled ? test.severity : "disabled"} | ${test.owner || ""} |`),
+        "",
+        "## Notes",
+        "",
+        "- Commit the exported `dax-tests.json` under `shared/` when ready.",
+        "- The current test runner must be extended to evaluate these metadata-driven tests.",
+        "- Use semantic-link-labs, XMLA, or Tabular Editor scripting to execute the generated DAX queries."
+      ];
+      return linesOut.join("\n");
+    }
+
+    function downloadJson(filename, value) {
+      downloadBlob(filename, new Blob([pretty(value)], { type: "application/json" }));
+    }
+
+    function downloadText(filename, value) {
+      downloadBlob(filename, new Blob([value], { type: "text/markdown" }));
+    }
+
+    function downloadBlob(filename, blob) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function copyText(value) {
+      await navigator.clipboard.writeText(value);
+      toast("Copied to clipboard.");
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function toast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("visible");
+      window.clearTimeout(toast.timer);
+      toast.timer = window.setTimeout(() => els.toast.classList.remove("visible"), 2800);
+    }
+
+    function activateTab(tab) {
+      document.querySelectorAll(".tab").forEach(button => button.classList.toggle("active", button.dataset.tab === tab));
+      document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.add("hidden"));
+      document.getElementById(`${tab}Tab`).classList.remove("hidden");
+      render();
+    }
+
+    els.testList.addEventListener("click", event => {
+      const card = event.target.closest(".test-card");
+      if (!card) return;
+      const test = state.suite.tests.find(item => item.id === card.dataset.id);
+      if (!test) return;
+      state.selectedId = test.id;
+      fillForm(test);
+      render();
+    });
+    els.searchTests.addEventListener("input", renderList);
+    els.newTest.addEventListener("click", clearForm);
+    els.deleteTest.addEventListener("click", deleteTest);
+    els.saveTest.addEventListener("click", saveTest);
+    els.copyTest.addEventListener("click", () => {
+      const test = state.suite.tests.find(item => item.id === state.selectedId);
+      if (!test) {
+        toast("Select a test first.");
+        return;
+      }
+      copyText(pretty(test));
+    });
+    els.copyAllJson.addEventListener("click", () => copyText(pretty(state.suite)));
+    els.downloadJson.addEventListener("click", () => downloadJson("dax-tests.json", state.suite));
+    els.downloadMarkdown.addEventListener("click", () => downloadText("DAX-Test-Catalog.md", buildMarkdown()));
+    els.seedExamples.addEventListener("click", seedExamples);
+    els.importCsv.addEventListener("click", importCsv);
+    els.loadFile.addEventListener("change", async event => {
+      const file = event.target.files[0];
+      if (!file) return;
+      try {
+        const parsed = JSON.parse(await file.text());
+        state.suite = { version: 1, name: "Power BI DAX Test Suite", description: "", evaluator: "", tests: [], ...parsed };
+        state.suite.tests = Array.isArray(state.suite.tests) ? state.suite.tests : [];
+        state.selectedId = state.suite.tests[0]?.id || "";
+        if (state.suite.tests[0]) fillForm(state.suite.tests[0]);
+        render();
+        toast(`Loaded ${file.name}`);
+      } catch (error) {
+        toast(error.message);
+      }
+    });
+    ["measureName", "filterContext"].forEach(id => {
+      document.getElementById(id).addEventListener("input", () => {
+        if (!els.daxQuery.value.trim()) {
+          els.daxQuery.value = generateDaxQuery(els.measureName.value.trim(), lines(els.filterContext.value));
+        }
+      });
+    });
+    document.querySelectorAll(".tab").forEach(button => button.addEventListener("click", () => activateTab(button.dataset.tab)));
+
+    clearForm();
+    render();
+  </script>
+</body>
+</html>

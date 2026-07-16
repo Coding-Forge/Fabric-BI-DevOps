@@ -14,10 +14,31 @@ In this repo, rules are automatically applied in `azure-pipelines.yml` during th
 
 ## Quick Start
 
-1. Copy an existing rule and modify it instead of starting from scratch.
-2. Keep each rule focused on one concern.
-3. Start as non-blocking (`warning` / lower severity), then promote after cleanup.
-4. Validate changes in a branch before promoting strictness on `main`.
+1. For enterprise policy setup, open `tools/enterprise-standards-builder/index.html` and choose the standards profile to generate rule JSON.
+2. For individual rule editing, open `tools/rule-designer/index.html` and load the existing rule JSON files.
+3. Copy an existing rule or use a designer template instead of starting from scratch.
+4. Keep each rule focused on one concern.
+5. Start as non-blocking (`warning` / lower severity), then promote after cleanup.
+6. Validate changes in a branch before promoting strictness on `main`.
+
+## No-Code Governance Tools
+
+This repository includes two static HTML tools under `tools/`.
+
+| Tool | Best For | When to Use |
+|---|---|---|
+| `tools/enterprise-standards-builder/index.html` | BI leads, governance owners, report creators | Start here when defining enterprise settings, guides, and policies. It generates `Rules-Report.json`, `Rules-Dataset.json`, a reusable policy profile, and a review summary. |
+| `tools/rule-designer/index.html` | Platform team and advanced BI developers | Use this when tuning a specific rule, creating a custom PBI Inspector report rule, or creating a custom Tabular Editor BPA dataset rule. |
+
+For screenshots, demo flow, and positioning language, see [Enterprise Power BI Governance Tools](governance/power-bi-governance-tools.md).
+
+Recommended governance workflow:
+
+1. Use the Enterprise Standards Builder to select the policy posture: advisory, standard, or strict.
+2. Download the generated report and dataset rule files.
+3. Review the generated JSON in a branch.
+4. Use the Quality Rule Designer only for advanced customizations or exceptions.
+5. Commit the final `Rules-Report.json` and `Rules-Dataset.json` under `shared/`.
 
 ## Dataset Rules (`Rules-Dataset.json`)
 

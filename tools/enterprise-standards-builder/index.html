@@ -1,0 +1,1365 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enterprise Power BI Standards Builder</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.45;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button,
+    .file-button {
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      cursor: pointer;
+      padding: 8px 12px;
+    }
+
+    button:hover,
+    .file-button:hover {
+      border-color: var(--cp-border-strong);
+    }
+
+    button.primary {
+      background: var(--cp-accent);
+      border-color: var(--cp-accent);
+      color: var(--cp-accent-fg);
+    }
+
+    button.primary:hover {
+      background: var(--cp-accent-hover);
+      border-color: var(--cp-accent-hover);
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      padding: 8px 10px;
+    }
+
+    input[type="checkbox"] {
+      width: auto;
+      accent-color: var(--cp-accent);
+    }
+
+    textarea {
+      min-height: 84px;
+      resize: vertical;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      color: var(--cp-text-muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    pre,
+    code {
+      font-family: Consolas, "Courier New", Courier, monospace;
+    }
+
+    pre {
+      margin: 0;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .hero {
+      border-bottom: 1px solid var(--cp-border);
+      background: var(--cp-bg-elevated);
+      padding: 28px;
+    }
+
+    .hero-inner,
+    .main {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .hero-inner {
+      display: grid;
+      gap: 16px;
+    }
+
+    .eyebrow {
+      color: var(--cp-accent);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.15;
+    }
+
+    h1 {
+      font-size: clamp(30px, 4vw, 46px);
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    h3 {
+      font-size: 16px;
+    }
+
+    .lede {
+      max-width: 920px;
+      color: var(--cp-text-muted);
+      font-size: 17px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .file-button {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+    }
+
+    .file-button input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+      gap: 20px;
+      padding: 24px 28px 40px;
+    }
+
+    .panel,
+    .card {
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+      box-shadow: var(--cp-shadow);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      border-bottom: 1px solid var(--cp-border);
+      padding: 16px;
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      padding: 12px;
+    }
+
+    .stat-value {
+      font-size: 26px;
+      font-weight: 850;
+    }
+
+    .muted,
+    .stat-label {
+      color: var(--cp-text-muted);
+    }
+
+    .muted {
+      font-size: 13px;
+    }
+
+    .profile-card {
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      padding: 12px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      margin-bottom: 16px;
+      padding: 8px;
+    }
+
+    .tab {
+      border-color: var(--cp-surface-soft);
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      font-weight: 800;
+    }
+
+    .tab.active {
+      border-color: var(--cp-border);
+      background: var(--cp-surface);
+      color: var(--cp-text);
+    }
+
+    .section {
+      display: grid;
+      gap: 14px;
+    }
+
+    .section + .section {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--cp-border);
+    }
+
+    .policy-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .policy {
+      display: grid;
+      gap: 12px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+      padding: 14px;
+    }
+
+    .policy-top {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 10px;
+    }
+
+    .policy-title {
+      font-weight: 850;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      display: inline-flex;
+      border: 1px solid var(--cp-border);
+      border-radius: 999px;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 3px 8px;
+    }
+
+    .chip.success {
+      border-color: var(--cp-success);
+      color: var(--cp-success);
+    }
+
+    .chip.warning {
+      border-color: var(--cp-warning);
+      color: var(--cp-warning);
+    }
+
+    .chip.error {
+      border-color: var(--cp-danger);
+      color: var(--cp-danger);
+    }
+
+    .json-box,
+    .summary-box {
+      max-height: 620px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text);
+      padding: 14px;
+      font-size: 12px;
+    }
+
+    .summary-box {
+      font-size: 14px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+      border-bottom: 1px solid var(--cp-border);
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table th {
+      color: var(--cp-text-muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      max-width: 380px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-panel-strong);
+      color: var(--cp-text);
+      box-shadow: var(--cp-shadow);
+      padding: 12px 14px;
+      display: none;
+      z-index: 20;
+    }
+
+    .toast.visible {
+      display: block;
+    }
+
+    @media (max-width: 980px) {
+      .main {
+        grid-template-columns: 1fr;
+      }
+
+      .two,
+      .three,
+      .tabs {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Enterprise Power BI governance</div>
+      <h1>Enterprise Standards Builder</h1>
+      <p class="lede">Turn policy decisions into pipeline-ready Power BI quality rules. Choose a profile, adjust the controls, merge with existing rules, then download updated `Rules-Report.json`, `Rules-Dataset.json`, and an auditable policy profile.</p>
+      <div class="toolbar">
+        <label class="file-button">Load existing Rules-Report.json
+          <input id="reportFile" type="file" accept=".json,application/json">
+        </label>
+        <label class="file-button">Load existing Rules-Dataset.json
+          <input id="datasetFile" type="file" accept=".json,application/json">
+        </label>
+        <label class="file-button">Load policy profile
+          <input id="profileFile" type="file" accept=".json,application/json">
+        </label>
+        <button id="downloadReport" class="primary" type="button">Download report rules</button>
+        <button id="downloadDataset" type="button">Download dataset rules</button>
+        <button id="downloadProfile" type="button">Download policy profile</button>
+        <button id="downloadSummary" type="button">Download summary</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <aside class="panel">
+      <div class="panel-header">
+        <div>
+          <h2>Policy profile</h2>
+          <div class="muted">Set the enterprise posture first, then tune exceptions.</div>
+        </div>
+      </div>
+      <div class="panel-body grid">
+        <label>Profile
+          <select id="profileSelect">
+            <option value="advisory">Advisory adoption</option>
+            <option value="standard" selected>Enterprise standard</option>
+            <option value="strict">Strict enterprise gate</option>
+            <option value="custom">Custom</option>
+          </select>
+        </label>
+        <div id="profileDescription" class="profile-card"></div>
+        <label>Policy set name
+          <input id="policyName" type="text" value="Enterprise Power BI Standard">
+        </label>
+        <label>Owner / approver
+          <input id="policyOwner" type="text" value="BI Governance Team">
+        </label>
+        <label>Notes for reviewers
+          <textarea id="policyNotes">Rules generated by the Enterprise Standards Builder. Review generated JSON before committing.</textarea>
+        </label>
+        <div class="stats">
+          <div class="stat">
+            <div id="reportRuleCount" class="stat-value">0</div>
+            <div class="stat-label">Report rules</div>
+          </div>
+          <div class="stat">
+            <div id="datasetRuleCount" class="stat-value">0</div>
+            <div class="stat-label">Dataset rules</div>
+          </div>
+          <div class="stat">
+            <div id="enabledPolicyCount" class="stat-value">0</div>
+            <div class="stat-label">Enabled policies</div>
+          </div>
+          <div class="stat">
+            <div id="customRuleCount" class="stat-value">0</div>
+            <div class="stat-label">Preserved custom</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <section>
+      <nav class="tabs" aria-label="Standards tabs">
+        <button class="tab active" data-tab="policies" type="button">Policy controls</button>
+        <button class="tab" data-tab="summary" type="button">Review summary</button>
+        <button class="tab" data-tab="report" type="button">Report JSON</button>
+        <button class="tab" data-tab="dataset" type="button">Dataset JSON</button>
+      </nav>
+
+      <div id="policiesTab" class="panel tab-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Enterprise policy controls</h2>
+            <div class="muted">These controls generate the underlying PBI Inspector and Tabular Editor BPA rules.</div>
+          </div>
+          <div class="toolbar">
+            <button id="enableAll" type="button">Enable all</button>
+            <button id="disableAll" type="button">Disable all</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="policyList" class="policy-list"></div>
+        </div>
+      </div>
+
+      <div id="summaryTab" class="panel tab-panel hidden">
+        <div class="panel-header">
+          <div>
+            <h2>Review summary</h2>
+            <div class="muted">Use this summary in PR descriptions, governance reviews, or workshop handouts.</div>
+          </div>
+        </div>
+        <div class="panel-body grid">
+          <div id="summaryHtml" class="summary-box"></div>
+          <pre id="summaryMarkdown" class="json-box"></pre>
+        </div>
+      </div>
+
+      <div id="reportTab" class="panel tab-panel hidden">
+        <div class="panel-header">
+          <div>
+            <h2>Generated Rules-Report.json</h2>
+            <div class="muted">Existing custom report rules are preserved unless they share a managed enterprise rule ID.</div>
+          </div>
+          <button id="copyReport" type="button">Copy JSON</button>
+        </div>
+        <div class="panel-body">
+          <pre id="reportJson" class="json-box"></pre>
+        </div>
+      </div>
+
+      <div id="datasetTab" class="panel tab-panel hidden">
+        <div class="panel-header">
+          <div>
+            <h2>Generated Rules-Dataset.json</h2>
+            <div class="muted">Existing custom dataset BPA rules are preserved unless they share a managed enterprise rule ID.</div>
+          </div>
+          <button id="copyDataset" type="button">Copy JSON</button>
+        </div>
+        <div class="panel-body">
+          <pre id="datasetJson" class="json-box"></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>
+    const profileDefaults = {
+      advisory: {
+        label: "Advisory adoption",
+        description: "Best for new teams. Most standards are warnings or severity 1 so users see guidance before gates become blocking.",
+        reportLogType: "warning",
+        datasetSeverity: 1,
+        defaults: {
+          maxPages: 8,
+          maxVisuals: 14,
+          maxAdvancedFilters: 3,
+          maxCanvasHeight: 2160,
+          blockLocalMeasures: false,
+          markPrimaryKeys: false
+        }
+      },
+      standard: {
+        label: "Enterprise standard",
+        description: "Recommended default. Usability and semantic model standards are enforced on protected branches while feature work remains flexible.",
+        reportLogType: "warning",
+        datasetSeverity: 2,
+        defaults: {
+          maxPages: 6,
+          maxVisuals: 12,
+          maxAdvancedFilters: 2,
+          maxCanvasHeight: 2160,
+          blockLocalMeasures: false,
+          markPrimaryKeys: true
+        }
+      },
+      strict: {
+        label: "Strict enterprise gate",
+        description: "Best for mature certified datasets and production report factories. Rules are more likely to block pull requests earlier.",
+        reportLogType: "error",
+        datasetSeverity: 3,
+        defaults: {
+          maxPages: 5,
+          maxVisuals: 10,
+          maxAdvancedFilters: 1,
+          maxCanvasHeight: 2160,
+          blockLocalMeasures: true,
+          markPrimaryKeys: true
+        }
+      },
+      custom: {
+        label: "Custom",
+        description: "Manual policy tuning. Existing values are preserved when switching into this mode.",
+        reportLogType: "warning",
+        datasetSeverity: 2,
+        defaults: {}
+      }
+    };
+
+    const policyDefinitions = [
+      {
+        id: "reportStructure",
+        title: "Keep reports concise and navigable",
+        area: "Report usability",
+        engine: "Report",
+        description: "Limits report page count so users can find content quickly.",
+        ruleIds: ["REDUCE_PAGES"],
+        controls: [{ key: "maxPages", label: "Maximum report pages", type: "number", value: 6 }]
+      },
+      {
+        id: "visualDensity",
+        title: "Limit visible visuals per page",
+        area: "Report usability",
+        engine: "Report",
+        description: "Keeps report pages readable and responsive by limiting visible, non-helper visuals.",
+        ruleIds: ["REDUCE_VISUALS_ON_PAGE"],
+        controls: [
+          { key: "maxVisuals", label: "Maximum visible visuals per page", type: "number", value: 12 },
+          { key: "ignoredVisualTypes", label: "Ignored visual types", type: "text", value: "shape,slicer,actionButton,textbox" }
+        ]
+      },
+      {
+        id: "advancedFilters",
+        title: "Limit advanced filters",
+        area: "Report usability",
+        engine: "Report",
+        description: "Encourages intentional filtering patterns and avoids confusing filter-heavy pages.",
+        ruleIds: ["REDUCE_ADVANCED_FILTERS"],
+        controls: [{ key: "maxAdvancedFilters", label: "Maximum advanced filters per page", type: "number", value: 2 }]
+      },
+      {
+        id: "themeColors",
+        title: "Use enterprise theme colors",
+        area: "Visual standards",
+        engine: "Report",
+        description: "Flags hard-coded colors so reports stay aligned with the approved theme.",
+        ruleIds: ["ENSURE_THEME_COLOURS"],
+        controls: [{ key: "themeIgnoredTypes", label: "Ignored visual types", type: "text", value: "textbox" }]
+      },
+      {
+        id: "canvasHeight",
+        title: "Prevent vertical page scrolling",
+        area: "Visual standards",
+        engine: "Report",
+        description: "Keeps visible report pages within the supported enterprise canvas height.",
+        ruleIds: ["ENSURE_PAGES_DO_NOT_SCROLL_VERTICALLY"],
+        controls: [{ key: "maxCanvasHeight", label: "Maximum visible page height", type: "number", value: 2160 }]
+      },
+      {
+        id: "axisTitles",
+        title: "Require chart axis titles",
+        area: "Visual standards",
+        engine: "Report",
+        description: "Helps comparison charts remain understandable outside the original authoring context.",
+        ruleIds: ["SHOW_AXES_TITLES"],
+        controls: [{ key: "axisVisualTypes", label: "Checked visual types", type: "text", value: "lineChart,barChart,columnChart,clusteredBarChart,stackedBarChart,clusteredColumnChart" }]
+      },
+      {
+        id: "pageNames",
+        title: "Require meaningful page names",
+        area: "Visual standards",
+        engine: "Report",
+        description: "Blocks default visible page names such as Page 1 or Page 2.",
+        ruleIds: ["GIVE_VISIBLE_PAGES_MEANINGFUL_NAMES"],
+        controls: [{ key: "pageNamePattern", label: "Disallowed page-name pattern", type: "text", value: "^Page [1-9]+$" }]
+      },
+      {
+        id: "localMeasures",
+        title: "Discourage report-level local measures",
+        area: "Semantic model ownership",
+        engine: "Report",
+        description: "Keeps measures in the semantic model unless an exception is approved.",
+        ruleIds: ["CHECK_FOR_LOCAL_MEASURES"],
+        controls: []
+      },
+      {
+        id: "autoDate",
+        title: "Remove auto-date tables",
+        area: "Semantic model quality",
+        engine: "Dataset",
+        description: "Prevents hidden auto-date tables from increasing model size and complexity.",
+        ruleIds: ["REMOVE_AUTO-DATE_TABLE"],
+        controls: []
+      },
+      {
+        id: "sourceColumns",
+        title: "Require source columns for data columns",
+        area: "Semantic model quality",
+        engine: "Dataset",
+        description: "Avoids model processing failures caused by data columns without source columns.",
+        ruleIds: ["DATA_COLUMNS_MUST_HAVE_A_SOURCE_COLUMN"],
+        controls: []
+      },
+      {
+        id: "expressionObjects",
+        title: "Require expressions where needed",
+        area: "Semantic model quality",
+        engine: "Dataset",
+        description: "Ensures calculated columns, measures, and calculation items have expressions.",
+        ruleIds: ["EXPRESSION_RELIANT_OBJECTS_MUST_HAVE_AN_EXPRESSION"],
+        controls: []
+      },
+      {
+        id: "relationshipTypes",
+        title: "Relationship columns must share data type",
+        area: "Semantic model quality",
+        engine: "Dataset",
+        description: "Flags mismatched relationship column data types before processing or query issues appear.",
+        ruleIds: ["RELATIONSHIP_COLUMNS_SAME_DATA_TYPE"],
+        controls: []
+      },
+      {
+        id: "daxReferences",
+        title: "Standardize DAX references",
+        area: "DAX standards",
+        engine: "Dataset",
+        description: "Requires qualified column references and unqualified measure references.",
+        ruleIds: ["DAX_COLUMNS_FULLY_QUALIFIED", "DAX_MEASURES_UNQUALIFIED"],
+        controls: []
+      },
+      {
+        id: "safeDivision",
+        title: "Use safe DAX error patterns",
+        area: "DAX standards",
+        engine: "Dataset",
+        description: "Encourages DIVIDE and discourages IFERROR for maintainable DAX.",
+        ruleIds: ["USE_THE_DIVIDE_FUNCTION_FOR_DIVISION", "AVOID_USING_THE_IFERROR_FUNCTION"],
+        controls: []
+      },
+      {
+        id: "formatStrings",
+        title: "Require format strings for visible measures",
+        area: "Formatting",
+        engine: "Dataset",
+        description: "Ensures visible measures present numbers consistently to report authors and consumers.",
+        ruleIds: ["PROVIDE_FORMAT_STRING_FOR_MEASURES"],
+        controls: []
+      },
+      {
+        id: "foreignKeys",
+        title: "Hide foreign keys from report authors",
+        area: "Formatting",
+        engine: "Dataset",
+        description: "Keeps relationship key columns out of the authoring experience.",
+        ruleIds: ["HIDE_FOREIGN_KEYS"],
+        controls: []
+      },
+      {
+        id: "primaryKeys",
+        title: "Mark primary keys",
+        area: "Formatting",
+        engine: "Dataset",
+        description: "Marks one-side relationship keys to improve semantic model metadata.",
+        ruleIds: ["MARK_PRIMARY_KEYS"],
+        controls: []
+      }
+    ];
+
+    const state = {
+      profile: "standard",
+      existingReportRules: { rules: [] },
+      existingDatasetRules: [],
+      enabled: Object.fromEntries(policyDefinitions.map(policy => [policy.id, true])),
+      values: {},
+      generatedReportRules: { rules: [] },
+      generatedDatasetRules: []
+    };
+
+    const managedReportIds = new Set(policyDefinitions.filter(policy => policy.engine === "Report").flatMap(policy => policy.ruleIds));
+    const managedDatasetIds = new Set(policyDefinitions.filter(policy => policy.engine === "Dataset").flatMap(policy => policy.ruleIds));
+
+    const els = {
+      reportFile: document.getElementById("reportFile"),
+      datasetFile: document.getElementById("datasetFile"),
+      profileFile: document.getElementById("profileFile"),
+      downloadReport: document.getElementById("downloadReport"),
+      downloadDataset: document.getElementById("downloadDataset"),
+      downloadProfile: document.getElementById("downloadProfile"),
+      downloadSummary: document.getElementById("downloadSummary"),
+      profileSelect: document.getElementById("profileSelect"),
+      profileDescription: document.getElementById("profileDescription"),
+      policyName: document.getElementById("policyName"),
+      policyOwner: document.getElementById("policyOwner"),
+      policyNotes: document.getElementById("policyNotes"),
+      reportRuleCount: document.getElementById("reportRuleCount"),
+      datasetRuleCount: document.getElementById("datasetRuleCount"),
+      enabledPolicyCount: document.getElementById("enabledPolicyCount"),
+      customRuleCount: document.getElementById("customRuleCount"),
+      policyList: document.getElementById("policyList"),
+      summaryHtml: document.getElementById("summaryHtml"),
+      summaryMarkdown: document.getElementById("summaryMarkdown"),
+      reportJson: document.getElementById("reportJson"),
+      datasetJson: document.getElementById("datasetJson"),
+      copyReport: document.getElementById("copyReport"),
+      copyDataset: document.getElementById("copyDataset"),
+      enableAll: document.getElementById("enableAll"),
+      disableAll: document.getElementById("disableAll"),
+      toast: document.getElementById("toast")
+    };
+
+    function initializeDefaults() {
+      for (const policy of policyDefinitions) {
+        for (const control of policy.controls) {
+          state.values[control.key] = control.value;
+        }
+      }
+      applyProfile("standard");
+    }
+
+    function applyProfile(profile) {
+      state.profile = profile;
+      const defaults = profileDefaults[profile];
+      if (profile !== "custom") {
+        for (const [key, value] of Object.entries(defaults.defaults)) {
+          state.values[key] = value;
+        }
+        state.enabled.localMeasures = Boolean(defaults.defaults.blockLocalMeasures);
+        state.enabled.primaryKeys = Boolean(defaults.defaults.markPrimaryKeys);
+      }
+      els.profileSelect.value = profile;
+      render();
+    }
+
+    function render() {
+      generateRules();
+      renderProfile();
+      renderPolicies();
+      renderStats();
+      renderSummary();
+      renderJson();
+    }
+
+    function renderProfile() {
+      const profile = profileDefaults[state.profile];
+      els.profileDescription.innerHTML = `
+        <div class="chip-row">
+          <span class="chip">${escapeHtml(profile.label)}</span>
+          <span class="chip ${profile.reportLogType === "error" ? "error" : "warning"}">Report ${escapeHtml(profile.reportLogType)}</span>
+          <span class="chip ${profile.datasetSeverity >= 3 ? "error" : profile.datasetSeverity === 2 ? "warning" : "success"}">Dataset severity ${profile.datasetSeverity}</span>
+        </div>
+        <p class="muted">${escapeHtml(profile.description)}</p>
+      `;
+    }
+
+    function renderPolicies() {
+      els.policyList.innerHTML = policyDefinitions.map(policy => {
+        const controls = policy.controls.map(control => {
+          const value = state.values[control.key] ?? control.value;
+          return `
+            <label>${escapeHtml(control.label)}
+              <input data-control="${escapeHtml(control.key)}" type="${escapeHtml(control.type)}" value="${escapeHtml(value)}">
+            </label>
+          `;
+        }).join("");
+        const enabled = state.enabled[policy.id];
+        return `
+          <div class="policy" data-policy="${escapeHtml(policy.id)}">
+            <div class="policy-top">
+              <input data-policy-enabled="${escapeHtml(policy.id)}" type="checkbox" ${enabled ? "checked" : ""} aria-label="Enable ${escapeHtml(policy.title)}">
+              <div>
+                <div class="policy-title">${escapeHtml(policy.title)}</div>
+                <div class="muted">${escapeHtml(policy.description)}</div>
+              </div>
+              <div class="chip-row">
+                <span class="chip">${escapeHtml(policy.area)}</span>
+                <span class="chip ${policy.engine === "Report" ? "warning" : "success"}">${escapeHtml(policy.engine)}</span>
+              </div>
+            </div>
+            ${controls ? `<div class="grid two">${controls}</div>` : ""}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderStats() {
+      const customReportCount = state.existingReportRules.rules.filter(rule => !managedReportIds.has(rule.id)).length;
+      const customDatasetCount = state.existingDatasetRules.filter(rule => !managedDatasetIds.has(rule.ID)).length;
+      els.reportRuleCount.textContent = String(state.generatedReportRules.rules.length);
+      els.datasetRuleCount.textContent = String(state.generatedDatasetRules.length);
+      els.enabledPolicyCount.textContent = String(policyDefinitions.filter(policy => state.enabled[policy.id]).length);
+      els.customRuleCount.textContent = String(customReportCount + customDatasetCount);
+    }
+
+    function renderSummary() {
+      const profile = buildPolicyProfile();
+      const rows = policyDefinitions.map(policy => `
+        <tr>
+          <td>${escapeHtml(policy.area)}</td>
+          <td>${escapeHtml(policy.title)}</td>
+          <td>${state.enabled[policy.id] ? "Enabled" : "Disabled"}</td>
+          <td>${escapeHtml(policy.ruleIds.join(", "))}</td>
+        </tr>
+      `).join("");
+      els.summaryHtml.innerHTML = `
+        <h3>${escapeHtml(profile.name)}</h3>
+        <p>${escapeHtml(profile.notes)}</p>
+        <table class="table">
+          <thead><tr><th>Area</th><th>Standard</th><th>Status</th><th>Generated rule IDs</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+      els.summaryMarkdown.textContent = buildSummaryMarkdown(profile);
+    }
+
+    function renderJson() {
+      els.reportJson.textContent = pretty(state.generatedReportRules);
+      els.datasetJson.textContent = pretty(state.generatedDatasetRules);
+    }
+
+    function generateRules() {
+      const reportRules = [];
+      const datasetRules = [];
+      for (const policy of policyDefinitions) {
+        if (!state.enabled[policy.id]) continue;
+        if (policy.engine === "Report") {
+          reportRules.push(...buildReportRules(policy.id));
+        } else {
+          datasetRules.push(...buildDatasetRules(policy.id));
+        }
+      }
+      const customReportRules = state.existingReportRules.rules.filter(rule => !managedReportIds.has(rule.id));
+      const customDatasetRules = state.existingDatasetRules.filter(rule => !managedDatasetIds.has(rule.ID));
+      state.generatedReportRules = { rules: [...customReportRules, ...reportRules] };
+      state.generatedDatasetRules = [...customDatasetRules, ...datasetRules];
+    }
+
+    function buildReportRules(policyId) {
+      const logType = profileDefaults[state.profile].reportLogType;
+      const rules = {
+        reportStructure: [reportRule("REDUCE_PAGES", "Reduce number of pages per report", "Keep reports concise enough for users to navigate quickly.", "", [
+          { "<=": [{ count: [{ part: "Pages" }] }, numberValue("maxPages")] },
+          {},
+          true
+        ], logType)],
+        visualDensity: [reportRule("REDUCE_VISUALS_ON_PAGE", "Reduce the number of visible visuals on the page", "Limit visible visuals per page to keep reports readable and responsive.", "Pages", [
+          {
+            "<=": [
+              {
+                count: [
+                  {
+                    filter: [
+                      { part: "Visuals" },
+                      {
+                        and: [
+                          { "!": [{ var: "isHidden" }] },
+                          { "!": [{ in: [{ var: "visual.visualType" }, csvValue("ignoredVisualTypes")] }] }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              { var: "paramMaxVisualsPerPage" }
+            ]
+          },
+          { paramMaxVisualsPerPage: numberValue("maxVisuals") },
+          true
+        ], logType)],
+        advancedFilters: [reportRule("REDUCE_ADVANCED_FILTERS", "Reduce usage of Advanced filtering visuals by page", "Keep advanced filters intentional and limited.", "Pages", [
+          {
+            "<=": [
+              {
+                count: [
+                  {
+                    filter: [
+                      { part: "Visuals" },
+                      { some: [{ var: "filterConfig.filters" }, { "==": [{ var: "type" }, "Advanced"] }] }
+                    ]
+                  }
+                ]
+              },
+              { var: "paramMaxAdvancedFilteringPerPage" }
+            ]
+          },
+          { paramMaxAdvancedFilteringPerPage: numberValue("maxAdvancedFilters") },
+          true
+        ], logType)],
+        themeColors: [reportRule("ENSURE_THEME_COLOURS", "Ensure charts use theme colours", "Custom hard-coded colours should not override the team theme.", "Pages", [
+          {
+            map: [
+              {
+                filter: [
+                  { part: "Visuals" },
+                  {
+                    and: [
+                      { "!": [{ in: [{ var: "visual.visualType" }, csvValue("themeIgnoredTypes")] }] },
+                      { strcontains: [{ tostring: [{ var: "" }] }, "#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})"] }
+                    ]
+                  }
+                ]
+              },
+              { var: "name" }
+            ]
+          },
+          {},
+          []
+        ], logType)],
+        canvasHeight: [reportRule("ENSURE_PAGES_DO_NOT_SCROLL_VERTICALLY", "Ensure pages do not scroll vertically", "Visible pages should fit supported canvas heights, including 4K.", "Pages", [
+          {
+            map: [
+              {
+                filter: [
+                  { part: "Pages" },
+                  {
+                    and: [
+                      { ">": [{ var: "height" }, numberValue("maxCanvasHeight")] },
+                      { "!=": [{ var: "visibility" }, "HiddenInViewMode"] }
+                    ]
+                  }
+                ]
+              },
+              { var: "displayName" }
+            ]
+          },
+          {},
+          []
+        ], logType)],
+        axisTitles: [reportRule("SHOW_AXES_TITLES", "Show visual axes titles", "Core comparison charts should expose axis titles.", "Pages", [
+          {
+            map: [
+              {
+                filter: [
+                  { part: "Visuals" },
+                  {
+                    and: [
+                      { in: [{ var: "visual.visualType" }, csvValue("axisVisualTypes")] },
+                      {
+                        or: [
+                          { "==": [{ var: "visual.objects.categoryAxis.0.properties.showAxisTitle.expr.Literal.Value" }, "false"] },
+                          { "==": [{ var: "visual.objects.valueAxis.0.properties.showAxisTitle.expr.Literal.Value" }, "false"] }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              { var: "name" }
+            ]
+          },
+          {},
+          []
+        ], logType)],
+        pageNames: [reportRule("GIVE_VISIBLE_PAGES_MEANINGFUL_NAMES", "Give visible pages meaningful names", "Avoid default page names like Page 1 or Page 2 in published reports.", "Pages", [
+          {
+            map: [
+              {
+                filter: [
+                  { part: "Pages" },
+                  {
+                    and: [
+                      { strcontains: [{ var: "displayName" }, stringValue("pageNamePattern")] },
+                      { "!=": [{ var: "visibility" }, "HiddenInViewMode"] }
+                    ]
+                  }
+                ]
+              },
+              { var: "displayName" }
+            ]
+          },
+          {},
+          []
+        ], logType)],
+        localMeasures: [reportRule("CHECK_FOR_LOCAL_MEASURES", "Check for locally defined measures", "Report-level measures should live in the semantic model unless there is a deliberate exception.", "ReportExtensions", [
+          {
+            filter: [
+              { var: "entities" },
+              { ">": [{ count: [{ var: "measures" }] }, 0] }
+            ]
+          },
+          { entities: "/entities" },
+          []
+        ], logType)]
+      };
+      return rules[policyId] || [];
+    }
+
+    function buildDatasetRules(policyId) {
+      const severity = profileDefaults[state.profile].datasetSeverity;
+      const rules = {
+        autoDate: [datasetRule("REMOVE_AUTO-DATE_TABLE", "[Performance] Remove auto-date table", "Performance", "Avoid using auto-date tables. Make sure to turn off auto-date table in the settings in Power BI Desktop. This will save memory resources.", severity, "Table, CalculatedTable", "ObjectTypeName == \"Calculated Table\"\n\r\nand\r\n\n(\nName.StartsWith(\"DateTableTemplate_\") \n\nor \n\nName.StartsWith(\"LocalDateTable_\")\n)")],
+        sourceColumns: [datasetRule("DATA_COLUMNS_MUST_HAVE_A_SOURCE_COLUMN", "[Error Prevention] Data columns must have a source column", "Error Prevention", "Data columns must have a source column. A data column without a source column will cause an error when processing the model.", 3, "DataColumn", "string.IsNullOrWhitespace(SourceColumn)")],
+        expressionObjects: [datasetRule("EXPRESSION_RELIANT_OBJECTS_MUST_HAVE_AN_EXPRESSION", "[Error Prevention] Expression-reliant objects must have an expression", "Error Prevention", "Calculated columns, calculation items and measures must have an expression. Without an expression, these objects will not show any values.", 3, "Measure, CalculatedColumn, CalculationItem", "string.IsNullOrWhiteSpace(Expression)")],
+        relationshipTypes: [datasetRule("RELATIONSHIP_COLUMNS_SAME_DATA_TYPE", "[Error Prevention] Relationship columns should be of the same data type", "Error Prevention", "Columns used in a relationship should be of the same data type.", 3, "Relationship", "FromColumn.DataType != ToColumn.DataType")],
+        daxReferences: [
+          datasetRule("DAX_COLUMNS_FULLY_QUALIFIED", "[DAX Expressions] Column references should be fully qualified", "DAX Expressions", "Using fully qualified column references makes DAX easier to reason about and reduces ambiguity.", severity, "Measure, KPI, TablePermission, CalculationItem", "DependsOn.Any(Key.ObjectType = \"Column\" and Value.Any(not FullyQualified))"),
+          datasetRule("DAX_MEASURES_UNQUALIFIED", "[DAX Expressions] Measure references should be unqualified", "DAX Expressions", "Measure references should use the measure name only, without the table qualifier.", severity, "Measure, CalculatedColumn, CalculatedTable, KPI, CalculationItem", "DependsOn.Any(Key.ObjectType = \"Measure\" and Value.Any(FullyQualified))")
+        ],
+        safeDivision: [
+          datasetRule("USE_THE_DIVIDE_FUNCTION_FOR_DIVISION", "[DAX Expressions] Use the DIVIDE function for division", "DAX Expressions", "Use DIVIDE instead of the / operator to handle divide-by-zero safely.", severity, "Measure, CalculatedColumn, CalculationItem", "RegEx.IsMatch(Expression,\"\\]\\s*\\/(?!\\/)(?!\\*)\")\r\nor\r\nRegEx.IsMatch(Expression,\"\\)\\s*\\/(?!\\/)(?!\\*)\")"),
+          datasetRule("AVOID_USING_THE_IFERROR_FUNCTION", "[DAX Expressions] Avoid using the IFERROR function", "DAX Expressions", "Avoid IFERROR in DAX. Prefer patterns such as DIVIDE that naturally handle errors.", severity, "Measure, CalculatedColumn", "RegEx.IsMatch(Expression,\"(?i)IFERROR\\s*\\(\")")
+        ],
+        formatStrings: [datasetRule("PROVIDE_FORMAT_STRING_FOR_MEASURES", "[Formatting] Provide format string for measures", "Formatting", "Visible measures should have a format string assigned.", severity, "Measure", "not IsHidden \r\nand not Table.IsHidden \r\nand string.IsNullOrWhitespace(FormatString) \r\nand string.IsNullOrWhitespace(FormatStringExpression)\r\n")],
+        foreignKeys: [datasetRule("HIDE_FOREIGN_KEYS", "[Formatting] Hide foreign keys", "Formatting", "Foreign keys should be hidden from report authors.", severity, "DataColumn, CalculatedColumn, CalculatedTableColumn", "UsedInRelationships.Any(FromColumn.Name == current.Name and FromCardinality == \"Many\")\n\r\nand\r\n\nIsHidden == false", "IsHidden = true")],
+        primaryKeys: [datasetRule("MARK_PRIMARY_KEYS", "[Formatting] Mark primary keys", "Formatting", "Set the Key property to true for one-side relationship keys.", Math.min(severity, 2), "DataColumn, CalculatedColumn, CalculatedTableColumn", "UsedInRelationships.Any(ToTable.Name == current.Table.Name and ToColumn.Name == current.Name and ToCardinality == \"One\")\r\n\nand\r\n\nIsKey == false\r\nand\r\ncurrent.Table.DataCategory != \"Time\"", "IsKey = true")]
+      };
+      return rules[policyId] || [];
+    }
+
+    function reportRule(id, name, description, part, test, logType) {
+      return {
+        id,
+        name,
+        description,
+        logType,
+        itemType: "Report",
+        ...(part ? { part } : {}),
+        disabled: false,
+        test
+      };
+    }
+
+    function datasetRule(ID, Name, Category, Description, Severity, Scope, Expression, FixExpression) {
+      const rule = { ID, Name, Category, Description, Severity, Scope, Expression, CompatibilityLevel: 1200 };
+      if (FixExpression) rule.FixExpression = FixExpression;
+      return rule;
+    }
+
+    function buildPolicyProfile() {
+      return {
+        name: els.policyName.value,
+        owner: els.policyOwner.value,
+        profile: state.profile,
+        notes: els.policyNotes.value,
+        generatedFiles: ["Rules-Report.json", "Rules-Dataset.json"],
+        values: { ...state.values },
+        policies: policyDefinitions.map(policy => ({
+          id: policy.id,
+          title: policy.title,
+          area: policy.area,
+          engine: policy.engine,
+          enabled: Boolean(state.enabled[policy.id]),
+          ruleIds: policy.ruleIds
+        }))
+      };
+    }
+
+    function buildSummaryMarkdown(profile) {
+      const enabled = profile.policies.filter(policy => policy.enabled);
+      const disabled = profile.policies.filter(policy => !policy.enabled);
+      const lines = [
+        `# ${profile.name}`,
+        "",
+        `Owner: ${profile.owner}`,
+        `Profile: ${profileDefaults[profile.profile].label}`,
+        "",
+        profile.notes,
+        "",
+        "## Generated rule files",
+        "",
+        `- Rules-Report.json: ${state.generatedReportRules.rules.length} rules`,
+        `- Rules-Dataset.json: ${state.generatedDatasetRules.length} rules`,
+        "",
+        "## Enabled enterprise standards",
+        "",
+        ...enabled.map(policy => `- ${policy.area}: ${policy.title} (${policy.engine}; ${policy.ruleIds.join(", ")})`),
+        "",
+        "## Disabled standards",
+        "",
+        ...(disabled.length ? disabled.map(policy => `- ${policy.area}: ${policy.title}`) : ["- None"]),
+        "",
+        "## Review guidance",
+        "",
+        "- Commit the downloaded JSON files under `shared/` after review.",
+        "- Start noisy standards as advisory before promoting to blocking enforcement.",
+        "- Use `tools/rule-designer/index.html` for advanced custom rule editing."
+      ];
+      return lines.join("\n");
+    }
+
+    function csvValue(key) {
+      return String(state.values[key] || "").split(",").map(item => item.trim()).filter(Boolean);
+    }
+
+    function numberValue(key) {
+      return Number(state.values[key] || 0);
+    }
+
+    function stringValue(key) {
+      return String(state.values[key] || "");
+    }
+
+    function pretty(value) {
+      return JSON.stringify(value, null, 2);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function toast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("visible");
+      window.clearTimeout(toast.timer);
+      toast.timer = window.setTimeout(() => els.toast.classList.remove("visible"), 2800);
+    }
+
+    function downloadJson(filename, value) {
+      const blob = new Blob([pretty(value)], { type: "application/json" });
+      downloadBlob(filename, blob);
+    }
+
+    function downloadText(filename, value) {
+      const blob = new Blob([value], { type: "text/markdown" });
+      downloadBlob(filename, blob);
+    }
+
+    function downloadBlob(filename, blob) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function copyText(value) {
+      await navigator.clipboard.writeText(value);
+      toast("Copied to clipboard.");
+    }
+
+    async function loadJsonFile(file, kind) {
+      const parsed = JSON.parse(await file.text());
+      if (kind === "report") {
+        state.existingReportRules = Array.isArray(parsed) ? { rules: parsed } : { rules: parsed.rules || [] };
+      } else if (kind === "dataset") {
+        state.existingDatasetRules = Array.isArray(parsed) ? parsed : [];
+      } else {
+        loadPolicyProfile(parsed);
+      }
+      render();
+      toast(`Loaded ${file.name}`);
+    }
+
+    function loadPolicyProfile(profile) {
+      if (profile.profile && profileDefaults[profile.profile]) {
+        state.profile = profile.profile;
+        els.profileSelect.value = profile.profile;
+      }
+      if (profile.name) els.policyName.value = profile.name;
+      if (profile.owner) els.policyOwner.value = profile.owner;
+      if (profile.notes) els.policyNotes.value = profile.notes;
+      if (profile.values) state.values = { ...state.values, ...profile.values };
+      if (Array.isArray(profile.policies)) {
+        for (const policy of profile.policies) {
+          if (policy.id) state.enabled[policy.id] = Boolean(policy.enabled);
+        }
+      }
+    }
+
+    function activateTab(tab) {
+      document.querySelectorAll(".tab").forEach(button => button.classList.toggle("active", button.dataset.tab === tab));
+      document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.add("hidden"));
+      document.getElementById(`${tab}Tab`).classList.remove("hidden");
+      render();
+    }
+
+    els.profileSelect.addEventListener("change", event => applyProfile(event.target.value));
+    els.policyList.addEventListener("input", event => {
+      const enabledKey = event.target.dataset.policyEnabled;
+      const controlKey = event.target.dataset.control;
+      if (enabledKey) state.enabled[enabledKey] = event.target.checked;
+      if (controlKey) state.values[controlKey] = event.target.value;
+      if (state.profile !== "custom") {
+        state.profile = "custom";
+        els.profileSelect.value = "custom";
+      }
+      render();
+    });
+    els.policyName.addEventListener("input", render);
+    els.policyOwner.addEventListener("input", render);
+    els.policyNotes.addEventListener("input", render);
+    els.enableAll.addEventListener("click", () => {
+      for (const policy of policyDefinitions) state.enabled[policy.id] = true;
+      state.profile = "custom";
+      render();
+    });
+    els.disableAll.addEventListener("click", () => {
+      for (const policy of policyDefinitions) state.enabled[policy.id] = false;
+      state.profile = "custom";
+      render();
+    });
+    els.reportFile.addEventListener("change", event => {
+      const file = event.target.files[0];
+      if (file) loadJsonFile(file, "report").catch(error => toast(error.message));
+    });
+    els.datasetFile.addEventListener("change", event => {
+      const file = event.target.files[0];
+      if (file) loadJsonFile(file, "dataset").catch(error => toast(error.message));
+    });
+    els.profileFile.addEventListener("change", event => {
+      const file = event.target.files[0];
+      if (file) loadJsonFile(file, "profile").catch(error => toast(error.message));
+    });
+    els.downloadReport.addEventListener("click", () => downloadJson("Rules-Report.json", state.generatedReportRules));
+    els.downloadDataset.addEventListener("click", () => downloadJson("Rules-Dataset.json", state.generatedDatasetRules));
+    els.downloadProfile.addEventListener("click", () => downloadJson("enterprise-policy-profile.json", buildPolicyProfile()));
+    els.downloadSummary.addEventListener("click", () => downloadText("Enterprise-Policy-Summary.md", buildSummaryMarkdown(buildPolicyProfile())));
+    els.copyReport.addEventListener("click", () => copyText(pretty(state.generatedReportRules)));
+    els.copyDataset.addEventListener("click", () => copyText(pretty(state.generatedDatasetRules)));
+    document.querySelectorAll(".tab").forEach(button => button.addEventListener("click", () => activateTab(button.dataset.tab)));
+
+    initializeDefaults();
+  </script>
+</body>
+</html>

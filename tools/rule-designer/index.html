@@ -1,0 +1,1690 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Power BI Quality Rule Designer</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.45;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      cursor: pointer;
+      padding: 8px 12px;
+    }
+
+    button:hover {
+      border-color: var(--cp-border-strong);
+    }
+
+    button.primary {
+      background: var(--cp-accent);
+      border-color: var(--cp-accent);
+      color: var(--cp-accent-fg);
+    }
+
+    button.primary:hover {
+      background: var(--cp-accent-hover);
+      border-color: var(--cp-accent-hover);
+    }
+
+    button.ghost {
+      background: var(--cp-surface-soft);
+    }
+
+    button.danger {
+      border-color: var(--cp-danger);
+      color: var(--cp-danger);
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      padding: 8px 10px;
+    }
+
+    textarea {
+      min-height: 88px;
+      resize: vertical;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      color: var(--cp-text-muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    code,
+    pre {
+      font-family: Consolas, "Courier New", Courier, monospace;
+    }
+
+    pre {
+      margin: 0;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .app {
+      min-height: 100vh;
+    }
+
+    .hero {
+      background: var(--cp-bg-elevated);
+      border-bottom: 1px solid var(--cp-border);
+      padding: 28px;
+    }
+
+    .hero-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+
+    .eyebrow {
+      color: var(--cp-accent);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.15;
+    }
+
+    h1 {
+      font-size: clamp(28px, 4vw, 44px);
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    h3 {
+      font-size: 16px;
+    }
+
+    .lede {
+      max-width: 920px;
+      color: var(--cp-text-muted);
+      font-size: 17px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .file-button {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      cursor: pointer;
+      padding: 8px 12px;
+    }
+
+    .file-button input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px 28px 36px;
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+      gap: 20px;
+    }
+
+    .panel,
+    .card {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: var(--cp-shadow);
+    }
+
+    .panel {
+      min-height: 200px;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--cp-border);
+      padding: 16px;
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      padding: 8px;
+      background: var(--cp-surface-soft);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .tab {
+      background: var(--cp-surface-soft);
+      border: 1px solid var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      font-weight: 700;
+    }
+
+    .tab.active {
+      background: var(--cp-surface);
+      border-color: var(--cp-border);
+      color: var(--cp-text);
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      padding: 12px;
+    }
+
+    .stat-value {
+      font-size: 26px;
+      font-weight: 800;
+    }
+
+    .stat-label,
+    .muted {
+      color: var(--cp-text-muted);
+    }
+
+    .muted {
+      font-size: 13px;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      max-height: 650px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .rule-card {
+      display: grid;
+      gap: 8px;
+      text-align: left;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+      padding: 12px;
+    }
+
+    .rule-card.active {
+      border-color: var(--cp-accent);
+      background: var(--cp-accent-soft);
+    }
+
+    .rule-title {
+      font-weight: 800;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid var(--cp-border);
+      border-radius: 999px;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 8px;
+    }
+
+    .chip.error {
+      border-color: var(--cp-danger);
+      color: var(--cp-danger);
+    }
+
+    .chip.warning {
+      border-color: var(--cp-warning);
+      color: var(--cp-warning);
+    }
+
+    .chip.success {
+      border-color: var(--cp-success);
+      color: var(--cp-success);
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .section {
+      display: grid;
+      gap: 14px;
+    }
+
+    .section + .section {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--cp-border);
+    }
+
+    .empty {
+      border: 1px dashed var(--cp-border-strong);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      padding: 18px;
+      text-align: center;
+    }
+
+    .json-box {
+      max-height: 520px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text);
+      padding: 14px;
+      font-size: 12px;
+    }
+
+    .diff-line {
+      display: block;
+      padding: 1px 4px;
+    }
+
+    .diff-added {
+      background: var(--cp-accent-soft);
+      color: var(--cp-success);
+    }
+
+    .diff-removed {
+      background: var(--cp-highlight);
+      color: var(--cp-danger);
+    }
+
+    .hint {
+      border-left: 4px solid var(--cp-accent);
+      border-radius: 0.625rem;
+      background: var(--cp-accent-soft);
+      color: var(--cp-text);
+      padding: 12px;
+    }
+
+    .preview-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 0.625rem;
+    }
+
+    .preview-table th,
+    .preview-table td {
+      border-bottom: 1px solid var(--cp-border);
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .preview-table th {
+      color: var(--cp-text-muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      max-width: 360px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-panel-strong);
+      color: var(--cp-text);
+      box-shadow: var(--cp-shadow);
+      padding: 12px 14px;
+      display: none;
+      z-index: 20;
+    }
+
+    .toast.visible {
+      display: block;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 980px) {
+      .main {
+        grid-template-columns: 1fr;
+      }
+
+      .status-grid,
+      .two,
+      .three,
+      .tabs {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">Fabric + Git Essentials</div>
+        <h1>Power BI Quality Rule Designer</h1>
+        <p class="lede">Create and tune report or dataset quality rules without hand-editing JSON. Load the existing rule files, use guided templates, preview the generated JSON, then download the updated file for source control.</p>
+        <div class="toolbar">
+          <label class="file-button">Load Rules-Report.json
+            <input id="reportFile" type="file" accept=".json,application/json">
+          </label>
+          <label class="file-button">Load Rules-Dataset.json
+            <input id="datasetFile" type="file" accept=".json,application/json">
+          </label>
+          <label class="file-button">Preview PBIP report folder
+            <input id="pbipFiles" type="file" multiple webkitdirectory>
+          </label>
+          <button id="downloadReport" class="primary" type="button">Download report rules</button>
+          <button id="downloadDataset" type="button">Download dataset rules</button>
+          <button id="seedExamples" class="ghost" type="button">Use starter examples</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <aside class="panel">
+        <div class="panel-header">
+          <div>
+            <h2>Rule gallery</h2>
+            <div class="muted">Select a rule to edit or add a new one from a template.</div>
+          </div>
+        </div>
+        <div class="panel-body grid">
+          <div class="status-grid">
+            <div class="stat">
+              <div id="reportCount" class="stat-value">0</div>
+              <div class="stat-label">Report</div>
+            </div>
+            <div class="stat">
+              <div id="datasetCount" class="stat-value">0</div>
+              <div class="stat-label">Dataset</div>
+            </div>
+            <div class="stat">
+              <div id="changedCount" class="stat-value">0</div>
+              <div class="stat-label">Changed</div>
+            </div>
+          </div>
+          <label>Search rules
+            <input id="searchRules" type="search" placeholder="Search name, ID, category, description">
+          </label>
+          <div id="ruleList" class="list"></div>
+        </div>
+      </aside>
+
+      <section>
+        <nav class="tabs" aria-label="Designer tabs">
+          <button class="tab active" type="button" data-tab="builder">Rule builder</button>
+          <button class="tab" type="button" data-tab="assistant">Plain English</button>
+          <button class="tab" type="button" data-tab="impact">Impact preview</button>
+          <button class="tab" type="button" data-tab="json">JSON + diff</button>
+        </nav>
+
+        <div id="builderTab" class="panel tab-panel">
+          <div class="panel-header">
+            <div>
+              <h2>Guided rule builder</h2>
+              <div class="muted">Templates generate valid PBI Inspector or Tabular Editor BPA JSON.</div>
+            </div>
+            <div class="toolbar">
+              <button id="newRule" type="button">New rule</button>
+              <button id="deleteRule" class="danger" type="button">Delete selected</button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="section">
+              <div class="grid three">
+                <label>Rule file
+                  <select id="ruleKind">
+                    <option value="report">Report rules</option>
+                    <option value="dataset">Dataset rules</option>
+                  </select>
+                </label>
+                <label>Template
+                  <select id="templateKey"></select>
+                </label>
+                <label>ID
+                  <input id="ruleId" type="text" placeholder="UPPER_SNAKE_CASE_ID">
+                </label>
+              </div>
+              <div class="grid two">
+                <label>Name
+                  <input id="ruleName" type="text" placeholder="Human-friendly rule name">
+                </label>
+                <label id="categoryLabel">Category
+                  <input id="ruleCategory" type="text" placeholder="Performance, Formatting, Error Prevention">
+                </label>
+              </div>
+              <label>Description
+                <textarea id="ruleDescription" placeholder="Explain the user or business impact in one clear sentence."></textarea>
+              </label>
+            </div>
+
+            <div id="reportFields" class="section">
+              <div class="grid three">
+                <label>Log type
+                  <select id="reportLogType">
+                    <option value="warning">warning</option>
+                    <option value="error">error</option>
+                  </select>
+                </label>
+                <label>Part
+                  <select id="reportPart">
+                    <option value="Pages">Pages</option>
+                    <option value="PagesHeader">PagesHeader</option>
+                    <option value="ReportExtensions">ReportExtensions</option>
+                  </select>
+                </label>
+                <label>Enabled
+                  <select id="reportEnabled">
+                    <option value="true">enabled</option>
+                    <option value="false">disabled</option>
+                  </select>
+                </label>
+              </div>
+              <div id="templateParams" class="grid two"></div>
+            </div>
+
+            <div id="datasetFields" class="section hidden">
+              <div class="grid three">
+                <label>Severity
+                  <select id="datasetSeverity">
+                    <option value="1">1 - advisory</option>
+                    <option value="2">2 - enforced on main/develop</option>
+                    <option value="3">3 - enforced on feature branches</option>
+                  </select>
+                </label>
+                <label>Scope
+                  <input id="datasetScope" type="text" placeholder="Measure, CalculatedColumn">
+                </label>
+                <label>Compatibility level
+                  <input id="datasetCompatibility" type="number" value="1200">
+                </label>
+              </div>
+              <label>Expression
+                <textarea id="datasetExpression" placeholder="Boolean expression returning true when the rule is violated."></textarea>
+              </label>
+              <label>Fix expression
+                <textarea id="datasetFixExpression" placeholder="Optional. Only use for deterministic, safe fixes."></textarea>
+              </label>
+            </div>
+
+            <div class="section">
+              <div class="toolbar">
+                <button id="saveRule" class="primary" type="button">Add or update rule</button>
+                <button id="copyJson" type="button">Copy selected JSON</button>
+              </div>
+              <div class="hint">Tip: start new standards as warning or severity 1, run the pipeline, then promote after false positives are cleaned up.</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="assistantTab" class="panel tab-panel hidden">
+          <div class="panel-header">
+            <div>
+              <h2>Plain-English assistant</h2>
+              <div class="muted">Describe the standard. The page will pick a matching template and fill obvious values.</div>
+            </div>
+          </div>
+          <div class="panel-body grid">
+            <label>Describe the rule
+              <textarea id="assistantPrompt" placeholder="Example: Warn when a page has more than 8 visible visuals, ignoring slicers and text boxes."></textarea>
+            </label>
+            <div class="toolbar">
+              <button id="suggestRule" class="primary" type="button">Suggest rule</button>
+              <button id="useSuggestion" type="button">Use suggestion in builder</button>
+            </div>
+            <div id="assistantResult" class="hint">Try phrases like “more than 6 pages”, “axis titles”, “theme colors”, “local measures”, “format string”, or “use DIVIDE instead of slash”.</div>
+          </div>
+        </div>
+
+        <div id="impactTab" class="panel tab-panel hidden">
+          <div class="panel-header">
+            <div>
+              <h2>Impact preview</h2>
+              <div class="muted">Load a PBIP report folder to see page and visual hints before changing rules.</div>
+            </div>
+          </div>
+          <div class="panel-body grid">
+            <div id="pbipSummary" class="empty">No PBIP report folder loaded yet. Use “Preview PBIP report folder” above and select a `.Report` folder or a parent folder that contains one.</div>
+            <div id="impactResults"></div>
+          </div>
+        </div>
+
+        <div id="jsonTab" class="panel tab-panel hidden">
+          <div class="panel-header">
+            <div>
+              <h2>JSON preview and diff</h2>
+              <div class="muted">Review exactly what will be downloaded into source control.</div>
+            </div>
+            <div class="toolbar">
+              <button id="copyAllJson" type="button">Copy active file JSON</button>
+            </div>
+          </div>
+          <div class="panel-body grid two">
+            <div class="grid">
+              <h3>Generated JSON</h3>
+              <pre id="jsonPreview" class="json-box"></pre>
+            </div>
+            <div class="grid">
+              <h3>Line diff against loaded file</h3>
+              <pre id="diffPreview" class="json-box"></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>
+    const reportTemplates = {
+      maxPages: {
+        label: "Limit pages per report",
+        id: "REDUCE_PAGES",
+        name: "Reduce number of pages per report",
+        description: "Keep reports concise enough for users to navigate quickly.",
+        part: "",
+        params: [{ key: "maxPages", label: "Maximum pages", type: "number", value: 6 }],
+        build: values => ({
+          "<=": [{ count: [{ part: "Pages" }] }, Number(values.maxPages || 6)]
+        })
+      },
+      maxVisuals: {
+        label: "Limit visible visuals per page",
+        id: "REDUCE_VISUALS_ON_PAGE",
+        name: "Reduce the number of visible visuals on the page",
+        description: "Limit visible visuals per page to keep reports readable and responsive.",
+        part: "Pages",
+        params: [
+          { key: "maxVisuals", label: "Maximum visible visuals per page", type: "number", value: 12 },
+          { key: "ignoredTypes", label: "Ignored visual types", type: "text", value: "shape,slicer,actionButton,textbox" }
+        ],
+        build: values => {
+          const ignoredTypes = csv(values.ignoredTypes);
+          return {
+            "<=": [
+              {
+                count: [
+                  {
+                    filter: [
+                      { part: "Visuals" },
+                      {
+                        and: [
+                          { "!": [{ var: "isHidden" }] },
+                          { "!": [{ in: [{ var: "visual.visualType" }, ignoredTypes] }] }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              { var: "paramMaxVisualsPerPage" }
+            ]
+          };
+        }
+      },
+      advancedFilters: {
+        label: "Limit advanced filters per page",
+        id: "REDUCE_ADVANCED_FILTERS",
+        name: "Reduce usage of Advanced filtering visuals by page",
+        description: "Keep advanced filters intentional and limited.",
+        part: "Pages",
+        params: [{ key: "maxAdvancedFilters", label: "Maximum advanced filters per page", type: "number", value: 2 }],
+        build: values => ({
+          "<=": [
+            {
+              count: [
+                {
+                  filter: [
+                    { part: "Visuals" },
+                    { some: [{ var: "filterConfig.filters" }, { "==": [{ var: "type" }, "Advanced"] }] }
+                  ]
+                }
+              ]
+            },
+            { var: "paramMaxAdvancedFilteringPerPage" }
+          ]
+        })
+      },
+      themeColours: {
+        label: "Detect hard-coded colors",
+        id: "ENSURE_THEME_COLOURS",
+        name: "Ensure charts use theme colours",
+        description: "Custom hard-coded colours should not override the team theme.",
+        part: "Pages",
+        params: [{ key: "ignoredTypes", label: "Ignored visual types", type: "text", value: "textbox" }],
+        build: values => ({
+          map: [
+            {
+              filter: [
+                { part: "Visuals" },
+                {
+                  and: [
+                    { "!": [{ in: [{ var: "visual.visualType" }, csv(values.ignoredTypes)] }] },
+                    { strcontains: [{ tostring: [{ var: "" }] }, "#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})"] }
+                  ]
+                }
+              ]
+            },
+            { var: "name" }
+          ]
+        }),
+        expected: []
+      },
+      pageNames: {
+        label: "Require meaningful page names",
+        id: "GIVE_VISIBLE_PAGES_MEANINGFUL_NAMES",
+        name: "Give visible pages meaningful names",
+        description: "Avoid default page names like Page 1 or Page 2 in published reports.",
+        part: "Pages",
+        params: [{ key: "pattern", label: "Disallowed page-name pattern", type: "text", value: "^Page [1-9]+$" }],
+        build: values => ({
+          map: [
+            {
+              filter: [
+                { part: "Pages" },
+                {
+                  and: [
+                    { strcontains: [{ var: "displayName" }, values.pattern || "^Page [1-9]+$"] },
+                    { "!=": [{ var: "visibility" }, "HiddenInViewMode"] }
+                  ]
+                }
+              ]
+            },
+            { var: "displayName" }
+          ]
+        }),
+        expected: []
+      },
+      verticalScroll: {
+        label: "Prevent vertical page scrolling",
+        id: "ENSURE_PAGES_DO_NOT_SCROLL_VERTICALLY",
+        name: "Ensure pages do not scroll vertically",
+        description: "Visible pages should fit supported canvas heights, including 4K.",
+        part: "Pages",
+        params: [{ key: "maxHeight", label: "Maximum page height", type: "number", value: 2160 }],
+        build: values => ({
+          map: [
+            {
+              filter: [
+                { part: "Pages" },
+                {
+                  and: [
+                    { ">": [{ var: "height" }, Number(values.maxHeight || 2160)] },
+                    { "!=": [{ var: "visibility" }, "HiddenInViewMode"] }
+                  ]
+                }
+              ]
+            },
+            { var: "displayName" }
+          ]
+        }),
+        expected: []
+      },
+      axisTitles: {
+        label: "Require chart axis titles",
+        id: "SHOW_AXES_TITLES",
+        name: "Show visual axes titles",
+        description: "Core comparison charts should expose axis titles.",
+        part: "Pages",
+        params: [{ key: "visualTypes", label: "Checked visual types", type: "text", value: "lineChart,barChart,columnChart,clusteredBarChart,stackedBarChart,clusteredColumnChart" }],
+        build: values => ({
+          map: [
+            {
+              filter: [
+                { part: "Visuals" },
+                {
+                  and: [
+                    { in: [{ var: "visual.visualType" }, csv(values.visualTypes)] },
+                    {
+                      or: [
+                        { "==": [{ var: "visual.objects.categoryAxis.0.properties.showAxisTitle.expr.Literal.Value" }, "false"] },
+                        { "==": [{ var: "visual.objects.valueAxis.0.properties.showAxisTitle.expr.Literal.Value" }, "false"] }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { var: "name" }
+          ]
+        }),
+        expected: []
+      },
+      localMeasures: {
+        label: "Detect report-level local measures",
+        id: "CHECK_FOR_LOCAL_MEASURES",
+        name: "Check for locally defined measures",
+        description: "Report-level measures should live in the semantic model unless there is a deliberate exception.",
+        part: "ReportExtensions",
+        params: [],
+        build: () => ({
+          filter: [
+            { var: "entities" },
+            { ">": [{ count: [{ var: "measures" }] }, 0] }
+          ]
+        }),
+        context: { entities: "/entities" },
+        expected: []
+      },
+      customReport: {
+        label: "Custom report rule",
+        id: "CUSTOM_REPORT_RULE",
+        name: "Custom report rule",
+        description: "Describe the quality standard this report rule enforces.",
+        part: "Pages",
+        params: [{ key: "jsonLogic", label: "JSON logic expression", type: "textarea", value: "{\n  \"==\": [true, true]\n}" }],
+        build: values => safeJson(values.jsonLogic, { "==": [true, true] })
+      }
+    };
+
+    const datasetTemplates = {
+      formatString: {
+        label: "Visible measures need format strings",
+        id: "PROVIDE_FORMAT_STRING_FOR_MEASURES",
+        name: "[Formatting] Provide format string for measures",
+        category: "Formatting",
+        description: "Visible measures should have a format string assigned.",
+        severity: 2,
+        scope: "Measure",
+        expression: "not IsHidden \r\nand not Table.IsHidden \r\nand string.IsNullOrWhitespace(FormatString) \r\nand string.IsNullOrWhitespace(FormatStringExpression)\r\n"
+      },
+      divideFunction: {
+        label: "Use DIVIDE for division",
+        id: "USE_THE_DIVIDE_FUNCTION_FOR_DIVISION",
+        name: "[DAX Expressions] Use the DIVIDE function for division",
+        category: "DAX Expressions",
+        description: "Use DIVIDE instead of the / operator to handle divide-by-zero safely.",
+        severity: 2,
+        scope: "Measure, CalculatedColumn, CalculationItem",
+        expression: "RegEx.IsMatch(Expression,\"\\\\]\\\\s*\\\\/(?!\\\\/)(?!\\\\*)\")\r\nor\r\nRegEx.IsMatch(Expression,\"\\\\)\\\\s*\\\\/(?!\\\\/)(?!\\\\*)\")"
+      },
+      ifError: {
+        label: "Avoid IFERROR",
+        id: "AVOID_USING_THE_IFERROR_FUNCTION",
+        name: "[DAX Expressions] Avoid using the IFERROR function",
+        category: "DAX Expressions",
+        description: "Avoid IFERROR in DAX. Prefer patterns such as DIVIDE that naturally handle errors.",
+        severity: 2,
+        scope: "Measure, CalculatedColumn",
+        expression: "RegEx.IsMatch(Expression,\"(?i)IFERROR\\\\s*\\\\(\")"
+      },
+      hideForeignKeys: {
+        label: "Hide foreign keys",
+        id: "HIDE_FOREIGN_KEYS",
+        name: "[Formatting] Hide foreign keys",
+        category: "Formatting",
+        description: "Foreign keys should be hidden from report authors.",
+        severity: 2,
+        scope: "DataColumn, CalculatedColumn, CalculatedTableColumn",
+        expression: "UsedInRelationships.Any(FromColumn.Name == current.Name and FromCardinality == \"Many\")\n\r\nand\r\n\nIsHidden == false",
+        fixExpression: "IsHidden = true"
+      },
+      customDataset: {
+        label: "Custom dataset BPA rule",
+        id: "CUSTOM_DATASET_RULE",
+        name: "[Category] Custom dataset rule",
+        category: "Performance",
+        description: "Describe the quality standard this dataset rule enforces.",
+        severity: 1,
+        scope: "Measure",
+        expression: "false"
+      }
+    };
+
+    const state = {
+      reportRules: { rules: [] },
+      datasetRules: [],
+      originalReportText: JSON.stringify({ rules: [] }, null, 2),
+      originalDatasetText: JSON.stringify([], null, 2),
+      activeKind: "report",
+      selectedId: "",
+      selectedSuggestion: null,
+      pbip: { pages: [], visuals: [], sourceName: "" }
+    };
+
+    const els = {
+      reportFile: document.getElementById("reportFile"),
+      datasetFile: document.getElementById("datasetFile"),
+      pbipFiles: document.getElementById("pbipFiles"),
+      downloadReport: document.getElementById("downloadReport"),
+      downloadDataset: document.getElementById("downloadDataset"),
+      seedExamples: document.getElementById("seedExamples"),
+      reportCount: document.getElementById("reportCount"),
+      datasetCount: document.getElementById("datasetCount"),
+      changedCount: document.getElementById("changedCount"),
+      searchRules: document.getElementById("searchRules"),
+      ruleList: document.getElementById("ruleList"),
+      ruleKind: document.getElementById("ruleKind"),
+      templateKey: document.getElementById("templateKey"),
+      ruleId: document.getElementById("ruleId"),
+      ruleName: document.getElementById("ruleName"),
+      ruleCategory: document.getElementById("ruleCategory"),
+      categoryLabel: document.getElementById("categoryLabel"),
+      ruleDescription: document.getElementById("ruleDescription"),
+      reportFields: document.getElementById("reportFields"),
+      datasetFields: document.getElementById("datasetFields"),
+      reportLogType: document.getElementById("reportLogType"),
+      reportPart: document.getElementById("reportPart"),
+      reportEnabled: document.getElementById("reportEnabled"),
+      templateParams: document.getElementById("templateParams"),
+      datasetSeverity: document.getElementById("datasetSeverity"),
+      datasetScope: document.getElementById("datasetScope"),
+      datasetCompatibility: document.getElementById("datasetCompatibility"),
+      datasetExpression: document.getElementById("datasetExpression"),
+      datasetFixExpression: document.getElementById("datasetFixExpression"),
+      saveRule: document.getElementById("saveRule"),
+      copyJson: document.getElementById("copyJson"),
+      assistantPrompt: document.getElementById("assistantPrompt"),
+      suggestRule: document.getElementById("suggestRule"),
+      useSuggestion: document.getElementById("useSuggestion"),
+      assistantResult: document.getElementById("assistantResult"),
+      pbipSummary: document.getElementById("pbipSummary"),
+      impactResults: document.getElementById("impactResults"),
+      jsonPreview: document.getElementById("jsonPreview"),
+      diffPreview: document.getElementById("diffPreview"),
+      copyAllJson: document.getElementById("copyAllJson"),
+      newRule: document.getElementById("newRule"),
+      deleteRule: document.getElementById("deleteRule"),
+      toast: document.getElementById("toast")
+    };
+
+    function csv(value) {
+      return String(value || "")
+        .split(",")
+        .map(item => item.trim())
+        .filter(Boolean);
+    }
+
+    function safeJson(value, fallback) {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return fallback;
+      }
+    }
+
+    function pretty(value) {
+      return JSON.stringify(value, null, 2);
+    }
+
+    function slug(value) {
+      return String(value || "CUSTOM_RULE")
+        .trim()
+        .replace(/[^a-zA-Z0-9]+/g, "_")
+        .replace(/^_+|_+$/g, "")
+        .toUpperCase() || "CUSTOM_RULE";
+    }
+
+    function toast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("visible");
+      window.clearTimeout(toast.timer);
+      toast.timer = window.setTimeout(() => els.toast.classList.remove("visible"), 2800);
+    }
+
+    function activeRules() {
+      return state.activeKind === "report" ? state.reportRules.rules : state.datasetRules;
+    }
+
+    function activeOriginalText() {
+      return state.activeKind === "report" ? state.originalReportText : state.originalDatasetText;
+    }
+
+    function normalizeReportFile(data) {
+      if (Array.isArray(data)) {
+        return { rules: data };
+      }
+      if (data && Array.isArray(data.rules)) {
+        return data;
+      }
+      throw new Error("Report rule file must be an object with a rules array.");
+    }
+
+    function normalizeDatasetFile(data) {
+      if (!Array.isArray(data)) {
+        throw new Error("Dataset rule file must be a JSON array.");
+      }
+      return data;
+    }
+
+    async function loadJsonFile(file, kind) {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      if (kind === "report") {
+        state.reportRules = normalizeReportFile(parsed);
+        state.originalReportText = pretty(state.reportRules);
+      } else {
+        state.datasetRules = normalizeDatasetFile(parsed);
+        state.originalDatasetText = pretty(state.datasetRules);
+      }
+      state.activeKind = kind;
+      state.selectedId = "";
+      render();
+      toast(`Loaded ${file.name}`);
+    }
+
+    function seedExamples() {
+      state.reportRules = {
+        rules: ["maxVisuals", "maxPages", "themeColours", "verticalScroll", "axisTitles", "pageNames", "localMeasures"]
+          .map(key => buildReportRuleFromTemplate(key))
+      };
+      state.datasetRules = ["formatString", "divideFunction", "ifError", "hideForeignKeys"]
+        .map(key => buildDatasetRuleFromTemplate(key));
+      state.originalReportText = pretty({ rules: [] });
+      state.originalDatasetText = pretty([]);
+      state.selectedId = "";
+      render();
+      toast("Starter examples loaded");
+    }
+
+    function buildReportRuleFromTemplate(key, overrides = {}) {
+      const template = reportTemplates[key] || reportTemplates.customReport;
+      const values = {};
+      for (const param of template.params || []) {
+        values[param.key] = overrides[param.key] ?? param.value;
+      }
+      const context = template.context || {};
+      return {
+        id: slug(overrides.id || template.id),
+        name: overrides.name || template.name,
+        description: overrides.description || template.description,
+        logType: overrides.logType || "warning",
+        itemType: "Report",
+        ...(template.part ? { part: overrides.part || template.part } : {}),
+        disabled: overrides.disabled ?? false,
+        test: [
+          template.build(values),
+          Object.keys(context).length ? context : parameterContext(key, values),
+          template.expected ?? true
+        ]
+      };
+    }
+
+    function parameterContext(key, values) {
+      if (key === "maxVisuals") {
+        return { paramMaxVisualsPerPage: Number(values.maxVisuals || 12) };
+      }
+      if (key === "advancedFilters") {
+        return { paramMaxAdvancedFilteringPerPage: Number(values.maxAdvancedFilters || 2) };
+      }
+      return {};
+    }
+
+    function buildDatasetRuleFromTemplate(key, overrides = {}) {
+      const template = datasetTemplates[key] || datasetTemplates.customDataset;
+      const rule = {
+        ID: slug(overrides.id || template.id),
+        Name: overrides.name || template.name,
+        Category: overrides.category || template.category || "Performance",
+        Description: overrides.description || template.description,
+        Severity: Number(overrides.severity || template.severity || 1),
+        Scope: overrides.scope || template.scope || "Measure",
+        Expression: overrides.expression || template.expression || "false",
+        CompatibilityLevel: Number(overrides.compatibilityLevel || 1200)
+      };
+      const fix = overrides.fixExpression ?? template.fixExpression;
+      if (fix) {
+        rule.FixExpression = fix;
+      }
+      return rule;
+    }
+
+    function render() {
+      syncKindUi();
+      renderTemplates();
+      renderRuleList();
+      renderStats();
+      renderJson();
+      renderImpact();
+    }
+
+    function syncKindUi() {
+      els.ruleKind.value = state.activeKind;
+      els.reportFields.classList.toggle("hidden", state.activeKind !== "report");
+      els.datasetFields.classList.toggle("hidden", state.activeKind !== "dataset");
+      els.categoryLabel.classList.toggle("hidden", state.activeKind !== "dataset");
+    }
+
+    function renderTemplates() {
+      const templates = state.activeKind === "report" ? reportTemplates : datasetTemplates;
+      const previous = els.templateKey.value;
+      els.templateKey.innerHTML = Object.entries(templates)
+        .map(([key, template]) => `<option value="${key}">${escapeHtml(template.label)}</option>`)
+        .join("");
+      if (templates[previous]) {
+        els.templateKey.value = previous;
+      }
+      renderTemplateParams();
+    }
+
+    function renderTemplateParams() {
+      if (state.activeKind !== "report") {
+        els.templateParams.innerHTML = "";
+        return;
+      }
+      const template = reportTemplates[els.templateKey.value] || reportTemplates.maxVisuals;
+      els.templateParams.innerHTML = (template.params || [])
+        .map(param => {
+          const field = param.type === "textarea"
+            ? `<textarea data-param="${param.key}">${escapeHtml(param.value)}</textarea>`
+            : `<input data-param="${param.key}" type="${param.type || "text"}" value="${escapeHtml(param.value)}">`;
+          return `<label>${escapeHtml(param.label)}${field}</label>`;
+        })
+        .join("");
+    }
+
+    function renderRuleList() {
+      const query = els.searchRules.value.trim().toLowerCase();
+      const reportCards = state.reportRules.rules.map(rule => ({ kind: "report", rule }));
+      const datasetCards = state.datasetRules.map(rule => ({ kind: "dataset", rule }));
+      const cards = [...reportCards, ...datasetCards].filter(({ kind, rule }) => {
+        const text = kind === "report"
+          ? `${rule.id} ${rule.name} ${rule.description} ${rule.logType}`
+          : `${rule.ID} ${rule.Name} ${rule.Description} ${rule.Category} ${rule.Scope}`;
+        return !query || text.toLowerCase().includes(query);
+      });
+
+      if (!cards.length) {
+        els.ruleList.innerHTML = `<div class="empty">No matching rules. Load a JSON file or use starter examples.</div>`;
+        return;
+      }
+
+      els.ruleList.innerHTML = cards.map(({ kind, rule }) => {
+        const id = kind === "report" ? rule.id : rule.ID;
+        const title = kind === "report" ? rule.name : rule.Name;
+        const description = kind === "report" ? rule.description : rule.Description;
+        const selected = state.selectedId === `${kind}:${id}`;
+        const severity = kind === "report" ? rule.logType : `severity ${rule.Severity}`;
+        const enabled = kind === "report" ? !rule.disabled : true;
+        return `
+          <button class="rule-card ${selected ? "active" : ""}" type="button" data-kind="${kind}" data-id="${escapeHtml(id)}">
+            <span class="rule-title">${escapeHtml(title || id)}</span>
+            <span class="muted">${escapeHtml(description || "")}</span>
+            <span class="chips">
+              <span class="chip">${kind === "report" ? "Report" : "Dataset"}</span>
+              <span class="chip ${severity === "error" ? "error" : "warning"}">${escapeHtml(severity)}</span>
+              <span class="chip ${enabled ? "success" : "warning"}">${enabled ? "enabled" : "disabled"}</span>
+            </span>
+          </button>
+        `;
+      }).join("");
+    }
+
+    function renderStats() {
+      els.reportCount.textContent = String(state.reportRules.rules.length);
+      els.datasetCount.textContent = String(state.datasetRules.length);
+      let changed = 0;
+      if (pretty(state.reportRules) !== state.originalReportText) changed += 1;
+      if (pretty(state.datasetRules) !== state.originalDatasetText) changed += 1;
+      els.changedCount.textContent = String(changed);
+    }
+
+    function renderJson() {
+      const generated = state.activeKind === "report" ? pretty(state.reportRules) : pretty(state.datasetRules);
+      els.jsonPreview.textContent = generated;
+      els.diffPreview.innerHTML = buildDiff(activeOriginalText(), generated);
+    }
+
+    function renderImpact() {
+      if (!state.pbip.pages.length && !state.pbip.visuals.length) {
+        return;
+      }
+
+      const pages = state.pbip.pages;
+      const visuals = state.pbip.visuals;
+      const visiblePages = pages.filter(page => page.visibility !== "HiddenInViewMode");
+      const pageRows = visiblePages.map(page => {
+        const pageVisuals = visuals.filter(visual => visual.pageKey === page.key);
+        const visibleVisuals = pageVisuals.filter(visual => !visual.isHidden);
+        return {
+          name: page.displayName || page.name || page.key,
+          visibility: page.visibility || "Visible",
+          height: page.height || "",
+          visuals: visibleVisuals.length,
+          types: [...new Set(visibleVisuals.map(visual => visual.visualType).filter(Boolean))].join(", ")
+        };
+      });
+
+      els.pbipSummary.classList.remove("empty");
+      els.pbipSummary.innerHTML = `
+        <div class="status-grid">
+          <div class="stat"><div class="stat-value">${pages.length}</div><div class="stat-label">Pages found</div></div>
+          <div class="stat"><div class="stat-value">${visuals.length}</div><div class="stat-label">Visual JSON files</div></div>
+          <div class="stat"><div class="stat-value">${visiblePages.length}</div><div class="stat-label">Visible pages</div></div>
+        </div>
+      `;
+
+      els.impactResults.innerHTML = `
+        <table class="preview-table">
+          <thead><tr><th>Page</th><th>Visibility</th><th>Height</th><th>Visible visuals</th><th>Visual types</th></tr></thead>
+          <tbody>
+            ${pageRows.map(row => `
+              <tr>
+                <td>${escapeHtml(row.name)}</td>
+                <td>${escapeHtml(row.visibility)}</td>
+                <td>${escapeHtml(String(row.height))}</td>
+                <td>${escapeHtml(String(row.visuals))}</td>
+                <td>${escapeHtml(row.types)}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function selectRule(kind, id) {
+      state.activeKind = kind;
+      state.selectedId = `${kind}:${id}`;
+      const rule = kind === "report"
+        ? state.reportRules.rules.find(item => item.id === id)
+        : state.datasetRules.find(item => item.ID === id);
+      if (!rule) return;
+
+      render();
+      if (kind === "report") {
+        fillReportForm(rule);
+      } else {
+        fillDatasetForm(rule);
+      }
+    }
+
+    function fillReportForm(rule) {
+      els.ruleId.value = rule.id || "";
+      els.ruleName.value = rule.name || "";
+      els.ruleDescription.value = rule.description || "";
+      els.reportLogType.value = rule.logType || "warning";
+      els.reportPart.value = rule.part || "Pages";
+      els.reportEnabled.value = rule.disabled ? "false" : "true";
+      els.templateKey.value = "customReport";
+      renderTemplateParams();
+      const jsonLogic = els.templateParams.querySelector("[data-param='jsonLogic']");
+      if (jsonLogic) jsonLogic.value = pretty(rule.test?.[0] || {});
+    }
+
+    function fillDatasetForm(rule) {
+      els.ruleId.value = rule.ID || "";
+      els.ruleName.value = rule.Name || "";
+      els.ruleCategory.value = rule.Category || "";
+      els.ruleDescription.value = rule.Description || "";
+      els.datasetSeverity.value = String(rule.Severity || 1);
+      els.datasetScope.value = rule.Scope || "";
+      els.datasetCompatibility.value = String(rule.CompatibilityLevel || 1200);
+      els.datasetExpression.value = rule.Expression || "";
+      els.datasetFixExpression.value = rule.FixExpression || "";
+      els.templateKey.value = "customDataset";
+    }
+
+    function newRule() {
+      state.selectedId = "";
+      applyTemplateDefaults();
+      renderRuleList();
+    }
+
+    function applyTemplateDefaults() {
+      if (state.activeKind === "report") {
+        const template = reportTemplates[els.templateKey.value] || reportTemplates.maxVisuals;
+        els.ruleId.value = template.id;
+        els.ruleName.value = template.name;
+        els.ruleDescription.value = template.description;
+        els.reportLogType.value = "warning";
+        els.reportPart.value = template.part || "Pages";
+        els.reportEnabled.value = "true";
+        renderTemplateParams();
+      } else {
+        const template = datasetTemplates[els.templateKey.value] || datasetTemplates.customDataset;
+        els.ruleId.value = template.id;
+        els.ruleName.value = template.name;
+        els.ruleCategory.value = template.category;
+        els.ruleDescription.value = template.description;
+        els.datasetSeverity.value = String(template.severity || 1);
+        els.datasetScope.value = template.scope || "Measure";
+        els.datasetCompatibility.value = "1200";
+        els.datasetExpression.value = template.expression || "false";
+        els.datasetFixExpression.value = template.fixExpression || "";
+      }
+    }
+
+    function saveRule() {
+      if (state.activeKind === "report") {
+        const values = {};
+        els.templateParams.querySelectorAll("[data-param]").forEach(input => {
+          values[input.dataset.param] = input.value;
+        });
+        const template = reportTemplates[els.templateKey.value] || reportTemplates.customReport;
+        const rule = {
+          id: slug(els.ruleId.value || template.id),
+          name: els.ruleName.value.trim() || template.name,
+          description: els.ruleDescription.value.trim() || template.description,
+          logType: els.reportLogType.value,
+          itemType: "Report",
+          ...(els.reportPart.value ? { part: els.reportPart.value } : {}),
+          disabled: els.reportEnabled.value !== "true",
+          test: [
+            template.build(values),
+            template.context || parameterContext(els.templateKey.value, values),
+            template.expected ?? true
+          ]
+        };
+        upsertReportRule(rule);
+        state.selectedId = `report:${rule.id}`;
+      } else {
+        const rule = {
+          ID: slug(els.ruleId.value),
+          Name: els.ruleName.value.trim(),
+          Category: els.ruleCategory.value.trim() || "Performance",
+          Description: els.ruleDescription.value.trim(),
+          Severity: Number(els.datasetSeverity.value || 1),
+          Scope: els.datasetScope.value.trim() || "Measure",
+          Expression: els.datasetExpression.value,
+          CompatibilityLevel: Number(els.datasetCompatibility.value || 1200)
+        };
+        if (els.datasetFixExpression.value.trim()) {
+          rule.FixExpression = els.datasetFixExpression.value;
+        }
+        upsertDatasetRule(rule);
+        state.selectedId = `dataset:${rule.ID}`;
+      }
+      render();
+      toast("Rule updated in memory. Download the JSON to save it.");
+    }
+
+    function upsertReportRule(rule) {
+      const index = state.reportRules.rules.findIndex(item => item.id === rule.id);
+      if (index >= 0) {
+        state.reportRules.rules.splice(index, 1, rule);
+      } else {
+        state.reportRules.rules.push(rule);
+      }
+    }
+
+    function upsertDatasetRule(rule) {
+      const index = state.datasetRules.findIndex(item => item.ID === rule.ID);
+      if (index >= 0) {
+        state.datasetRules.splice(index, 1, rule);
+      } else {
+        state.datasetRules.push(rule);
+      }
+    }
+
+    function deleteSelectedRule() {
+      if (!state.selectedId) {
+        toast("Select a rule before deleting.");
+        return;
+      }
+      const [kind, id] = state.selectedId.split(":");
+      if (kind === "report") {
+        state.reportRules.rules = state.reportRules.rules.filter(rule => rule.id !== id);
+      } else {
+        state.datasetRules = state.datasetRules.filter(rule => rule.ID !== id);
+      }
+      state.selectedId = "";
+      render();
+      toast("Rule deleted in memory. Download the JSON to save it.");
+    }
+
+    function suggestRule() {
+      const prompt = els.assistantPrompt.value.toLowerCase();
+      const number = Number((prompt.match(/\b(\d+)\b/) || [])[1]);
+      let suggestion;
+
+      if (prompt.includes("visual")) {
+        suggestion = { kind: "report", template: "maxVisuals", values: { maxVisuals: number || 12 } };
+      } else if (prompt.includes("page") && (prompt.includes("more than") || prompt.includes("limit") || prompt.includes("maximum"))) {
+        suggestion = { kind: "report", template: "maxPages", values: { maxPages: number || 6 } };
+      } else if (prompt.includes("axis")) {
+        suggestion = { kind: "report", template: "axisTitles", values: {} };
+      } else if (prompt.includes("theme") || prompt.includes("color") || prompt.includes("colour")) {
+        suggestion = { kind: "report", template: "themeColours", values: {} };
+      } else if (prompt.includes("local measure") || prompt.includes("report-level measure")) {
+        suggestion = { kind: "report", template: "localMeasures", values: {} };
+      } else if (prompt.includes("format string")) {
+        suggestion = { kind: "dataset", template: "formatString", values: {} };
+      } else if (prompt.includes("divide") || prompt.includes("slash") || prompt.includes("division")) {
+        suggestion = { kind: "dataset", template: "divideFunction", values: {} };
+      } else if (prompt.includes("iferror")) {
+        suggestion = { kind: "dataset", template: "ifError", values: {} };
+      } else if (prompt.includes("foreign key")) {
+        suggestion = { kind: "dataset", template: "hideForeignKeys", values: {} };
+      }
+
+      if (!suggestion) {
+        els.assistantResult.innerHTML = "I could not confidently map that description to a built-in template. Try using the custom report or dataset rule template.";
+        state.selectedSuggestion = null;
+        return;
+      }
+
+      state.selectedSuggestion = suggestion;
+      const template = suggestion.kind === "report"
+        ? reportTemplates[suggestion.template]
+        : datasetTemplates[suggestion.template];
+      els.assistantResult.innerHTML = `
+        <strong>Suggested template:</strong> ${escapeHtml(template.label)}<br>
+        <span class="muted">Rule type: ${suggestion.kind === "report" ? "Report rules" : "Dataset rules"}. Use the suggestion to review and adjust fields in the builder before adding it.</span>
+      `;
+    }
+
+    function useSuggestion() {
+      if (!state.selectedSuggestion) {
+        toast("Generate a suggestion first.");
+        return;
+      }
+      state.activeKind = state.selectedSuggestion.kind;
+      render();
+      els.templateKey.value = state.selectedSuggestion.template;
+      applyTemplateDefaults();
+      for (const [key, value] of Object.entries(state.selectedSuggestion.values || {})) {
+        const input = els.templateParams.querySelector(`[data-param='${key}']`);
+        if (input) input.value = value;
+      }
+      activateTab("builder");
+      toast("Suggestion loaded into builder.");
+    }
+
+    async function parsePbipFiles(fileList) {
+      const files = Array.from(fileList || []);
+      const jsonFiles = files.filter(file => file.name.toLowerCase().endsWith(".json"));
+      const pages = [];
+      const visuals = [];
+
+      for (const file of jsonFiles) {
+        const path = file.webkitRelativePath || file.name;
+        let data;
+        try {
+          data = JSON.parse(await file.text());
+        } catch {
+          continue;
+        }
+        const normalizedPath = path.replaceAll("\\", "/");
+        if (isPageFile(normalizedPath, data)) {
+          const key = pageKeyFromPath(normalizedPath);
+          pages.push({
+            key,
+            name: data.name || key,
+            displayName: data.displayName || data.displayOption?.displayName || data.name || key,
+            visibility: data.visibility || data.displayOption?.visibility || "Visible",
+            height: data.height || data.canvasSettings?.height || data.pageSize?.height || ""
+          });
+        } else if (isVisualFile(normalizedPath, data)) {
+          visuals.push({
+            pageKey: pageKeyFromPath(normalizedPath),
+            name: data.name || data.visual?.name || file.name,
+            visualType: data.visual?.visualType || data.singleVisual?.visualType || data.visualType || "",
+            isHidden: Boolean(data.isHidden || data.visual?.isHidden || data.singleVisual?.isHidden)
+          });
+        }
+      }
+
+      state.pbip = { pages, visuals, sourceName: files[0]?.webkitRelativePath?.split("/")[0] || "selected folder" };
+      renderImpact();
+      activateTab("impact");
+      toast(`Parsed ${pages.length} pages and ${visuals.length} visual files.`);
+    }
+
+    function isPageFile(path, data) {
+      return /\/pages\/[^/]+\/page\.json$/i.test(path) ||
+        (/\/pages\/[^/]+\.json$/i.test(path) && ("displayName" in data || "visibility" in data || "height" in data));
+    }
+
+    function isVisualFile(path, data) {
+      return /\/visuals\/[^/]+\/visual\.json$/i.test(path) ||
+        "visual" in data ||
+        "singleVisual" in data ||
+        "visualType" in data;
+    }
+
+    function pageKeyFromPath(path) {
+      const match = path.match(/\/pages\/([^/]+)/i);
+      return match ? match[1] : "report";
+    }
+
+    function downloadJson(filename, value) {
+      const blob = new Blob([pretty(value)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function copyText(text) {
+      await navigator.clipboard.writeText(text);
+      toast("Copied to clipboard.");
+    }
+
+    function buildDiff(original, generated) {
+      const oldLines = String(original || "").split(/\r?\n/);
+      const newLines = String(generated || "").split(/\r?\n/);
+      const max = Math.max(oldLines.length, newLines.length);
+      const lines = [];
+      for (let index = 0; index < max; index += 1) {
+        const oldLine = oldLines[index];
+        const newLine = newLines[index];
+        if (oldLine === newLine) {
+          lines.push(`<span class="diff-line">  ${escapeHtml(newLine || "")}</span>`);
+        } else {
+          if (oldLine !== undefined) lines.push(`<span class="diff-line diff-removed">- ${escapeHtml(oldLine)}</span>`);
+          if (newLine !== undefined) lines.push(`<span class="diff-line diff-added">+ ${escapeHtml(newLine)}</span>`);
+        }
+      }
+      return lines.join("");
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function activateTab(tab) {
+      document.querySelectorAll(".tab").forEach(button => {
+        button.classList.toggle("active", button.dataset.tab === tab);
+      });
+      document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.add("hidden"));
+      document.getElementById(`${tab}Tab`).classList.remove("hidden");
+      renderJson();
+    }
+
+    els.reportFile.addEventListener("change", event => {
+      const file = event.target.files[0];
+      if (file) loadJsonFile(file, "report").catch(error => toast(error.message));
+    });
+    els.datasetFile.addEventListener("change", event => {
+      const file = event.target.files[0];
+      if (file) loadJsonFile(file, "dataset").catch(error => toast(error.message));
+    });
+    els.pbipFiles.addEventListener("change", event => parsePbipFiles(event.target.files));
+    els.downloadReport.addEventListener("click", () => downloadJson("Rules-Report.json", state.reportRules));
+    els.downloadDataset.addEventListener("click", () => downloadJson("Rules-Dataset.json", state.datasetRules));
+    els.seedExamples.addEventListener("click", seedExamples);
+    els.searchRules.addEventListener("input", renderRuleList);
+    els.ruleKind.addEventListener("change", event => {
+      state.activeKind = event.target.value;
+      state.selectedId = "";
+      render();
+      applyTemplateDefaults();
+    });
+    els.templateKey.addEventListener("change", applyTemplateDefaults);
+    els.saveRule.addEventListener("click", saveRule);
+    els.newRule.addEventListener("click", newRule);
+    els.deleteRule.addEventListener("click", deleteSelectedRule);
+    els.suggestRule.addEventListener("click", suggestRule);
+    els.useSuggestion.addEventListener("click", useSuggestion);
+    els.copyJson.addEventListener("click", () => {
+      if (!state.selectedId) {
+        toast("Select a rule first.");
+        return;
+      }
+      const [kind, id] = state.selectedId.split(":");
+      const rule = kind === "report"
+        ? state.reportRules.rules.find(item => item.id === id)
+        : state.datasetRules.find(item => item.ID === id);
+      copyText(pretty(rule || {}));
+    });
+    els.copyAllJson.addEventListener("click", () => {
+      copyText(state.activeKind === "report" ? pretty(state.reportRules) : pretty(state.datasetRules));
+    });
+    els.ruleList.addEventListener("click", event => {
+      const card = event.target.closest(".rule-card");
+      if (card) selectRule(card.dataset.kind, card.dataset.id);
+    });
+    document.querySelectorAll(".tab").forEach(button => {
+      button.addEventListener("click", () => activateTab(button.dataset.tab));
+    });
+
+    render();
+    applyTemplateDefaults();
+  </script>
+</body>
+</html>

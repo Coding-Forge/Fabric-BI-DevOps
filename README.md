@@ -24,6 +24,20 @@ This README provides a **topic-by-topic index** of supporting resources, archite
 | [5. Disclaimer](#5-disclaimer) | Example-code and as-is notice |
 | [6. Folder Structure](#6-appendix-repository-folder-structure) | Actual repo layout |
 
+### No-Code Power BI Governance Tools
+
+This repo includes static browser tools that help teams define and maintain enterprise Power BI standards without hand-editing JSON:
+
+| Tool | Path | Purpose |
+|---|---|---|
+| **Enterprise Standards Builder** | `tools/enterprise-standards-builder/index.html` | Choose policy profiles and generate `Rules-Report.json`, `Rules-Dataset.json`, a reusable policy profile, and a review summary. |
+| **Quality Rule Designer** | `tools/rule-designer/index.html` | Edit individual report and dataset rules, including custom PBI Inspector and Tabular Editor BPA logic. |
+| **DAX Test Builder** | `tools/dax-test-builder/index.html` | Customize `shared/dax-tests.json`, define DAX measure test metadata, and export a test catalog for CI/CD adoption. |
+
+Use the Enterprise Standards Builder first for governance policy setup, then use the Quality Rule Designer for advanced tuning.
+
+See [Enterprise Power BI Governance Tools](docs/governance/power-bi-governance-tools.md) for screenshots, demo flow, and positioning language.
+
 ### Repository Structure by Platform
 
 This repository organizes CI/CD platforms and shared assets at the top level for clarity:
@@ -158,6 +172,7 @@ These are generated from the Marp source using `python-pptx` and can be opened d
 ### Governance
 - [Governance Checklist](docs/governance/governance-checklist.md)
 - [OneLake Security Guidance](docs/governance/onelake-security.md)
+- [Enterprise Power BI Governance Tools](docs/governance/power-bi-governance-tools.md)
 
 ---
 

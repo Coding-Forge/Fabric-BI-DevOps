@@ -188,15 +188,15 @@ For the workshop pipeline (`azdo/azure-pipelines.yml`):
 4. Cross-reference the rule ID against `shared/Rules-Dataset.json` — the `name` and `description` fields explain what the rule enforces.
 5. Fix the semantic model violation (e.g., add a measure description, remove a many-to-many relationship) and re-push.
 
-If the rule is a false positive or does not apply to your project, you can disable it by removing or commenting out the rule entry in `Rules-Dataset.json`.
+If the rule is a false positive or does not apply to your project, use `tools/enterprise-standards-builder/index.html` to adjust the approved policy profile, or use `tools/rule-designer/index.html` to tune an individual dataset rule. Avoid editing JSON by hand unless you are authoring advanced Tabular Editor BPA logic.
 
-> See also: [Lab 2](workshop-plan/labs/lab2-ci-pipeline.md), Part 2 — Validate Stage. [shared/Rules-Dataset.json](../shared/Rules-Dataset.json).
+> See also: [Lab 2](workshop-plan/labs/lab2-ci-pipeline.md), Part 2 — Validate Stage. [shared/Rules-Dataset.json](../shared/Rules-Dataset.json). [Rules Authoring Guide](Rules-Authoring-Guide.md).
 
 ---
 
 ### Q: The Report Quality Rules job fails. Where do report rules come from?
 
-Report rules are defined in `shared/Rules-Report.json`. The job uses **PBI Inspector** to evaluate these rules against the `.Report/definition/` folder of the PBIP artifact.
+Report rules are defined in `shared/Rules-Report.json`. The job uses **PBI Inspector** to evaluate these rules against the `.Report/definition/` folder of the PBIP artifact. Use `tools/enterprise-standards-builder/index.html` for policy-level settings and `tools/rule-designer/index.html` for individual report-rule changes.
 
 Common rule failures and fixes:
 
@@ -207,7 +207,7 @@ Common rule failures and fixes:
 | Tooltip is empty | Custom tooltip page is blank | Fill in tooltip content or remove the tooltip assignment |
 | Image alt-text missing | An image visual has no alt-text | Add alt-text via the visual's accessibility options |
 
-> See also: [shared/Rules-Report.json](../shared/Rules-Report.json).
+> See also: [shared/Rules-Report.json](../shared/Rules-Report.json). [Rules Authoring Guide](Rules-Authoring-Guide.md).
 
 ---
 

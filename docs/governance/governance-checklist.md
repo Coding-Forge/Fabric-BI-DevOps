@@ -15,6 +15,8 @@ Use this checklist at each stage of the development lifecycle to ensure Fabric w
 - Check off every item before proceeding to the next environment.  
 - For items marked **[BLOCK]** — the deployment must be halted until resolved.  
 - Assign an owner to any item that is not yet complete.  
+- Use `tools/enterprise-standards-builder/index.html` to define the project quality policy and generate the rule JSON used by CI.
+- Use `tools/rule-designer/index.html` to tune individual report or dataset rules when exceptions or custom checks are needed.
 
 ---
 
@@ -53,6 +55,7 @@ Use this checklist at each stage of the development lifecycle to ensure Fabric w
 
 - [ ] `tests/validate_pbip_structure.py` passes before opening the PR  
 - [ ] Dataset and report quality rule checks pass in CI  
+- [ ] `shared/Rules-Dataset.json` and `shared/Rules-Report.json` align to the approved Enterprise Standards Builder policy profile  
 - [ ] No hardcoded connection strings, passwords, or keys in PBIP JSON/YAML/TMDL  
 - [ ] Measure and column descriptions added for all new model objects (or waived by BI Lead)  
 
@@ -171,5 +174,6 @@ Use this checklist at each stage of the development lifecycle to ensure Fabric w
 - [Workspace Strategy](../architecture/workspace-strategy.md)  
 - [OneLake Security Guidance](onelake-security.md)  
 - [CI/CD Architecture](../architecture/cicd-architecture.md)  
+- [Rules Authoring Guide](../Rules-Authoring-Guide.md)  
 - [Lab 1 — Connect Workspace to Git](../workshop-plan/labs/lab1-connect-git.md)  
 - [Lab 2 — CI/CD Pipeline for the Power BI Project](../workshop-plan/labs/lab2-ci-pipeline.md)

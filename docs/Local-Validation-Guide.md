@@ -10,6 +10,8 @@ This guide shows how to validate the PBIP project locally before pushing changes
 
 Tool execution for Tabular Editor and PBI Inspector is handled directly in CI, but this guide shows how to validate the inputs they rely on.
 
+Use `tools/enterprise-standards-builder/index.html` to generate enterprise-standard `Rules-Dataset.json` and `Rules-Report.json` files. Use `tools/rule-designer/index.html` for individual custom rule edits before running the validation steps below. Use `tools/dax-test-builder/index.html` to customize the starter `shared/dax-tests.json` catalog and define measure-level DAX test metadata; the current runner still needs to be extended to execute those metadata-driven tests.
+
 ## Prerequisites
 
 - PowerShell 7 or Windows PowerShell
@@ -126,8 +128,9 @@ If a local validation passes but CI fails, the next place to inspect is usually 
 
 Use this order before opening a PR:
 
-1. Validate PBIP structure.
-2. Prepare effective dataset rules for the target branch.
+1. Generate or review rule files with the Enterprise Standards Builder or Quality Rule Designer.
+2. Validate PBIP structure.
+3. Prepare effective dataset rules for the target branch.
 3. Prepare effective report rules for the target branch.
 4. Run the DAX test harness.
 5. Review diffs in rule files if you changed standards.

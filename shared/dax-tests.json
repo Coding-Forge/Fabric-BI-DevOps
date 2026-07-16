@@ -1,0 +1,372 @@
+{
+  "version": 1,
+  "name": "Enterprise DAX Test Catalog",
+  "description": "Starter measure-level DAX test cases for PBIP CI/CD. These are generally accepted validation patterns and should be customized to each semantic model before enabling.",
+  "evaluator": "semantic-link-labs-or-tabular-editor",
+  "tests": [
+    {
+      "id": "TOTAL_REVENUE_NOT_BLANK",
+      "name": "Revenue measure returns a value",
+      "enabled": false,
+      "severity": "error",
+      "owner": "BI Governance Team",
+      "measure": {
+        "table": "Core Measures",
+        "name": "[Total Revenue]"
+      },
+      "scenario": "Critical financial measures should not return blank for the standard validation period.",
+      "filterContext": [
+        "Calendar[Year]=2026"
+      ],
+      "assertion": {
+        "type": "notBlank",
+        "expected": "",
+        "tolerance": {
+          "value": 0,
+          "type": "absolute"
+        }
+      },
+      "tags": [
+        "finance",
+        "baseline",
+        "not-blank"
+      ],
+      "query": "EVALUATE ROW(\"Actual\", CALCULATE([Total Revenue], Calendar[Year] = 2026))",
+      "requiresCustomization": true
+    },
+    {
+      "id": "TOTAL_REVENUE_NON_NEGATIVE",
+      "name": "Revenue measure is non-negative",
+      "enabled": false,
+      "severity": "error",
+      "owner": "BI Governance Team",
+      "measure": {
+        "table": "Core Measures",
+        "name": "[Total Revenue]"
+      },
+      "scenario": "Revenue should not be negative for the standard validation period unless the model explicitly supports net-negative revenue.",
+      "filterContext": [
+        "Calendar[Year]=2026"
+      ],
+      "assertion": {
+        "type": "greaterThanOrEqual",
+        "expected": 0,
+        "tolerance": {
+          "value": 0,
+          "type": "absolute"
+        }
+      },
+      "tags": [
+        "finance",
+        "baseline",
+        "non-negative"
+      ],
+      "query": "EVALUATE ROW(\"Actual\", CALCULATE([Total Revenue], Calendar[Year] = 2026))",
+      "requiresCustomization": true
+    },
+    {
+      "id": "TRANSACTION_COUNT_POSITIVE",
+      "name": "Transaction count is positive",
+      "enabled": false,
+      "severity": "error",
+      "owner": "BI Governance Team",
+      "measure": {
+        "table": "Core Measures",
+        "name": "[Transaction Count]"
+      },
+      "scenario": "A production validation slice should contain transactions. This catches broken filters, relationships, or source refresh issues.",
+      "filterContext": [
+        "Calendar[Year]=2026"
+      ],
+      "assertion": {
+        "type": "greaterThan",
+        "expected": 0,
+        "tolerance": {
+          "value": 0,
+          "type": "absolute"
+        }
+      },
+      "tags": [
+        "volume",
+        "refresh",
+        "relationships"
+      ],
+      "query": "EVALUATE ROW(\"Actual\", CALCULATE([Transaction Count], Calendar[Year] = 2026))",
+      "requiresCustomization": true
+    },
+    {
+      "id": "CUSTOMER_COUNT_NOT_GREATER_THAN_TRANSACTION_COUNT",
+      "name": "Customer count does not exceed transaction count",
+      "enabled": false,
+      "severity": "warning",
+      "owner": "BI Governance Team",
+      "measure": {
+        "table": "Core Measures",
+        "name": "[Customer Count]"
+      },
+      "scenario": "Distinct customer count should normally be less than or equal to transaction count for the same filter context.",
+      "filterContext": [
+        "Calendar[Year]=2026"
+      ],
+      "assertion": {
+        "type": "lessThanOrEqual",
+        "expectedMeasure": "[Transaction Count]",
+        "tolerance": {
+          "value": 0,
+          "type": "absolute"
+        }
+      },
+      "tags": [
+        "cardinality",
+        "relationships",
+        "sanity-check"
+      ],
+      "query": "EVALUATE ROW(\"Actual\", CALCULATE([Customer Count], Calendar[Year] = 2026), \"ExpectedMaximum\", CALCULATE([Transaction Count], Calendar[Year] = 2026))",
+      "requiresCustomization": true
+    },
+    {
+      "id": "MARGIN_PERCENT_VALID_RANGE",
+      "name": "Margin percent is between 0 and 1",
+      "enabled": false,
+      "severity": "warning",
+      "owner": "BI Governance Team",
+      "measure": {
+        "table": "Core Measures",
+        "name": "[Margin %]"
+      },
+      "scenario": "Percentage measures should stay inside the expected decimal range unless the business explicitly allows negative or over-100-percent values.",
+      "filterContext": [
+        "Calendar[Year]=2026"
+      ],
+      "assertion": {
+        "type": "between",
+        "expected": 0,
+        "expectedMax": 1,
+        "tolerance": {
+          "value": 0,
+          "type": "absolute"
+        }
+      },
+      "tags": [
+        "ratio",
+        "finance",
+        "range"
+      ],
+      "query": "EVALUATE ROW(\"Actual\", CALCULATE([Margin %], Calendar[Year] = 2026))",
+      "requiresCustomization": true
+    },
+    {
+      "id": "GROSS_MARGIN_EQUALS_REVENUE_MINUS_COST",
+      "name": "Gross margin equals revenue minus cost",
+      "enabled": false,
+      "severity": "error",
+      "owner": "BI Governance Team",
+      "measure": {
+        "table": "Core Measures",
+        "name": "[Gross Margin]"
+      },
+      "scenario": "Derived financial measures should reconcile to their component measures within an accepted tolerance.",
+      "filterContext": [
+        "Calendar[Year]=2026"
+      ],
+      "assertion": {
+        "type": "equalsExpression",
+        "expectedExpression": "[Total Revenue] - [Total Cost]",
+        "tolerance": {
+          "value": 0.01,
+          "type": "absolute"
+        }
+      },
+      "tags": [
+        "finance",
+        "reconciliation",
+        "derived-measure"
+      ],
+      "query": "EVALUATE ROW(\"Actual\", CALCULATE([Gross Margin], Calendar[Year] = 2026), \"Expected\", CALCULATE([Total Revenue] - [Total Cost], Calendar[Year] = 2026))",
+      "requiresCustomization": true
+    },
+    {
+      "id": "AVERAGE_VALUE_RECONCILES_TO_TOTAL_DIVIDED_BY_COUNT",
+      "name": "Average value reconciles to total divided by count",
+      "enabled": false,
+      "severity": "warning",
+      "owner": "BI Governance Team",
+      "measure": {
+        "table": "Core Measures",
+        "name": "[Average Order Value]"
+      },
+      "scenario": "Average measures should reconcile to their total divided by count definition within an accepted tolerance.",
+      "filterContext": [
+        "Calendar[Year]=2026"
+      ],
+      "assertion": {
+        "type": "equalsExpression",
+        "expectedExpression": "DIVIDE([Total Revenue], [Order Count])",
+        "tolerance": {
+          "value": 0.01,
+          "type": "absolute"
+        }
+      },
+      "tags": [
+        "average",
+        "reconciliation",
+        "dax-pattern"
+      ],
+      "query": "EVALUATE ROW(\"Actual\", CALCULATE([Average Order Value], Calendar[Year] = 2026), \"Expected\", CALCULATE(DIVIDE([Total Revenue], [Order Count]), Calendar[Year] = 2026))",
+      "requiresCustomization": true
+    },
+    {
+      "id": "YTD_GREATER_THAN_OR_EQUAL_CURRENT_PERIOD",
+      "name": "YTD measure is at least current-period value",
+      "enabled": false,
+      "severity": "warning",
+      "owner": "BI Governance Team",
+      "measure": {
+        "table": "Core Measures",
+        "name": "[Revenue YTD]"
+      },
+      "scenario": "For additive non-negative metrics, year-to-date values should be greater than or equal to the current period value.",
+      "filterContext": [
+        "Calendar[Year]=2026",
+        "Calendar[Month Number]=6"
+      ],
+      "assertion": {
+        "type": "greaterThanOrEqualMeasure",
+        "expectedMeasure": "[Total Revenue]",
+        "tolerance": {
+          "value": 0,
+          "type": "absolute"
+        }
+      },
+      "tags": [
+        "time-intelligence",
+        "ytd",
+        "sanity-check"
+      ],
+      "query": "EVALUATE ROW(\"Actual\", CALCULATE([Revenue YTD], Calendar[Year] = 2026, Calendar[Month Number] = 6), \"ExpectedMinimum\", CALCULATE([Total Revenue], Calendar[Year] = 2026, Calendar[Month Number] = 6))",
+      "requiresCustomization": true
+    },
+    {
+      "id": "PRIOR_YEAR_MEASURE_HAS_VALUE_FOR_COMPARABLE_PERIOD",
+      "name": "Prior-year measure has a comparable value",
+      "enabled": false,
+      "severity": "warning",
+      "owner": "BI Governance Team",
+      "measure": {
+        "table": "Core Measures",
+        "name": "[Revenue PY]"
+      },
+      "scenario": "Prior-year comparison measures should return a value when the comparable prior-year period has data.",
+      "filterContext": [
+        "Calendar[Year]=2026",
+        "Calendar[Month Number]=6"
+      ],
+      "assertion": {
+        "type": "notBlank",
+        "expected": "",
+        "tolerance": {
+          "value": 0,
+          "type": "absolute"
+        }
+      },
+      "tags": [
+        "time-intelligence",
+        "prior-year",
+        "comparison"
+      ],
+      "query": "EVALUATE ROW(\"Actual\", CALCULATE([Revenue PY], Calendar[Year] = 2026, Calendar[Month Number] = 6))",
+      "requiresCustomization": true
+    },
+    {
+      "id": "VARIANCE_PERCENT_VALID_RANGE",
+      "name": "Variance percent stays within expected range",
+      "enabled": false,
+      "severity": "warning",
+      "owner": "BI Governance Team",
+      "measure": {
+        "table": "Core Measures",
+        "name": "[Revenue YoY %]"
+      },
+      "scenario": "Variance percentage measures should stay within a practical range to catch divide-by-zero, missing baseline, or formatting errors.",
+      "filterContext": [
+        "Calendar[Year]=2026"
+      ],
+      "assertion": {
+        "type": "between",
+        "expected": -1,
+        "expectedMax": 10,
+        "tolerance": {
+          "value": 0,
+          "type": "absolute"
+        }
+      },
+      "tags": [
+        "variance",
+        "ratio",
+        "time-intelligence"
+      ],
+      "query": "EVALUATE ROW(\"Actual\", CALCULATE([Revenue YoY %], Calendar[Year] = 2026))",
+      "requiresCustomization": true
+    },
+    {
+      "id": "REPORTING_PERIOD_TOTAL_MATCHES_ANNUAL_TOTAL",
+      "name": "Period totals reconcile to annual total",
+      "enabled": false,
+      "severity": "error",
+      "owner": "BI Governance Team",
+      "measure": {
+        "table": "Core Measures",
+        "name": "[Total Revenue]"
+      },
+      "scenario": "Sum of reporting periods should reconcile to the annual total for additive measures.",
+      "filterContext": [
+        "Calendar[Year]=2026"
+      ],
+      "assertion": {
+        "type": "equalsExpression",
+        "expectedExpression": "SUMX(VALUES(Calendar[Month Number]), [Total Revenue])",
+        "tolerance": {
+          "value": 0.01,
+          "type": "absolute"
+        }
+      },
+      "tags": [
+        "reconciliation",
+        "additive",
+        "calendar"
+      ],
+      "query": "EVALUATE ROW(\"Actual\", CALCULATE([Total Revenue], Calendar[Year] = 2026), \"Expected\", CALCULATE(SUMX(VALUES(Calendar[Month Number]), [Total Revenue]), Calendar[Year] = 2026))",
+      "requiresCustomization": true
+    },
+    {
+      "id": "BLANK_HANDLING_FOR_NO_DATA_SLICE",
+      "name": "Measure handles no-data slice predictably",
+      "enabled": false,
+      "severity": "warning",
+      "owner": "BI Governance Team",
+      "measure": {
+        "table": "Core Measures",
+        "name": "[Total Revenue]"
+      },
+      "scenario": "Measures should return the agreed blank or zero behavior for filter slices with no data.",
+      "filterContext": [
+        "Calendar[Year]=1900"
+      ],
+      "assertion": {
+        "type": "blank",
+        "expected": "",
+        "tolerance": {
+          "value": 0,
+          "type": "absolute"
+        }
+      },
+      "tags": [
+        "blank-handling",
+        "edge-case",
+        "no-data"
+      ],
+      "query": "EVALUATE ROW(\"Actual\", CALCULATE([Total Revenue], Calendar[Year] = 1900))",
+      "requiresCustomization": true
+    }
+  ]
+}

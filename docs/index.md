@@ -24,6 +24,11 @@ This wiki provides all workshop plans, labs, governance materials, and architect
 - [OneLake Security Guidance](./governance/onelake-security.md)  
 - [GitHub Best Practices for Fabric Git Integration](./architecture/github-fabric-git-best-practices.md)  
 - [Workspace Strategy](./architecture/workspace-strategy.md)
+- [Rules Authoring Guide](./Rules-Authoring-Guide.md)
+- [Enterprise Power BI Governance Tools](./governance/power-bi-governance-tools.md)
+- Enterprise Standards Builder: `../tools/enterprise-standards-builder/index.html`
+- Quality Rule Designer: `../tools/rule-designer/index.html`
+- DAX Test Builder: `../tools/dax-test-builder/index.html`
 
 ---
 

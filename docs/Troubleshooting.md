@@ -75,6 +75,8 @@ What to do:
 Best reference:
 
 - `Rules-Authoring-Guide.md`
+- `tools/enterprise-standards-builder/index.html` for policy-level changes
+- `tools/rule-designer/index.html` for individual rule tuning
 
 ## Pipeline Cannot Find Report or Semantic Model Definitions
 
