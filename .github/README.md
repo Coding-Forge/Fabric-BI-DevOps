@@ -63,6 +63,13 @@ Notes:
 6. Push to GitHub.
 7. Open the Actions tab and confirm the `Power BI CI/CD` workflow runs.
 
+If you used `shared/scripts/Clone-SparseGitHubProfile.ps1`, the script removes the source `origin` remote after checkout. Add the new customer GitHub repo as `origin` before pushing:
+
+```powershell
+git remote add origin https://github.com/<org>/<repo>.git
+git push -u origin main
+```
+
 ## Recommended GitHub settings
 
 Branch protection for `main`:

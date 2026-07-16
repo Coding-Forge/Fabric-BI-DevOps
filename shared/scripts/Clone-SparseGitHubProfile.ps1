@@ -45,10 +45,13 @@ try {
     git sparse-checkout init --cone
     git sparse-checkout set .github shared docs tools images
     git checkout $Branch
+    git remote remove origin
 
     Write-Host ''
     Write-Host 'Sparse checkout configured for GitHub profile.'
     Write-Host 'Included folders: .github, shared, docs, tools, images'
+    Write-Host 'Removed source remote: origin'
+    Write-Host 'Add your customer GitHub remote with: git remote add origin <new-github-repo-url>'
     Write-Host "Working directory: $(Get-Location)"
 }
 finally {

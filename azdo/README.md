@@ -25,4 +25,10 @@ When creating a pipeline in Azure DevOps for this workshop repo, select:
 
 - `/azdo/azure-pipelines.yml`
 
+If you used `shared/scripts/Clone-SparseAzDoProfile.ps1`, the script removes the source `origin` remote after checkout. Add the new Azure DevOps repo as `origin` before pushing:
+
+```powershell
+git remote add origin https://dev.azure.com/<org>/<project>/_git/<repo>
+git push -u origin main
+```
 

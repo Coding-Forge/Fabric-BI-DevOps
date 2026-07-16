@@ -89,6 +89,13 @@ Default included folders per profile:
 - GitHub: `.github`, `shared`, `docs`, `tools`, `images`
 - GitLab: `gitlab`, `shared`, `docs`, `tools`, `images`
 
+Each sparse clone script removes the source `origin` remote after checkout. This prevents customers from accidentally pushing back to the accelerator source repo. Add the customer's new remote after the clone:
+
+```powershell
+git remote add origin <new-customer-repo-url>
+git push -u origin main
+```
+
 Use a different branch with `-Branch`:
 
 ```powershell

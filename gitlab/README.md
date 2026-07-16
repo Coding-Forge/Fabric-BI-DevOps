@@ -104,3 +104,10 @@ To clone only the GitLab-relevant folders from a shell:
 ```
 
 Included folders: `gitlab`, `shared`, `docs`, `tools`, `images`
+
+The script removes the source `origin` remote after checkout. Add the new customer GitLab repo as `origin` before pushing:
+
+```powershell
+git remote add origin https://gitlab.com/<group>/<repo>.git
+git push -u origin main
+```

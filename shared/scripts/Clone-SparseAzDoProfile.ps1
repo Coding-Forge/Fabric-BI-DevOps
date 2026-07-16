@@ -45,10 +45,13 @@ try {
     git sparse-checkout init --cone
     git sparse-checkout set azdo shared docs tools images
     git checkout $Branch
+    git remote remove origin
 
     Write-Host ''
     Write-Host 'Sparse checkout configured for Azure DevOps profile.'
     Write-Host 'Included folders: azdo, shared, docs, tools, images'
+    Write-Host 'Removed source remote: origin'
+    Write-Host 'Add your customer Azure DevOps remote with: git remote add origin <new-azdo-repo-url>'
     Write-Host "Working directory: $(Get-Location)"
 }
 finally {

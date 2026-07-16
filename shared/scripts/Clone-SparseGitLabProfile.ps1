@@ -45,10 +45,13 @@ try {
     git sparse-checkout init --cone
     git sparse-checkout set gitlab shared docs tools images
     git checkout $Branch
+    git remote remove origin
 
     Write-Host ''
     Write-Host 'Sparse checkout configured for GitLab profile.'
     Write-Host 'Included folders: gitlab, shared, docs, tools, images'
+    Write-Host 'Removed source remote: origin'
+    Write-Host 'Add your customer GitLab remote with: git remote add origin <new-gitlab-repo-url>'
     Write-Host "Working directory: $(Get-Location)"
 }
 finally {
