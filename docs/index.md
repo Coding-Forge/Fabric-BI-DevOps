@@ -30,6 +30,7 @@ This wiki provides all workshop plans, labs, governance materials, and architect
 - Enterprise Standards Builder: `../tools/enterprise-standards-builder/index.html`
 - Quality Rule Designer: `../tools/rule-designer/index.html`
 - DAX Test Builder: `../tools/dax-test-builder/index.html`
+- Deployment Manifest Builder: `../tools/deployment-manifest-builder/index.html`
 - PBIP Project Readiness Scanner: `../tools/pbip-readiness-scanner/index.html`
 
 ---

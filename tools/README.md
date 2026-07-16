@@ -13,6 +13,7 @@ Open [Fabric BI DevOps Accelerator Launchpad](index.html) first. It provides the
 | [Enterprise Standards Builder](enterprise-standards-builder/index.html) | BI leads, governance owners, report creators | Choose enterprise policy controls and generate pipeline-ready quality rules | `Rules-Report.json`, `Rules-Dataset.json`, `enterprise-policy-profile.json`, policy summary Markdown |
 | [Quality Rule Designer](rule-designer/index.html) | Platform team, advanced BI developers | Edit or create individual report and dataset rules with guided templates or custom logic | `Rules-Report.json`, `Rules-Dataset.json` |
 | [DAX Test Builder](dax-test-builder/index.html) | BI developers, semantic model owners | Define DAX measure test metadata consumed by the pipeline runner | `dax-tests.json`, DAX test catalog Markdown |
+| [Deployment Manifest Builder](deployment-manifest-builder/index.html) | Release managers, BI leads, platform engineers | Scan existing PBIP folders or manually define deployment ownership, artifacts, environments, parameters, approvals, and rollback | `deployment-manifest.json`, deployment summary Markdown |
 | [PBIP Project Readiness Scanner](pbip-readiness-scanner/index.html) | Report creators, platform team | Scan a PBIP repo or project folder before PR | Readiness Markdown report, JSON report |
 
 ## Screenshots
@@ -40,7 +41,8 @@ A starter catalog of generally accepted DAX test patterns is available at `share
 5. Review the JSON and commit the files under `shared/`.
 6. Use `tools/rule-designer/index.html` when you need to tune an individual rule or author custom PBI Inspector / Tabular Editor BPA logic.
 7. Use `tools/dax-test-builder/index.html` to customize `shared/dax-tests.json`, define measure-level DAX tests, and export the updated test catalog.
-8. Use `tools/pbip-readiness-scanner/index.html` before opening a PR to catch missing PBIP structure, governance assets, and CI/CD wiring.
+8. Use `tools/deployment-manifest-builder/index.html` to create the deployment contract for Dev/Test/Prod, parameters, approvals, and rollback.
+9. Use `tools/pbip-readiness-scanner/index.html` before opening a PR to catch missing PBIP structure, governance assets, and CI/CD wiring.
 
 Both tools are self-contained HTML files. They do not require a local server, package install, or internet access.
 

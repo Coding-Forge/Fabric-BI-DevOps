@@ -36,6 +36,7 @@ tools/index.html
 | **Enterprise Standards Builder** | BI leads, governance owners, report creators | Select enterprise policies and generate standard rule files | `Rules-Report.json`, `Rules-Dataset.json`, policy profile, summary |
 | **Quality Rule Designer** | Platform team, advanced BI developers | Tune individual rules or create custom report/dataset checks | Updated rule JSON files |
 | **DAX Test Builder** | BI developers, semantic model owners | Define measure-level DAX test metadata consumed by the pipeline runner | `dax-tests.json`, test catalog Markdown |
+| **Deployment Manifest Builder** | Release managers, BI leads, platform engineers | Scan existing PBIP folders or define solution deployment ownership, artifacts, environments, parameters, approvals, and rollback | `deployment-manifest.json`, summary Markdown |
 | **PBIP Project Readiness Scanner** | Report creators, platform team | Scan a local PBIP repo or project folder before PR | Readiness Markdown report, JSON report |
 
 ## Enterprise Standards Builder
@@ -131,6 +132,37 @@ Use this tool when the conversation starts with questions like:
 - "Can we document test coverage for certified semantic models?"
 - "Can we make DAX validation portable across Azure DevOps, GitHub, and GitLab?"
 
+## Deployment Manifest Builder
+
+Open:
+
+```text
+tools/deployment-manifest-builder/index.html
+```
+
+The Deployment Manifest Builder creates a readable deployment contract for a PBIP solution. It can scan an existing PBIP folder to infer a starter manifest from the `.pbip`, `.Report`, `.SemanticModel`, rule, DAX test, and exception files, then lets users complete the business ownership and environment details. It helps users understand the business purpose, owners, artifacts, Dev/Test/Prod workspaces, environment-specific parameters, validation gates, approvals, rollback plan, and known exceptions.
+
+![Deployment Manifest Builder](../../images/deployment-manifest-builder.png)
+
+### What It Helps Users Do
+
+- Explain what the PBIP solution is and who owns it
+- Scan an existing PBIP folder and infer a draft manifest
+- List the PBIP, report, semantic model, quality rule, and DAX test assets
+- Map Dev/Test/Prod workspaces and connection profiles
+- Document parameters that change by environment
+- Capture required validation gates and approvals
+- Export `deployment-manifest.json` and a Markdown summary for PR or release review
+
+### Best Fit
+
+Use this tool when the conversation starts with questions like:
+
+- "Where does this PBIP solution deploy?"
+- "What changes between Dev, Test, and Prod?"
+- "Who approves production promotion?"
+- "What is the rollback plan?"
+
 ## PBIP Project Readiness Scanner
 
 Open:
@@ -140,6 +172,8 @@ tools/pbip-readiness-scanner/index.html
 ```
 
 The PBIP Project Readiness Scanner checks a local repository or PBIP project folder before a pull request. It runs entirely in the browser and does not upload files anywhere.
+
+![PBIP Project Readiness Scanner](../../images/pbip-project-readiness-scanner.png)
 
 ### What It Helps Users Do
 
@@ -166,10 +200,11 @@ Use this tool when the conversation starts with questions like:
 3. Review the generated policy summary with the BI lead or governance owner.
 4. Use the **Quality Rule Designer** only for advanced tuning or custom checks.
 5. Use the **DAX Test Builder** to define measure-level tests for critical business calculations.
-6. Run the **PBIP Project Readiness Scanner** before opening the PR.
-7. Commit the final rule files and `dax-tests.json` under `shared/`.
-8. Validate the prepared effective rules locally or through CI.
-9. Promote stricter settings after false positives and adoption gaps are resolved.
+6. Use the **Deployment Manifest Builder** to document environments, parameters, approvals, and rollback.
+7. Run the **PBIP Project Readiness Scanner** before opening the PR.
+8. Commit the final rule files, `dax-tests.json`, and `deployment-manifest.json` under `shared/`.
+9. Validate the prepared effective rules locally or through CI.
+10. Promote stricter settings after false positives and adoption gaps are resolved.
 
 ## Marketing Positioning
 
@@ -186,7 +221,8 @@ Use the following summary in presentations, internal announcements, or workshop 
 5. Download the policy summary and explain how it can be attached to a PR or governance review.
 6. Open the Quality Rule Designer and show how an advanced user can tune one rule.
 7. Open the DAX Test Builder and show how a semantic model owner can define a critical measure test.
-8. Open the PBIP Project Readiness Scanner and show the PR-ready Markdown report.
+8. Open the Deployment Manifest Builder and show the Dev/Test/Prod deployment contract.
+9. Open the PBIP Project Readiness Scanner and show the PR-ready Markdown report.
 
 ## Related Docs
 

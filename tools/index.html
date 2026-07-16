@@ -362,6 +362,23 @@
         <article class="card">
           <div class="card-top">
             <div>
+              <h3>Deployment Manifest Builder</h3>
+              <p class="muted">Scan an existing PBIP folder or manually create a readable deployment contract that maps ownership, artifacts, environments, parameters, gates, approvals, and rollback.</p>
+            </div>
+            <span class="chip">Release contract</span>
+          </div>
+          <div class="chips">
+            <span class="chip">Release managers</span>
+            <span class="chip">BI leads</span>
+            <span class="chip">Platform engineers</span>
+          </div>
+          <p><strong>Outputs:</strong> <code>deployment-manifest.json</code> and deployment summary Markdown.</p>
+          <a class="button" href="deployment-manifest-builder/index.html">Open Deployment Manifest Builder</a>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <div>
               <h3>PBIP Project Readiness Scanner</h3>
               <p class="muted">Scan a local PBIP repo or project folder before PR to catch missing structure, governance assets, and CI wiring.</p>
             </div>
@@ -398,6 +415,11 @@
         </div>
         <div class="step">
           <div class="step-number">4</div>
+          <h3>Define deployment</h3>
+          <p class="muted">Use the Deployment Manifest Builder to document environments, parameters, approvals, and rollback.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">5</div>
           <h3>Scan before PR</h3>
           <p class="muted">Use the PBIP Readiness Scanner before opening a pull request or asking reviewers to inspect changes.</p>
         </div>
@@ -432,6 +454,7 @@
         <div class="artifact"><strong><code>Rules-Report.json</code></strong><br><span class="muted">PBI Inspector report quality rules.</span></div>
         <div class="artifact"><strong><code>Rules-Dataset.json</code></strong><br><span class="muted">Tabular Editor BPA dataset quality rules.</span></div>
         <div class="artifact"><strong><code>dax-tests.json</code></strong><br><span class="muted">Measure-level DAX test metadata.</span></div>
+        <div class="artifact"><strong><code>deployment-manifest.json</code></strong><br><span class="muted">Solution deployment contract.</span></div>
         <div class="artifact"><strong><code>enterprise-policy-profile.json</code></strong><br><span class="muted">Reusable governance posture and policy settings.</span></div>
         <div class="artifact"><strong><code>PBIP-Readiness-Report.md</code></strong><br><span class="muted">PR-ready readiness summary.</span></div>
         <div class="artifact"><strong><code>pbip-readiness-report.json</code></strong><br><span class="muted">Machine-readable readiness scan output.</span></div>

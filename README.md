@@ -38,6 +38,7 @@ Start from the central launchpad:
 | **Enterprise Standards Builder** | `tools/enterprise-standards-builder/index.html` | Choose policy profiles and generate `Rules-Report.json`, `Rules-Dataset.json`, a reusable policy profile, and a review summary. |
 | **Quality Rule Designer** | `tools/rule-designer/index.html` | Edit individual report and dataset rules, including custom PBI Inspector and Tabular Editor BPA logic. |
 | **DAX Test Builder** | `tools/dax-test-builder/index.html` | Customize `shared/dax-tests.json`, define DAX measure test metadata, and export a test catalog for CI/CD adoption. |
+| **Deployment Manifest Builder** | `tools/deployment-manifest-builder/index.html` | Scan existing PBIP folders or create `deployment-manifest.json` to explain ownership, artifacts, environments, parameters, approvals, and rollback. |
 | **PBIP Project Readiness Scanner** | `tools/pbip-readiness-scanner/index.html` | Scan a local PBIP repo or project folder before PR and export readiness reports. |
 
 Use the Enterprise Standards Builder first for governance policy setup, then use the Quality Rule Designer for advanced tuning.

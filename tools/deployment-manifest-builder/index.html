@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deployment Manifest Builder</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--cp-bg); color: var(--cp-text); font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.45; }
+    button, input, select, textarea { font: inherit; }
+    button, .file-button { border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); color: var(--cp-text); cursor: pointer; padding: 8px 12px; }
+    button:hover, .file-button:hover { border-color: var(--cp-border-strong); }
+    button.primary { background: var(--cp-accent); border-color: var(--cp-accent); color: var(--cp-accent-fg); }
+    button.primary:hover { background: var(--cp-accent-hover); border-color: var(--cp-accent-hover); }
+    input, select, textarea { width: 100%; border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); color: var(--cp-text); padding: 8px 10px; }
+    textarea { min-height: 84px; resize: vertical; }
+    label { display: grid; gap: 6px; color: var(--cp-text-muted); font-size: 13px; font-weight: 700; }
+    pre, code { font-family: Consolas, "Courier New", Courier, monospace; }
+    pre { margin: 0; overflow: auto; white-space: pre-wrap; word-break: break-word; }
+    .hero { border-bottom: 1px solid var(--cp-border); background: var(--cp-bg-elevated); padding: 28px; }
+    .hero-inner, .main { max-width: 1440px; margin: 0 auto; }
+    .hero-inner { display: grid; gap: 16px; }
+    .eyebrow { color: var(--cp-accent); font-size: 13px; font-weight: 850; letter-spacing: 0.04em; text-transform: uppercase; }
+    h1, h2, h3 { margin: 0; line-height: 1.15; }
+    h1 { font-size: clamp(30px, 4vw, 46px); }
+    h2 { font-size: 20px; }
+    h3 { font-size: 16px; }
+    .lede { max-width: 980px; color: var(--cp-text-muted); font-size: 17px; }
+    .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .file-button { position: relative; overflow: hidden; display: inline-flex; }
+    .file-button input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .main { display: grid; grid-template-columns: minmax(280px, 360px) minmax(0, 1fr); gap: 20px; padding: 24px 28px 40px; }
+    .panel, .card { border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); box-shadow: var(--cp-shadow); }
+    .panel-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--cp-border); padding: 16px; }
+    .panel-body { padding: 16px; }
+    .grid { display: grid; gap: 14px; }
+    .two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .stat { border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface-soft); padding: 12px; }
+    .stat-value { font-size: 26px; font-weight: 850; }
+    .muted, .stat-label { color: var(--cp-text-muted); }
+    .muted { font-size: 13px; }
+    .tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface-soft); margin-bottom: 16px; padding: 8px; }
+    .tab { border-color: var(--cp-surface-soft); background: var(--cp-surface-soft); color: var(--cp-text-muted); font-weight: 850; }
+    .tab.active { border-color: var(--cp-border); background: var(--cp-surface); color: var(--cp-text); }
+    .section { display: grid; gap: 14px; }
+    .section + .section { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--cp-border); }
+    .list { display: grid; gap: 10px; }
+    .item { border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface-soft); padding: 12px; display: grid; gap: 8px; }
+    .item-title { display: flex; justify-content: space-between; gap: 10px; font-weight: 850; }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { display: inline-flex; border: 1px solid var(--cp-border); border-radius: 999px; background: var(--cp-surface-soft); color: var(--cp-text-muted); font-size: 12px; font-weight: 800; padding: 3px 8px; }
+    .chip.accent { border-color: var(--cp-accent); color: var(--cp-accent); }
+    .table { width: 100%; border-collapse: collapse; }
+    .table th, .table td { border-bottom: 1px solid var(--cp-border); padding: 8px; text-align: left; vertical-align: top; }
+    .table th { color: var(--cp-text-muted); font-size: 12px; text-transform: uppercase; }
+    .json-box, .summary-box { max-height: 650px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface-soft); color: var(--cp-text); padding: 14px; font-size: 12px; }
+    .summary-box { font-size: 14px; }
+    .hidden { display: none; }
+    .toast { position: fixed; right: 20px; bottom: 20px; max-width: 380px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-panel-strong); color: var(--cp-text); box-shadow: var(--cp-shadow); padding: 12px 14px; display: none; z-index: 20; }
+    .toast.visible { display: block; }
+    @media (max-width: 980px) { .main, .two, .three, .tabs { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Fabric BI DevOps Accelerator</div>
+      <h1>Deployment Manifest Builder</h1>
+      <p class="lede">Create a readable deployment contract for a PBIP solution. Capture what the solution is, who owns it, what files belong to it, where it deploys, what changes by environment, what gates apply, and how to roll back.</p>
+      <div class="toolbar">
+        <label class="file-button">Load deployment-manifest.json
+          <input id="loadFile" type="file" accept=".json,application/json">
+        </label>
+        <label class="file-button">Scan PBIP folder
+          <input id="scanFolder" type="file" multiple webkitdirectory>
+        </label>
+        <button id="downloadJson" class="primary" type="button">Download deployment-manifest.json</button>
+        <button id="downloadMarkdown" type="button">Download manifest summary</button>
+        <button id="seedExample" type="button">Use starter manifest</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <aside class="panel">
+      <div class="panel-header">
+        <div>
+          <h2>Manifest health</h2>
+          <div class="muted">A complete manifest helps reviewers understand deployment intent.</div>
+        </div>
+      </div>
+      <div class="panel-body grid">
+        <div class="stats">
+          <div class="stat"><div id="envCount" class="stat-value">0</div><div class="stat-label">Environments</div></div>
+          <div class="stat"><div id="paramCount" class="stat-value">0</div><div class="stat-label">Parameters</div></div>
+          <div class="stat"><div id="gateCount" class="stat-value">0</div><div class="stat-label">Gates</div></div>
+          <div class="stat"><div id="exceptionCount" class="stat-value">0</div><div class="stat-label">Exceptions</div></div>
+        </div>
+        <div class="summary-box">Recommended location: commit the exported file as <code>shared/deployment-manifest.json</code> or at the project root if each repository contains only one PBIP solution.</div>
+      </div>
+    </aside>
+
+    <section>
+      <nav class="tabs" aria-label="Manifest tabs">
+        <button class="tab active" data-tab="builder" type="button">Builder</button>
+        <button class="tab" data-tab="review" type="button">Review</button>
+        <button class="tab" data-tab="json" type="button">JSON</button>
+        <button class="tab" data-tab="markdown" type="button">Markdown</button>
+      </nav>
+
+      <div id="builderTab" class="panel tab-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Solution deployment contract</h2>
+            <div class="muted">Fill out the fields users and release approvers need to understand the PBIP solution.</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="section">
+            <h3>Solution identity</h3>
+            <div class="grid three">
+              <label>Solution name<input id="solutionName" type="text" placeholder="Executive Sales Reporting"></label>
+              <label>Domain<input id="domain" type="text" placeholder="Sales"></label>
+              <label>Criticality<select id="criticality"><option>low</option><option selected>medium</option><option>high</option><option>mission-critical</option></select></label>
+            </div>
+            <div class="grid three">
+              <label>Business owner<input id="businessOwner" type="text" placeholder="Sales Operations"></label>
+              <label>Technical owner<input id="technicalOwner" type="text" placeholder="BI Engineering"></label>
+              <label>Support contact<input id="supportContact" type="text" placeholder="bi-support@contoso.com"></label>
+            </div>
+            <label>Description<textarea id="description" placeholder="What business process does this PBIP solution support?"></textarea></label>
+          </div>
+
+          <div class="section">
+            <h3>Artifacts</h3>
+            <div class="grid three">
+              <label>PBIP file<input id="pbipFile" type="text" placeholder="ExecutiveSales.pbip"></label>
+              <label>Report path<input id="reportPath" type="text" placeholder="ExecutiveSales.Report"></label>
+              <label>Semantic model path<input id="semanticModelPath" type="text" placeholder="ExecutiveSales.SemanticModel"></label>
+            </div>
+            <div class="grid three">
+              <label>Report rules<input id="rulesReport" type="text" value="shared/Rules-Report.json"></label>
+              <label>Dataset rules<input id="rulesDataset" type="text" value="shared/Rules-Dataset.json"></label>
+              <label>DAX tests<input id="daxTests" type="text" value="shared/dax-tests.json"></label>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>Environment mapping</h3>
+            <div class="grid three">
+              <label>Dev workspace<input id="devWorkspace" type="text" placeholder="BI-Dev-Sales"></label>
+              <label>Test workspace<input id="testWorkspace" type="text" placeholder="BI-Test-Sales"></label>
+              <label>Prod workspace<input id="prodWorkspace" type="text" placeholder="BI-Prod-Sales"></label>
+            </div>
+            <div class="grid three">
+              <label>Dev connection profile<input id="devProfile" type="text" value="dev"></label>
+              <label>Test connection profile<input id="testProfile" type="text" value="test"></label>
+              <label>Prod connection profile<input id="prodProfile" type="text" value="prod"></label>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>Parameters and gates</h3>
+            <div class="grid two">
+              <label>Environment parameters<textarea id="parametersText" placeholder="One per line: Name|Dev|Test|Prod&#10;SqlServer|dev-sql|test-sql|prod-sql"></textarea></label>
+              <label>Validation gates<textarea id="gatesText">PBIP structure validation|required
+Dataset quality rules|required
+Report quality rules|required
+DAX test metadata validation|required
+PBIP readiness scan|recommended
+BI Lead approval|required</textarea></label>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>Release and rollback</h3>
+            <div class="grid two">
+              <label>Deployment strategy<textarea id="strategy">Git PR -> CI validation -> Deploy to Dev -> Promote Test -> Promote Prod</textarea></label>
+              <label>Rollback plan<textarea id="rollback">Revert Git commit and redeploy the previous successful PBIP artifact.</textarea></label>
+            </div>
+            <div class="grid two">
+              <label>Approvers<textarea id="approvers" placeholder="One per line: Role|Name or team&#10;BI Lead|Sales BI Lead"></textarea></label>
+              <label>Known exceptions<textarea id="exceptionsText" placeholder="One per line: RuleId|Reason|Owner|Expires&#10;CHECK_FOR_LOCAL_MEASURES|Migration exception|BI Engineering|2026-09-30"></textarea></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="reviewTab" class="panel tab-panel hidden">
+        <div class="panel-header"><div><h2>Readable review</h2><div class="muted">This is the human-friendly view of the deployment manifest.</div></div></div>
+        <div class="panel-body"><div id="reviewHtml" class="summary-box"></div></div>
+      </div>
+
+      <div id="jsonTab" class="panel tab-panel hidden">
+        <div class="panel-header"><div><h2>deployment-manifest.json</h2><div class="muted">Pipeline- and reviewer-friendly manifest output.</div></div><button id="copyJson" type="button">Copy JSON</button></div>
+        <div class="panel-body"><pre id="jsonPreview" class="json-box"></pre></div>
+      </div>
+
+      <div id="markdownTab" class="panel tab-panel hidden">
+        <div class="panel-header"><div><h2>Manifest summary</h2><div class="muted">Paste this into PRs, release notes, or governance review docs.</div></div><button id="copyMarkdown" type="button">Copy Markdown</button></div>
+        <div class="panel-body"><pre id="markdownPreview" class="json-box"></pre></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>
+    const fields = [
+      "solutionName", "domain", "criticality", "businessOwner", "technicalOwner", "supportContact",
+      "description", "pbipFile", "reportPath", "semanticModelPath", "rulesReport", "rulesDataset",
+      "daxTests", "devWorkspace", "testWorkspace", "prodWorkspace", "devProfile", "testProfile",
+      "prodProfile", "parametersText", "gatesText", "strategy", "rollback", "approvers", "exceptionsText"
+    ];
+    const els = Object.fromEntries(fields.map(id => [id, document.getElementById(id)]));
+    Object.assign(els, {
+      loadFile: document.getElementById("loadFile"),
+      scanFolder: document.getElementById("scanFolder"),
+      downloadJson: document.getElementById("downloadJson"),
+      downloadMarkdown: document.getElementById("downloadMarkdown"),
+      seedExample: document.getElementById("seedExample"),
+      jsonPreview: document.getElementById("jsonPreview"),
+      markdownPreview: document.getElementById("markdownPreview"),
+      reviewHtml: document.getElementById("reviewHtml"),
+      copyJson: document.getElementById("copyJson"),
+      copyMarkdown: document.getElementById("copyMarkdown"),
+      envCount: document.getElementById("envCount"),
+      paramCount: document.getElementById("paramCount"),
+      gateCount: document.getElementById("gateCount"),
+      exceptionCount: document.getElementById("exceptionCount"),
+      toast: document.getElementById("toast")
+    });
+
+    function buildManifest() {
+      return {
+        version: 1,
+        solution: {
+          name: value("solutionName"),
+          domain: value("domain"),
+          criticality: value("criticality"),
+          businessOwner: value("businessOwner"),
+          technicalOwner: value("technicalOwner"),
+          supportContact: value("supportContact"),
+          description: value("description")
+        },
+        artifacts: {
+          pbipFile: value("pbipFile"),
+          reportPath: value("reportPath"),
+          semanticModelPath: value("semanticModelPath"),
+          rulesReport: value("rulesReport"),
+          rulesDataset: value("rulesDataset"),
+          daxTests: value("daxTests")
+        },
+        environments: [
+          env("Dev", value("devWorkspace"), value("devProfile"), "Development"),
+          env("Test", value("testWorkspace"), value("testProfile"), "Test"),
+          env("Prod", value("prodWorkspace"), value("prodProfile"), "Production")
+        ],
+        parameters: parseRows(value("parametersText"), ["name", "dev", "test", "prod"]),
+        validationGates: parseRows(value("gatesText"), ["name", "requirement"]),
+        deployment: {
+          strategy: value("strategy"),
+          rollback: value("rollback"),
+          requiresManualApprovalForProd: true
+        },
+        approvals: parseRows(value("approvers"), ["role", "approver"]),
+        exceptions: parseRows(value("exceptionsText"), ["ruleId", "reason", "owner", "expires"])
+      };
+    }
+
+    function env(name, workspaceName, connectionProfile, deploymentStage) {
+      return { name, workspaceName, workspaceId: "", deploymentStage, connectionProfile };
+    }
+
+    function value(id) {
+      return (els[id]?.value || "").trim();
+    }
+
+    function parseRows(text, keys) {
+      return String(text || "").split(/\r?\n/).map(line => line.trim()).filter(Boolean).map(line => {
+        const parts = line.split("|").map(part => part.trim());
+        return Object.fromEntries(keys.map((key, index) => [key, parts[index] || ""]));
+      });
+    }
+
+    function setRows(id, rows, keys) {
+      els[id].value = (rows || []).map(row => keys.map(key => row[key] || "").join("|")).join("\n");
+    }
+
+    function render() {
+      const manifest = buildManifest();
+      els.envCount.textContent = String(manifest.environments.filter(item => item.workspaceName).length);
+      els.paramCount.textContent = String(manifest.parameters.length);
+      els.gateCount.textContent = String(manifest.validationGates.length);
+      els.exceptionCount.textContent = String(manifest.exceptions.length);
+      els.jsonPreview.textContent = JSON.stringify(manifest, null, 2);
+      els.markdownPreview.textContent = buildMarkdown(manifest);
+      els.reviewHtml.innerHTML = buildReview(manifest);
+    }
+
+    function buildReview(manifest) {
+      return `
+        <h3>${escapeHtml(manifest.solution.name || "Unnamed PBIP solution")}</h3>
+        <p>${escapeHtml(manifest.solution.description || "No description provided.")}</p>
+        <table class="table">
+          <tbody>
+            <tr><th>Domain</th><td>${escapeHtml(manifest.solution.domain)}</td></tr>
+            <tr><th>Criticality</th><td>${escapeHtml(manifest.solution.criticality)}</td></tr>
+            <tr><th>Business owner</th><td>${escapeHtml(manifest.solution.businessOwner)}</td></tr>
+            <tr><th>Technical owner</th><td>${escapeHtml(manifest.solution.technicalOwner)}</td></tr>
+            <tr><th>Support</th><td>${escapeHtml(manifest.solution.supportContact)}</td></tr>
+          </tbody>
+        </table>
+        <h3>Environments</h3>
+        <table class="table"><thead><tr><th>Name</th><th>Workspace</th><th>Profile</th></tr></thead><tbody>
+          ${manifest.environments.map(env => `<tr><td>${escapeHtml(env.name)}</td><td>${escapeHtml(env.workspaceName)}</td><td>${escapeHtml(env.connectionProfile)}</td></tr>`).join("")}
+        </tbody></table>
+        <h3>Validation gates</h3>
+        <ul>${manifest.validationGates.map(gate => `<li>${escapeHtml(gate.name)} - ${escapeHtml(gate.requirement)}</li>`).join("")}</ul>
+      `;
+    }
+
+    function buildMarkdown(manifest) {
+      return [
+        `# Deployment Manifest: ${manifest.solution.name || "Unnamed PBIP solution"}`,
+        "",
+        manifest.solution.description || "",
+        "",
+        "## Ownership",
+        "",
+        `- Domain: ${manifest.solution.domain}`,
+        `- Criticality: ${manifest.solution.criticality}`,
+        `- Business owner: ${manifest.solution.businessOwner}`,
+        `- Technical owner: ${manifest.solution.technicalOwner}`,
+        `- Support contact: ${manifest.solution.supportContact}`,
+        "",
+        "## Artifacts",
+        "",
+        `- PBIP file: ${manifest.artifacts.pbipFile}`,
+        `- Report path: ${manifest.artifacts.reportPath}`,
+        `- Semantic model path: ${manifest.artifacts.semanticModelPath}`,
+        `- Report rules: ${manifest.artifacts.rulesReport}`,
+        `- Dataset rules: ${manifest.artifacts.rulesDataset}`,
+        `- DAX tests: ${manifest.artifacts.daxTests}`,
+        "",
+        "## Environments",
+        "",
+        "| Environment | Workspace | Connection profile |",
+        "|---|---|---|",
+        ...manifest.environments.map(env => `| ${env.name} | ${env.workspaceName} | ${env.connectionProfile} |`),
+        "",
+        "## Parameters",
+        "",
+        "| Name | Dev | Test | Prod |",
+        "|---|---|---|---|",
+        ...(manifest.parameters.length ? manifest.parameters.map(param => `| ${param.name} | ${param.dev} | ${param.test} | ${param.prod} |`) : ["| None |  |  |  |"]),
+        "",
+        "## Validation Gates",
+        "",
+        ...manifest.validationGates.map(gate => `- ${gate.name}: ${gate.requirement}`),
+        "",
+        "## Deployment",
+        "",
+        `- Strategy: ${manifest.deployment.strategy}`,
+        `- Rollback: ${manifest.deployment.rollback}`,
+        "",
+        "## Exceptions",
+        "",
+        ...(manifest.exceptions.length ? manifest.exceptions.map(ex => `- ${ex.ruleId}: ${ex.reason} (Owner: ${ex.owner}, Expires: ${ex.expires})`) : ["- None"])
+      ].join("\n");
+    }
+
+    function seed() {
+      els.solutionName.value = "Executive Sales Reporting";
+      els.domain.value = "Sales";
+      els.criticality.value = "high";
+      els.businessOwner.value = "Sales Operations";
+      els.technicalOwner.value = "BI Engineering";
+      els.supportContact.value = "bi-support@contoso.com";
+      els.description.value = "Executive reporting package for sales pipeline, bookings, revenue, and margin.";
+      els.pbipFile.value = "ExecutiveSales.pbip";
+      els.reportPath.value = "ExecutiveSales.Report";
+      els.semanticModelPath.value = "ExecutiveSales.SemanticModel";
+      els.devWorkspace.value = "BI-Dev-Sales";
+      els.testWorkspace.value = "BI-Test-Sales";
+      els.prodWorkspace.value = "BI-Prod-Sales";
+      els.parametersText.value = "SqlServer|dev-sql.contoso.com|test-sql.contoso.com|prod-sql.contoso.com\nDatabase|SalesDW_Dev|SalesDW_Test|SalesDW";
+      els.approvers.value = "BI Lead|Sales BI Lead\nProduct Owner|Sales Operations";
+      els.exceptionsText.value = "CHECK_FOR_LOCAL_MEASURES|Temporary local measure during migration|BI Engineering|2026-09-30";
+      render();
+      toast("Starter manifest loaded.");
+    }
+
+    async function scanPbipFolder(fileList) {
+      const files = Array.from(fileList || []);
+      if (!files.length) {
+        toast("No files selected.");
+        return;
+      }
+
+      const fileMap = new Map(files.map(file => [normalizePath(file.webkitRelativePath || file.name), file]));
+      const paths = Array.from(fileMap.keys()).sort();
+      const pbipPath = paths.find(path => path.toLowerCase().endsWith(".pbip")) || "";
+      const reportDir = findDirectory(paths, ".Report");
+      const semanticModelDir = findDirectory(paths, ".SemanticModel");
+      const reportRules = paths.find(path => /(^|\/)Rules-Report\.json$/i.test(path)) || "shared/Rules-Report.json";
+      const datasetRules = paths.find(path => /(^|\/)Rules-Dataset\.json$/i.test(path)) || "shared/Rules-Dataset.json";
+      const daxTests = paths.find(path => /(^|\/)dax-tests\.json$/i.test(path)) || "shared/dax-tests.json";
+      const exceptionPath = paths.find(path => /(^|\/)policy-exceptions\.json$/i.test(path));
+
+      let inferredReportPath = reportDir;
+      let inferredSemanticModelPath = semanticModelDir;
+      let solutionName = stripExtension(lastSegment(pbipPath || reportDir || semanticModelDir || files[0].webkitRelativePath || "PBIP Solution"));
+
+      if (pbipPath && fileMap.has(pbipPath)) {
+        try {
+          const pbip = JSON.parse(await fileMap.get(pbipPath).text());
+          const artifactReportPath = pbip?.artifacts?.[0]?.report?.path;
+          if (artifactReportPath) {
+            inferredReportPath = normalizePath(resolveRelative(parentDir(pbipPath), artifactReportPath));
+          }
+        } catch {
+          toast("PBIP file could not be parsed; using folder detection where possible.");
+        }
+      }
+
+      const pbirPath = inferredReportPath ? `${inferredReportPath.replace(/\/$/, "")}/definition.pbir` : "";
+      if (pbirPath && fileMap.has(pbirPath)) {
+        try {
+          const pbir = JSON.parse(await fileMap.get(pbirPath).text());
+          const semanticPath = pbir?.datasetReference?.byPath?.path;
+          if (semanticPath) {
+            inferredSemanticModelPath = normalizePath(resolveRelative(inferredReportPath, semanticPath));
+          }
+        } catch {
+          toast("Report definition could not be parsed; using detected semantic model folder.");
+        }
+      }
+
+      els.solutionName.value = titleFromName(solutionName);
+      els.domain.value = inferDomain(solutionName);
+      els.criticality.value = "medium";
+      els.businessOwner.value = "";
+      els.technicalOwner.value = "";
+      els.supportContact.value = "";
+      els.description.value = `PBIP solution inferred from ${files[0].webkitRelativePath?.split("/")[0] || "selected folder"}. Review owners, environment mapping, parameters, and approvals before committing.`;
+      els.pbipFile.value = pbipPath;
+      els.reportPath.value = inferredReportPath;
+      els.semanticModelPath.value = inferredSemanticModelPath;
+      els.rulesReport.value = reportRules;
+      els.rulesDataset.value = datasetRules;
+      els.daxTests.value = daxTests;
+      const baseWorkspaceName = titleFromName(solutionName).replace(/\s+/g, "-");
+      els.devWorkspace.value = `BI-Dev-${baseWorkspaceName}`;
+      els.testWorkspace.value = `BI-Test-${baseWorkspaceName}`;
+      els.prodWorkspace.value = `BI-Prod-${baseWorkspaceName}`;
+      els.devProfile.value = "dev";
+      els.testProfile.value = "test";
+      els.prodProfile.value = "prod";
+      els.parametersText.value = inferParameterRows(paths).join("\n");
+      els.gatesText.value = buildDetectedGates(paths, reportRules, datasetRules, daxTests).join("\n");
+      els.strategy.value = "Git PR -> CI validation -> Deploy to Dev -> Promote Test -> Promote Prod";
+      els.rollback.value = "Revert Git commit and redeploy the previous successful PBIP artifact.";
+      els.approvers.value = "BI Lead|\nProduct Owner|";
+      els.exceptionsText.value = exceptionPath ? await loadExceptionRows(fileMap.get(exceptionPath)) : "";
+      render();
+      toast("PBIP folder scanned. Review and complete owner/environment fields before download.");
+    }
+
+    function buildDetectedGates(paths, reportRules, datasetRules, daxTests) {
+      const gates = ["PBIP structure validation|required"];
+      gates.push(reportRules ? "Report quality rules|required" : "Report quality rules|missing");
+      gates.push(datasetRules ? "Dataset quality rules|required" : "Dataset quality rules|missing");
+      gates.push(daxTests ? "DAX test metadata validation|required" : "DAX test metadata validation|recommended");
+      gates.push(paths.some(path => /(^|\/)(azure-pipelines.*\.ya?ml|gitlab-ci\.ya?ml|\.github\/workflows\/.*\.ya?ml)$/i.test(path)) ? "CI/CD pipeline|detected" : "CI/CD pipeline|missing");
+      gates.push("PBIP readiness scan|recommended");
+      gates.push("BI Lead approval|required");
+      return gates;
+    }
+
+    function inferParameterRows(paths) {
+      const rows = [];
+      if (paths.some(path => /parameters|connections|datasource|datasources/i.test(path))) {
+        rows.push("ConnectionProfile|dev|test|prod");
+      }
+      rows.push("WorkspaceName|Dev workspace|Test workspace|Prod workspace");
+      return rows;
+    }
+
+    async function loadExceptionRows(file) {
+      try {
+        const parsed = JSON.parse(await file.text());
+        const items = Array.isArray(parsed) ? parsed : parsed.exceptions || [];
+        return items.map(item => [
+          item.ruleId || item.id || "",
+          item.reason || "",
+          item.owner || "",
+          item.expires || item.expiration || ""
+        ].join("|")).join("\n");
+      } catch {
+        return "";
+      }
+    }
+
+    function findDirectory(paths, suffix) {
+      const match = paths.find(path => path.toLowerCase().includes(suffix.toLowerCase() + "/"));
+      if (!match) return "";
+      const index = match.toLowerCase().indexOf(suffix.toLowerCase());
+      return match.slice(0, index + suffix.length);
+    }
+
+    function normalizePath(path) {
+      return String(path || "").replaceAll("\\", "/").replace(/^\/+/, "");
+    }
+
+    function parentDir(path) {
+      const normalized = normalizePath(path);
+      return normalized.includes("/") ? normalized.slice(0, normalized.lastIndexOf("/")) : "";
+    }
+
+    function lastSegment(path) {
+      const normalized = normalizePath(path).replace(/\/$/, "");
+      return normalized.split("/").filter(Boolean).pop() || normalized;
+    }
+
+    function stripExtension(path) {
+      return lastSegment(path).replace(/\.(pbip|Report|SemanticModel)$/i, "");
+    }
+
+    function titleFromName(name) {
+      return stripExtension(name)
+        .replace(/[-_]+/g, " ")
+        .replace(/([a-z])([A-Z])/g, "$1 $2")
+        .replace(/\s+/g, " ")
+        .trim()
+        .replace(/\b\w/g, char => char.toUpperCase()) || "PBIP Solution";
+    }
+
+    function inferDomain(name) {
+      const normalized = String(name || "").toLowerCase();
+      if (normalized.includes("sales")) return "Sales";
+      if (normalized.includes("finance") || normalized.includes("macc") || normalized.includes("revenue")) return "Finance";
+      if (normalized.includes("ops") || normalized.includes("operations")) return "Operations";
+      if (normalized.includes("customer")) return "Customer";
+      return "";
+    }
+
+    function resolveRelative(baseDir, relativePath) {
+      const parts = `${baseDir}/${relativePath}`.split("/");
+      const stack = [];
+      for (const part of parts) {
+        if (!part || part === ".") continue;
+        if (part === "..") stack.pop();
+        else stack.push(part);
+      }
+      return stack.join("/");
+    }
+
+    function loadManifest(manifest) {
+      els.solutionName.value = manifest.solution?.name || "";
+      els.domain.value = manifest.solution?.domain || "";
+      els.criticality.value = manifest.solution?.criticality || "medium";
+      els.businessOwner.value = manifest.solution?.businessOwner || "";
+      els.technicalOwner.value = manifest.solution?.technicalOwner || "";
+      els.supportContact.value = manifest.solution?.supportContact || "";
+      els.description.value = manifest.solution?.description || "";
+      els.pbipFile.value = manifest.artifacts?.pbipFile || "";
+      els.reportPath.value = manifest.artifacts?.reportPath || "";
+      els.semanticModelPath.value = manifest.artifacts?.semanticModelPath || "";
+      els.rulesReport.value = manifest.artifacts?.rulesReport || "shared/Rules-Report.json";
+      els.rulesDataset.value = manifest.artifacts?.rulesDataset || "shared/Rules-Dataset.json";
+      els.daxTests.value = manifest.artifacts?.daxTests || "shared/dax-tests.json";
+      const envs = manifest.environments || [];
+      els.devWorkspace.value = envs.find(e => e.name === "Dev")?.workspaceName || "";
+      els.testWorkspace.value = envs.find(e => e.name === "Test")?.workspaceName || "";
+      els.prodWorkspace.value = envs.find(e => e.name === "Prod")?.workspaceName || "";
+      els.devProfile.value = envs.find(e => e.name === "Dev")?.connectionProfile || "dev";
+      els.testProfile.value = envs.find(e => e.name === "Test")?.connectionProfile || "test";
+      els.prodProfile.value = envs.find(e => e.name === "Prod")?.connectionProfile || "prod";
+      setRows("parametersText", manifest.parameters, ["name", "dev", "test", "prod"]);
+      setRows("gatesText", manifest.validationGates, ["name", "requirement"]);
+      els.strategy.value = manifest.deployment?.strategy || "";
+      els.rollback.value = manifest.deployment?.rollback || "";
+      setRows("approvers", manifest.approvals, ["role", "approver"]);
+      setRows("exceptionsText", manifest.exceptions, ["ruleId", "reason", "owner", "expires"]);
+      render();
+    }
+
+    function download(filename, text, type) {
+      const blob = new Blob([text], { type });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function copyText(text) {
+      await navigator.clipboard.writeText(text);
+      toast("Copied to clipboard.");
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+    }
+
+    function toast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("visible");
+      window.clearTimeout(toast.timer);
+      toast.timer = window.setTimeout(() => els.toast.classList.remove("visible"), 2800);
+    }
+
+    function activateTab(tab) {
+      document.querySelectorAll(".tab").forEach(button => button.classList.toggle("active", button.dataset.tab === tab));
+      document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.add("hidden"));
+      document.getElementById(`${tab}Tab`).classList.remove("hidden");
+      render();
+    }
+
+    fields.forEach(id => els[id].addEventListener("input", render));
+    els.seedExample.addEventListener("click", seed);
+    els.downloadJson.addEventListener("click", () => download("deployment-manifest.json", JSON.stringify(buildManifest(), null, 2), "application/json"));
+    els.downloadMarkdown.addEventListener("click", () => download("Deployment-Manifest-Summary.md", buildMarkdown(buildManifest()), "text/markdown"));
+    els.copyJson.addEventListener("click", () => copyText(JSON.stringify(buildManifest(), null, 2)));
+    els.copyMarkdown.addEventListener("click", () => copyText(buildMarkdown(buildManifest())));
+    els.loadFile.addEventListener("change", async event => {
+      const file = event.target.files[0];
+      if (!file) return;
+      try {
+        loadManifest(JSON.parse(await file.text()));
+        toast(`Loaded ${file.name}`);
+      } catch (error) {
+        toast(error.message);
+      }
+    });
+    els.scanFolder.addEventListener("change", event => scanPbipFolder(event.target.files));
+    document.querySelectorAll(".tab").forEach(button => button.addEventListener("click", () => activateTab(button.dataset.tab)));
+
+    render();
+  </script>
+</body>
+</html>
