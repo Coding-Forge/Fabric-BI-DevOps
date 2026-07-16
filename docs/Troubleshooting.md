@@ -110,21 +110,22 @@ What to check:
 - build agent outbound connectivity
 - whether fallback rule downloads succeeded separately from tool downloads
 
-## DAX Test Stage Passes But Gives Low Confidence
+## DAX Test Stage Shows Skipped DAX Execution
 
 Symptom:
 
-- CI passes but the DAX test stage only proves file existence
+- CI passes and JUnit results show DAX catalog tests, but execution cases are skipped
 
 Cause:
 
-- `tests/run_dax_tests.py` is intentionally a minimal harness
+- `tests/run_dax_tests.py` now reads `dax-tests.json` and validates metadata, but actual measure query execution still needs an evaluator implementation
 
 What to do:
 
-- replace placeholder assertions with real semantic model checks
+- customize and enable tests in `shared/dax-tests.json`
+- wire semantic-link-labs, XMLA, or Tabular Editor scripting into the runner to execute generated DAX queries
 - keep JUnit XML output so Azure Pipelines can publish results
-- treat current DAX tests as scaffolding, not deep semantic validation
+- treat current execution-skipped tests as metadata coverage, not full semantic validation
 
 ## Two Pipeline YAML Files Exist
 

@@ -1,5 +1,5 @@
 ---
-title: "Governance Checklist — Fabric + Git"
+title: "Governance Checklist — Enterprise BI DevOps for Microsoft Fabric"
 description: "Pre-go-live and ongoing governance checklist for Microsoft Fabric workspaces using Git-based lifecycle management."
 ---
 

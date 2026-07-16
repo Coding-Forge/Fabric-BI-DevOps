@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PBIP Project Readiness Scanner</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.45;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button,
+    .file-button {
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      cursor: pointer;
+      padding: 8px 12px;
+    }
+
+    button:hover,
+    .file-button:hover { border-color: var(--cp-border-strong); }
+
+    button.primary {
+      background: var(--cp-accent);
+      border-color: var(--cp-accent);
+      color: var(--cp-accent-fg);
+    }
+
+    button.primary:hover {
+      background: var(--cp-accent-hover);
+      border-color: var(--cp-accent-hover);
+    }
+
+    input,
+    select {
+      width: 100%;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      padding: 8px 10px;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      color: var(--cp-text-muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    pre,
+    code {
+      font-family: Consolas, "Courier New", Courier, monospace;
+    }
+
+    pre {
+      margin: 0;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .hero {
+      border-bottom: 1px solid var(--cp-border);
+      background: var(--cp-bg-elevated);
+      padding: 28px;
+    }
+
+    .hero-inner,
+    .main {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .hero-inner {
+      display: grid;
+      gap: 16px;
+    }
+
+    .eyebrow {
+      color: var(--cp-accent);
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.15;
+    }
+
+    h1 { font-size: clamp(30px, 4vw, 46px); }
+    h2 { font-size: 20px; }
+    h3 { font-size: 16px; }
+
+    .lede {
+      max-width: 960px;
+      color: var(--cp-text-muted);
+      font-size: 17px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .file-button {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+    }
+
+    .file-button input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+      gap: 20px;
+      padding: 24px 28px 40px;
+    }
+
+    .panel,
+    .card {
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+      box-shadow: var(--cp-shadow);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--cp-border);
+      padding: 16px;
+    }
+
+    .panel-body { padding: 16px; }
+
+    .grid { display: grid; gap: 14px; }
+    .two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      padding: 12px;
+    }
+
+    .stat-value {
+      font-size: 26px;
+      font-weight: 850;
+    }
+
+    .muted,
+    .stat-label { color: var(--cp-text-muted); }
+    .muted { font-size: 13px; }
+
+    .score {
+      display: grid;
+      place-items: center;
+      min-height: 160px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+    }
+
+    .score-number {
+      font-size: 52px;
+      font-weight: 900;
+      color: var(--cp-accent);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      margin-bottom: 16px;
+      padding: 8px;
+    }
+
+    .tab {
+      border-color: var(--cp-surface-soft);
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      font-weight: 850;
+    }
+
+    .tab.active {
+      border-color: var(--cp-border);
+      background: var(--cp-surface);
+      color: var(--cp-text);
+    }
+
+    .finding-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .finding {
+      display: grid;
+      gap: 8px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+      padding: 12px;
+    }
+
+    .finding-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-weight: 850;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      display: inline-flex;
+      border: 1px solid var(--cp-border);
+      border-radius: 999px;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 3px 8px;
+    }
+
+    .chip.pass,
+    .chip.info { border-color: var(--cp-success); color: var(--cp-success); }
+    .chip.warning { border-color: var(--cp-warning); color: var(--cp-warning); }
+    .chip.blocker { border-color: var(--cp-danger); color: var(--cp-danger); }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+      border-bottom: 1px solid var(--cp-border);
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table th {
+      color: var(--cp-text-muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .json-box,
+    .summary-box {
+      max-height: 650px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text);
+      padding: 14px;
+      font-size: 12px;
+    }
+
+    .summary-box { font-size: 14px; }
+
+    .empty {
+      border: 1px dashed var(--cp-border-strong);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      padding: 18px;
+      text-align: center;
+    }
+
+    .hidden { display: none; }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      max-width: 380px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-panel-strong);
+      color: var(--cp-text);
+      box-shadow: var(--cp-shadow);
+      padding: 12px 14px;
+      display: none;
+      z-index: 20;
+    }
+
+    .toast.visible { display: block; }
+
+    @media (max-width: 980px) {
+      .main { grid-template-columns: 1fr; }
+      .two,
+      .three,
+      .tabs { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">PBIP pre-PR validation</div>
+      <h1>PBIP Project Readiness Scanner</h1>
+      <p class="lede">Scan a local PBIP repository or project folder before opening a pull request. The scanner checks structure, report and semantic model references, quality-rule assets, DAX test metadata, and CI/CD platform readiness entirely in your browser.</p>
+      <div class="toolbar">
+        <label class="file-button">Scan folder
+          <input id="folderInput" type="file" multiple webkitdirectory>
+        </label>
+        <button id="sampleScan" type="button">Use sample scan</button>
+        <button id="downloadMarkdown" class="primary" type="button">Download Markdown report</button>
+        <button id="downloadJson" type="button">Download JSON report</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <aside class="panel">
+      <div class="panel-header">
+        <div>
+          <h2>Readiness score</h2>
+          <div class="muted">Blockers should be resolved before PR.</div>
+        </div>
+      </div>
+      <div class="panel-body grid">
+        <div class="score">
+          <div>
+            <div id="scoreNumber" class="score-number">--</div>
+            <div id="scoreLabel" class="muted">No scan yet</div>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat"><div id="blockerCount" class="stat-value">0</div><div class="stat-label">Blockers</div></div>
+          <div class="stat"><div id="warningCount" class="stat-value">0</div><div class="stat-label">Warnings</div></div>
+          <div class="stat"><div id="passCount" class="stat-value">0</div><div class="stat-label">Passed</div></div>
+          <div class="stat"><div id="fileCount" class="stat-value">0</div><div class="stat-label">Files</div></div>
+        </div>
+        <label>Finding filter
+          <select id="severityFilter">
+            <option value="all">All findings</option>
+            <option value="blocker">Blockers</option>
+            <option value="warning">Warnings</option>
+            <option value="pass">Passed checks</option>
+            <option value="info">Info</option>
+          </select>
+        </label>
+      </div>
+    </aside>
+
+    <section>
+      <nav class="tabs" aria-label="Readiness tabs">
+        <button class="tab active" data-tab="findings" type="button">Findings</button>
+        <button class="tab" data-tab="inventory" type="button">Inventory</button>
+        <button class="tab" data-tab="summary" type="button">PR summary</button>
+        <button class="tab" data-tab="json" type="button">JSON report</button>
+      </nav>
+
+      <div id="findingsTab" class="panel tab-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Readiness findings</h2>
+            <div class="muted">Checks are grouped by structure, governance assets, CI/CD, and hygiene.</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="findingsList" class="finding-list"></div>
+        </div>
+      </div>
+
+      <div id="inventoryTab" class="panel tab-panel hidden">
+        <div class="panel-header">
+          <div>
+            <h2>Project inventory</h2>
+            <div class="muted">Detected PBIP, reports, semantic models, rules, tests, and pipelines.</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="inventoryHtml" class="summary-box"></div>
+        </div>
+      </div>
+
+      <div id="summaryTab" class="panel tab-panel hidden">
+        <div class="panel-header">
+          <div>
+            <h2>PR-ready summary</h2>
+            <div class="muted">Paste this into PR notes or attach it to governance review.</div>
+          </div>
+          <button id="copyMarkdown" type="button">Copy Markdown</button>
+        </div>
+        <div class="panel-body">
+          <pre id="markdownPreview" class="json-box"></pre>
+        </div>
+      </div>
+
+      <div id="jsonTab" class="panel tab-panel hidden">
+        <div class="panel-header">
+          <div>
+            <h2>JSON report</h2>
+            <div class="muted">Machine-readable readiness report for future automation.</div>
+          </div>
+          <button id="copyJson" type="button">Copy JSON</button>
+        </div>
+        <div class="panel-body">
+          <pre id="jsonPreview" class="json-box"></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>
+    const state = {
+      report: emptyReport()
+    };
+
+    const els = {
+      folderInput: document.getElementById("folderInput"),
+      sampleScan: document.getElementById("sampleScan"),
+      downloadMarkdown: document.getElementById("downloadMarkdown"),
+      downloadJson: document.getElementById("downloadJson"),
+      scoreNumber: document.getElementById("scoreNumber"),
+      scoreLabel: document.getElementById("scoreLabel"),
+      blockerCount: document.getElementById("blockerCount"),
+      warningCount: document.getElementById("warningCount"),
+      passCount: document.getElementById("passCount"),
+      fileCount: document.getElementById("fileCount"),
+      severityFilter: document.getElementById("severityFilter"),
+      findingsList: document.getElementById("findingsList"),
+      inventoryHtml: document.getElementById("inventoryHtml"),
+      markdownPreview: document.getElementById("markdownPreview"),
+      jsonPreview: document.getElementById("jsonPreview"),
+      copyMarkdown: document.getElementById("copyMarkdown"),
+      copyJson: document.getElementById("copyJson"),
+      toast: document.getElementById("toast")
+    };
+
+    function emptyReport() {
+      return {
+        generatedAt: new Date().toISOString(),
+        source: "No scan",
+        score: null,
+        inventory: {
+          files: 0,
+          pbipFiles: [],
+          reportDirs: [],
+          semanticModelDirs: [],
+          ruleFiles: [],
+          daxTestFiles: [],
+          pipelines: [],
+          docs: []
+        },
+        findings: []
+      };
+    }
+
+    async function scanFiles(fileList) {
+      const files = Array.from(fileList || []);
+      const fileMap = new Map(files.map(file => [normalizePath(file.webkitRelativePath || file.name), file]));
+      const report = emptyReport();
+      report.generatedAt = new Date().toISOString();
+      report.source = files[0]?.webkitRelativePath?.split("/")[0] || "selected folder";
+      report.inventory.files = files.length;
+      report.inventory.pbipFiles = pathsMatching(fileMap, /\.pbip$/i);
+      report.inventory.reportDirs = uniqueDirs(pathsMatching(fileMap, /\.Report\//i), ".Report");
+      report.inventory.semanticModelDirs = uniqueDirs(pathsMatching(fileMap, /\.SemanticModel\//i), ".SemanticModel");
+      report.inventory.ruleFiles = pathsMatching(fileMap, /(^|\/)Rules-(Report|Dataset)\.json$/i);
+      report.inventory.daxTestFiles = pathsMatching(fileMap, /(^|\/)dax-tests\.json$/i);
+      report.inventory.pipelines = pathsMatching(fileMap, /(^|\/)(azure-pipelines.*\.ya?ml|gitlab-ci\.ya?ml|powerbi-ci\.ya?ml|\.github\/workflows\/.*\.ya?ml)$/i);
+      report.inventory.docs = pathsMatching(fileMap, /(^|\/)(README\.md|docs\/.*\.md|tools\/README\.md)$/i);
+
+      addPbipFindings(report, fileMap);
+      await addReferenceFindings(report, fileMap);
+      addGovernanceAssetFindings(report, fileMap);
+      addPipelineFindings(report, fileMap);
+      addHygieneFindings(report, fileMap);
+      report.score = calculateScore(report.findings);
+      state.report = report;
+      render();
+      toast(`Scanned ${files.length} files.`);
+    }
+
+    function addPbipFindings(report, fileMap) {
+      const pbips = report.inventory.pbipFiles;
+      if (pbips.length === 1) {
+        addFinding(report, "pass", "PBIP project file found", "Exactly one `.pbip` file was found.", pbips[0], "Structure");
+      } else if (pbips.length === 0) {
+        addFinding(report, "blocker", "No PBIP project file found", "A PBIP repository should include exactly one `.pbip` file at the project root or selected project folder.", "", "Structure");
+      } else {
+        addFinding(report, "blocker", "Multiple PBIP project files found", "Select one PBIP project at a time or split projects so validation is deterministic.", pbips.join(", "), "Structure");
+      }
+
+      if (report.inventory.reportDirs.length > 0) {
+        addFinding(report, "pass", "Report folder detected", "At least one `.Report` folder was found.", report.inventory.reportDirs.join(", "), "Structure");
+      } else {
+        addFinding(report, "blocker", "No report folder detected", "Expected a `.Report` folder containing `definition.pbir` and report definition files.", "", "Structure");
+      }
+
+      if (report.inventory.semanticModelDirs.length > 0) {
+        addFinding(report, "pass", "Semantic model folder detected", "At least one `.SemanticModel` folder was found.", report.inventory.semanticModelDirs.join(", "), "Structure");
+      } else {
+        addFinding(report, "warning", "No semantic model folder detected", "Reports usually reference a `.SemanticModel` folder. Confirm whether this project intentionally uses a remote/shared model.", "", "Structure");
+      }
+    }
+
+    async function addReferenceFindings(report, fileMap) {
+      for (const reportDir of report.inventory.reportDirs) {
+        const pbir = `${reportDir}/definition.pbir`;
+        const reportJson = `${reportDir}/definition/report.json`;
+        if (fileMap.has(pbir)) {
+          addFinding(report, "pass", "Report definition file found", "`definition.pbir` exists for the report folder.", pbir, "References");
+          try {
+            const parsed = JSON.parse(await fileMap.get(pbir).text());
+            const modelPath = parsed?.datasetReference?.byPath?.path;
+            if (modelPath) {
+              const resolved = normalizePath(resolveRelative(reportDir, modelPath));
+              if (hasDirectory(fileMap, resolved)) {
+                addFinding(report, "pass", "Report semantic model path resolves", "`datasetReference.byPath.path` points to an existing folder.", resolved, "References");
+              } else {
+                addFinding(report, "blocker", "Report semantic model path does not resolve", "Update `definition.pbir` so `datasetReference.byPath.path` points to the committed semantic model folder.", resolved, "References");
+              }
+            } else {
+              addFinding(report, "warning", "Report has no local semantic model reference", "No `datasetReference.byPath.path` was found. Confirm whether the report intentionally references a remote/shared model.", pbir, "References");
+            }
+          } catch (error) {
+            addFinding(report, "blocker", "Report definition JSON is invalid", error.message, pbir, "References");
+          }
+        } else {
+          addFinding(report, "blocker", "Report definition file missing", "Each `.Report` folder should include `definition.pbir`.", pbir, "References");
+        }
+
+        if (fileMap.has(reportJson)) {
+          addFinding(report, "pass", "Report metadata file found", "`definition/report.json` exists.", reportJson, "References");
+        } else {
+          addFinding(report, "blocker", "Report metadata file missing", "Expected `definition/report.json` under the `.Report` folder.", reportJson, "References");
+        }
+      }
+
+      for (const modelDir of report.inventory.semanticModelDirs) {
+        const pbism = `${modelDir}/definition.pbism`;
+        const modelTmdl = `${modelDir}/definition/model.tmdl`;
+        if (fileMap.has(pbism)) {
+          addFinding(report, "pass", "Semantic model definition found", "`definition.pbism` exists.", pbism, "References");
+        } else {
+          addFinding(report, "blocker", "Semantic model definition missing", "Expected `definition.pbism` under the `.SemanticModel` folder.", pbism, "References");
+        }
+        if (fileMap.has(modelTmdl)) {
+          addFinding(report, "pass", "Semantic model TMDL found", "`definition/model.tmdl` exists.", modelTmdl, "References");
+        } else {
+          addFinding(report, "blocker", "Semantic model TMDL missing", "Expected `definition/model.tmdl` under the `.SemanticModel` folder.", modelTmdl, "References");
+        }
+      }
+    }
+
+    function addGovernanceAssetFindings(report, fileMap) {
+      checkFile(report, fileMap, /(^|\/)Rules-Report\.json$/i, "Report quality rules found", "Report quality rules missing", "Add or generate `Rules-Report.json` for PBI Inspector checks.", "Governance");
+      checkFile(report, fileMap, /(^|\/)Rules-Dataset\.json$/i, "Dataset quality rules found", "Dataset quality rules missing", "Add or generate `Rules-Dataset.json` for Tabular Editor BPA checks.", "Governance");
+      checkFile(report, fileMap, /(^|\/)dax-tests\.json$/i, "DAX test metadata found", "DAX test metadata not found", "Add `shared/dax-tests.json` when adopting metadata-driven DAX tests.", "Governance", "warning");
+      checkFile(report, fileMap, /(^|\/)enterprise-policy-profile\.json$/i, "Enterprise policy profile found", "Enterprise policy profile not found", "Export a profile from the Enterprise Standards Builder when teams need auditable policy settings.", "Governance", "info");
+      checkFile(report, fileMap, /(^|\/)policy-exceptions\.json$/i, "Policy exception register found", "Policy exception register not found", "Add an exception register when rules are waived for specific artifacts.", "Governance", "info");
+    }
+
+    function addPipelineFindings(report, fileMap) {
+      const hasAzdo = hasPath(fileMap, /(^|\/)azure-pipelines.*\.ya?ml$/i);
+      const hasGithub = hasPath(fileMap, /(^|\/)\.github\/workflows\/.*\.ya?ml$/i);
+      const hasGitlab = hasPath(fileMap, /(^|\/)gitlab-ci\.ya?ml$/i);
+      if (hasAzdo || hasGithub || hasGitlab) {
+        addFinding(report, "pass", "CI/CD pipeline file found", "At least one Azure DevOps, GitHub Actions, or GitLab CI pipeline file was detected.", report.inventory.pipelines.join(", "), "CI/CD");
+      } else {
+        addFinding(report, "warning", "No CI/CD pipeline file found", "Add a pipeline file for Azure DevOps, GitHub Actions, or GitLab CI before relying on automated validation.", "", "CI/CD");
+      }
+      checkFile(report, fileMap, /(^|\/)Prepare-QualityRules\.ps1$/i, "Quality rule preparation script found", "Quality rule preparation script missing", "Expected `Prepare-QualityRules.ps1` so branch-aware rules can be prepared consistently.", "CI/CD", "warning");
+      checkFile(report, fileMap, /(^|\/)validate_pbip_structure\.py$/i, "PBIP structure validator found", "PBIP structure validator missing", "Expected `validate_pbip_structure.py` for local and CI structure validation.", "CI/CD", "warning");
+      checkFile(report, fileMap, /(^|\/)run_dax_tests\.py$/i, "DAX test runner found", "DAX test runner missing", "Expected `run_dax_tests.py` even if it is still a placeholder.", "CI/CD", "warning");
+    }
+
+    function addHygieneFindings(report, fileMap) {
+      checkFile(report, fileMap, /(^|\/)README\.md$/i, "README found", "README missing", "Add a README with project purpose, setup, and validation instructions.", "Hygiene", "warning");
+      checkFile(report, fileMap, /(^|\/)docs\/governance\/governance-checklist\.md$/i, "Governance checklist found", "Governance checklist not found", "Link to a governance checklist for release readiness.", "Hygiene", "info");
+      const secretLike = pathsMatching(fileMap, /\.(pfx|pem|key|publishsettings)$/i);
+      if (secretLike.length) {
+        addFinding(report, "blocker", "Potential secret-bearing files found", "Remove certificates, keys, and publish settings from source control.", secretLike.join(", "), "Hygiene");
+      } else {
+        addFinding(report, "pass", "No obvious secret-bearing file extensions found", "No `.pfx`, `.pem`, `.key`, or `.publishsettings` files were detected.", "", "Hygiene");
+      }
+      const largeFiles = Array.from(fileMap.values()).filter(file => file.size > 10 * 1024 * 1024).map(file => normalizePath(file.webkitRelativePath || file.name));
+      if (largeFiles.length) {
+        addFinding(report, "warning", "Large files detected", "Confirm large files belong in Git and are not generated artifacts.", largeFiles.join(", "), "Hygiene");
+      } else {
+        addFinding(report, "pass", "No large files detected", "No files larger than 10 MB were found in the selected folder.", "", "Hygiene");
+      }
+    }
+
+    function checkFile(report, fileMap, pattern, passTitle, failTitle, failMessage, category, failSeverity = "warning") {
+      const matches = pathsMatching(fileMap, pattern);
+      if (matches.length) {
+        addFinding(report, "pass", passTitle, "Required asset was detected.", matches.join(", "), category);
+      } else {
+        addFinding(report, failSeverity, failTitle, failMessage, "", category);
+      }
+    }
+
+    function addFinding(report, severity, title, detail, path, category) {
+      report.findings.push({ severity, title, detail, path, category });
+    }
+
+    function calculateScore(findings) {
+      const blockers = findings.filter(item => item.severity === "blocker").length;
+      const warnings = findings.filter(item => item.severity === "warning").length;
+      return Math.max(0, 100 - blockers * 20 - warnings * 6);
+    }
+
+    function render() {
+      const findings = state.report.findings;
+      const blockers = findings.filter(item => item.severity === "blocker").length;
+      const warnings = findings.filter(item => item.severity === "warning").length;
+      const passes = findings.filter(item => item.severity === "pass").length;
+      els.scoreNumber.textContent = state.report.score === null ? "--" : String(state.report.score);
+      els.scoreLabel.textContent = state.report.score === null ? "No scan yet" : readinessLabel(state.report.score, blockers);
+      els.blockerCount.textContent = String(blockers);
+      els.warningCount.textContent = String(warnings);
+      els.passCount.textContent = String(passes);
+      els.fileCount.textContent = String(state.report.inventory.files);
+      renderFindings();
+      renderInventory();
+      els.markdownPreview.textContent = buildMarkdown(state.report);
+      els.jsonPreview.textContent = JSON.stringify(state.report, null, 2);
+    }
+
+    function renderFindings() {
+      const filter = els.severityFilter.value;
+      const findings = state.report.findings.filter(item => filter === "all" || item.severity === filter);
+      if (!findings.length) {
+        els.findingsList.innerHTML = `<div class="empty">No findings to show. Scan a folder or adjust the filter.</div>`;
+        return;
+      }
+      els.findingsList.innerHTML = findings.map(item => `
+        <div class="finding">
+          <div class="finding-title">
+            <span>${escapeHtml(item.title)}</span>
+            <span class="chip ${escapeHtml(item.severity)}">${escapeHtml(item.severity)}</span>
+          </div>
+          <div class="muted">${escapeHtml(item.detail)}</div>
+          <div class="chip-row">
+            <span class="chip">${escapeHtml(item.category)}</span>
+            ${item.path ? `<span class="chip">${escapeHtml(item.path)}</span>` : ""}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderInventory() {
+      const inventory = state.report.inventory;
+      const rows = [
+        ["PBIP files", inventory.pbipFiles],
+        ["Report folders", inventory.reportDirs],
+        ["Semantic model folders", inventory.semanticModelDirs],
+        ["Rule files", inventory.ruleFiles],
+        ["DAX test files", inventory.daxTestFiles],
+        ["Pipeline files", inventory.pipelines],
+        ["Documentation files", inventory.docs]
+      ];
+      els.inventoryHtml.innerHTML = `
+        <table class="table">
+          <thead><tr><th>Category</th><th>Detected paths</th></tr></thead>
+          <tbody>
+            ${rows.map(([label, values]) => `<tr><td>${escapeHtml(label)}</td><td>${values.length ? escapeHtml(values.join(", ")) : "<span class='muted'>None detected</span>"}</td></tr>`).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function readinessLabel(score, blockers) {
+      if (blockers > 0) return "Not PR-ready";
+      if (score >= 90) return "Ready";
+      if (score >= 75) return "Ready with warnings";
+      return "Needs review";
+    }
+
+    function buildMarkdown(report) {
+      const blockers = report.findings.filter(item => item.severity === "blocker");
+      const warnings = report.findings.filter(item => item.severity === "warning");
+      const lines = [
+        "# PBIP Project Readiness Report",
+        "",
+        `Source: ${report.source}`,
+        `Generated: ${report.generatedAt}`,
+        `Score: ${report.score === null ? "Not scanned" : report.score}`,
+        "",
+        "## Summary",
+        "",
+        `- Files scanned: ${report.inventory.files}`,
+        `- Blockers: ${blockers.length}`,
+        `- Warnings: ${warnings.length}`,
+        `- Passed checks: ${report.findings.filter(item => item.severity === "pass").length}`,
+        "",
+        "## Blockers",
+        "",
+        ...(blockers.length ? blockers.map(item => `- ${item.title}: ${item.detail}${item.path ? ` (${item.path})` : ""}`) : ["- None"]),
+        "",
+        "## Warnings",
+        "",
+        ...(warnings.length ? warnings.map(item => `- ${item.title}: ${item.detail}${item.path ? ` (${item.path})` : ""}`) : ["- None"]),
+        "",
+        "## Inventory",
+        "",
+        `- PBIP files: ${report.inventory.pbipFiles.join(", ") || "None"}`,
+        `- Report folders: ${report.inventory.reportDirs.join(", ") || "None"}`,
+        `- Semantic model folders: ${report.inventory.semanticModelDirs.join(", ") || "None"}`,
+        `- Rule files: ${report.inventory.ruleFiles.join(", ") || "None"}`,
+        `- DAX test files: ${report.inventory.daxTestFiles.join(", ") || "None"}`,
+        `- Pipeline files: ${report.inventory.pipelines.join(", ") || "None"}`
+      ];
+      return lines.join("\n");
+    }
+
+    function useSampleScan() {
+      state.report = {
+        generatedAt: new Date().toISOString(),
+        source: "Sample PBIP project",
+        score: 88,
+        inventory: {
+          files: 142,
+          pbipFiles: ["SalesAnalytics.pbip"],
+          reportDirs: ["SalesAnalytics.Report"],
+          semanticModelDirs: ["SalesAnalytics.SemanticModel"],
+          ruleFiles: ["shared/Rules-Report.json", "shared/Rules-Dataset.json"],
+          daxTestFiles: ["shared/dax-tests.json"],
+          pipelines: [".github/workflows/powerbi-ci.yml"],
+          docs: ["README.md", "docs/governance/governance-checklist.md"]
+        },
+        findings: [
+          { severity: "pass", title: "PBIP project file found", detail: "Exactly one `.pbip` file was found.", path: "SalesAnalytics.pbip", category: "Structure" },
+          { severity: "pass", title: "Report semantic model path resolves", detail: "`datasetReference.byPath.path` points to an existing folder.", path: "SalesAnalytics.SemanticModel", category: "References" },
+          { severity: "pass", title: "Report quality rules found", detail: "Required asset was detected.", path: "shared/Rules-Report.json", category: "Governance" },
+          { severity: "warning", title: "Enterprise policy profile not found", detail: "Export a profile from the Enterprise Standards Builder when teams need auditable policy settings.", path: "", category: "Governance" },
+          { severity: "warning", title: "Policy exception register not found", detail: "Add an exception register when rules are waived for specific artifacts.", path: "", category: "Governance" },
+          { severity: "pass", title: "CI/CD pipeline file found", detail: "At least one pipeline file was detected.", path: ".github/workflows/powerbi-ci.yml", category: "CI/CD" }
+        ]
+      };
+      render();
+      toast("Sample readiness scan loaded.");
+    }
+
+    function pathsMatching(fileMap, pattern) {
+      return Array.from(fileMap.keys()).filter(path => pattern.test(path)).sort();
+    }
+
+    function hasPath(fileMap, pattern) {
+      return pathsMatching(fileMap, pattern).length > 0;
+    }
+
+    function hasDirectory(fileMap, directory) {
+      const prefix = normalizePath(directory).replace(/\/$/, "") + "/";
+      return Array.from(fileMap.keys()).some(path => path.startsWith(prefix));
+    }
+
+    function uniqueDirs(paths, suffix) {
+      const dirs = new Set();
+      for (const path of paths) {
+        const index = path.toLowerCase().indexOf(suffix.toLowerCase());
+        if (index >= 0) dirs.add(path.slice(0, index + suffix.length));
+      }
+      return Array.from(dirs).sort();
+    }
+
+    function resolveRelative(baseDir, relativePath) {
+      const parts = `${baseDir}/${relativePath}`.split("/");
+      const stack = [];
+      for (const part of parts) {
+        if (!part || part === ".") continue;
+        if (part === "..") stack.pop();
+        else stack.push(part);
+      }
+      return stack.join("/");
+    }
+
+    function normalizePath(path) {
+      return String(path || "").replaceAll("\\", "/").replace(/^\/+/, "");
+    }
+
+    function downloadText(filename, value, type) {
+      const blob = new Blob([value], { type });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function copyText(value) {
+      await navigator.clipboard.writeText(value);
+      toast("Copied to clipboard.");
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function toast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("visible");
+      window.clearTimeout(toast.timer);
+      toast.timer = window.setTimeout(() => els.toast.classList.remove("visible"), 2800);
+    }
+
+    function activateTab(tab) {
+      document.querySelectorAll(".tab").forEach(button => button.classList.toggle("active", button.dataset.tab === tab));
+      document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.add("hidden"));
+      document.getElementById(`${tab}Tab`).classList.remove("hidden");
+      render();
+    }
+
+    els.folderInput.addEventListener("change", event => scanFiles(event.target.files));
+    els.sampleScan.addEventListener("click", useSampleScan);
+    els.downloadMarkdown.addEventListener("click", () => downloadText("PBIP-Readiness-Report.md", buildMarkdown(state.report), "text/markdown"));
+    els.downloadJson.addEventListener("click", () => downloadText("pbip-readiness-report.json", JSON.stringify(state.report, null, 2), "application/json"));
+    els.copyMarkdown.addEventListener("click", () => copyText(buildMarkdown(state.report)));
+    els.copyJson.addEventListener("click", () => copyText(JSON.stringify(state.report, null, 2)));
+    els.severityFilter.addEventListener("change", renderFindings);
+    document.querySelectorAll(".tab").forEach(button => button.addEventListener("click", () => activateTab(button.dataset.tab)));
+
+    render();
+  </script>
+</body>
+</html>

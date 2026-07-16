@@ -1,7 +1,7 @@
 
-# Fabric + Git Version Control Workshop Documentation
+# Enterprise BI DevOps for Microsoft Fabric Documentation
 
-Welcome to the documentation hub for the **Microsoft Fabric + Git Version Control Workshop**.  
+Welcome to the documentation hub for **Enterprise BI DevOps for Microsoft Fabric** and the **Fabric BI DevOps Accelerator**.  
 This wiki provides all workshop plans, labs, governance materials, and architectural guidance.
 
 ---
@@ -25,10 +25,12 @@ This wiki provides all workshop plans, labs, governance materials, and architect
 - [GitHub Best Practices for Fabric Git Integration](./architecture/github-fabric-git-best-practices.md)  
 - [Workspace Strategy](./architecture/workspace-strategy.md)
 - [Rules Authoring Guide](./Rules-Authoring-Guide.md)
-- [Enterprise Power BI Governance Tools](./governance/power-bi-governance-tools.md)
+- [Fabric BI DevOps Accelerator Tools](./governance/power-bi-governance-tools.md)
+- Fabric BI DevOps Accelerator Launchpad: `../tools/index.html`
 - Enterprise Standards Builder: `../tools/enterprise-standards-builder/index.html`
 - Quality Rule Designer: `../tools/rule-designer/index.html`
 - DAX Test Builder: `../tools/dax-test-builder/index.html`
+- PBIP Project Readiness Scanner: `../tools/pbip-readiness-scanner/index.html`
 
 ---
 

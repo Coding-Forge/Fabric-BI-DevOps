@@ -1,7 +1,7 @@
 
 # Architecture Overview
 
-This section contains architecture diagrams used throughout the Fabric + Git Version Control Workshop.
+This section contains architecture diagrams used throughout the Enterprise BI DevOps for Microsoft Fabric Workshop.
 
 ## Diagrams Included
 - Fabric + Git Integration

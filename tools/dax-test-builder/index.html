@@ -609,7 +609,7 @@
               <button id="saveTest" class="primary" type="button">Add or update test</button>
               <button id="copyTest" type="button">Copy selected JSON</button>
             </div>
-            <div class="summary-box">This builder captures DAX test metadata. The current repository test runner is still a lightweight placeholder; this JSON establishes the contract for wiring real measure evaluation through semantic-link-labs, XMLA, or Tabular Editor scripting.</div>
+            <div class="summary-box">This builder captures DAX test metadata. The repository runner reads this JSON, validates enabled test metadata, and emits JUnit results. Actual DAX query execution can be added later through semantic-link-labs, XMLA, or Tabular Editor scripting.</div>
           </div>
         </div>
       </div>

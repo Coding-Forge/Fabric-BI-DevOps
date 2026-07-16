@@ -30,7 +30,7 @@ This repository includes two static HTML tools under `tools/`.
 | `tools/enterprise-standards-builder/index.html` | BI leads, governance owners, report creators | Start here when defining enterprise settings, guides, and policies. It generates `Rules-Report.json`, `Rules-Dataset.json`, a reusable policy profile, and a review summary. |
 | `tools/rule-designer/index.html` | Platform team and advanced BI developers | Use this when tuning a specific rule, creating a custom PBI Inspector report rule, or creating a custom Tabular Editor BPA dataset rule. |
 
-For screenshots, demo flow, and positioning language, see [Enterprise Power BI Governance Tools](governance/power-bi-governance-tools.md).
+For screenshots, demo flow, and positioning language, see [Fabric BI DevOps Accelerator Tools](governance/power-bi-governance-tools.md).
 
 Recommended governance workflow:
 
@@ -180,7 +180,7 @@ Use these conventions for consistency:
 - Structural validation: `tests/validate_pbip_structure.py`
 - Dataset rule execution: Tabular Editor in `azure-pipelines.yml`
 - Report rule execution: PBI Inspector in `azure-pipelines.yml`
-- DAX placeholder tests: `tests/run_dax_tests.py`
+- DAX test metadata validation: `tests/run_dax_tests.py` reads `dax-tests.json` and emits JUnit results
 
 If you want to test quickly before pushing:
 

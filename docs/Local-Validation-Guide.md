@@ -10,7 +10,7 @@ This guide shows how to validate the PBIP project locally before pushing changes
 
 Tool execution for Tabular Editor and PBI Inspector is handled directly in CI, but this guide shows how to validate the inputs they rely on.
 
-Use `tools/enterprise-standards-builder/index.html` to generate enterprise-standard `Rules-Dataset.json` and `Rules-Report.json` files. Use `tools/rule-designer/index.html` for individual custom rule edits before running the validation steps below. Use `tools/dax-test-builder/index.html` to customize the starter `shared/dax-tests.json` catalog and define measure-level DAX test metadata; the current runner still needs to be extended to execute those metadata-driven tests.
+Use `tools/pbip-readiness-scanner/index.html` first to scan a local PBIP repo or project folder before opening a PR. Use `tools/enterprise-standards-builder/index.html` to generate enterprise-standard `Rules-Dataset.json` and `Rules-Report.json` files. Use `tools/rule-designer/index.html` for individual custom rule edits before running the validation steps below. Use `tools/dax-test-builder/index.html` to customize the starter `shared/dax-tests.json` catalog and define measure-level DAX test metadata.
 
 ## Prerequisites
 
@@ -91,12 +91,18 @@ Behavior:
 
 ## 4. Run the DAX Test Harness
 
-The current test runner is a lightweight placeholder that checks for model existence and emits JUnit XML.
+The DAX runner checks model existence, auto-discovers `dax-tests.json`, validates enabled test metadata, and emits JUnit XML. Disabled tests are reported as skipped. Enabled test execution is also reported as skipped until a DAX evaluator such as semantic-link-labs, XMLA, or Tabular Editor scripting is wired in.
 
 Run it with:
 
 ```powershell
 python tests/run_dax_tests.py --model-path "."
+```
+
+To point at a specific catalog:
+
+```powershell
+python tests/run_dax_tests.py --model-path "." --tests-path ".\dax-tests.json"
 ```
 
 Expected output:
@@ -128,9 +134,10 @@ If a local validation passes but CI fails, the next place to inspect is usually 
 
 Use this order before opening a PR:
 
-1. Generate or review rule files with the Enterprise Standards Builder or Quality Rule Designer.
-2. Validate PBIP structure.
-3. Prepare effective dataset rules for the target branch.
+1. Scan the repo or PBIP project folder with the PBIP Project Readiness Scanner.
+2. Generate or review rule files with the Enterprise Standards Builder or Quality Rule Designer.
+3. Validate PBIP structure.
+4. Prepare effective dataset rules for the target branch.
 3. Prepare effective report rules for the target branch.
 4. Run the DAX test harness.
 5. Review diffs in rule files if you changed standards.

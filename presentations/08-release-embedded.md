@@ -229,7 +229,7 @@ When rolling out Git-based workflows to a team:
 # 🎉 Workshop Complete
 
 **Thank you for attending**
-_Fabric + Git Essentials_
+_Fabric BI DevOps Accelerator_
 
 ---
 

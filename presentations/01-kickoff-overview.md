@@ -71,8 +71,8 @@ style: |
   }
 ---
 
-# Fabric + Git Essentials
-## Version Control Workshop
+# Enterprise BI DevOps for Microsoft Fabric
+## Fabric BI DevOps Accelerator
 
 **Brandon Campbell**
 April 2026

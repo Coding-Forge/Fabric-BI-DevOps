@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fabric BI DevOps Accelerator Launchpad</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.45;
+    }
+
+    a {
+      color: var(--cp-link);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .hero {
+      border-bottom: 1px solid var(--cp-border);
+      background: var(--cp-bg-elevated);
+      padding: 32px 28px;
+    }
+
+    .hero-inner,
+    main {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .hero-inner {
+      display: grid;
+      gap: 16px;
+    }
+
+    .eyebrow {
+      color: var(--cp-accent);
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.15;
+    }
+
+    h1 { font-size: clamp(32px, 5vw, 56px); }
+    h2 { font-size: 24px; }
+    h3 { font-size: 18px; }
+
+    .lede {
+      max-width: 980px;
+      color: var(--cp-text-muted);
+      font-size: 18px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      font-weight: 750;
+      padding: 9px 13px;
+    }
+
+    .button:hover {
+      border-color: var(--cp-border-strong);
+      text-decoration: none;
+    }
+
+    .button.primary {
+      border-color: var(--cp-accent);
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+    }
+
+    main {
+      display: grid;
+      gap: 24px;
+      padding: 24px 28px 42px;
+    }
+
+    .panel,
+    .card {
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+      box-shadow: var(--cp-shadow);
+    }
+
+    .panel {
+      padding: 18px;
+    }
+
+    .section {
+      display: grid;
+      gap: 14px;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .muted {
+      color: var(--cp-text-muted);
+      font-size: 14px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      display: inline-flex;
+      border: 1px solid var(--cp-border);
+      border-radius: 999px;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 3px 8px;
+    }
+
+    .chip.accent {
+      border-color: var(--cp-accent);
+      color: var(--cp-accent);
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .step {
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      padding: 14px;
+    }
+
+    .step-number {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      font-weight: 850;
+      margin-bottom: 8px;
+    }
+
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .audience {
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      padding: 14px;
+    }
+
+    .artifact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .artifact {
+      border-left: 4px solid var(--cp-accent);
+      border-radius: 0.625rem;
+      background: var(--cp-accent-soft);
+      padding: 12px;
+    }
+
+    code {
+      font-family: Consolas, "Courier New", Courier, monospace;
+    }
+
+    @media (max-width: 980px) {
+      .tool-grid,
+      .workflow,
+      .audience-grid,
+      .artifact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Enterprise BI DevOps for Microsoft Fabric</div>
+      <h1>Fabric BI DevOps Accelerator Launchpad</h1>
+      <p class="lede">A central starting point for no-code tools that help teams govern PBIP delivery with Git, CI/CD, quality rules, DAX test metadata, and pre-PR readiness checks.</p>
+      <div class="toolbar">
+        <a class="button primary" href="enterprise-standards-builder/index.html">Start with standards</a>
+        <a class="button" href="../docs/governance/power-bi-governance-tools.md">Read overview</a>
+        <a class="button" href="README.md">Tool README</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2>Open a tool</h2>
+      <div class="tool-grid">
+        <article class="card">
+          <div class="card-top">
+            <div>
+              <h3>Enterprise Standards Builder</h3>
+              <p class="muted">Define enterprise policy profiles and generate pipeline-ready report and dataset quality rules.</p>
+            </div>
+            <span class="chip accent">Start here</span>
+          </div>
+          <div class="chips">
+            <span class="chip">BI leads</span>
+            <span class="chip">Governance owners</span>
+            <span class="chip">Report creators</span>
+          </div>
+          <p><strong>Outputs:</strong> <code>Rules-Report.json</code>, <code>Rules-Dataset.json</code>, policy profile, policy summary.</p>
+          <a class="button primary" href="enterprise-standards-builder/index.html">Open Enterprise Standards Builder</a>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <div>
+              <h3>Quality Rule Designer</h3>
+              <p class="muted">Tune individual report and dataset rules or create custom PBI Inspector and Tabular Editor BPA logic.</p>
+            </div>
+            <span class="chip">Advanced tuning</span>
+          </div>
+          <div class="chips">
+            <span class="chip">Platform team</span>
+            <span class="chip">Advanced BI developers</span>
+            <span class="chip">Rule authors</span>
+          </div>
+          <p><strong>Outputs:</strong> updated <code>Rules-Report.json</code> and <code>Rules-Dataset.json</code>.</p>
+          <a class="button" href="rule-designer/index.html">Open Quality Rule Designer</a>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <div>
+              <h3>DAX Test Builder</h3>
+              <p class="muted">Define measure-level DAX test metadata consumed by the pipeline runner for JUnit reporting.</p>
+            </div>
+            <span class="chip">Testing</span>
+          </div>
+          <div class="chips">
+            <span class="chip">Semantic model owners</span>
+            <span class="chip">BI developers</span>
+            <span class="chip">Data stewards</span>
+          </div>
+          <p><strong>Outputs:</strong> <code>dax-tests.json</code> and DAX test catalog Markdown.</p>
+          <a class="button" href="dax-test-builder/index.html">Open DAX Test Builder</a>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <div>
+              <h3>PBIP Project Readiness Scanner</h3>
+              <p class="muted">Scan a local PBIP repo or project folder before PR to catch missing structure, governance assets, and CI wiring.</p>
+            </div>
+            <span class="chip">Pre-PR</span>
+          </div>
+          <div class="chips">
+            <span class="chip">Report creators</span>
+            <span class="chip">Platform team</span>
+            <span class="chip">Reviewers</span>
+          </div>
+          <p><strong>Outputs:</strong> PBIP readiness Markdown report and JSON report.</p>
+          <a class="button" href="pbip-readiness-scanner/index.html">Open PBIP Readiness Scanner</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel section">
+      <h2>Recommended workflow</h2>
+      <div class="workflow">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Define standards</h3>
+          <p class="muted">Use the Enterprise Standards Builder to choose advisory, standard, strict, or custom governance posture.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Tune rules</h3>
+          <p class="muted">Use the Quality Rule Designer when a single rule needs custom logic, a threshold change, or exception tuning.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Add DAX tests</h3>
+          <p class="muted">Use the DAX Test Builder to document critical measure validations and export metadata for CI adoption.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <h3>Scan before PR</h3>
+          <p class="muted">Use the PBIP Readiness Scanner before opening a pull request or asking reviewers to inspect changes.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel section">
+      <h2>Choose by audience</h2>
+      <div class="audience-grid">
+        <div class="audience">
+          <h3>BI lead</h3>
+          <p class="muted">Start with the Enterprise Standards Builder and use the policy summary in governance reviews.</p>
+        </div>
+        <div class="audience">
+          <h3>Report creator</h3>
+          <p class="muted">Use the Readiness Scanner before PR and the Standards Builder when adopting a new policy profile.</p>
+        </div>
+        <div class="audience">
+          <h3>Semantic model owner</h3>
+          <p class="muted">Use the DAX Test Builder to capture key measure validations and model-specific expectations.</p>
+        </div>
+        <div class="audience">
+          <h3>Platform engineer</h3>
+          <p class="muted">Use all generated JSON artifacts as portable CI/CD inputs across Azure DevOps, GitHub, and GitLab.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel section">
+      <h2>Generated artifacts</h2>
+      <div class="artifact-grid">
+        <div class="artifact"><strong><code>Rules-Report.json</code></strong><br><span class="muted">PBI Inspector report quality rules.</span></div>
+        <div class="artifact"><strong><code>Rules-Dataset.json</code></strong><br><span class="muted">Tabular Editor BPA dataset quality rules.</span></div>
+        <div class="artifact"><strong><code>dax-tests.json</code></strong><br><span class="muted">Measure-level DAX test metadata.</span></div>
+        <div class="artifact"><strong><code>enterprise-policy-profile.json</code></strong><br><span class="muted">Reusable governance posture and policy settings.</span></div>
+        <div class="artifact"><strong><code>PBIP-Readiness-Report.md</code></strong><br><span class="muted">PR-ready readiness summary.</span></div>
+        <div class="artifact"><strong><code>pbip-readiness-report.json</code></strong><br><span class="muted">Machine-readable readiness scan output.</span></div>
+      </div>
+    </section>
+
+    <section class="panel section">
+      <h2>Positioning summary</h2>
+      <p>The Fabric BI DevOps Accelerator helps enterprise teams turn Power BI and Fabric delivery standards into action. Instead of asking report creators to hand-edit JSON or become DevOps experts, teams can use guided browser tools to generate quality rules, DAX test metadata, and readiness reports that support Git-based CI/CD workflows.</p>
+    </section>
+  </main>
+</body>
+</html>

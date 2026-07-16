@@ -1,5 +1,5 @@
 ---
-title: "CI/CD Architecture — Microsoft Fabric + Git"
+title: "CI/CD Architecture — Enterprise BI DevOps for Microsoft Fabric"
 description: "Architecture reference for the end-to-end CI/CD pipeline supporting PBIP-based development in Microsoft Fabric, including Azure DevOps pipelines and Fabric Deployment Pipelines."
 ---
 

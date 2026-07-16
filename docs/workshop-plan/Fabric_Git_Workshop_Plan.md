@@ -1,12 +1,12 @@
 
 ---
-title: "Fabric + Git Version Control Workshop — Plan & Materials"
+title: "Enterprise BI DevOps for Microsoft Fabric Workshop — Plan & Materials"
 description: "Full workshop agenda, labs, branching strategy, CI/CD guidance, deployment patterns, and collaboration practices for Microsoft Fabric + Git version control."
 author: Brandon Campbell
 version: 1.0
 ---
 
-# Fabric + Git Version Control Workshop  
+# Enterprise BI DevOps for Microsoft Fabric Workshop  
 Comprehensive Workshop Plan & Supporting Material
 
 ## Overview

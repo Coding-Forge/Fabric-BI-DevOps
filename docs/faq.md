@@ -1,9 +1,9 @@
 ---
-title: "FAQ — Fabric Git Essentials Workshop"
+title: "FAQ — Enterprise BI DevOps for Microsoft Fabric"
 description: "Frequently asked questions and resolutions covering Git integration, CI/CD pipelines, Fabric Deployment Pipelines, on-premises gateways, governance, and common lab issues."
 ---
 
-# FAQ — Fabric Git Essentials Workshop
+# FAQ — Enterprise BI DevOps for Microsoft Fabric
 
 This document covers the most common questions and issues encountered across the labs and supporting CI/CD setup. Questions are grouped by topic area. Each answer references the relevant lab or architecture document where applicable.
 
@@ -648,7 +648,7 @@ Confirm the TMDL format is used (not legacy JSON model) by checking whether `def
 
 ### Q: The CI pipeline validates structure but there are no DAX measures in the model. Why does `run_dax_tests.py` still run?
 
-The DAX test script runs regardless of whether the model has measures — it simply finds no tests to execute and exits with a pass. The JUnit output will show zero tests run, which is valid.
+The DAX test script runs regardless of whether the model has measures because it also validates model presence and `dax-tests.json` metadata. If no catalog is found, the catalog check is skipped and structure checks still run. If `shared/dax-tests.json` exists, disabled tests appear as skipped in JUnit until they are customized and enabled.
 
 If you want to skip DAX tests entirely for a project without measures (e.g., a report-only workspace), set `skipDaxTests: true` in the consumer pipeline parameters.
 
