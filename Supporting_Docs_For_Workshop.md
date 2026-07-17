@@ -1,13 +1,13 @@
 
 ---
-title: "Supporting Documents for Enterprise BI DevOps for Microsoft Fabric"
-description: "Mapped reference materials, resource links, and detailed topic-by-topic support for the Enterprise BI DevOps for Microsoft Fabric Workshop."
+title: "Supporting Documents for Enterprise BI DevOps with Microsoft Fabric"
+description: "Mapped reference materials, resource links, and detailed topic-by-topic support for the Enterprise BI DevOps with Microsoft Fabric Workshop."
 author: Brandon Campbell
 version: 1.0
 ---
 
-# Supporting Documents for Enterprise BI DevOps for Microsoft Fabric
-This document provides a **topic‑by‑topic mapping** of supporting resources, internal references, lab materials, and guides used throughout the **Enterprise BI DevOps for Microsoft Fabric Workshop**.
+# Supporting Documents for Enterprise BI DevOps with Microsoft Fabric
+This document provides a **topic‑by‑topic mapping** of supporting resources, internal references, lab materials, and guides used throughout the **Enterprise BI DevOps with Microsoft Fabric Workshop**.
 
 It acts as a companion index to the main workshop plan, ensuring you can quickly attach the correct internal documents and reference material to each session.
 

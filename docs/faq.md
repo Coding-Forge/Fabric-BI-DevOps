@@ -1,9 +1,9 @@
 ---
-title: "FAQ — Enterprise BI DevOps for Microsoft Fabric"
+title: "FAQ — Enterprise BI DevOps with Microsoft Fabric"
 description: "Frequently asked questions and resolutions covering Git integration, CI/CD pipelines, Fabric Deployment Pipelines, on-premises gateways, governance, and common lab issues."
 ---
 
-# FAQ — Enterprise BI DevOps for Microsoft Fabric
+# FAQ — Enterprise BI DevOps with Microsoft Fabric
 
 This document covers the most common questions and issues encountered across the labs and supporting CI/CD setup. Questions are grouped by topic area. Each answer references the relevant lab or architecture document where applicable.
 

@@ -1,9 +1,9 @@
 
-# Enterprise BI DevOps for Microsoft Fabric
+# Enterprise BI DevOps with Microsoft Fabric
 
 > **Version:** 1.1 &nbsp;|&nbsp; **Author:** Brandon Campbell &nbsp;|&nbsp; **Updated:** June 2026
 
-Enterprise BI DevOps for Microsoft Fabric helps teams turn Power BI and Fabric delivery into a governed, repeatable engineering practice. Developers get faster iteration with Git-aware workflows, CI checks, and reusable validation assets. Operations teams get predictable promotions, branching controls, and deployment automation. CIOs and IT leaders get stronger governance, lower release risk, and a scalable model for standardizing analytics delivery across the organization.
+Enterprise BI DevOps with Microsoft Fabric helps teams turn Power BI and Fabric delivery into a governed, repeatable engineering practice. Developers get faster iteration with Git-aware workflows, CI checks, and reusable validation assets. Operations teams get predictable promotions, branching controls, and deployment automation. CIOs and IT leaders get stronger governance, lower release risk, and a scalable model for standardizing analytics delivery across the organization.
 
 This repository combines a hands-on workshop with practical reference material for **Microsoft Fabric** and **Power BI** (PBIP format).
 

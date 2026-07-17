@@ -71,7 +71,7 @@ style: |
   }
 ---
 
-# Enterprise BI DevOps for Microsoft Fabric
+# Enterprise BI DevOps with Microsoft Fabric
 ## Fabric BI DevOps Accelerator
 
 **Brandon Campbell**

@@ -1,7 +1,7 @@
 
-# Enterprise BI DevOps for Microsoft Fabric Documentation
+# Enterprise BI DevOps with Microsoft Fabric Documentation
 
-Welcome to the documentation hub for **Enterprise BI DevOps for Microsoft Fabric** and the **Fabric BI DevOps Accelerator**.  
+Welcome to the documentation hub for **Enterprise BI DevOps with Microsoft Fabric** and the **Fabric BI DevOps Accelerator**.  
 This wiki provides all workshop plans, labs, governance materials, and architectural guidance.
 
 ---
