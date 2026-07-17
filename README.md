@@ -90,6 +90,7 @@ Use the Enterprise Standards Builder first for governance policy setup, then use
 | Workspace strategy | [docs/architecture/workspace-strategy.md](docs/architecture/workspace-strategy.md) |
 | Governance checklist | [docs/governance/governance-checklist.md](docs/governance/governance-checklist.md) |
 | Accelerator tools overview | [docs/governance/power-bi-governance-tools.md](docs/governance/power-bi-governance-tools.md) |
+| Tool walkthrough | [docs/tool-walkthrough.md](docs/tool-walkthrough.md) |
 | Enterprise quality rules pattern | [docs/enterprise-quality-rules-pattern.md](docs/enterprise-quality-rules-pattern.md) |
 | Differentiation scorecard | [docs/differentiation-scorecard.md](docs/differentiation-scorecard.md) |
 | Sparse clone guide | [docs/sparse-clone-guide.md](docs/sparse-clone-guide.md) |

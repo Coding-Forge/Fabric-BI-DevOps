@@ -29,6 +29,7 @@ This wiki provides all workshop plans, labs, governance materials, and architect
 - [Workspace Strategy](./architecture/workspace-strategy.md)
 - [Rules Authoring Guide](./Rules-Authoring-Guide.md)
 - [Fabric BI DevOps Accelerator Tools](./governance/power-bi-governance-tools.md)
+- [Tool Walkthrough](./tool-walkthrough.md)
 - [Differentiation Scorecard](./differentiation-scorecard.md)
 - [Sparse Clone Guide](./sparse-clone-guide.md)
 - Fabric BI DevOps Accelerator Launchpad: `../tools/index.html`
