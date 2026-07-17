@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Competitive Differentiation Matrix</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root{color-scheme:light;--cp-bg:#f7f4ef;--cp-bg-elevated:#fcfbf8;--cp-surface:#fff;--cp-surface-soft:#f5f5f5;--cp-border:#dedede;--cp-border-strong:#919191;--cp-text:#242424;--cp-text-muted:#5c5c5c;--cp-accent:#b11f4b;--cp-accent-fg:#fff;--cp-success:#16a34a;--cp-danger:#dc2626;--cp-warning:#f59e0b;--cp-shadow:0 18px 48px rgba(0,0,0,.12);--cp-panel-strong:rgba(255,255,255,.96)}
+    html[data-theme=dark]{color-scheme:dark;--cp-bg:#3d3b3a;--cp-bg-elevated:#343231;--cp-surface:#292929;--cp-surface-soft:#2e2e2e;--cp-border:#474747;--cp-border-strong:#5f5f5f;--cp-text:#dedede;--cp-text-muted:#b0b0b0;--cp-accent:#fd8ea1;--cp-accent-fg:#1a1a1a;--cp-success:#4ade80;--cp-danger:#f87171;--cp-warning:#fbbf24;--cp-shadow:0 18px 48px rgba(0,0,0,.32);--cp-panel-strong:rgba(41,41,41,.96)}
+    *{box-sizing:border-box}body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.45}button,input,select,textarea{font:inherit}button,.file-button{border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);cursor:pointer;padding:8px 12px}button:hover,.file-button:hover{border-color:var(--cp-border-strong)}button.primary{background:var(--cp-accent);border-color:var(--cp-accent);color:var(--cp-accent-fg)}button.danger{border-color:var(--cp-danger);color:var(--cp-danger)}input,select,textarea{width:100%;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);padding:8px 10px}textarea{min-height:84px;resize:vertical}label{display:grid;gap:6px;color:var(--cp-text-muted);font-size:13px;font-weight:700}pre,code{font-family:Consolas,"Courier New",monospace}pre{margin:0;overflow:auto;white-space:pre-wrap;word-break:break-word}.hero{border-bottom:1px solid var(--cp-border);background:var(--cp-bg-elevated);padding:28px}.hero-inner,.main{max-width:1440px;margin:0 auto}.hero-inner{display:grid;gap:16px}.eyebrow{color:var(--cp-accent);font-size:13px;font-weight:850;letter-spacing:.04em;text-transform:uppercase}h1,h2,h3{margin:0;line-height:1.15}h1{font-size:clamp(30px,4vw,46px)}h2{font-size:20px}h3{font-size:16px}.lede{max-width:980px;color:var(--cp-text-muted);font-size:17px}.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.file-button{position:relative;overflow:hidden;display:inline-flex}.file-button input{position:absolute;inset:0;opacity:0;cursor:pointer}.main{display:grid;grid-template-columns:minmax(300px,430px) minmax(0,1fr);gap:20px;padding:24px 28px 40px}.panel,.item,.card{border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface);box-shadow:var(--cp-shadow)}.panel-header{border-bottom:1px solid var(--cp-border);padding:16px}.panel-body{padding:16px}.grid{display:grid;gap:14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);padding:12px}.stat-value{font-size:26px;font-weight:850}.muted,.stat-label{color:var(--cp-text-muted)}.muted{font-size:13px}.list{display:grid;gap:10px;max-height:560px;overflow:auto}.item{background:var(--cp-surface-soft);padding:12px;display:grid;gap:8px;text-align:left}.item-title{display:flex;justify-content:space-between;gap:10px;font-weight:850}.chip-row{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;border:1px solid var(--cp-border);border-radius:999px;background:var(--cp-surface-soft);color:var(--cp-text-muted);font-size:12px;font-weight:800;padding:3px 8px}.chip.strong{border-color:var(--cp-success);color:var(--cp-success)}.chip.medium{border-color:var(--cp-warning);color:var(--cp-warning)}.chip.weak{border-color:var(--cp-danger);color:var(--cp-danger)}.output{max-height:620px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);color:var(--cp-text);padding:14px;font-size:13px}.toast{position:fixed;right:20px;bottom:20px;max-width:380px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-panel-strong);box-shadow:var(--cp-shadow);padding:12px 14px;display:none;z-index:20}.toast.visible{display:block}@media(max-width:980px){.main,.two{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Fabric BI DevOps Accelerator</div>
+      <h1>Competitive Differentiation Matrix</h1>
+      <p class="lede">Score this solution against generic CI/CD samples, best-practice decks, internal accelerators, or public alternatives using measurable differentiators.</p>
+      <div class="toolbar">
+        <button id="newSolution" class="primary" type="button">New solution</button>
+        <button id="saveSolution" type="button">Add or update</button>
+        <button id="deleteSolution" class="danger" type="button">Delete selected</button>
+        <label class="file-button">Load differentiation matrix<input id="loadFile" type="file" accept=".json,application/json"></label>
+        <button id="seedExample" type="button">Use starter matrix</button>
+        <button id="downloadJson" type="button">Download JSON</button>
+        <button id="downloadMarkdown" type="button">Download Markdown</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <aside class="panel">
+      <div class="panel-header"><h2>Positioning health</h2><div class="muted">Higher scores indicate stronger end-to-end differentiation.</div></div>
+      <div class="panel-body grid">
+        <div class="stats">
+          <div class="stat"><div id="solutionCount" class="stat-value">0</div><div class="stat-label">Solutions</div></div>
+          <div class="stat"><div id="leaderScore" class="stat-value">0</div><div class="stat-label">Top score</div></div>
+          <div class="stat"><div id="avgScore" class="stat-value">0</div><div class="stat-label">Average</div></div>
+          <div class="stat"><div id="gapCount" class="stat-value">0</div><div class="stat-label">Weak areas</div></div>
+        </div>
+        <label>Search solutions<input id="search" type="search" placeholder="Search solution, type, notes"></label>
+        <div id="solutionList" class="list"></div>
+      </div>
+    </aside>
+    <section class="panel">
+      <div class="panel-header"><h2>Solution score</h2><div class="muted">Score each differentiator from 0 to 5.</div></div>
+      <div class="panel-body grid">
+        <div class="grid two"><label>Name<input id="name" placeholder="Enterprise BI DevOps with Microsoft Fabric"></label><label>Type<input id="type" placeholder="This solution"></label></div>
+        <div class="grid two"><label>Platform neutrality<input id="platformNeutrality" type="number" min="0" max="5" value="0"></label><label>BI quality gates<input id="biQualityGates" type="number" min="0" max="5" value="0"></label></div>
+        <div class="grid two"><label>No-code governance<input id="noCodeGovernance" type="number" min="0" max="5" value="0"></label><label>Release readiness<input id="releaseReadiness" type="number" min="0" max="5" value="0"></label></div>
+        <div class="grid two"><label>Enterprise adoption<input id="enterpriseAdoption" type="number" min="0" max="5" value="0"></label><label>Governance maturity<input id="governanceMaturity" type="number" min="0" max="5" value="0"></label></div>
+        <div class="grid two"><label>Evidence and telemetry<input id="evidenceTelemetry" type="number" min="0" max="5" value="0"></label><label>Notes<textarea id="notes" placeholder="What makes this solution stronger or weaker?"></textarea></label></div>
+        <div class="grid two"><div><h3>Markdown</h3><pre id="markdownOutput" class="output"></pre></div><div><h3>JSON</h3><pre id="jsonOutput" class="output"></pre></div></div>
+      </div>
+    </section>
+  </main>
+  <div id="toast" class="toast"></div>
+  <script>
+    const keys=["platformNeutrality","biQualityGates","noCodeGovernance","releaseReadiness","enterpriseAdoption","governanceMaturity","evidenceTelemetry"];
+    const labels={platformNeutrality:"Platform neutrality",biQualityGates:"BI quality gates",noCodeGovernance:"No-code governance",releaseReadiness:"Release readiness",enterpriseAdoption:"Enterprise adoption",governanceMaturity:"Governance maturity",evidenceTelemetry:"Evidence and telemetry"};
+    const ids=["newSolution","saveSolution","deleteSolution","loadFile","seedExample","downloadJson","downloadMarkdown","search","solutionList","solutionCount","leaderScore","avgScore","gapCount","name","type","notes","markdownOutput","jsonOutput","toast",...keys];
+    const els=Object.fromEntries(ids.map(id=>[id,document.getElementById(id)]));
+    const state={selected:"",matrix:{version:1,generatedAt:new Date().toISOString(),solutions:[]}};
+    function starter(){return {"version":1,"generatedAt":new Date().toISOString(),"solutions":[{"name":"Generic CI/CD sample","type":"Public sample","scores":{"platformNeutrality":2,"biQualityGates":2,"noCodeGovernance":0,"releaseReadiness":1,"enterpriseAdoption":1,"governanceMaturity":1,"evidenceTelemetry":1},"notes":"Usually provides one pipeline example but limited governance tooling or adoption material."},{"name":"Best-practice deck","type":"Guidance","scores":{"platformNeutrality":1,"biQualityGates":1,"noCodeGovernance":0,"releaseReadiness":1,"enterpriseAdoption":2,"governanceMaturity":1,"evidenceTelemetry":0},"notes":"Good for alignment, but usually not executable or measurable."},{"name":"Internal accelerator","type":"Internal","scores":{"platformNeutrality":2,"biQualityGates":3,"noCodeGovernance":1,"releaseReadiness":2,"enterpriseAdoption":2,"governanceMaturity":2,"evidenceTelemetry":1},"notes":"Often strong in one platform or team context, but less portable across platforms and adoption motions."},{"name":"Enterprise BI DevOps with Microsoft Fabric","type":"This solution","scores":{"platformNeutrality":4,"biQualityGates":4,"noCodeGovernance":5,"releaseReadiness":5,"enterpriseAdoption":5,"governanceMaturity":4,"evidenceTelemetry":3},"notes":"Combines platform-neutral CI/CD, PBIP validation, quality gates, no-code tools, release readiness, adoption material, and maturity tracking."}]}}
+    function total(s){return keys.reduce((sum,k)=>sum+Number(s.scores?.[k]||0),0)}
+    function tier(score){return score>=28?"strong":score>=16?"medium":"weak"}
+    function form(){return{name:els.name.value.trim(),type:els.type.value.trim(),scores:Object.fromEntries(keys.map(k=>[k,Number(els[k].value||0)])),notes:els.notes.value.trim()}}
+    function fill(s){els.name.value=s?.name||"";els.type.value=s?.type||"";keys.forEach(k=>els[k].value=s?.scores?.[k]||0);els.notes.value=s?.notes||""}
+    function save(){const s=form();if(!s.name){toast("Solution name is required.");return}const i=state.matrix.solutions.findIndex(x=>x.name===s.name);if(i>=0)state.matrix.solutions.splice(i,1,s);else state.matrix.solutions.push(s);state.selected=s.name;render();toast("Solution saved.")}
+    function del(){if(!state.selected){toast("Select a solution first.");return}state.matrix.solutions=state.matrix.solutions.filter(x=>x.name!==state.selected);state.selected="";fill(null);render();toast("Solution deleted.")}
+    function stats(){const scores=state.matrix.solutions.map(total);const leader=Math.max(0,...scores);const avg=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):0;return{count:scores.length,leader,avg,gaps:state.matrix.solutions.reduce((n,s)=>n+keys.filter(k=>Number(s.scores?.[k]||0)<3).length,0)}}
+    function render(){state.matrix.generatedAt=new Date().toISOString();const st=stats();els.solutionCount.textContent=st.count;els.leaderScore.textContent=st.leader;els.avgScore.textContent=st.avg;els.gapCount.textContent=st.gaps;renderList();els.markdownOutput.textContent=md();els.jsonOutput.textContent=JSON.stringify(state.matrix,null,2)}
+    function renderList(){const q=els.search.value.trim().toLowerCase();const rows=state.matrix.solutions.filter(s=>!q||`${s.name} ${s.type} ${s.notes}`.toLowerCase().includes(q));els.solutionList.innerHTML=rows.length?rows.map(s=>`<button class="item" data-name="${esc(s.name)}"><span class="item-title">${esc(s.name)} <span class="chip ${tier(total(s))}">${total(s)}/35</span></span><span class="muted">${esc(s.type)} | ${esc(s.notes||"")}</span></button>`).join(""):`<div class="item">No matching solutions.</div>`}
+    function md(){const lines=["# Competitive Differentiation Matrix","",`Generated: ${state.matrix.generatedAt}`,"","| Solution | Type | Total | Platform | Quality | No-code | Release | Adoption | Governance | Telemetry |","|---|---|---:|---:|---:|---:|---:|---:|---:|---:|"];for(const s of state.matrix.solutions)lines.push(`| ${s.name} | ${s.type} | ${total(s)} | ${keys.map(k=>s.scores?.[k]||0).join(" | ")} |`);lines.push("","## Notes","");for(const s of state.matrix.solutions)lines.push(`- **${s.name}:** ${s.notes||""}`);return lines.join("\n")}
+    function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+    async function load(e){const file=e.target.files[0];if(!file)return;const parsed=JSON.parse(await file.text());state.matrix=Array.isArray(parsed)?{version:1,generatedAt:new Date().toISOString(),solutions:parsed}:parsed;state.selected="";fill(null);render();toast(`Loaded ${file.name}`)}
+    function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;")}
+    function toast(m){els.toast.textContent=m;els.toast.classList.add("visible");clearTimeout(toast.timer);toast.timer=setTimeout(()=>els.toast.classList.remove("visible"),2800)}
+    els.newSolution.addEventListener("click",()=>{state.selected="";fill(null)});els.saveSolution.addEventListener("click",save);els.deleteSolution.addEventListener("click",del);els.loadFile.addEventListener("change",e=>load(e).catch(err=>toast(err.message)));els.seedExample.addEventListener("click",()=>{state.matrix=starter();state.selected="Enterprise BI DevOps with Microsoft Fabric";fill(state.matrix.solutions.find(s=>s.name===state.selected));render();toast("Starter matrix loaded.")});els.downloadJson.addEventListener("click",()=>download("competitive-differentiation-matrix.json",JSON.stringify(state.matrix,null,2),"application/json"));els.downloadMarkdown.addEventListener("click",()=>download("competitive-differentiation-matrix.md",els.markdownOutput.textContent,"text/markdown"));els.search.addEventListener("input",renderList);els.solutionList.addEventListener("click",e=>{const item=e.target.closest("[data-name]");if(!item)return;state.selected=item.dataset.name;fill(state.matrix.solutions.find(s=>s.name===state.selected));render()});state.matrix=starter();render();
+  </script>
+</body>
+</html>

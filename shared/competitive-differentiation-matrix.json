@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-17T00:00:00.000Z",
+  "solutions": [
+    {
+      "name": "Generic CI/CD sample",
+      "type": "Public sample",
+      "scores": {
+        "platformNeutrality": 2,
+        "biQualityGates": 2,
+        "noCodeGovernance": 0,
+        "releaseReadiness": 1,
+        "enterpriseAdoption": 1,
+        "governanceMaturity": 1,
+        "evidenceTelemetry": 1
+      },
+      "notes": "Typically provides one pipeline example but limited governance tooling or adoption material."
+    },
+    {
+      "name": "Best-practice deck",
+      "type": "Guidance",
+      "scores": {
+        "platformNeutrality": 1,
+        "biQualityGates": 1,
+        "noCodeGovernance": 0,
+        "releaseReadiness": 1,
+        "enterpriseAdoption": 2,
+        "governanceMaturity": 1,
+        "evidenceTelemetry": 0
+      },
+      "notes": "Good for alignment, but usually not executable or measurable."
+    },
+    {
+      "name": "Internal accelerator",
+      "type": "Internal",
+      "scores": {
+        "platformNeutrality": 2,
+        "biQualityGates": 3,
+        "noCodeGovernance": 1,
+        "releaseReadiness": 2,
+        "enterpriseAdoption": 2,
+        "governanceMaturity": 2,
+        "evidenceTelemetry": 1
+      },
+      "notes": "Often strong in one platform or team context, but less portable across platforms and adoption motions."
+    },
+    {
+      "name": "Enterprise BI DevOps with Microsoft Fabric",
+      "type": "This solution",
+      "scores": {
+        "platformNeutrality": 4,
+        "biQualityGates": 4,
+        "noCodeGovernance": 5,
+        "releaseReadiness": 5,
+        "enterpriseAdoption": 5,
+        "governanceMaturity": 4,
+        "evidenceTelemetry": 3
+      },
+      "notes": "Combines platform-neutral CI/CD, PBIP validation, quality gates, no-code tools, release readiness, adoption material, and maturity tracking."
+    }
+  ]
+}
