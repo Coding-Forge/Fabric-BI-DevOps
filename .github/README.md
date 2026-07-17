@@ -1,6 +1,6 @@
-# GitHub Setup for Power BI Projects
+# GitHub Actions Setup for Power BI and Fabric Projects
 
-This repository includes a GitHub Actions workflow for validating and deploying **Power BI PBIP** projects in GitHub.
+This folder contains the GitHub Actions workflow for running Enterprise BI DevOps with Microsoft Fabric against **Power BI PBIP** projects in GitHub.
 
 Use this guide when you want to create or prepare a GitHub-hosted project repo that follows the workshop CI/CD pattern.
 

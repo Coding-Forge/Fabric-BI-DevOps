@@ -1,6 +1,6 @@
-# GitLab CI/CD Pipelines
+# GitLab CI/CD Setup for Power BI and Fabric Projects
 
-This folder contains the GitLab CI/CD pipeline for Microsoft Fabric PBIP validation and deployment. Entry-point pipeline references shared assets in [`../shared/`](../shared/).
+This folder contains the GitLab CI/CD pipeline for running Enterprise BI DevOps with Microsoft Fabric against Power BI PBIP projects. The entry-point pipeline references shared assets in [`../shared/`](../shared/).
 
 ## Files
 

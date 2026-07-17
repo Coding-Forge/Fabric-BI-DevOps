@@ -5,13 +5,13 @@
 
 Enterprise BI DevOps with Microsoft Fabric helps teams turn Power BI and Fabric delivery into a governed, repeatable engineering practice. Developers get faster iteration with Git-aware workflows, CI checks, and reusable validation assets. Operations teams get predictable promotions, branching controls, and deployment automation. CIOs and IT leaders get stronger governance, lower release risk, and a scalable model for standardizing analytics delivery across the organization.
 
-This repository combines a hands-on workshop with practical reference material for **Microsoft Fabric** and **Power BI** (PBIP format).
+This repository combines a hands-on workshop, platform-neutral CI/CD assets, and practical reference material for **Microsoft Fabric** and **Power BI** (PBIP format).
 
-This README provides a **topic-by-topic index** of supporting resources, architecture docs, lab guides, and reference materials used throughout the workshop.
+This README is the solution hub. Platform-specific setup instructions live in the Azure DevOps, GitHub Actions, and GitLab README files linked below.
 
-> PBIP artifacts are intentionally **not committed** in this repository. Bring your own PBIP files locally under `shared/` (or `shared/pbip-local/`) and keep reusable CI/CD assets (`Rules-*.json`, `scripts/`, `tests/`, `azdo/azure-pipelines.yml`) in source control.
+> PBIP artifacts are intentionally **not committed** in this repository. Bring your own PBIP files locally under `shared/` (or `shared/pbip-local/`) and keep reusable CI/CD assets (`Rules-*.json`, `scripts/`, `tests/`, and platform pipeline entry points) in source control.
 >
-> This repo now also includes a reusable **universal Fabric CI/CD pipeline** under `shared/universal-pipeline/`. The intent is to host one shared template repo for Fabric artifact validation/deployment, while each project repo keeps only a small consumer `azure-pipelines.yml`.
+> This repo also includes reusable shared CI/CD assets under `shared/` and `shared/universal-pipeline/`. The intent is to keep validation, quality rules, tests, and deployment helpers consistent while allowing teams to run the solution from Azure DevOps, GitHub Actions, or GitLab CI/CD.
 
 ---
 
@@ -19,6 +19,8 @@ This README provides a **topic-by-topic index** of supporting resources, archite
 
 | Section | Description |
 |---------|-------------|
+| [Platform setup guides](#platform-setup-guides) | Azure DevOps, GitHub Actions, and GitLab entry points |
+| [No-code accelerator tools](#no-code-fabric-bi-devops-accelerator-tools) | Static HTML tools for rules, tests, manifests, and readiness checks |
 | [1. Workshop Topics Table](#1-workshop-topics--supporting-documents-table) | Agenda-mapped resource overview |
 | [2. Detailed Breakdowns](#2-detailed-topicby-topic-resource-breakdown) | Per-topic doc references |
 | [3. Best Practices Summary](#3-best-practices-summary) | Governance, Git, CI/CD, Embedded |
@@ -47,23 +49,51 @@ Use the Enterprise Standards Builder first for governance policy setup, then use
 
 See [Fabric BI DevOps Accelerator Tools](docs/governance/power-bi-governance-tools.md) for screenshots, demo flow, and positioning language.
 
+### Platform Setup Guides
+
+Enterprise BI DevOps with Microsoft Fabric is designed to run on multiple CI/CD platforms. Start with the README for your platform:
+
+| Platform | README | Pipeline entry point | Best for |
+|---|---|---|---|
+| Azure DevOps | [azdo/README.md](azdo/README.md) | `azdo/azure-pipelines.yml` or `azdo/azure-pipelines_ci.yml` | Microsoft-first enterprises using Azure Pipelines, variable groups, and branch policies |
+| GitHub Actions | [.github/README.md](.github/README.md) | `.github/workflows/powerbi-ci.yml` | GitHub-hosted Fabric and Power BI projects |
+| GitLab CI/CD | [gitlab/README.md](gitlab/README.md) | `gitlab/gitlab-ci.yml` | GitLab-hosted repos with GitLab runners |
+| Shared Azure template | [shared/universal-pipeline/README.md](shared/universal-pipeline/README.md) | `shared/universal-pipeline/templates/fabric-ci.yml` | Organizations that want one reusable Azure DevOps template consumed by many project repos |
+
+Each platform runs the same core solution pattern:
+
+```text
+Validate PBIP structure
+Prepare branch-aware quality rules
+Run dataset and report quality checks
+Run DAX test metadata
+Publish validated artifacts
+Deploy to Dev or feature workspaces when configured
+```
+
 ### Repository Structure by Platform
 
 This repository organizes CI/CD platforms and shared assets at the top level for clarity:
 
 | Folder | Purpose |
 |--------|---------|
-| **`.github/`** | GitHub Actions workflows and setup guides for GitHub-hosted repos |
-| **`azdo/`** | Azure DevOps YAML pipelines and configuration for Azure DevOps projects || **`gitlab/`** | GitLab CI/CD pipeline definitions for GitLab-hosted repos || **`shared/`** | Shared, platform-agnostic CI/CD assets (rules, scripts, tests, PBIP artifacts) |
+| **`azdo/`** | Azure DevOps YAML pipelines and setup guide |
+| **`.github/`** | GitHub Actions workflow and setup guide |
+| **`gitlab/`** | GitLab CI/CD pipeline and setup guide |
+| **`shared/`** | Platform-agnostic CI/CD assets: rules, scripts, tests, PBIP artifact location, and deployment helpers |
+| **`shared/universal-pipeline/`** | Optional reusable Azure DevOps template pattern for multi-project adoption |
+| **`tools/`** | Static browser tools for rule design, standards, DAX test metadata, deployment manifests, and readiness scanning |
 
 Each CI platform folder contains entry-point pipeline definitions that reference shared assets in `shared/`.
 
 ### CI/CD Pipeline Options
-- Use [azdo/azure-pipelines.yml](azdo/azure-pipelines.yml) for the workshop's PBIP-specific Azure DevOps CI/CD walkthrough. It validates, tests, publishes `pbip-drop`, then deploys to Dev or feature workspaces with [shared/scripts/deploy-dynamic.ps1](shared/scripts/deploy-dynamic.ps1).
-- Use [shared/universal-pipeline/README.md](shared/universal-pipeline/README.md) when you want one shared Azure DevOps template repo that can be consumed by many Fabric project repos.
-- Use [.github/workflows/powerbi-ci.yml](.github/workflows/powerbi-ci.yml) for GitHub Actions-based PBIP validation in GitHub-hosted repos.
-- Use [.github/README.md](.github/README.md) for a dedicated GitHub project setup guide.
-- Use [gitlab/gitlab-ci.yml](gitlab/gitlab-ci.yml) for GitLab CI/CD-based PBIP validation and deployment. Configure GitLab to use the file via **Settings → CI/CD → CI/CD configuration file** → `gitlab/gitlab-ci.yml`.
+
+Use the platform README files for setup details. At a high level:
+
+- Azure DevOps: [azdo/README.md](azdo/README.md)
+- GitHub Actions: [.github/README.md](.github/README.md)
+- GitLab CI/CD: [gitlab/README.md](gitlab/README.md)
+- Reusable Azure DevOps template: [shared/universal-pipeline/README.md](shared/universal-pipeline/README.md)
 
 ### Sparse Clone Presets
 
@@ -71,18 +101,19 @@ This repo includes ready-to-run PowerShell scripts that clone only the folders n
 
 - Azure DevOps profile script: [shared/scripts/Clone-SparseAzDoProfile.ps1](shared/scripts/Clone-SparseAzDoProfile.ps1)
 - GitHub profile script: [shared/scripts/Clone-SparseGitHubProfile.ps1](shared/scripts/Clone-SparseGitHubProfile.ps1)
+- GitLab profile script: [shared/scripts/Clone-SparseGitLabProfile.ps1](shared/scripts/Clone-SparseGitLabProfile.ps1)
 
 Run any profile script from a PowerShell prompt:
 
 ```powershell
 # Azure DevOps profile (.github and gitlab omitted)
-./shared/scripts/Clone-SparseAzDoProfile.ps1 -RepoUrl https://github.com/<org>/<repo>.git -Destination Fabric-AzDo
+./shared/scripts/Clone-SparseAzDoProfile.ps1 -RepoUrl <source-repo-url> -Destination Fabric-AzDo
 
 # GitHub profile (azdo and gitlab omitted)
-./shared/scripts/Clone-SparseGitHubProfile.ps1 -RepoUrl https://github.com/<org>/<repo>.git -Destination Fabric-GitHub
+./shared/scripts/Clone-SparseGitHubProfile.ps1 -RepoUrl <source-repo-url> -Destination Fabric-GitHub
 
 # GitLab profile (.github and azdo omitted)
-./shared/scripts/Clone-SparseGitLabProfile.ps1 -RepoUrl https://gitlab.com/<group>/<repo>.git -Destination Fabric-GitLab
+./shared/scripts/Clone-SparseGitLabProfile.ps1 -RepoUrl <source-repo-url> -Destination Fabric-GitLab
 ```
 
 Default included folders per profile:
@@ -101,7 +132,7 @@ git push -u origin main
 Use a different branch with `-Branch`:
 
 ```powershell
-./shared/scripts/Clone-SparseAzDoProfile.ps1 -RepoUrl https://github.com/<org>/<repo>.git -Destination Fabric-AzDo-Dev -Branch develop
+./shared/scripts/Clone-SparseAzDoProfile.ps1 -RepoUrl <source-repo-url> -Destination Fabric-AzDo-Dev -Branch develop
 ```
 
 To apply a preset on an existing clone:
@@ -115,45 +146,15 @@ git sparse-checkout set .github shared docs tools images # GitHub preset
 git sparse-checkout set gitlab shared docs tools images  # GitLab preset
 ```
 
-### GitHub Actions CI (Power BI)
+### Platform-specific setup
 
-The GitHub Actions workflow at [.github/workflows/powerbi-ci.yml](.github/workflows/powerbi-ci.yml) mirrors the workshop CI pattern: Validate -> Quality Rules -> DAX Tests -> Publish Artifacts.
+The detailed setup instructions are intentionally separated by CI/CD platform:
 
-Required repository structure:
+- [Azure DevOps setup](azdo/README.md)
+- [GitHub Actions setup](.github/README.md)
+- [GitLab CI/CD setup](gitlab/README.md)
 
-```text
-repo-root/
-├── .github/
-│   └── workflows/
-│       └── powerbi-ci.yml
-└── shared/
-    ├── pbip-local/                  # local PBIP artifacts used by CI checks
-    ├── Rules-Dataset.json           # optional; fallback downloaded if missing
-    ├── Rules-Report.json            # optional; fallback downloaded if missing
-    ├── scripts/
-    │   └── Prepare-QualityRules.ps1
-    └── tests/
-        ├── validate_pbip_structure.py
-        └── run_dax_tests.py
-```
-
-Skip controls (similar to universal Azure template behavior):
-- Manual run inputs in GitHub Actions: `skip_dataset_rules`, `skip_report_rules`, `skip_dax_tests`, `skip_publish`.
-- Optional repository/org variables for default behavior on all runs:
-  - `PBIP_CI_SKIP_DATASET_RULES`
-  - `PBIP_CI_SKIP_REPORT_RULES`
-  - `PBIP_CI_SKIP_DAX_TESTS`
-  - `PBIP_CI_SKIP_PUBLISH`
-
-Set variable values to `true` or `false`.
-
-Branch policy behavior:
-- The workflow triggers on `main`, `feature/*`, and pull requests targeting `main`.
-- Branch-aware severity handling is applied by [shared/scripts/Prepare-QualityRules.ps1](shared/scripts/Prepare-QualityRules.ps1):
-  - Dataset rules enforce severity >= 2 on protected target branches such as `main` and `develop`, and >= 3 on feature branches.
-  - Report rules keep selected checks as warnings on feature branches, and promote those checks to errors on protected target branches.
-
-This pattern keeps feature-branch feedback fast while preserving stricter enforcement for protected integration branches.
+This keeps the root README focused on the BI DevOps solution rather than one Git provider.
 
 ### Presentation Decks (Marp)
 - [01 — Kickoff & Overview](presentations/01-kickoff-overview.md)
@@ -177,7 +178,7 @@ These are generated from the Marp source using `python-pptx` and can be opened d
 
 ### Architecture Docs
 - [Fabric + Git Integration](docs/architecture/fabric-git-integration.md) — diagrams for the full integration, PBIP workflow, CI/CD pipeline, deployment pipeline, end-to-end DevOps, and Power BI Embedded
-- [GitHub Best Practices for Fabric Git Integration](docs/architecture/github-fabric-git-best-practices.md)
+- [GitHub Best Practices for Fabric Git Integration](docs/architecture/github-fabric-git-best-practices.md) — provider-specific guidance for GitHub-hosted teams
 - [Branching Strategy](docs/architecture/branching-strategy.md)
 - [CI/CD Architecture](docs/architecture/cicd-architecture.md)
 - [Workspace Strategy](docs/architecture/workspace-strategy.md)
@@ -218,7 +219,7 @@ Supporting resources:
   Includes agenda, workshop objectives, and success criteria.
 - **Fabric Governance Workshop Deck**  
   Provides RBAC roles (Admin, Member, Contributor, Viewer) and tenant-level governance.
-- **Connect Fabric Workspaces to Azure DevOps Guide**  
+- **Connect Fabric Workspaces to Git Guide**  
   Contains full prerequisite checklist:
   - Fabric workspace access  
   - Repo access  
@@ -229,7 +230,7 @@ Use these materials to ensure all participants are technically ready before ente
 
 ---
 
-## 2.2 Version Control in Fabric & PBIP; Git with ADO/GitHub
+## 2.2 Version Control in Fabric & PBIP; Git with Azure DevOps, GitHub, or GitLab
 
 Key references:
 - **PBIP Format Overview**  
@@ -252,7 +253,7 @@ These resources help attendees understand *why* Git matters and *how* Fabric syn
 ## 2.3 Lab #1 — Connect a Fabric Workspace to Git
 
 Documents:
-- **Lab #1 Guide — Connect Fabric Workspace to Azure DevOps**  
+- **Lab #1 Guide — Connect Fabric Workspace to Git**  
   Walks through:
   - Selecting Git provider  
   - Mapping workspace → repo → branch  
@@ -320,7 +321,7 @@ Key messages:
 - Every push to `main`, `develop`, or `feature/*` triggers validation, testing, and artifact publication  
 - `main` and `develop` runs deploy the validated PBIP artifact to the Dev workspace  
 - `feature/*` runs create or update isolated feature workspaces using a configured workspace prefix  
-- Environment-specific configs use Azure DevOps variables, variable groups, and service principal authentication  
+- Environment-specific configs use secure CI/CD variables, variable groups, or protected secrets with service principal authentication  
 - No manual promotion to production  
 
 ---
@@ -511,7 +512,7 @@ The contents of this repository are provided "as is" without warranty of any kin
 │   ├── 07-lab3-deployment-pipelines.pptx
 │   └── 08-release-embedded.pptx
 └── docs/
-  ├── index.html                 ← GitHub Pages landing page
+  ├── index.html                 ← Static docs landing page
     ├── index.md
     ├── architecture/
     │   ├── fabric-git-integration.md   ← all architecture diagrams
