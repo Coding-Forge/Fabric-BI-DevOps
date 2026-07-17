@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Release Readiness Dashboard</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root{color-scheme:light;--cp-bg:#f7f4ef;--cp-bg-elevated:#fcfbf8;--cp-surface:#fff;--cp-surface-soft:#f5f5f5;--cp-border:#dedede;--cp-border-strong:#919191;--cp-text:#242424;--cp-text-muted:#5c5c5c;--cp-accent:#b11f4b;--cp-accent-fg:#fff;--cp-success:#16a34a;--cp-danger:#dc2626;--cp-warning:#f59e0b;--cp-shadow:0 18px 48px rgba(0,0,0,.12);--cp-panel-strong:rgba(255,255,255,.96)}
+    html[data-theme=dark]{color-scheme:dark;--cp-bg:#3d3b3a;--cp-bg-elevated:#343231;--cp-surface:#292929;--cp-surface-soft:#2e2e2e;--cp-border:#474747;--cp-border-strong:#5f5f5f;--cp-text:#dedede;--cp-text-muted:#b0b0b0;--cp-accent:#fd8ea1;--cp-accent-fg:#1a1a1a;--cp-success:#4ade80;--cp-danger:#f87171;--cp-warning:#fbbf24;--cp-shadow:0 18px 48px rgba(0,0,0,.32);--cp-panel-strong:rgba(41,41,41,.96)}
+    *{box-sizing:border-box}body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.45}button,input,textarea{font:inherit}button,.file-button{border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);cursor:pointer;padding:8px 12px}button:hover,.file-button:hover{border-color:var(--cp-border-strong)}button.primary{background:var(--cp-accent);border-color:var(--cp-accent);color:var(--cp-accent-fg)}input,textarea{width:100%;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);padding:8px 10px}textarea{min-height:100px;resize:vertical}label{display:grid;gap:6px;color:var(--cp-text-muted);font-size:13px;font-weight:700}pre,code{font-family:Consolas,"Courier New",monospace}pre{margin:0;overflow:auto;white-space:pre-wrap;word-break:break-word}.hero{border-bottom:1px solid var(--cp-border);background:var(--cp-bg-elevated);padding:28px}.hero-inner,.main{max-width:1440px;margin:0 auto}.hero-inner{display:grid;gap:16px}.eyebrow{color:var(--cp-accent);font-size:13px;font-weight:850;letter-spacing:.04em;text-transform:uppercase}h1,h2,h3{margin:0;line-height:1.15}h1{font-size:clamp(30px,4vw,46px)}h2{font-size:20px}h3{font-size:16px}.lede{max-width:980px;color:var(--cp-text-muted);font-size:17px}.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.file-button{position:relative;overflow:hidden;display:inline-flex}.file-button input{position:absolute;inset:0;opacity:0;cursor:pointer}.main{display:grid;grid-template-columns:minmax(300px,430px) minmax(0,1fr);gap:20px;padding:24px 28px 40px}.panel,.card{border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface);box-shadow:var(--cp-shadow)}.panel-header{border-bottom:1px solid var(--cp-border);padding:16px}.panel-body{padding:16px}.grid{display:grid;gap:14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);padding:12px}.stat-value{font-size:26px;font-weight:850}.muted,.stat-label{color:var(--cp-text-muted)}.muted{font-size:13px}.output{max-height:650px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);color:var(--cp-text);padding:14px;font-size:13px}.chip-row{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;border:1px solid var(--cp-border);border-radius:999px;background:var(--cp-surface-soft);color:var(--cp-text-muted);font-size:12px;font-weight:800;padding:3px 8px}.chip.success{border-color:var(--cp-success);color:var(--cp-success)}.chip.warning{border-color:var(--cp-warning);color:var(--cp-warning)}.chip.error{border-color:var(--cp-danger);color:var(--cp-danger)}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{padding:14px}.toast{position:fixed;right:20px;bottom:20px;max-width:380px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-panel-strong);box-shadow:var(--cp-shadow);padding:12px 14px;display:none;z-index:20}.toast.visible{display:block}@media(max-width:980px){.main,.two,.three,.cards{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Fabric BI DevOps Accelerator</div>
+      <h1>Release Readiness Dashboard</h1>
+      <p class="lede">Aggregate validation results, quality rules, DAX tests, manifest context, exceptions, effective rules, and PR summary signals into one release recommendation.</p>
+      <div class="toolbar">
+        <button id="calculate" class="primary" type="button">Calculate readiness</button>
+        <button id="seedExample" type="button">Use starter example</button>
+        <button id="downloadHtml" type="button">Download dashboard HTML</button>
+        <button id="downloadMarkdown" type="button">Download Markdown</button>
+        <button id="downloadJson" type="button">Download JSON</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <aside class="panel">
+      <div class="panel-header"><h2>Readiness health</h2><div class="muted">Recommended release decision based on supplied evidence.</div></div>
+      <div class="panel-body grid">
+        <div class="stats">
+          <div class="stat"><div id="score" class="stat-value">0</div><div class="stat-label">Score</div></div>
+          <div class="stat"><div id="blockerCount" class="stat-value">0</div><div class="stat-label">Blockers</div></div>
+          <div class="stat"><div id="warningCount" class="stat-value">0</div><div class="stat-label">Warnings</div></div>
+          <div class="stat"><div id="evidenceCount" class="stat-value">0</div><div class="stat-label">Evidence</div></div>
+        </div>
+        <div id="statusChips" class="chip-row"></div>
+      </div>
+    </aside>
+    <section class="panel">
+      <div class="panel-header"><h2>Release inputs</h2><div class="muted">Paste JSON or Markdown from existing toolkit outputs and pipeline logs.</div></div>
+      <div class="panel-body grid">
+        <div class="grid three">
+          <label>Release name<input id="releaseName" placeholder="Cost Management v1.2"></label>
+          <label>Target environment<input id="targetEnvironment" placeholder="Test or Prod"></label>
+          <label>Release owner<input id="owner" placeholder="BI Lead"></label>
+        </div>
+        <label>Pipeline / validation log<textarea id="pipelineLog" placeholder="Paste CI log or validation summary"></textarea></label>
+        <label>PR quality summary JSON or Markdown<textarea id="prSummary" placeholder="Paste pr-quality-summary.json or Markdown"></textarea></label>
+        <label>PBIP readiness report JSON or Markdown<textarea id="readinessReport" placeholder="Paste readiness scanner output"></textarea></label>
+        <label>Deployment manifest JSON or summary<textarea id="deploymentManifest" placeholder="Paste deployment-manifest.json or summary"></textarea></label>
+        <label>Policy exceptions JSON or summary<textarea id="exceptions" placeholder="Paste policy-exceptions.json or summary"></textarea></label>
+        <label>Effective rules summary<textarea id="effectiveRules" placeholder="Paste effective-rules-summary.md or JSON"></textarea></label>
+        <label>DAX test summary<textarea id="daxSummary" placeholder="Paste DAX test output or catalog summary"></textarea></label>
+        <div class="cards" id="cards"></div>
+        <div class="grid two">
+          <div><h3>Release Markdown</h3><pre id="markdownOutput" class="output"></pre></div>
+          <div><h3>Release JSON</h3><pre id="jsonOutput" class="output"></pre></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="toast" class="toast"></div>
+  <script>
+    const ids=["releaseName","targetEnvironment","owner","pipelineLog","prSummary","readinessReport","deploymentManifest","exceptions","effectiveRules","daxSummary","score","blockerCount","warningCount","evidenceCount","statusChips","cards","markdownOutput","jsonOutput","toast"];
+    const els=Object.fromEntries(ids.map(id=>[id,document.getElementById(id)]));
+    let current={};
+    function has(v){return Boolean(String(v||"").trim())}
+    function count(text,rx){return (String(text||"").match(rx)||[]).length}
+    function parseMaybeJson(text){try{return JSON.parse(text)}catch{return null}}
+    function signal(name,provided,blockers,warnings,notes){return{name,provided,blockers,warnings,notes}}
+    function evaluate(){
+      const pipeline=els.pipelineLog.value, pr=els.prSummary.value, ready=els.readinessReport.value, manifest=els.deploymentManifest.value, exceptions=els.exceptions.value, rules=els.effectiveRules.value, dax=els.daxSummary.value;
+      const prJson=parseMaybeJson(pr), exJson=parseMaybeJson(exceptions);
+      const signals=[
+        signal("Pipeline validation",has(pipeline),count(pipeline,/##\[error\]|\berror\b|failed for .* exit code/gi),count(pipeline,/##\[warning\]|\bwarning\b/gi),"CI and validation logs"),
+        signal("PR quality summary",has(pr),(prJson?.errors||0),((prJson?.warnings||0)+(prJson?.risks?.length||0)),"Reviewer handoff"),
+        signal("PBIP readiness",has(ready),count(ready,/\bblocker\b|missing|does not resolve/gi),count(ready,/\bwarning\b/gi),"Pre-PR scanner output"),
+        signal("Deployment manifest",has(manifest),has(manifest)?0:1,0,"Release ownership and target mapping"),
+        signal("Policy exceptions",has(exceptions),(exJson?.exceptions||[]).filter(e=>e.status==="expired").length,count(exceptions,/expiring|requested/gi),"Exception ownership and expiry"),
+        signal("Effective rules",has(rules),has(rules)?0:1,0,"Branch-aware rules generated"),
+        signal("DAX tests",has(dax),count(dax,/\bfailed\b|##\[error\]/gi),count(dax,/\bskipped\b|warning/gi),"Measure validation")
+      ];
+      const blockers=signals.reduce((s,x)=>s+x.blockers,0), warnings=signals.reduce((s,x)=>s+x.warnings,0), evidence=signals.filter(x=>x.provided).length;
+      let score=Math.max(0,100-(blockers*20)-(warnings*5)-((signals.length-evidence)*8));
+      const decision=blockers>0?"Do not release":warnings>0||score<85?"Release with review":"Ready to release";
+      current={releaseName:els.releaseName.value||"Untitled release",targetEnvironment:els.targetEnvironment.value||"not provided",owner:els.owner.value||"not provided",generatedAt:new Date().toISOString(),score,decision,blockers,warnings,evidence,signals};
+      render();
+    }
+    function render(){
+      els.score.textContent=current.score??0;els.blockerCount.textContent=current.blockers??0;els.warningCount.textContent=current.warnings??0;els.evidenceCount.textContent=current.evidence??0;
+      const cls=current.decision==="Ready to release"?"success":current.decision==="Do not release"?"error":"warning";
+      els.statusChips.innerHTML=`<span class="chip ${cls}">${current.decision||"Not calculated"}</span><span class="chip">Target: ${esc(current.targetEnvironment||"not provided")}</span>`;
+      els.cards.innerHTML=(current.signals||[]).map(s=>`<div class="card"><h3>${esc(s.name)}</h3><p class="muted">${esc(s.notes)}</p><div class="chip-row"><span class="chip ${s.provided?"success":"warning"}">${s.provided?"Provided":"Missing"}</span><span class="chip ${s.blockers?"error":"success"}">${s.blockers} blockers</span><span class="chip ${s.warnings?"warning":"success"}">${s.warnings} warnings</span></div></div>`).join("");
+      els.markdownOutput.textContent=markdown();els.jsonOutput.textContent=JSON.stringify(current,null,2);
+    }
+    function markdown(){if(!current.generatedAt)return"# Release Readiness Dashboard\n\nNo output generated yet.";const lines=["# Release Readiness Dashboard","",`Recommendation: **${current.decision}**`,"",`- Release: ${current.releaseName}`,`- Target: ${current.targetEnvironment}`,`- Owner: ${current.owner}`,`- Score: ${current.score}`,`- Blockers: ${current.blockers}`,`- Warnings: ${current.warnings}`,`- Evidence sources: ${current.evidence}/${current.signals.length}`,"","## Evidence"];for(const s of current.signals)lines.push(`- ${s.name}: ${s.provided?"provided":"missing"}; ${s.blockers} blocker(s), ${s.warnings} warning(s)`);return lines.join("\n")}
+    function htmlDoc(){return`<!doctype html><html><head><meta charset="utf-8"><title>${esc(current.releaseName)} readiness</title><style>body{font-family:Segoe UI,Arial,sans-serif;max-width:960px;margin:40px auto;line-height:1.5}pre{background:#f5f5f5;padding:16px;border-radius:12px;white-space:pre-wrap}</style></head><body><pre>${esc(markdown())}</pre></body></html>`}
+    function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+    function seed(){els.releaseName.value="Cost Management release";els.targetEnvironment.value="Test";els.owner.value="FinOps BI Team";els.pipelineLog.value="PBIP validation passed\nReport quality rules succeeded\nDAX test metadata validation passed";els.prSummary.value=JSON.stringify({errors:0,warnings:1,risks:["Active page warning requires review"]},null,2);els.readinessReport.value="Readiness score: 92/100\nWarnings: active page";els.deploymentManifest.value="Solution: Cost Management\nTarget: Test workspace\nApprover: BI Lead";els.exceptions.value=JSON.stringify({exceptions:[{id:"EXC-001",status:"approved",expiresOn:"2099-01-01"}]},null,2);els.effectiveRules.value="Strict branch: true\nDataset minimum severity: 2";els.daxSummary.value="10 enabled tests; metadata validation passed";evaluate();toast("Starter release loaded.")}
+    function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")}
+    function toast(m){els.toast.textContent=m;els.toast.classList.add("visible");clearTimeout(toast.timer);toast.timer=setTimeout(()=>els.toast.classList.remove("visible"),2800)}
+    document.querySelectorAll("input,textarea").forEach(x=>x.addEventListener("input",evaluate));document.getElementById("calculate").addEventListener("click",evaluate);document.getElementById("seedExample").addEventListener("click",seed);document.getElementById("downloadHtml").addEventListener("click",()=>download("release-readiness-dashboard.html",htmlDoc(),"text/html"));document.getElementById("downloadMarkdown").addEventListener("click",()=>download("release-readiness-dashboard.md",markdown(),"text/markdown"));document.getElementById("downloadJson").addEventListener("click",()=>download("release-readiness-dashboard.json",JSON.stringify(current,null,2),"application/json"));evaluate();
+  </script>
+</body>
+</html>

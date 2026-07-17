@@ -42,6 +42,7 @@ tools/index.html
 | **Policy Exception Register** | Governance owners, BI leads, reviewers | Track policy and rule exceptions with owner, reason, expiration, approval, affected artifact, and mitigation | `policy-exceptions.json`, exception summary Markdown |
 | **Effective Rules Generator** | Governance owners, platform engineers | Merge baseline rules, branch policy, project overrides, and approved exceptions into CI-ready effective rule files | `Rules-Report.effective.json`, `Rules-Dataset.effective.json`, summary Markdown |
 | **CI/CD Platform Parity Matrix** | Platform team, delivery leads, architects | Compare Azure DevOps, GitHub Actions, and GitLab CI/CD support and gaps | `platform-parity-matrix.json`, Markdown matrix |
+| **Release Readiness Dashboard** | BI leads, release managers, reviewers | Aggregate validation, quality, DAX, manifest, exception, effective-rule, and PR summary signals into one release recommendation | Dashboard HTML, Markdown, JSON |
 
 ## Enterprise Standards Builder
 
@@ -210,9 +211,10 @@ Use this tool when the conversation starts with questions like:
 9. Use the **Policy Exception Register** for approved temporary exceptions.
 10. Use the **Effective Rules Generator** to preview CI-ready rules after branch policy, overrides, and exceptions.
 11. Use the **CI/CD Platform Parity Matrix** to track support gaps across Azure DevOps, GitHub Actions, and GitLab.
-12. Commit the final rule files, `dax-tests.json`, `deployment-manifest.json`, and `policy-exceptions.json` under `shared/`.
-13. Validate the prepared effective rules locally or through CI.
-14. Promote stricter settings after false positives and adoption gaps are resolved.
+12. Use the **Release Readiness Dashboard** to make a release recommendation from all available evidence.
+13. Commit the final rule files, `dax-tests.json`, `deployment-manifest.json`, and `policy-exceptions.json` under `shared/`.
+14. Validate the prepared effective rules locally or through CI.
+15. Promote stricter settings after false positives and adoption gaps are resolved.
 
 ## Marketing Positioning
 
