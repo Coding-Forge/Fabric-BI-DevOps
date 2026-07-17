@@ -8,7 +8,7 @@ This roadmap tracks the enterprise tooling being added around PBIP CI/CD for Azu
 |---|---:|---|
 | Complete | 5 | Tool exists, is documented, and has been smoke tested |
 | In progress | 0 | Tool is actively being built |
-| Planned | 17 | Tool idea is captured but not yet implemented |
+| Planned | 18 | Tool idea is captured but not yet implemented |
 
 ## Completed Tools
 
@@ -44,6 +44,7 @@ No toolkit item is currently in progress.
 | 14 | Certification Readiness Checker | BI leads, data stewards | Validate certification requirements for trusted semantic models | Certification readiness report |
 | 15 | Rule Coverage Matrix | Governance owners | Map enterprise policies to automated CI rules and manual checklist items | Coverage matrix Markdown/JSON |
 | 16 | Workshop / Adoption Portal | End users, delivery teams | Provide a landing page for tools, screenshots, workflow, demo videos, docs, templates, and quick-start paths | Static adoption portal |
+| 17 | Enterprise Quality Rules Governance Model | Enterprise BI platform teams, governance owners | Optional future pattern for centrally governed baseline rules with profile-based enforcement and project-level override files for approved exceptions | Central rules package, override schema, effective rules generator |
 
 ## Shared Metadata Direction
 
@@ -54,6 +55,7 @@ enterprise-policy-profile.json
 dax-tests.json
 deployment-manifest.json
 policy-exceptions.json
+quality-rules.override.json
 environment-map.json
 ```
 

@@ -100,9 +100,9 @@ stages:
               }
 
               $effectiveRulesPath = Join-Path $tempPath "Rules-Dataset.effective.json"
-              $qualityBranch = "$(Build.SourceBranch)"
-              $pullRequestTargetBranch = "$(System.PullRequest.TargetBranch)"
-              if (![string]::IsNullOrWhiteSpace($pullRequestTargetBranch) -and $pullRequestTargetBranch -notlike '$(*') {
+              $qualityBranch = $env:BUILD_SOURCEBRANCH
+              $pullRequestTargetBranch = $env:SYSTEM_PULLREQUEST_TARGETBRANCH
+              if (![string]::IsNullOrWhiteSpace($pullRequestTargetBranch)) {
                   $qualityBranch = $pullRequestTargetBranch
               }
 
@@ -194,9 +194,9 @@ stages:
               }
 
               $effectiveRulesPath = Join-Path $tempPath "Rules-Report.effective.json"
-              $qualityBranch = "$(Build.SourceBranch)"
-              $pullRequestTargetBranch = "$(System.PullRequest.TargetBranch)"
-              if (![string]::IsNullOrWhiteSpace($pullRequestTargetBranch) -and $pullRequestTargetBranch -notlike '$(*') {
+              $qualityBranch = $env:BUILD_SOURCEBRANCH
+              $pullRequestTargetBranch = $env:SYSTEM_PULLREQUEST_TARGETBRANCH
+              if (![string]::IsNullOrWhiteSpace($pullRequestTargetBranch)) {
                   $qualityBranch = $pullRequestTargetBranch
               }
 

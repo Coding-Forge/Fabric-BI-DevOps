@@ -76,7 +76,7 @@ By the end of this lab you will have:
 |------|-------|
 | Workspace | `WS-Dev-<team>` assigned to you by facilitator |
 | Git provider | Azure DevOps or GitHub (as configured) |
-| Repo | `fabric-git-essentials-<team>` |
+| Repo | `fabric-bi-devops-<team>` |
 | Branch policy | PR required; 1 reviewer; CI check (after Lab 2) |
 | PBIP starter | Pre-cloned in your assigned workspace folder |
 
@@ -98,7 +98,7 @@ By the end of this lab you will have:
 | Field | Value |
 |-------|-------|
 | Organization | Your org name |
-| Repository | `fabric-git-essentials-<team>` |
+| Repository | `fabric-bi-devops-<team>` |
 | Branch | `main` |
 | Folder path | `/projects` |
 

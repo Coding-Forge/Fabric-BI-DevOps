@@ -1399,6 +1399,9 @@
           values[input.dataset.param] = input.value;
         });
         const template = reportTemplates[els.templateKey.value] || reportTemplates.customReport;
+        const existingRule = state.selectedId.startsWith("report:")
+          ? state.reportRules.rules.find(item => item.id === state.selectedId.slice("report:".length))
+          : null;
         const rule = {
           id: slug(els.ruleId.value || template.id),
           name: els.ruleName.value.trim() || template.name,
@@ -1410,7 +1413,7 @@
           test: [
             template.build(values),
             template.context || parameterContext(els.templateKey.value, values),
-            template.expected ?? true
+            template.expected ?? existingRule?.test?.[2] ?? true
           ]
         };
         upsertReportRule(rule);
