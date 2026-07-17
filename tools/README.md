@@ -21,6 +21,7 @@ Open [Fabric BI DevOps Accelerator Launchpad](index.html) first. It provides the
 | [CI/CD Platform Parity Matrix](platform-parity-matrix/index.html) | Platform team, delivery leads, architects | Compare Azure DevOps, GitHub Actions, and GitLab CI/CD support and gaps | `platform-parity-matrix.json`, Markdown matrix |
 | [Release Readiness Dashboard](release-readiness-dashboard/index.html) | BI leads, release managers, reviewers | Aggregate validation, quality, DAX, manifest, exception, effective-rule, and PR summary signals into one release recommendation | Dashboard HTML, Markdown, JSON |
 | [Adoption Metrics Dashboard](adoption-metrics-dashboard/index.html) | Program owners, governance leads, delivery leads | Track onboarded projects, platform usage, rule maturity, exception aging, readiness score, and time-to-onboard | `adoption-metrics.json`, CSV, Markdown |
+| [Rule Coverage Matrix](rule-coverage-matrix/index.html) | Governance owners, BI leads, rule authors | Map enterprise policies to automated report/dataset rules and manual checks | `rule-coverage-matrix.json`, Markdown matrix |
 
 ## Screenshots
 
@@ -55,6 +56,7 @@ A starter catalog of generally accepted DAX test patterns is available at `share
 13. Use `tools/platform-parity-matrix/index.html` to compare platform capabilities and identify parity gaps.
 14. Use `tools/release-readiness-dashboard/index.html` to consolidate evidence and make a release recommendation.
 15. Use `tools/adoption-metrics-dashboard/index.html` to track adoption, platform usage, readiness scores, and onboarding metrics.
+16. Use `tools/rule-coverage-matrix/index.html` to connect governance policies to automated rules and manual checks.
 
 All tools are self-contained HTML files. They do not require a local server, package install, or internet access.
 

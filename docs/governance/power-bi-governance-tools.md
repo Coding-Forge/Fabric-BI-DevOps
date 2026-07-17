@@ -44,6 +44,7 @@ tools/index.html
 | **CI/CD Platform Parity Matrix** | Platform team, delivery leads, architects | Compare Azure DevOps, GitHub Actions, and GitLab CI/CD support and gaps | `platform-parity-matrix.json`, Markdown matrix |
 | **Release Readiness Dashboard** | BI leads, release managers, reviewers | Aggregate validation, quality, DAX, manifest, exception, effective-rule, and PR summary signals into one release recommendation | Dashboard HTML, Markdown, JSON |
 | **Adoption Metrics Dashboard** | Program owners, governance leads, delivery leads | Track onboarded projects, platform usage, rule maturity, exception aging, readiness score, and time-to-onboard | `adoption-metrics.json`, CSV, Markdown |
+| **Rule Coverage Matrix** | Governance owners, BI leads, rule authors | Map enterprise policies to automated report/dataset rules and manual checks | `rule-coverage-matrix.json`, Markdown matrix |
 
 ## Enterprise Standards Builder
 
@@ -214,9 +215,10 @@ Use this tool when the conversation starts with questions like:
 11. Use the **CI/CD Platform Parity Matrix** to track support gaps across Azure DevOps, GitHub Actions, and GitLab.
 12. Use the **Release Readiness Dashboard** to make a release recommendation from all available evidence.
 13. Use the **Adoption Metrics Dashboard** to track project onboarding, rule maturity, exceptions, and readiness trends.
-14. Commit the final rule files, `dax-tests.json`, `deployment-manifest.json`, and `policy-exceptions.json` under `shared/`.
-15. Validate the prepared effective rules locally or through CI.
-16. Promote stricter settings after false positives and adoption gaps are resolved.
+14. Use the **Rule Coverage Matrix** to prove policy coverage and identify automation gaps.
+15. Commit the final rule files, `dax-tests.json`, `deployment-manifest.json`, and `policy-exceptions.json` under `shared/`.
+16. Validate the prepared effective rules locally or through CI.
+17. Promote stricter settings after false positives and adoption gaps are resolved.
 
 ## Marketing Positioning
 

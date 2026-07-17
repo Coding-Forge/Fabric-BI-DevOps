@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-17T00:00:00.000Z",
+  "policies": [
+    {
+      "id": "report-usability",
+      "area": "Report usability",
+      "policy": "Reports should remain concise, readable, and navigable.",
+      "requirement": "Limit page count, visible visuals, and objects within visuals.",
+      "automatedRules": [
+        "REDUCE_PAGES",
+        "REDUCE_VISUALS_ON_PAGE",
+        "REDUCE_OBJECTS_WITHIN_VISUALS"
+      ],
+      "manualChecks": [
+        "Confirm report navigation supports intended user journeys.",
+        "Confirm dense visuals are justified by business need."
+      ],
+      "coverageStatus": "covered",
+      "owner": "BI Governance"
+    },
+    {
+      "id": "visual-standards",
+      "area": "Visual standards",
+      "policy": "Reports should follow enterprise visual design standards.",
+      "requirement": "Use theme colors, chart axis titles, meaningful page names, and non-scrolling pages.",
+      "automatedRules": [
+        "ENSURE_THEME_COLOURS",
+        "SHOW_AXES_TITLES",
+        "GIVE_VISIBLE_PAGES_MEANINGFUL_NAMES",
+        "ENSURE_PAGES_DO_NOT_SCROLL_VERTICALLY"
+      ],
+      "manualChecks": [
+        "Review accessibility, contrast, and visual hierarchy.",
+        "Confirm page titles and labels are clear for target personas."
+      ],
+      "coverageStatus": "partial",
+      "owner": "BI Governance"
+    },
+    {
+      "id": "semantic-model-quality",
+      "area": "Semantic model quality",
+      "policy": "Semantic models should be reliable, maintainable, and correctly structured.",
+      "requirement": "Avoid auto-date tables, missing expressions, missing source columns, and relationship data type mismatches.",
+      "automatedRules": [
+        "REMOVE_AUTO-DATE_TABLE",
+        "DATA_COLUMNS_MUST_HAVE_A_SOURCE_COLUMN",
+        "EXPRESSION_RELIANT_OBJECTS_MUST_HAVE_AN_EXPRESSION",
+        "RELATIONSHIP_COLUMNS_SAME_DATA_TYPE"
+      ],
+      "manualChecks": [
+        "Review table design and relationship intent.",
+        "Confirm model ownership and certification readiness."
+      ],
+      "coverageStatus": "covered",
+      "owner": "Semantic Model Owner"
+    },
+    {
+      "id": "dax-standards",
+      "area": "DAX standards",
+      "policy": "DAX should be readable, safe, and consistent.",
+      "requirement": "Use qualified column references, unqualified measures, DIVIDE for division, and avoid IFERROR.",
+      "automatedRules": [
+        "DAX_COLUMNS_FULLY_QUALIFIED",
+        "DAX_MEASURES_UNQUALIFIED",
+        "USE_THE_DIVIDE_FUNCTION_FOR_DIVISION",
+        "AVOID_USING_THE_IFERROR_FUNCTION"
+      ],
+      "manualChecks": [
+        "Review critical measure business logic with data owner.",
+        "Confirm DAX test metadata exists for key measures."
+      ],
+      "coverageStatus": "partial",
+      "owner": "Semantic Model Owner"
+    },
+    {
+      "id": "release-readiness",
+      "area": "Release governance",
+      "policy": "Releases should have documented ownership, validation evidence, approvals, and rollback guidance.",
+      "requirement": "Deployment manifest, readiness scan, PR summary, and release dashboard should be present before promotion.",
+      "automatedRules": [],
+      "manualChecks": [
+        "Review deployment manifest.",
+        "Review release readiness dashboard.",
+        "Confirm approval and rollback details."
+      ],
+      "coverageStatus": "manual",
+      "owner": "Release Manager"
+    }
+  ]
+}

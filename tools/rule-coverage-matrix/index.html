@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rule Coverage Matrix</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root{color-scheme:light;--cp-bg:#f7f4ef;--cp-bg-elevated:#fcfbf8;--cp-surface:#fff;--cp-surface-soft:#f5f5f5;--cp-border:#dedede;--cp-border-strong:#919191;--cp-text:#242424;--cp-text-muted:#5c5c5c;--cp-accent:#b11f4b;--cp-accent-fg:#fff;--cp-success:#16a34a;--cp-danger:#dc2626;--cp-warning:#f59e0b;--cp-shadow:0 18px 48px rgba(0,0,0,.12);--cp-panel-strong:rgba(255,255,255,.96)}
+    html[data-theme=dark]{color-scheme:dark;--cp-bg:#3d3b3a;--cp-bg-elevated:#343231;--cp-surface:#292929;--cp-surface-soft:#2e2e2e;--cp-border:#474747;--cp-border-strong:#5f5f5f;--cp-text:#dedede;--cp-text-muted:#b0b0b0;--cp-accent:#fd8ea1;--cp-accent-fg:#1a1a1a;--cp-success:#4ade80;--cp-danger:#f87171;--cp-warning:#fbbf24;--cp-shadow:0 18px 48px rgba(0,0,0,.32);--cp-panel-strong:rgba(41,41,41,.96)}
+    *{box-sizing:border-box}body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.45}button,input,select,textarea{font:inherit}button,.file-button{border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);cursor:pointer;padding:8px 12px}button:hover,.file-button:hover{border-color:var(--cp-border-strong)}button.primary{background:var(--cp-accent);border-color:var(--cp-accent);color:var(--cp-accent-fg)}button.danger{border-color:var(--cp-danger);color:var(--cp-danger)}input,select,textarea{width:100%;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);padding:8px 10px}textarea{min-height:84px;resize:vertical}label{display:grid;gap:6px;color:var(--cp-text-muted);font-size:13px;font-weight:700}pre,code{font-family:Consolas,"Courier New",monospace}pre{margin:0;overflow:auto;white-space:pre-wrap;word-break:break-word}.hero{border-bottom:1px solid var(--cp-border);background:var(--cp-bg-elevated);padding:28px}.hero-inner,.main{max-width:1440px;margin:0 auto}.hero-inner{display:grid;gap:16px}.eyebrow{color:var(--cp-accent);font-size:13px;font-weight:850;letter-spacing:.04em;text-transform:uppercase}h1,h2,h3{margin:0;line-height:1.15}h1{font-size:clamp(30px,4vw,46px)}h2{font-size:20px}h3{font-size:16px}.lede{max-width:980px;color:var(--cp-text-muted);font-size:17px}.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.file-button{position:relative;overflow:hidden;display:inline-flex}.file-button input{position:absolute;inset:0;opacity:0;cursor:pointer}.main{display:grid;grid-template-columns:minmax(300px,430px) minmax(0,1fr);gap:20px;padding:24px 28px 40px}.panel,.item{border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface);box-shadow:var(--cp-shadow)}.panel-header{border-bottom:1px solid var(--cp-border);padding:16px}.panel-body{padding:16px}.grid{display:grid;gap:14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);padding:12px}.stat-value{font-size:26px;font-weight:850}.muted,.stat-label{color:var(--cp-text-muted)}.muted{font-size:13px}.list{display:grid;gap:10px;max-height:560px;overflow:auto}.item{background:var(--cp-surface-soft);padding:12px;display:grid;gap:8px;text-align:left}.item-title{display:flex;justify-content:space-between;gap:10px;font-weight:850}.chip-row{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;border:1px solid var(--cp-border);border-radius:999px;background:var(--cp-surface-soft);color:var(--cp-text-muted);font-size:12px;font-weight:800;padding:3px 8px}.chip.covered{border-color:var(--cp-success);color:var(--cp-success)}.chip.partial,.chip.manual{border-color:var(--cp-warning);color:var(--cp-warning)}.chip.gap{border-color:var(--cp-danger);color:var(--cp-danger)}.output{max-height:620px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);color:var(--cp-text);padding:14px;font-size:13px}.toast{position:fixed;right:20px;bottom:20px;max-width:380px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-panel-strong);box-shadow:var(--cp-shadow);padding:12px 14px;display:none;z-index:20}.toast.visible{display:block}@media(max-width:980px){.main,.two,.three{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Fabric BI DevOps Accelerator</div>
+      <h1>Rule Coverage Matrix</h1>
+      <p class="lede">Map enterprise governance policies to automated report/dataset rules and manual checks so coverage gaps become visible backlog items.</p>
+      <div class="toolbar">
+        <button id="newPolicy" class="primary" type="button">New policy</button>
+        <button id="savePolicy" type="button">Add or update</button>
+        <button id="deletePolicy" class="danger" type="button">Delete selected</button>
+        <label class="file-button">Load rule-coverage-matrix.json<input id="loadFile" type="file" accept=".json,application/json"></label>
+        <label class="file-button">Load Rules-Report.json<input id="reportFile" data-kind="report" type="file" accept=".json,application/json"></label>
+        <label class="file-button">Load Rules-Dataset.json<input id="datasetFile" data-kind="dataset" type="file" accept=".json,application/json"></label>
+        <button id="seedExample" type="button">Use starter matrix</button>
+        <button id="downloadJson" type="button">Download JSON</button>
+        <button id="downloadMarkdown" type="button">Download Markdown</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <aside class="panel">
+      <div class="panel-header"><h2>Coverage health</h2><div class="muted">Use this to show which policies are automated, partial, manual, or uncovered.</div></div>
+      <div class="panel-body grid">
+        <div class="stats">
+          <div class="stat"><div id="policyCount" class="stat-value">0</div><div class="stat-label">Policies</div></div>
+          <div class="stat"><div id="coveredCount" class="stat-value">0</div><div class="stat-label">Covered</div></div>
+          <div class="stat"><div id="partialCount" class="stat-value">0</div><div class="stat-label">Partial/manual</div></div>
+          <div class="stat"><div id="gapCount" class="stat-value">0</div><div class="stat-label">Gaps</div></div>
+        </div>
+        <label>Search policies<input id="search" type="search" placeholder="Search policy, owner, area, rule"></label>
+        <div id="policyList" class="list"></div>
+      </div>
+    </aside>
+    <section class="panel">
+      <div class="panel-header"><h2>Policy coverage</h2><div class="muted">Map policy intent to automated rule IDs and manual checks.</div></div>
+      <div class="panel-body grid">
+        <div class="grid three"><label>ID<input id="id" placeholder="report-usability"></label><label>Area<input id="area" placeholder="Report usability"></label><label>Status<select id="coverageStatus"><option>covered</option><option>partial</option><option>manual</option><option>gap</option></select></label></div>
+        <label>Policy<textarea id="policy" placeholder="Reports should remain concise, readable, and navigable."></textarea></label>
+        <label>Requirement<textarea id="requirement" placeholder="Limit page count, visible visuals, and objects within visuals."></textarea></label>
+        <div class="grid two"><label>Automated rule IDs<textarea id="automatedRules" placeholder="REDUCE_PAGES&#10;REDUCE_VISUALS_ON_PAGE"></textarea></label><label>Manual checks<textarea id="manualChecks" placeholder="Review navigation&#10;Confirm accessibility"></textarea></label></div>
+        <label>Owner<input id="owner" placeholder="BI Governance"></label>
+        <div class="grid two"><div><h3>Markdown</h3><pre id="markdownOutput" class="output"></pre></div><div><h3>JSON</h3><pre id="jsonOutput" class="output"></pre></div></div>
+      </div>
+    </section>
+  </main>
+  <div id="toast" class="toast"></div>
+  <script>
+    const ids=["newPolicy","savePolicy","deletePolicy","loadFile","reportFile","datasetFile","seedExample","downloadJson","downloadMarkdown","search","policyList","policyCount","coveredCount","partialCount","gapCount","id","area","coverageStatus","policy","requirement","automatedRules","manualChecks","owner","markdownOutput","jsonOutput","toast"];
+    const els=Object.fromEntries(ids.map(id=>[id,document.getElementById(id)]));
+    const state={selected:"",matrix:{version:1,generatedAt:new Date().toISOString(),policies:[]},knownRules:new Set()};
+    function starter(){return {"version":1,"generatedAt":new Date().toISOString(),"policies":[{"id":"report-usability","area":"Report usability","policy":"Reports should remain concise, readable, and navigable.","requirement":"Limit page count, visible visuals, and objects within visuals.","automatedRules":["REDUCE_PAGES","REDUCE_VISUALS_ON_PAGE","REDUCE_OBJECTS_WITHIN_VISUALS"],"manualChecks":["Confirm report navigation supports intended user journeys.","Confirm dense visuals are justified by business need."],"coverageStatus":"covered","owner":"BI Governance"},{"id":"visual-standards","area":"Visual standards","policy":"Reports should follow enterprise visual design standards.","requirement":"Use theme colors, chart axis titles, meaningful page names, and non-scrolling pages.","automatedRules":["ENSURE_THEME_COLOURS","SHOW_AXES_TITLES","GIVE_VISIBLE_PAGES_MEANINGFUL_NAMES","ENSURE_PAGES_DO_NOT_SCROLL_VERTICALLY"],"manualChecks":["Review accessibility, contrast, and visual hierarchy."],"coverageStatus":"partial","owner":"BI Governance"},{"id":"release-readiness","area":"Release governance","policy":"Releases should have documented ownership, validation evidence, approvals, and rollback guidance.","requirement":"Deployment manifest, readiness scan, PR summary, and release dashboard should be present before promotion.","automatedRules":[],"manualChecks":["Review deployment manifest.","Review release readiness dashboard.","Confirm approval and rollback details."],"coverageStatus":"manual","owner":"Release Manager"}]}}
+    function norm(v){if(Array.isArray(v))return{version:1,generatedAt:new Date().toISOString(),policies:v};if(v&&Array.isArray(v.policies))return{version:v.version||1,generatedAt:v.generatedAt||new Date().toISOString(),policies:v.policies};throw new Error("Coverage matrix must include a policies array.")}
+    function lines(v){return String(v||"").split(/\r?\n|,/).map(x=>x.trim()).filter(Boolean)}
+    function form(){return{id:(els.id.value.trim()||slug(els.policy.value)).toLowerCase(),area:els.area.value.trim(),policy:els.policy.value.trim(),requirement:els.requirement.value.trim(),automatedRules:lines(els.automatedRules.value),manualChecks:lines(els.manualChecks.value),coverageStatus:els.coverageStatus.value,owner:els.owner.value.trim()}}
+    function fill(p){els.id.value=p?.id||"";els.area.value=p?.area||"";els.policy.value=p?.policy||"";els.requirement.value=p?.requirement||"";els.automatedRules.value=(p?.automatedRules||[]).join("\n");els.manualChecks.value=(p?.manualChecks||[]).join("\n");els.coverageStatus.value=p?.coverageStatus||"partial";els.owner.value=p?.owner||""}
+    function slug(v){return String(v||"policy").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")||"policy"}
+    function save(){const p=form();if(!p.policy){toast("Policy is required.");return}const i=state.matrix.policies.findIndex(x=>x.id===p.id);if(i>=0)state.matrix.policies.splice(i,1,p);else state.matrix.policies.push(p);state.selected=p.id;render();toast("Policy saved.")}
+    function del(){if(!state.selected){toast("Select a policy first.");return}state.matrix.policies=state.matrix.policies.filter(x=>x.id!==state.selected);state.selected="";fill(null);render();toast("Policy deleted.")}
+    function stats(){const ps=state.matrix.policies;return{total:ps.length,covered:ps.filter(p=>p.coverageStatus==="covered").length,partial:ps.filter(p=>["partial","manual"].includes(p.coverageStatus)).length,gap:ps.filter(p=>p.coverageStatus==="gap").length}}
+    function render(){state.matrix.generatedAt=new Date().toISOString();const s=stats();els.policyCount.textContent=s.total;els.coveredCount.textContent=s.covered;els.partialCount.textContent=s.partial;els.gapCount.textContent=s.gap;renderList();els.markdownOutput.textContent=md();els.jsonOutput.textContent=JSON.stringify(state.matrix,null,2)}
+    function renderList(){const q=els.search.value.trim().toLowerCase();const rows=state.matrix.policies.filter(p=>!q||`${p.id} ${p.area} ${p.policy} ${p.owner} ${(p.automatedRules||[]).join(" ")}`.toLowerCase().includes(q));els.policyList.innerHTML=rows.length?rows.map(p=>{const missing=(p.automatedRules||[]).filter(r=>state.knownRules.size&&!state.knownRules.has(r));return`<button class="item" data-id="${esc(p.id)}"><span class="item-title">${esc(p.area||p.id)} <span class="chip ${p.coverageStatus}">${p.coverageStatus}</span></span><span class="muted">${esc(p.policy)}</span><span class="muted">Rules: ${(p.automatedRules||[]).length} | Manual checks: ${(p.manualChecks||[]).length} | Owner: ${esc(p.owner||"not set")}</span>${missing.length?`<span class="chip gap">Missing rule IDs: ${esc(missing.join(", "))}</span>`:""}</button>`}).join(""):`<div class="item">No matching policies.</div>`}
+    function md(){const lines=["# Rule Coverage Matrix","",`Generated: ${state.matrix.generatedAt}`,"","| Policy | Area | Status | Automated rules | Manual checks | Owner |","|---|---|---|---:|---:|---|"];for(const p of state.matrix.policies)lines.push(`| ${p.policy} | ${p.area} | ${p.coverageStatus} | ${(p.automatedRules||[]).length} | ${(p.manualChecks||[]).length} | ${p.owner||""} |`);lines.push("","## Details","");for(const p of state.matrix.policies){lines.push(`### ${p.area||p.id}`,"",`- Policy: ${p.policy}` ,`- Requirement: ${p.requirement}` ,`- Status: ${p.coverageStatus}` ,`- Automated rules: ${(p.automatedRules||[]).join(", ")||"None"}` ,`- Manual checks: ${(p.manualChecks||[]).join("; ")||"None"}`,"")}return lines.join("\n")}
+    function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+    async function loadMatrix(e){const f=e.target.files[0];if(!f)return;state.matrix=norm(JSON.parse(await f.text()));state.selected="";fill(null);render();toast(`Loaded ${f.name}`)}
+    async function loadRules(e){const f=e.target.files[0];if(!f)return;const parsed=JSON.parse(await f.text());const ids=e.target.dataset.kind==="report"?(parsed.rules||[]).map(r=>r.id):parsed.map(r=>r.ID);ids.filter(Boolean).forEach(id=>state.knownRules.add(id));render();toast(`Loaded ${ids.length} rule IDs from ${f.name}`)}
+    function seed(){state.matrix=starter();state.selected=state.matrix.policies[0].id;fill(state.matrix.policies[0]);render();toast("Starter matrix loaded.")}
+    function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;")}
+    function toast(m){els.toast.textContent=m;els.toast.classList.add("visible");clearTimeout(toast.timer);toast.timer=setTimeout(()=>els.toast.classList.remove("visible"),2800)}
+    els.newPolicy.addEventListener("click",()=>{state.selected="";fill(null)});els.savePolicy.addEventListener("click",save);els.deletePolicy.addEventListener("click",del);els.loadFile.addEventListener("change",e=>loadMatrix(e).catch(err=>toast(err.message)));els.reportFile.addEventListener("change",e=>loadRules(e).catch(err=>toast(err.message)));els.datasetFile.addEventListener("change",e=>loadRules(e).catch(err=>toast(err.message)));els.seedExample.addEventListener("click",seed);els.downloadJson.addEventListener("click",()=>download("rule-coverage-matrix.json",JSON.stringify(state.matrix,null,2),"application/json"));els.downloadMarkdown.addEventListener("click",()=>download("rule-coverage-matrix.md",els.markdownOutput.textContent,"text/markdown"));els.search.addEventListener("input",renderList);els.policyList.addEventListener("click",e=>{const item=e.target.closest("[data-id]");if(!item)return;state.selected=item.dataset.id;fill(state.matrix.policies.find(p=>p.id===state.selected));render()});seed();
+  </script>
+</body>
+</html>
