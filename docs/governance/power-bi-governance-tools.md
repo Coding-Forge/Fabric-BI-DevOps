@@ -38,6 +38,7 @@ tools/index.html
 | **DAX Test Builder** | BI developers, semantic model owners | Define measure-level DAX test metadata consumed by the pipeline runner | `dax-tests.json`, test catalog Markdown |
 | **Deployment Manifest Builder** | Release managers, BI leads, platform engineers | Scan existing PBIP folders or define solution deployment ownership, artifacts, environments, parameters, approvals, and rollback | `deployment-manifest.json`, summary Markdown |
 | **PBIP Project Readiness Scanner** | Report creators, platform team | Scan a local PBIP repo or project folder before PR | Readiness Markdown report, JSON report |
+| **PR Quality Summary Generator** | PR authors, reviewers, BI leads | Generate reviewer-friendly PR summaries from changed files, pipeline logs, readiness output, DAX tests, and deployment context | `PR-Quality-Summary.md`, `pr-quality-summary.json` |
 
 ## Enterprise Standards Builder
 
@@ -202,9 +203,10 @@ Use this tool when the conversation starts with questions like:
 5. Use the **DAX Test Builder** to define measure-level tests for critical business calculations.
 6. Use the **Deployment Manifest Builder** to document environments, parameters, approvals, and rollback.
 7. Run the **PBIP Project Readiness Scanner** before opening the PR.
-8. Commit the final rule files, `dax-tests.json`, and `deployment-manifest.json` under `shared/`.
-9. Validate the prepared effective rules locally or through CI.
-10. Promote stricter settings after false positives and adoption gaps are resolved.
+8. Use the **PR Quality Summary Generator** to turn changed files and validation signals into reviewer-ready PR text.
+9. Commit the final rule files, `dax-tests.json`, and `deployment-manifest.json` under `shared/`.
+10. Validate the prepared effective rules locally or through CI.
+11. Promote stricter settings after false positives and adoption gaps are resolved.
 
 ## Marketing Positioning
 

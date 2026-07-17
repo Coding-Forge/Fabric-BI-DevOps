@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PR Quality Summary Generator</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--cp-bg); color: var(--cp-text); font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.45; }
+    button, input, textarea { font: inherit; }
+    button { border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); color: var(--cp-text); cursor: pointer; padding: 8px 12px; }
+    button:hover { border-color: var(--cp-border-strong); }
+    button.primary { background: var(--cp-accent); border-color: var(--cp-accent); color: var(--cp-accent-fg); }
+    input, textarea { width: 100%; border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); color: var(--cp-text); padding: 8px 10px; }
+    textarea { min-height: 118px; resize: vertical; }
+    label { display: grid; gap: 6px; color: var(--cp-text-muted); font-size: 13px; font-weight: 700; }
+    pre, code { font-family: Consolas, "Courier New", Courier, monospace; }
+    pre { margin: 0; overflow: auto; white-space: pre-wrap; word-break: break-word; }
+    .hero { border-bottom: 1px solid var(--cp-border); background: var(--cp-bg-elevated); padding: 28px; }
+    .hero-inner, .main { max-width: 1440px; margin: 0 auto; }
+    .hero-inner { display: grid; gap: 16px; }
+    .eyebrow { color: var(--cp-accent); font-size: 13px; font-weight: 850; letter-spacing: 0.04em; text-transform: uppercase; }
+    h1, h2, h3 { margin: 0; line-height: 1.15; }
+    h1 { font-size: clamp(30px, 4vw, 46px); }
+    h2 { font-size: 20px; }
+    h3 { font-size: 16px; }
+    .lede { max-width: 980px; color: var(--cp-text-muted); font-size: 17px; }
+    .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .main { display: grid; grid-template-columns: minmax(300px, 420px) minmax(0, 1fr); gap: 20px; padding: 24px 28px 40px; }
+    .panel { border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); box-shadow: var(--cp-shadow); }
+    .panel-header { border-bottom: 1px solid var(--cp-border); padding: 16px; }
+    .panel-body { padding: 16px; }
+    .grid { display: grid; gap: 14px; }
+    .two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .stat { border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface-soft); padding: 12px; }
+    .stat-value { font-size: 26px; font-weight: 850; }
+    .muted, .stat-label { color: var(--cp-text-muted); }
+    .muted { font-size: 13px; }
+    .output { max-height: 760px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface-soft); color: var(--cp-text); padding: 14px; font-size: 13px; }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { display: inline-flex; border: 1px solid var(--cp-border); border-radius: 999px; background: var(--cp-surface-soft); color: var(--cp-text-muted); font-size: 12px; font-weight: 800; padding: 3px 8px; }
+    .chip.error { border-color: var(--cp-danger); color: var(--cp-danger); }
+    .chip.warning { border-color: var(--cp-warning); color: var(--cp-warning); }
+    .chip.success { border-color: var(--cp-success); color: var(--cp-success); }
+    .toast { position: fixed; right: 20px; bottom: 20px; max-width: 380px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-panel-strong); color: var(--cp-text); box-shadow: var(--cp-shadow); padding: 12px 14px; display: none; z-index: 20; }
+    .toast.visible { display: block; }
+    @media (max-width: 980px) { .main, .two, .three { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Fabric BI DevOps Accelerator</div>
+      <h1>PR Quality Summary Generator</h1>
+      <p class="lede">Create a reviewer-friendly pull request summary from changed files, pipeline logs, readiness scans, DAX test context, and deployment notes. All processing runs locally in your browser.</p>
+      <div class="toolbar">
+        <button id="generate" class="primary" type="button">Generate summary</button>
+        <button id="seedExample" type="button">Use starter example</button>
+        <button id="copyMarkdown" type="button">Copy Markdown</button>
+        <button id="downloadMarkdown" type="button">Download Markdown</button>
+        <button id="downloadJson" type="button">Download JSON</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <aside class="panel">
+      <div class="panel-header">
+        <h2>Summary health</h2>
+        <div class="muted">Use this as PR body content or as a reviewer handoff.</div>
+      </div>
+      <div class="panel-body grid">
+        <div class="stats">
+          <div class="stat"><div id="changedCount" class="stat-value">0</div><div class="stat-label">Changed files</div></div>
+          <div class="stat"><div id="errorCount" class="stat-value">0</div><div class="stat-label">Errors</div></div>
+          <div class="stat"><div id="warningCount" class="stat-value">0</div><div class="stat-label">Warnings</div></div>
+          <div class="stat"><div id="riskCount" class="stat-value">0</div><div class="stat-label">Review risks</div></div>
+        </div>
+        <div id="statusChips" class="chip-row"></div>
+      </div>
+    </aside>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Pull request inputs</h2>
+        <div class="muted">Paste available signals. Missing sections are shown as not provided.</div>
+      </div>
+      <div class="panel-body grid">
+        <div class="grid three">
+          <label>PR title<input id="prTitle" type="text" placeholder="Improve FinOps report quality gates"></label>
+          <label>Source branch<input id="sourceBranch" type="text" placeholder="feature/quality-rules"></label>
+          <label>Target branch<input id="targetBranch" type="text" value="main"></label>
+        </div>
+        <div class="grid two">
+          <label>Author / owner<input id="owner" type="text" placeholder="BI developer or team"></label>
+          <label>Deployment target<input id="deploymentTarget" type="text" placeholder="Dev workspace, feature workspace, or validation only"></label>
+        </div>
+        <label>Changed paths, one per line<textarea id="changedFiles" placeholder="shared/Rules-Report.json&#10;shared/pbip-local/Cost-Management.Report/definition/pages/report_landing/page.json"></textarea></label>
+        <label>Pipeline log or quality output<textarea id="pipelineLog" placeholder="Paste Azure DevOps, GitHub Actions, or GitLab job output"></textarea></label>
+        <label>PBIP readiness report<textarea id="readinessReport" placeholder="Paste readiness scanner Markdown or JSON"></textarea></label>
+        <label>Deployment manifest or release notes<textarea id="deploymentManifest" placeholder="Paste deployment-manifest.json or summary"></textarea></label>
+        <label>DAX test summary<textarea id="daxSummary" placeholder="Paste DAX test output, JUnit summary, or test catalog notes"></textarea></label>
+        <div class="grid two">
+          <div>
+            <h3>Generated Markdown</h3>
+            <pre id="markdownOutput" class="output"></pre>
+          </div>
+          <div>
+            <h3>Generated JSON</h3>
+            <pre id="jsonOutput" class="output"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>
+    const ids = ["prTitle", "sourceBranch", "targetBranch", "owner", "deploymentTarget", "changedFiles", "pipelineLog", "readinessReport", "deploymentManifest", "daxSummary", "markdownOutput", "jsonOutput", "changedCount", "errorCount", "warningCount", "riskCount", "statusChips", "toast"];
+    const els = Object.fromEntries(ids.map(id => [id, document.getElementById(id)]));
+
+    function lines(value) {
+      return String(value || "").split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+    }
+
+    function unique(values) {
+      return [...new Set(values.filter(Boolean))];
+    }
+
+    function countMatches(text, pattern) {
+      return (String(text || "").match(pattern) || []).length;
+    }
+
+    function categorizeFile(path) {
+      const lower = path.toLowerCase();
+      if (lower.includes(".report/")) return "Report";
+      if (lower.includes(".semanticmodel/") || lower.endsWith(".pbism") || lower.includes("model.tmdl")) return "Semantic model";
+      if (lower.endsWith(".pbip")) return "PBIP";
+      if (lower.includes("rules-report") || lower.includes("rules-dataset")) return "Quality rules";
+      if (lower.includes("dax-tests")) return "DAX tests";
+      if (lower.includes("deployment-manifest")) return "Deployment manifest";
+      if (lower.includes("azure-pipelines") || lower.includes(".github/workflows") || lower.includes("gitlab-ci")) return "Pipeline";
+      if (lower.includes("docs/") || lower.endsWith(".md")) return "Documentation";
+      return "Other";
+    }
+
+    function summarizeChangedFiles(paths) {
+      const categories = {};
+      for (const path of paths) {
+        const category = categorizeFile(path);
+        categories[category] = categories[category] || [];
+        categories[category].push(path);
+      }
+      return categories;
+    }
+
+    function extractFailedRules(text) {
+      const failures = [];
+      const pattern = /Rule\s+"([^"]+)"\s+FAILED[^\n]*/gi;
+      let match;
+      while ((match = pattern.exec(text || ""))) failures.push(match[1]);
+      return unique(failures);
+    }
+
+    function risks(summary) {
+      const items = [];
+      if (summary.errors > 0) items.push(`${summary.errors} pipeline or quality error(s) need review.`);
+      if (summary.warnings > 0) items.push(`${summary.warnings} warning(s) should be triaged before merge.`);
+      if (summary.failedRules.length) items.push(`Failed quality rules: ${summary.failedRules.join(", ")}.`);
+      if (!summary.changedFiles.length) items.push("No changed file list was provided.");
+      if (summary.changedCategories.Pipeline) items.push("Pipeline files changed; validate CI behavior before merge.");
+      if (summary.changedCategories["Quality rules"]) items.push("Quality rule files changed; confirm branch enforcement impact.");
+      if (!summary.readinessProvided) items.push("No readiness scanner output was provided.");
+      if (!summary.manifestProvided) items.push("No deployment manifest context was provided.");
+      return unique(items);
+    }
+
+    function buildSummary() {
+      const pipelineLog = els.pipelineLog.value || "";
+      const changedFiles = unique(lines(els.changedFiles.value));
+      const summary = {
+        title: els.prTitle.value.trim() || "Untitled PR",
+        sourceBranch: els.sourceBranch.value.trim() || "not provided",
+        targetBranch: els.targetBranch.value.trim() || "not provided",
+        owner: els.owner.value.trim() || "not provided",
+        deploymentTarget: els.deploymentTarget.value.trim() || "not provided",
+        changedFiles,
+        changedCategories: summarizeChangedFiles(changedFiles),
+        errors: countMatches(pipelineLog, /##\[error\]|\berror\b|failed for .* exit code/gi),
+        warnings: countMatches(pipelineLog, /##\[warning\]|\bwarning\b/gi),
+        passedSignals: countMatches(pipelineLog, /\bpassed\b|succeeded|success/gi),
+        failedRules: extractFailedRules(pipelineLog),
+        readinessProvided: Boolean(els.readinessReport.value.trim()),
+        manifestProvided: Boolean(els.deploymentManifest.value.trim()),
+        daxProvided: Boolean(els.daxSummary.value.trim()),
+        generatedAt: new Date().toISOString()
+      };
+      summary.risks = risks(summary);
+      summary.recommendation = summary.errors > 0 ? "Do not merge until errors are resolved or approved as exceptions." : summary.risks.length ? "Review risks before merge." : "Ready for review.";
+      return summary;
+    }
+
+    function categoryMarkdown(categories) {
+      const names = Object.keys(categories).sort();
+      if (!names.length) return "- No changed files provided.";
+      return names.map(name => `- **${name}:** ${categories[name].length} file(s)\n${categories[name].slice(0, 8).map(path => `  - \`${path}\``).join("\n")}${categories[name].length > 8 ? "\n  - ..." : ""}`).join("\n");
+    }
+
+    function listMarkdown(items, fallback) {
+      return items.length ? items.map(item => `- ${item}`).join("\n") : `- ${fallback}`;
+    }
+
+    function markdown(summary) {
+      return `# PR Quality Summary: ${summary.title}
+
+## Recommendation
+
+**${summary.recommendation}**
+
+## Pull request context
+
+| Field | Value |
+|---|---|
+| Owner | ${summary.owner} |
+| Source branch | \`${summary.sourceBranch}\` |
+| Target branch | \`${summary.targetBranch}\` |
+| Deployment target | ${summary.deploymentTarget} |
+| Generated | ${summary.generatedAt} |
+
+## Validation signals
+
+| Signal | Count |
+|---|---:|
+| Changed files | ${summary.changedFiles.length} |
+| Errors | ${summary.errors} |
+| Warnings | ${summary.warnings} |
+| Failed quality rules | ${summary.failedRules.length} |
+| Success/pass signals | ${summary.passedSignals} |
+
+## Changed file summary
+
+${categoryMarkdown(summary.changedCategories)}
+
+## Failed quality rules
+
+${listMarkdown(summary.failedRules, "No failed quality rules detected in supplied logs.")}
+
+## Review risks
+
+${listMarkdown(summary.risks, "No material risks detected from supplied inputs.")}
+
+## Reviewer checklist
+
+- Confirm PBIP structure validation passed.
+- Confirm report and dataset quality rule results are acceptable.
+- Confirm DAX test metadata is current for changed measures.
+- Confirm deployment manifest or release notes reflect the intended deployment path.
+- Confirm any rule or readiness exceptions have owner, reason, and expiration.
+`;
+    }
+
+    function render() {
+      const summary = buildSummary();
+      els.markdownOutput.textContent = markdown(summary);
+      els.jsonOutput.textContent = JSON.stringify(summary, null, 2);
+      els.changedCount.textContent = String(summary.changedFiles.length);
+      els.errorCount.textContent = String(summary.errors);
+      els.warningCount.textContent = String(summary.warnings);
+      els.riskCount.textContent = String(summary.risks.length);
+      els.statusChips.innerHTML = [
+        summary.errors ? `<span class="chip error">Errors present</span>` : `<span class="chip success">No errors detected</span>`,
+        summary.warnings ? `<span class="chip warning">Warnings present</span>` : `<span class="chip success">No warnings detected</span>`,
+        summary.readinessProvided ? `<span class="chip success">Readiness included</span>` : `<span class="chip warning">No readiness output</span>`,
+        summary.manifestProvided ? `<span class="chip success">Manifest included</span>` : `<span class="chip warning">No manifest context</span>`
+      ].join("");
+    }
+
+    function download(filename, content, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function seedExample() {
+      els.prTitle.value = "Tune FinOps report quality gates";
+      els.sourceBranch.value = "feature/finops-quality-rules";
+      els.targetBranch.value = "main";
+      els.owner.value = "FinOps BI Team";
+      els.deploymentTarget.value = "Dev workspace after validation";
+      els.changedFiles.value = [
+        "shared/Rules-Report.json",
+        "shared/dax-tests.json",
+        "shared/deployment-manifest.json",
+        "shared/pbip-local/Cost-Management.Report/definition/pages/finops_report_landing/page.json",
+        "azdo/azure-pipelines.yml"
+      ].join("\n");
+      els.pipelineLog.value = [
+        "PBIP structure validation passed",
+        "##[warning] Rule \"Active page\" FAILED with result: false, expected: true",
+        "Report quality rules succeeded with warnings",
+        "DAX test metadata validation passed"
+      ].join("\n");
+      els.readinessReport.value = "Readiness score: 86/100\nMissing: none\nWarnings: active page";
+      els.deploymentManifest.value = "Solution: Cost Management\nTarget: Dev workspace\nApproval: BI lead";
+      els.daxSummary.value = "12 test definitions loaded; 10 enabled; metadata validation passed.";
+      render();
+      toast("Starter example loaded.");
+    }
+
+    function toast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("visible");
+      window.clearTimeout(toast.timer);
+      toast.timer = window.setTimeout(() => els.toast.classList.remove("visible"), 2800);
+    }
+
+    document.querySelectorAll("input, textarea").forEach(input => input.addEventListener("input", render));
+    document.getElementById("generate").addEventListener("click", render);
+    document.getElementById("seedExample").addEventListener("click", seedExample);
+    document.getElementById("copyMarkdown").addEventListener("click", async () => {
+      render();
+      await navigator.clipboard.writeText(els.markdownOutput.textContent);
+      toast("Markdown copied.");
+    });
+    document.getElementById("downloadMarkdown").addEventListener("click", () => {
+      render();
+      download("PR-Quality-Summary.md", els.markdownOutput.textContent, "text/markdown");
+    });
+    document.getElementById("downloadJson").addEventListener("click", () => {
+      render();
+      download("pr-quality-summary.json", els.jsonOutput.textContent, "application/json");
+    });
+    render();
+  </script>
+</body>
+</html>

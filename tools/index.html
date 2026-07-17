@@ -297,7 +297,8 @@
       <h1>Fabric BI DevOps Accelerator Launchpad</h1>
       <p class="lede">A central starting point for no-code tools that help teams govern PBIP delivery with Git, CI/CD, quality rules, DAX test metadata, and pre-PR readiness checks.</p>
       <div class="toolbar">
-        <a class="button primary" href="enterprise-standards-builder/index.html">Start with standards</a>
+          <a class="button primary" href="enterprise-standards-builder/index.html">Start with standards</a>
+          <a class="button" href="pr-quality-summary-generator/index.html">Summarize a PR</a>
         <a class="button" href="../docs/governance/power-bi-governance-tools.md">Read overview</a>
         <a class="button" href="README.md">Tool README</a>
       </div>
@@ -392,6 +393,23 @@
           <p><strong>Outputs:</strong> PBIP readiness Markdown report and JSON report.</p>
           <a class="button" href="pbip-readiness-scanner/index.html">Open PBIP Readiness Scanner</a>
         </article>
+
+        <article class="card">
+          <div class="card-top">
+            <div>
+              <h3>PR Quality Summary Generator</h3>
+              <p class="muted">Generate a reviewer-friendly pull request summary from changed files, pipeline logs, readiness scans, DAX test metadata, and deployment context.</p>
+            </div>
+            <span class="chip accent">Reviewer handoff</span>
+          </div>
+          <div class="chips">
+            <span class="chip">PR authors</span>
+            <span class="chip">Reviewers</span>
+            <span class="chip">BI leads</span>
+          </div>
+          <p><strong>Outputs:</strong> PR quality summary Markdown and JSON summary.</p>
+          <a class="button primary" href="pr-quality-summary-generator/index.html">Open PR Quality Summary Generator</a>
+        </article>
       </div>
     </section>
 
@@ -422,6 +440,11 @@
           <div class="step-number">5</div>
           <h3>Scan before PR</h3>
           <p class="muted">Use the PBIP Readiness Scanner before opening a pull request or asking reviewers to inspect changes.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">6</div>
+          <h3>Summarize PR</h3>
+          <p class="muted">Use the PR Quality Summary Generator to create a concise reviewer handoff from validation signals and changed files.</p>
         </div>
       </div>
     </section>
@@ -458,6 +481,8 @@
         <div class="artifact"><strong><code>enterprise-policy-profile.json</code></strong><br><span class="muted">Reusable governance posture and policy settings.</span></div>
         <div class="artifact"><strong><code>PBIP-Readiness-Report.md</code></strong><br><span class="muted">PR-ready readiness summary.</span></div>
         <div class="artifact"><strong><code>pbip-readiness-report.json</code></strong><br><span class="muted">Machine-readable readiness scan output.</span></div>
+        <div class="artifact"><strong><code>PR-Quality-Summary.md</code></strong><br><span class="muted">Reviewer-friendly PR summary.</span></div>
+        <div class="artifact"><strong><code>pr-quality-summary.json</code></strong><br><span class="muted">Machine-readable PR quality summary.</span></div>
       </div>
     </section>
 
