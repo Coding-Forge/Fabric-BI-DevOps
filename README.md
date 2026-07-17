@@ -1,66 +1,34 @@
-
 # Enterprise BI DevOps with Microsoft Fabric
 
-> **Version:** 1.1 &nbsp;|&nbsp; **Author:** Brandon Campbell &nbsp;|&nbsp; **Updated:** June 2026
+> **Version:** 1.1 | **Author:** Brandon Campbell | **Updated:** June 2026
 
-Enterprise BI DevOps with Microsoft Fabric helps teams turn Power BI and Fabric delivery into a governed, repeatable engineering practice. Developers get faster iteration with Git-aware workflows, CI checks, and reusable validation assets. Operations teams get predictable promotions, branching controls, and deployment automation. CIOs and IT leaders get stronger governance, lower release risk, and a scalable model for standardizing analytics delivery across the organization.
+Enterprise BI DevOps with Microsoft Fabric helps teams turn Power BI and Fabric delivery into a governed, repeatable engineering practice. It combines CI/CD patterns, quality gates, deployment guidance, no-code governance tools, and workshop-ready reference material for Microsoft Fabric and Power BI PBIP projects.
 
-This repository combines a hands-on workshop, platform-neutral CI/CD assets, and practical reference material for **Microsoft Fabric** and **Power BI** (PBIP format).
+This repository is intentionally **platform-neutral**. The same BI DevOps approach can be run with Azure DevOps, GitHub Actions, or GitLab CI/CD.
 
-This README is the solution hub. Platform-specific setup instructions live in the Azure DevOps, GitHub Actions, and GitLab README files linked below.
+## What this solution provides
 
-> PBIP artifacts are intentionally **not committed** in this repository. Bring your own PBIP files locally under `shared/` (or `shared/pbip-local/`) and keep reusable CI/CD assets (`Rules-*.json`, `scripts/`, `tests/`, and platform pipeline entry points) in source control.
->
-> This repo also includes reusable shared CI/CD assets under `shared/` and `shared/universal-pipeline/`. The intent is to keep validation, quality rules, tests, and deployment helpers consistent while allowing teams to run the solution from Azure DevOps, GitHub Actions, or GitLab CI/CD.
+| Area | Purpose |
+|---|---|
+| PBIP validation | Validate source-controlled Power BI project structure before merge or deployment |
+| Quality gates | Run report and semantic model quality rules through PBI Inspector/Fab Inspector and Tabular Editor BPA |
+| DAX test metadata | Define test cases for critical measures and publish CI-friendly results |
+| Deployment automation | Deploy validated Fabric and Power BI artifacts to Dev or feature workspaces |
+| Governance tooling | Generate and tune rule files, deployment manifests, readiness reports, and policy metadata |
+| Workshop material | Provide labs, diagrams, and reference docs for adoption and enablement |
 
----
+## Platform setup guides
 
-## Quick Navigation
+Choose the CI/CD platform that matches your organization:
 
-| Section | Description |
-|---------|-------------|
-| [Platform setup guides](#platform-setup-guides) | Azure DevOps, GitHub Actions, and GitLab entry points |
-| [No-code accelerator tools](#no-code-fabric-bi-devops-accelerator-tools) | Static HTML tools for rules, tests, manifests, and readiness checks |
-| [1. Workshop Topics Table](#1-workshop-topics--supporting-documents-table) | Agenda-mapped resource overview |
-| [2. Detailed Breakdowns](#2-detailed-topicby-topic-resource-breakdown) | Per-topic doc references |
-| [3. Best Practices Summary](#3-best-practices-summary) | Governance, Git, CI/CD, Embedded |
-| [4. Contributing](#4-contributing) | How to suggest improvements or changes |
-| [5. Disclaimer](#5-disclaimer) | Example-code and as-is notice |
-| [6. Folder Structure](#6-appendix-repository-folder-structure) | Actual repo layout |
-
-### No-Code Fabric BI DevOps Accelerator Tools
-
-This repo includes static browser tools that help teams define and maintain enterprise Power BI standards without hand-editing JSON:
-
-Start from the central launchpad:
-
-`tools/index.html`
-
-| Tool | Path | Purpose |
+| Platform | Start here | Pipeline entry point |
 |---|---|---|
-| **Fabric BI DevOps Accelerator Launchpad** | `tools/index.html` | Central entry point with tool links, recommended workflow, audience guidance, and generated artifact descriptions. |
-| **Enterprise Standards Builder** | `tools/enterprise-standards-builder/index.html` | Choose policy profiles and generate `Rules-Report.json`, `Rules-Dataset.json`, a reusable policy profile, and a review summary. |
-| **Quality Rule Designer** | `tools/rule-designer/index.html` | Edit individual report and dataset rules, including custom PBI Inspector and Tabular Editor BPA logic. |
-| **DAX Test Builder** | `tools/dax-test-builder/index.html` | Customize `shared/dax-tests.json`, define DAX measure test metadata, and export a test catalog for CI/CD adoption. |
-| **Deployment Manifest Builder** | `tools/deployment-manifest-builder/index.html` | Scan existing PBIP folders or create `deployment-manifest.json` to explain ownership, artifacts, environments, parameters, approvals, and rollback. |
-| **PBIP Project Readiness Scanner** | `tools/pbip-readiness-scanner/index.html` | Scan a local PBIP repo or project folder before PR and export readiness reports. |
+| Azure DevOps | [azdo/README.md](azdo/README.md) | `azdo/azure-pipelines.yml` or `azdo/azure-pipelines_ci.yml` |
+| GitHub Actions | [.github/README.md](.github/README.md) | `.github/workflows/powerbi-ci.yml` |
+| GitLab CI/CD | [gitlab/README.md](gitlab/README.md) | `gitlab/gitlab-ci.yml` |
+| Reusable Azure DevOps template | [shared/universal-pipeline/README.md](shared/universal-pipeline/README.md) | `shared/universal-pipeline/templates/fabric-ci.yml` |
 
-Use the Enterprise Standards Builder first for governance policy setup, then use the Quality Rule Designer for advanced tuning.
-
-See [Fabric BI DevOps Accelerator Tools](docs/governance/power-bi-governance-tools.md) for screenshots, demo flow, and positioning language.
-
-### Platform Setup Guides
-
-Enterprise BI DevOps with Microsoft Fabric is designed to run on multiple CI/CD platforms. Start with the README for your platform:
-
-| Platform | README | Pipeline entry point | Best for |
-|---|---|---|---|
-| Azure DevOps | [azdo/README.md](azdo/README.md) | `azdo/azure-pipelines.yml` or `azdo/azure-pipelines_ci.yml` | Microsoft-first enterprises using Azure Pipelines, variable groups, and branch policies |
-| GitHub Actions | [.github/README.md](.github/README.md) | `.github/workflows/powerbi-ci.yml` | GitHub-hosted Fabric and Power BI projects |
-| GitLab CI/CD | [gitlab/README.md](gitlab/README.md) | `gitlab/gitlab-ci.yml` | GitLab-hosted repos with GitLab runners |
-| Shared Azure template | [shared/universal-pipeline/README.md](shared/universal-pipeline/README.md) | `shared/universal-pipeline/templates/fabric-ci.yml` | Organizations that want one reusable Azure DevOps template consumed by many project repos |
-
-Each platform runs the same core solution pattern:
+Each platform follows the same core pattern:
 
 ```text
 Validate PBIP structure
@@ -71,463 +39,98 @@ Publish validated artifacts
 Deploy to Dev or feature workspaces when configured
 ```
 
-### Repository Structure by Platform
+## No-code accelerator tools
 
-This repository organizes CI/CD platforms and shared assets at the top level for clarity:
+The `tools/` folder contains static browser tools that help teams manage BI DevOps artifacts without hand-editing JSON.
 
-| Folder | Purpose |
-|--------|---------|
-| **`azdo/`** | Azure DevOps YAML pipelines and setup guide |
-| **`.github/`** | GitHub Actions workflow and setup guide |
-| **`gitlab/`** | GitLab CI/CD pipeline and setup guide |
-| **`shared/`** | Platform-agnostic CI/CD assets: rules, scripts, tests, PBIP artifact location, and deployment helpers |
-| **`shared/universal-pipeline/`** | Optional reusable Azure DevOps template pattern for multi-project adoption |
-| **`tools/`** | Static browser tools for rule design, standards, DAX test metadata, deployment manifests, and readiness scanning |
+| Tool | Path | Purpose |
+|---|---|---|
+| Fabric BI DevOps Accelerator Launchpad | `tools/index.html` | Central entry point for all no-code tools |
+| Enterprise Standards Builder | `tools/enterprise-standards-builder/index.html` | Generate report and dataset rule files from policy profiles |
+| Quality Rule Designer | `tools/rule-designer/index.html` | Tune individual PBI Inspector/Fab Inspector and Tabular Editor BPA rules |
+| DAX Test Builder | `tools/dax-test-builder/index.html` | Create measure-level DAX test metadata |
+| Deployment Manifest Builder | `tools/deployment-manifest-builder/index.html` | Create readable deployment contracts for review and release |
+| PBIP Project Readiness Scanner | `tools/pbip-readiness-scanner/index.html` | Scan a project before opening a pull request |
 
-Each CI platform folder contains entry-point pipeline definitions that reference shared assets in `shared/`.
+Use the Enterprise Standards Builder first for governance policy setup, then use the Quality Rule Designer for advanced tuning.
 
-### CI/CD Pipeline Options
-
-Use the platform README files for setup details. At a high level:
-
-- Azure DevOps: [azdo/README.md](azdo/README.md)
-- GitHub Actions: [.github/README.md](.github/README.md)
-- GitLab CI/CD: [gitlab/README.md](gitlab/README.md)
-- Reusable Azure DevOps template: [shared/universal-pipeline/README.md](shared/universal-pipeline/README.md)
-
-### Sparse Clone Presets
-
-This repo includes ready-to-run PowerShell scripts that clone only the folders needed for a platform profile plus the no-code accelerator tools and screenshots.
-
-- Azure DevOps profile script: [shared/scripts/Clone-SparseAzDoProfile.ps1](shared/scripts/Clone-SparseAzDoProfile.ps1)
-- GitHub profile script: [shared/scripts/Clone-SparseGitHubProfile.ps1](shared/scripts/Clone-SparseGitHubProfile.ps1)
-- GitLab profile script: [shared/scripts/Clone-SparseGitLabProfile.ps1](shared/scripts/Clone-SparseGitLabProfile.ps1)
-
-Run any profile script from a PowerShell prompt:
-
-```powershell
-# Azure DevOps profile (.github and gitlab omitted)
-./shared/scripts/Clone-SparseAzDoProfile.ps1 -RepoUrl <source-repo-url> -Destination Fabric-AzDo
-
-# GitHub profile (azdo and gitlab omitted)
-./shared/scripts/Clone-SparseGitHubProfile.ps1 -RepoUrl <source-repo-url> -Destination Fabric-GitHub
-
-# GitLab profile (.github and azdo omitted)
-./shared/scripts/Clone-SparseGitLabProfile.ps1 -RepoUrl <source-repo-url> -Destination Fabric-GitLab
-```
-
-Default included folders per profile:
-
-- Azure DevOps: `azdo`, `shared`, `docs`, `tools`, `images`
-- GitHub: `.github`, `shared`, `docs`, `tools`, `images`
-- GitLab: `gitlab`, `shared`, `docs`, `tools`, `images`
-
-Each sparse clone script removes the source `origin` remote after checkout. This prevents customers from accidentally pushing back to the accelerator source repo. Add the customer's new remote after the clone:
-
-```powershell
-git remote add origin <new-customer-repo-url>
-git push -u origin main
-```
-
-Use a different branch with `-Branch`:
-
-```powershell
-./shared/scripts/Clone-SparseAzDoProfile.ps1 -RepoUrl <source-repo-url> -Destination Fabric-AzDo-Dev -Branch develop
-```
-
-To apply a preset on an existing clone:
-
-```powershell
-git sparse-checkout init --cone
-git sparse-checkout set azdo shared docs tools images    # Azure DevOps preset
-# or
-git sparse-checkout set .github shared docs tools images # GitHub preset
-# or
-git sparse-checkout set gitlab shared docs tools images  # GitLab preset
-```
-
-### Platform-specific setup
-
-The detailed setup instructions are intentionally separated by CI/CD platform:
-
-- [Azure DevOps setup](azdo/README.md)
-- [GitHub Actions setup](.github/README.md)
-- [GitLab CI/CD setup](gitlab/README.md)
-
-This keeps the root README focused on the BI DevOps solution rather than one Git provider.
-
-### Presentation Decks (Marp)
-- [01 — Kickoff & Overview](presentations/01-kickoff-overview.md)
-- [02 — Version Control in Fabric & PBIP](presentations/02-version-control-pbip.md)
-- [03 — Lab 1: Connect Workspace to Git](presentations/03-lab1-connect-git.md)
-- [04 — Collaboration & Governance](presentations/04-collaboration-governance.md)
-- [05 — Deployment Strategy](presentations/05-deployment-strategy.md)
-- [06 — Lab 2: CI/CD Pipeline for PBIP](presentations/06-lab2-ci-pipeline.md)
-- [06a — Lab 2 Facilitator Briefing (One Slide)](presentations/06a-lab2-facilitator-briefing.md)
-- [07 — Lab 3: Fabric Deployment Pipelines](presentations/07-lab3-deployment-pipelines.md)
-- [08 — Release Checklist & Power BI Embedded](presentations/08-release-embedded.md)
-
-> Render with the [Marp for VS Code](https://marketplace.visualstudio.com/items?itemName=marp-team.marp-vscode) extension, or export to PDF/HTML via `npx @marp-team/marp-cli`.
-
-### PowerPoint Exports
-Pre-generated `.pptx` files are in the `powerpoint/` folder — one per deck, with the same filename stem.
-These are generated from the Marp source using `python-pptx` and can be opened directly in PowerPoint or Google Slides.
-
-- [06a Facilitator Briefing (PPTX)](powerpoint/06a-lab2-facilitator-briefing.pptx)
-- [06a Facilitator Briefing (PDF)](powerpoint/06a-lab2-facilitator-briefing.pdf)
-
-### Architecture Docs
-- [Fabric + Git Integration](docs/architecture/fabric-git-integration.md) — diagrams for the full integration, PBIP workflow, CI/CD pipeline, deployment pipeline, end-to-end DevOps, and Power BI Embedded
-- [GitHub Best Practices for Fabric Git Integration](docs/architecture/github-fabric-git-best-practices.md) — provider-specific guidance for GitHub-hosted teams
-- [Branching Strategy](docs/architecture/branching-strategy.md)
-- [CI/CD Architecture](docs/architecture/cicd-architecture.md)
-- [Workspace Strategy](docs/architecture/workspace-strategy.md)
-
-### Labs
-- [Lab 1 — Connect Workspace to Git](docs/workshop-plan/labs/lab1-connect-git.md)
-- [Lab 2 — CI/CD Pipeline for the Power BI Project](docs/workshop-plan/labs/lab2-ci-pipeline.md)
-- [Lab 3 — Deployment Pipelines](docs/workshop-plan/labs/lab3-deployment-pipelines.md)
-
-### Governance
-- [Governance Checklist](docs/governance/governance-checklist.md)
-- [OneLake Security Guidance](docs/governance/onelake-security.md)
-- [Fabric BI DevOps Accelerator Tools](docs/governance/power-bi-governance-tools.md)
-
----
-
-# 1. Workshop Topics & Supporting Documents Table
-
-| Agenda Topic & Time | Key Supporting Documents / Resources |
-|---------------------|---------------------------------------|
-| **Kickoff, Objectives, Roles, Prerequisites**<br>(09:00–09:20) | Workshop Overview (agenda, objectives); Governance deck; Connect Fabric Workspaces to ADO prereqs |
-| **Version Control in Fabric & PBIP**<br>(09:20–10:15) | Git integration overview; PBIP basics; Branching & workspace separation guides |
-| **Lab #1 — Connect Workspace to Git**<br>(10:30–11:30) | Lab Guide for Git connection; Branded slides; CI/CD architecture diagrams |
-| **Collaboration Patterns & Best Practices**<br>(11:30–12:15) | DataOps deck; Governance essentials; RACI examples; Go‑Live assessment |
-| **Deployment Strategy: Dev→Test→Prod**<br>(13:00–13:45) | CI/CD Delivery Guide; Enterprise‑scale Power BI Dev examples; Deployment pipeline docs |
-| **Lab #2 — CI/CD Pipeline for the Power BI Project**<br>(13:45–14:45) | CI/CD lab guide (YAML examples, PBIP validation, artifact publication, workspace deployment); ADO test integration; MS Learn pipeline tutorials |
-| **Lab #3 — Fabric Deployment Pipelines**<br>(15:00–16:00) | [Lab 3 guide](docs/workshop-plan/labs/lab3-deployment-pipelines.md); Architecture diagrams; Governance checklist; Deployment rules & promotion guidance |
-| **Publishing Artifacts & Release Checklist**<br>(16:00–16:30) | Release checklist; Prod readiness; RLS/CLS validation; Sensitivity labels guidance |
-| **Power BI Embedded POC + Communication Plan**<br>(16:30–17:00) | Embedded analytics deck; Service principal setup guide; Comms plan templates |
-
----
-
-# 2. Detailed Topic‑by‑Topic Resource Breakdown
-
-## 2.1 Kickoff, Objectives, Roles & Prerequisites
-Supporting resources:
-- **Workshop Overview Doc**  
-  Includes agenda, workshop objectives, and success criteria.
-- **Fabric Governance Workshop Deck**  
-  Provides RBAC roles (Admin, Member, Contributor, Viewer) and tenant-level governance.
-- **Connect Fabric Workspaces to Git Guide**  
-  Contains full prerequisite checklist:
-  - Fabric workspace access  
-  - Repo access  
-  - PAT or service principal  
-  - Admin toggle validation  
-
-Use these materials to ensure all participants are technically ready before entering Lab 1.
-
----
-
-## 2.2 Version Control in Fabric & PBIP; Git with Azure DevOps, GitHub, or GitLab
-
-Key references:
-- **PBIP Format Overview**  
-  Explains the structure of `.pbip` (TMDL, JSON, YAML).
-- **Git Integration in Fabric (Admin + UX)**  
-  Covers enabling Git integration and setting repo/branch mappings.
-- **Branching Strategy Guidance**  
-  Concepts:
-  - Trunk‑based dev  
-  - Short-lived feature branches  
-  - Workspace branching (“branch → new workspace”)  
-  - Avoid editing directly in shared workspaces  
-- **Microsoft Learn — Git Integration**  
-  Baseline fundamentals for participants who are new to Git in Fabric.
-
-These resources help attendees understand *why* Git matters and *how* Fabric synchronizes workspace items.
-
----
-
-## 2.3 Lab #1 — Connect a Fabric Workspace to Git
-
-Documents:
-- **Lab #1 Guide — Connect Fabric Workspace to Git**  
-  Walks through:
-  - Selecting Git provider  
-  - Mapping workspace → repo → branch  
-  - Initial sync  
-  - Verifying Git icons  
-  - Creating feature branches  
-  - Submitting a PR
-- **Branded Slide Pack**  
-  Step‑by‑step visuals: Git setup, PR demo.
-- **Architecture diagrams** for Git integration & PR flow
-
-Validation checklist (end of lab):
-- Workspace shows Git‑connected status  
-- No pending changes  
-- PR merged → synced back to Fabric  
-
----
-
-## 2.4 Collaboration Patterns & Best Practices
-
-Foundational references:
-- **Power BI DataOps Deck**  
-  Themes:
-  - Dev/Test/Prod separation  
-  - Pipelines  
-  - Approval gates  
-  - Change review patterns
-- **Governance Essentials — Workspace & Role Governance**  
-  Includes:
-  - RACI matrix  
-  - Naming conventions  
-  - Workspace lifecycle guidance
-- **Fabric Go‑Live Assessment Guide**  
-  Production governance readiness:
-  - RLS/CLS validation  
-  - Endorsements  
-  - Monitoring & auditing
-- **Workshop Plan — Best Practices Section**  
-  Reinforces:
-  - Branching standards  
-  - PR templates  
-  - RLS consistency  
-  - Review gates  
-
----
-
-## 2.5 Deployment Strategy: Dev → Test → Prod
-
-Materials:
-- **CI/CD Delivery Guide**  
-  Provides the end‑to‑end CI/CD model for PBIP-based development.
-- **Knowledge Transfer (Enterprise-Scale Dev) PDF**  
-  Contains:
-  - Real YAML examples  
-  - REST API automation  
-  - Deployment pipeline synchronization  
-- **Microsoft Learn — Deployment Pipelines**  
-  Covers:
-  - Stages  
-  - Workspace binding  
-  - Selective deployment  
-  - Automation via APIs
-
-Key messages:
-- Every push to `main`, `develop`, or `feature/*` triggers validation, testing, and artifact publication  
-- `main` and `develop` runs deploy the validated PBIP artifact to the Dev workspace  
-- `feature/*` runs create or update isolated feature workspaces using a configured workspace prefix  
-- Environment-specific configs use secure CI/CD variables, variable groups, or protected secrets with service principal authentication  
-- No manual promotion to production  
-
----
-
-## 2.6 Lab #2 — CI/CD Pipeline for PBIP
-
-Primary references:
-- **Lab #2 Guide — CI/CD Pipeline for PBIP**  
-  Includes YAML patterns for:
-  - PBIP schema validation  
-  - DAX unit tests  
-  - Lint rules  
-  - Publishing the `pbip-drop` pipeline artifact  
-  - Deploying validated PBIP definitions with `scripts/deploy-dynamic.ps1`
-- **AzureDevOps Deep Dive**  
-  Shows integration with dashboards and test plans.
-- **Microsoft Learn — CI/CD Tutorial**  
-  Mirrors the steps of building a working PBIP validation and deployment pipeline.
-
-Lab #2 Outcomes:
-- Working CI/CD pipeline  
-- PR branch policies enforced with the CI/CD pipeline as the required status check  
-- PBIP validation, testing, artifact publication, and workspace deployment occur automatically  
-
----
-
-## 2.7 Lab #3 — Fabric Deployment Pipelines: Dev → Test → Prod
-
-Primary references:
-- **[Lab #3 Guide — Fabric Deployment Pipelines](docs/workshop-plan/labs/lab3-deployment-pipelines.md)**  
-  Covers:
-  - Creating a three-stage deployment pipeline in the Fabric portal  
-  - Binding `WS-Dev`, `WS-Test`, and `WS-Prod` workspaces to their stages  
-  - Configuring **deployment rules** to swap data source parameters per environment  
-  - Reviewing the **comparison diff** before promoting content  
-  - Promoting **Dev → Test** and verifying the deployment log  
-  - Completing the UAT checklist (RLS testing, refresh validation, rule verification)  
-  - Gating **Test → Prod** with a manual approval step  
-  - Verifying Prod content and confirming semantic model refresh against the Prod database
-- **Architecture Diagrams — [Deployment Pipeline Flow](docs/architecture/fabric-git-integration.md)**  
-  Visual reference for the three-stage promotion model.
-- **[Governance Checklist](docs/governance/governance-checklist.md)**  
-  UAT gates and compliance checks required before Prod promotion.
-- **Microsoft Learn — Fabric Deployment Pipelines**  
-  Official docs for stage binding, selective deployment, and REST API automation.
-
-Lab #3 Outcomes:
-- Three-stage Fabric Deployment Pipeline configured and bound to workspaces  
-- Deployment rules in place to swap data source connections per environment  
-- Dev workspace content successfully promoted to Test  
-- UAT checklist completed; Test → Prod promotion gated and executed  
-- Prod workspace verified with a passing semantic model refresh  
-
----
-
-## 2.8 Publishing Artifacts & Release Checklist
-
-Supporting documents:
-- **Workshop Overview — Release Checklist**  
-  Items include:
-  - CI green  
-  - Schema diff validated  
-  - Dev → Test promotion  
-  - RLS check  
-  - App publishing
-- **Production Deployment Oversight — Security & Compliance**  
-  Covers:
-  - Gateways  
-  - Conditional Access  
-  - Security principals  
-  - Logging & audit
-- **Fabric Warehouse Governance Guide**  
-  Provides:
-  - Endorsement rules  
-  - Sensitivity labels  
-  - OLS/RLS governance
-
-Checklist also applies to:
-- Notebooks  
-- Dataflows  
-- Pipelines  
-
----
-
-## 2.9 Webapp Team POC — Power BI Embedded & Comms Plan
-
-Supporting documents:
-- **Embedded Analytics Deck**  
-  Explains:
-  - Embed for your org vs. Embed for your customers  
-  - Service principal authentication  
-  - Token issuance flow
-- **Demo Instructions — Service Principal Setup**  
-  Steps:
-  - Azure AD App Registration  
-  - Assign API permissions  
-  - Enable SP in Power BI Admin Portal  
-  - Acquire tokens via backend  
-- **QualityHub Requirements Document**  
-  Rules for embedded experiences:
-  - Performance SLAs  
-  - Approved visuals  
-  - Security controls  
-- **Communications Plan Template**  
-  Guidance:
-  - Teams channel structure  
-  - Weekly touchpoints  
-  - Decision log  
-  - PR review workflow  
-
----
-
-# 3. Best Practices Summary
-
-### Governance
-- Enforce workspace separation  
-- Require PR-based development  
-- Centralize RLS/CLS rules  
-- Standardize naming conventions  
-
-### Git Integration
-- Keep branches small  
-- Protect `main`  
-- Use Workspace → Git sync workflows  
-
-### CI/CD
-- Automate schema validation  
-- Publish validated PBIP artifacts from the YAML pipeline  
-- Deploy `main` and `develop` to Dev, and `feature/*` branches to isolated feature workspaces  
-- Treat PBIP artifacts as code  
-- Use service principals and secured variable groups or Key Vault-linked variable groups for deployment secrets  
-
-### Embedded Analytics
-- Prefer **App Owns Data** for external apps  
-- Use service principals exclusively  
-- Validate RLS interactions with embedding  
-
----
-
-# 4. Contributing
-
-Contributions are welcome when they improve the workshop, clarify the learning path, or make the examples easier to adapt in real Fabric and Power BI environments.
-
-Suggested contribution workflow:
-
-1. Create a short-lived branch such as `feature/<alias>-<change>` or `docs/<alias>-<topic>`.
-2. Keep changes focused on one topic, lab, script, or pipeline behavior.
-3. Update related documentation when changing YAML, PowerShell, tests, rules, or workshop flow.
-4. Run the relevant local checks before opening a pull request. For PBIP validation changes, start with [shared/tests/validate_pbip_structure.py](shared/tests/validate_pbip_structure.py) and the quality-rule preparation script.
-5. Open a pull request with a clear summary, testing notes, and any environment assumptions.
-
-Good contributions include documentation fixes, clearer lab steps, safer validation rules, reusable pipeline improvements, and examples that help teams adapt the workshop to their own Fabric tenant. Avoid committing tenant-specific IDs, client secrets, tokens, real customer data, exported PBIP files that should remain local, or environment-specific values that belong in variable groups or secure configuration.
-
----
-
-# 5. Disclaimer
-
-This repository contains workshop material and example automation code. The YAML pipelines, PowerShell scripts, validation rules, tests, and deployment examples are provided as reference implementations and starting points only.
-
-Before using any code from this repository in your own environment, review it carefully, modify it for your tenant, workspace topology, security model, naming conventions, branch policies, and deployment process, and verify it with non-production workspaces and test data. You are responsible for validating permissions, service principal configuration, secrets handling, Fabric tenant settings, API behavior, and deployment outcomes in your environment.
-
-The contents of this repository are provided "as is" without warranty of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement. The authors and contributors are not liable for any damages, data loss, service interruption, security issue, or other impact arising from use of these examples.
-
----
-
-# 6. Appendix: Repository Folder Structure
+## Repository layout
 
 ```text
 /
-├── README.md
-├── Supporting_Docs_For_Workshop.md
-├── presentations/
-│   ├── 01-kickoff-overview.md
-│   ├── 02-version-control-pbip.md
-│   ├── 03-lab1-connect-git.md
-│   ├── 04-collaboration-governance.md
-│   ├── 05-deployment-strategy.md
-│   ├── 06-lab2-ci-pipeline.md
-│   ├── 07-lab3-deployment-pipelines.md
-│   └── 08-release-embedded.md
-├── powerpoint/
-│   ├── 01-kickoff-overview.pptx
-│   ├── 02-version-control-pbip.pptx
-│   ├── 03-lab1-connect-git.pptx
-│   ├── 04-collaboration-governance.pptx
-│   ├── 05-deployment-strategy.pptx
-│   ├── 06-lab2-ci-pipeline.pptx
-│   ├── 07-lab3-deployment-pipelines.pptx
-│   └── 08-release-embedded.pptx
-└── docs/
-  ├── index.html                 ← Static docs landing page
-    ├── index.md
-    ├── architecture/
-    │   ├── fabric-git-integration.md   ← all architecture diagrams
-    │   ├── branching-strategy.md
-    │   ├── cicd-architecture.md
-    │   ├── workspace-strategy.md
-    │   └── images/
-    │       └── fabgitplantuml.puml
-    ├── governance/
-    │   └── governance-checklist.md
-    └── workshop-plan/
-        ├── Fabric_Git_Workshop_Plan.md
-        └── labs/
-            ├── lab1-connect-git.md
-            ├── lab2-ci-pipeline.md
-            └── lab3-deployment-pipelines.md
+|-- azdo/                         Azure DevOps pipeline entry points and setup guide
+|-- .github/                      GitHub Actions workflow and setup guide
+|-- gitlab/                       GitLab CI/CD pipeline and setup guide
+|-- shared/                       Platform-neutral CI/CD assets, scripts, tests, and rule files
+|-- shared/universal-pipeline/    Optional reusable Azure DevOps template pattern
+|-- tools/                        Static browser tools for governance and readiness artifacts
+|-- docs/                         Architecture, governance, workshop, and adoption documentation
+|-- presentations/                Workshop presentation source
+`-- README.md                     Solution landing page
+```
 
+## Key documentation
+
+| Topic | Link |
+|---|---|
+| Documentation hub | [docs/index.md](docs/index.md) |
+| CI/CD architecture | [docs/architecture/cicd-architecture.md](docs/architecture/cicd-architecture.md) |
+| Branching strategy | [docs/architecture/branching-strategy.md](docs/architecture/branching-strategy.md) |
+| Workspace strategy | [docs/architecture/workspace-strategy.md](docs/architecture/workspace-strategy.md) |
+| Governance checklist | [docs/governance/governance-checklist.md](docs/governance/governance-checklist.md) |
+| Accelerator tools overview | [docs/governance/power-bi-governance-tools.md](docs/governance/power-bi-governance-tools.md) |
+| Enterprise quality rules pattern | [docs/enterprise-quality-rules-pattern.md](docs/enterprise-quality-rules-pattern.md) |
+| Workshop support materials | [Supporting_Docs_For_Workshop.md](Supporting_Docs_For_Workshop.md) |
+
+## PBIP artifact guidance
+
+PBIP artifacts are intentionally not committed in this reference repository. Bring your own PBIP files locally under:
+
+```text
+shared/pbip-local/
+```
+
+Keep reusable CI/CD assets in source control:
+
+```text
+shared/Rules-Report.json
+shared/Rules-Dataset.json
+shared/dax-tests.json
+shared/scripts/
+shared/tests/
+```
+
+## Sparse clone presets
+
+Use the sparse clone scripts when you want only the folders needed for a specific CI/CD platform:
+
+| Profile | Script | Included folders |
+|---|---|---|
+| Azure DevOps | `shared/scripts/Clone-SparseAzDoProfile.ps1` | `azdo`, `shared`, `docs`, `tools`, `images` |
+| GitHub Actions | `shared/scripts/Clone-SparseGitHubProfile.ps1` | `.github`, `shared`, `docs`, `tools`, `images` |
+| GitLab CI/CD | `shared/scripts/Clone-SparseGitLabProfile.ps1` | `gitlab`, `shared`, `docs`, `tools`, `images` |
+
+Example:
+
+```powershell
+.\shared\scripts\Clone-SparseAzDoProfile.ps1 `
+  -RepoUrl <source-repo-url> `
+  -Destination Fabric-AzDo
+```
+
+Each sparse clone script removes the source `origin` remote after checkout so a team can add its own project repository remote before pushing.
+
+## Contributing
+
+Contributions are welcome when they improve the solution, clarify adoption guidance, or make the examples easier to adapt in real Fabric and Power BI environments.
+
+Good contributions include documentation fixes, safer validation rules, reusable pipeline improvements, clearer lab steps, and examples that help teams adopt the pattern on Azure DevOps, GitHub Actions, or GitLab CI/CD.
+
+Do not commit tenant-specific IDs, secrets, tokens, real customer data, exported PBIP files that should remain local, or environment-specific values that belong in secure CI/CD configuration.
+
+## Disclaimer
+
+This repository contains workshop material and example automation code. The YAML pipelines, PowerShell scripts, validation rules, tests, and deployment examples are reference implementations and starting points only.
+
+Before using any code from this repository in your own environment, review and adapt it for your tenant, workspace topology, security model, naming conventions, branch policies, and deployment process. Validate everything with non-production workspaces and test data first.
 
