@@ -42,7 +42,3 @@ Enterprise BI DevOps with Microsoft Fabric is not just about tooling. It is abou
 - Deployment manifests for reviewable release intent.
 - Pre-PR readiness checks.
 - CI/CD patterns that work across Azure DevOps, GitHub Actions, and GitLab CI/CD.
-
-## Why visuals matter
-
-The screenshots above help readers quickly understand that this is more than conceptual guidance. The solution includes working browser-based tools, reusable CI/CD assets, and practical governance outputs that teams can adapt to their own Fabric and Power BI projects.

@@ -1,0 +1,17 @@
+Name:
+Enterprise BI DevOps with Microsoft Fabric
+
+Tagline:
+Governed CI/CD for Power BI and Microsoft Fabric projects
+
+Description:
+Enterprise BI DevOps with Microsoft Fabric helps analytics teams apply software engineering practices to Power BI and Fabric delivery. It includes platform-neutral CI/CD patterns, PBIP validation, branch-aware quality rules, DAX test metadata, deployment manifests, readiness scans, and no-code governance tools.
+
+Platforms:
+Azure DevOps, GitHub Actions, GitLab CI/CD
+
+Makers comment:
+I built this to help BI teams move beyond basic Git integration and toward a repeatable operating model for governed analytics delivery. The repository includes reusable pipeline assets, browser-based governance tools, and workshop-ready documentation for enterprise adoption.
+
+Link:
+https://github.com/Coding-Forge/Fabric-BI-DevOps

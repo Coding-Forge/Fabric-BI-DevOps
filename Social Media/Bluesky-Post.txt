@@ -1,0 +1,7 @@
+Enterprise BI DevOps with Microsoft Fabric helps Power BI and Fabric teams move from manual delivery to governed, repeatable analytics engineering.
+
+It brings together PBIP validation, quality rules, DAX test metadata, deployment manifests, readiness checks, and CI/CD patterns for Azure DevOps, GitHub Actions, and GitLab.
+
+Repo: https://github.com/Coding-Forge/Fabric-BI-DevOps
+
+#MicrosoftFabric #PowerBI #DevOps #DataOps

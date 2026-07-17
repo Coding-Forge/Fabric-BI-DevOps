@@ -1,0 +1,23 @@
+Title:
+Enterprise BI DevOps with Microsoft Fabric
+
+Description:
+This demo introduces Enterprise BI DevOps with Microsoft Fabric, a platform-neutral toolkit for applying CI/CD, quality gates, and governance to Power BI and Microsoft Fabric PBIP projects.
+
+The solution supports Azure DevOps, GitHub Actions, and GitLab CI/CD. It includes PBIP structure validation, branch-aware report and dataset quality rules, DAX test metadata, deployment manifests, readiness scanning, and static browser tools for governance artifacts.
+
+Repository:
+https://github.com/Coding-Forge/Fabric-BI-DevOps
+
+Topics covered:
+- Why BI teams need DevOps patterns
+- How PBIP projects fit into source control
+- Azure DevOps, GitHub Actions, and GitLab CI/CD support
+- Quality rules for reports and semantic models
+- DAX test metadata
+- Deployment manifest generation
+- PBIP project readiness scanning
+- Enterprise rule governance patterns
+
+Hashtags:
+#MicrosoftFabric #PowerBI #DevOps #DataOps #BusinessIntelligence

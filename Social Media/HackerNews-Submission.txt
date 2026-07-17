@@ -1,0 +1,8 @@
+Title:
+Show HN: Enterprise BI DevOps with Microsoft Fabric
+
+URL:
+https://github.com/Coding-Forge/Fabric-BI-DevOps
+
+Comment:
+I built a platform-neutral BI DevOps toolkit for Microsoft Fabric and Power BI PBIP projects. It includes CI/CD patterns for Azure DevOps, GitHub Actions, and GitLab; branch-aware quality rules; DAX test metadata; deployment manifests; readiness scanning; and static browser tools for governance artifacts.

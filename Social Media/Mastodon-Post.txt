@@ -1,0 +1,13 @@
+Enterprise BI DevOps with Microsoft Fabric helps Power BI and Fabric teams apply governed CI/CD to PBIP projects.
+
+Includes:
+- PBIP validation
+- Report and dataset quality rules
+- DAX test metadata
+- Deployment manifests
+- Readiness checks
+- Azure DevOps, GitHub Actions, and GitLab CI/CD patterns
+
+https://github.com/Coding-Forge/Fabric-BI-DevOps
+
+#MicrosoftFabric #PowerBI #DevOps #DataOps #BusinessIntelligence
