@@ -53,6 +53,7 @@ The `tools/` folder contains static browser tools that help teams manage BI DevO
 | PBIP Project Readiness Scanner | `tools/pbip-readiness-scanner/index.html` | Scan a project before opening a pull request |
 | PR Quality Summary Generator | `tools/pr-quality-summary-generator/index.html` | Create reviewer-friendly pull request summaries from validation and quality signals |
 | Policy Exception Register | `tools/policy-exception-register/index.html` | Track rule exceptions with owner, reason, expiration, approval, artifact, and mitigation |
+| Effective Rules Generator | `tools/effective-rules-generator/index.html` | Generate branch-aware effective rule files from baselines, overrides, and approved exceptions |
 
 Use the Enterprise Standards Builder first for governance policy setup, then use the Quality Rule Designer for advanced tuning.
 
@@ -105,6 +106,7 @@ shared/Rules-Report.json
 shared/Rules-Dataset.json
 shared/dax-tests.json
 shared/scripts/
+shared/scripts/New-EffectiveQualityRules.ps1
 shared/tests/
 ```
 

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Effective Rules Generator</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root{color-scheme:light;--cp-bg:#f7f4ef;--cp-bg-elevated:#fcfbf8;--cp-surface:#fff;--cp-surface-soft:#f5f5f5;--cp-border:#dedede;--cp-border-strong:#919191;--cp-text:#242424;--cp-text-muted:#5c5c5c;--cp-accent:#b11f4b;--cp-accent-fg:#fff;--cp-success:#16a34a;--cp-danger:#dc2626;--cp-warning:#f59e0b;--cp-shadow:0 18px 48px rgba(0,0,0,.12);--cp-panel-strong:rgba(255,255,255,.96)}
+    html[data-theme=dark]{color-scheme:dark;--cp-bg:#3d3b3a;--cp-bg-elevated:#343231;--cp-surface:#292929;--cp-surface-soft:#2e2e2e;--cp-border:#474747;--cp-border-strong:#5f5f5f;--cp-text:#dedede;--cp-text-muted:#b0b0b0;--cp-accent:#fd8ea1;--cp-accent-fg:#1a1a1a;--cp-success:#4ade80;--cp-danger:#f87171;--cp-warning:#fbbf24;--cp-shadow:0 18px 48px rgba(0,0,0,.32);--cp-panel-strong:rgba(41,41,41,.96)}
+    *{box-sizing:border-box}body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.45}button,input,select,textarea{font:inherit}button,.file-button{border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);cursor:pointer;padding:8px 12px}button:hover,.file-button:hover{border-color:var(--cp-border-strong)}button.primary{background:var(--cp-accent);border-color:var(--cp-accent);color:var(--cp-accent-fg)}input,select,textarea{width:100%;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);padding:8px 10px}textarea{min-height:110px;resize:vertical}label{display:grid;gap:6px;color:var(--cp-text-muted);font-size:13px;font-weight:700}pre,code{font-family:Consolas,"Courier New",monospace}pre{margin:0;overflow:auto;white-space:pre-wrap;word-break:break-word}.hero{border-bottom:1px solid var(--cp-border);background:var(--cp-bg-elevated);padding:28px}.hero-inner,.main{max-width:1440px;margin:0 auto}.hero-inner{display:grid;gap:16px}.eyebrow{color:var(--cp-accent);font-size:13px;font-weight:850;letter-spacing:.04em;text-transform:uppercase}h1,h2,h3{margin:0;line-height:1.15}h1{font-size:clamp(30px,4vw,46px)}h2{font-size:20px}h3{font-size:16px}.lede{max-width:980px;color:var(--cp-text-muted);font-size:17px}.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.file-button{position:relative;overflow:hidden;display:inline-flex}.file-button input{position:absolute;inset:0;opacity:0;cursor:pointer}.main{display:grid;grid-template-columns:minmax(300px,430px) minmax(0,1fr);gap:20px;padding:24px 28px 40px}.panel{border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface);box-shadow:var(--cp-shadow)}.panel-header{border-bottom:1px solid var(--cp-border);padding:16px}.panel-body{padding:16px}.grid{display:grid;gap:14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);padding:12px}.stat-value{font-size:26px;font-weight:850}.muted,.stat-label{color:var(--cp-text-muted)}.muted{font-size:13px}.output{max-height:640px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);color:var(--cp-text);padding:14px;font-size:13px}.chip-row{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;border:1px solid var(--cp-border);border-radius:999px;background:var(--cp-surface-soft);color:var(--cp-text-muted);font-size:12px;font-weight:800;padding:3px 8px}.chip.success{border-color:var(--cp-success);color:var(--cp-success)}.chip.warning{border-color:var(--cp-warning);color:var(--cp-warning)}.toast{position:fixed;right:20px;bottom:20px;max-width:380px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-panel-strong);box-shadow:var(--cp-shadow);padding:12px 14px;display:none;z-index:20}.toast.visible{display:block}@media(max-width:980px){.main,.two,.three{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Fabric BI DevOps Accelerator</div>
+      <h1>Effective Rules Generator</h1>
+      <p class="lede">Merge baseline report/dataset rules with branch policy, project overrides, and approved exceptions to produce effective CI rule files.</p>
+      <div class="toolbar">
+        <button id="generate" class="primary" type="button">Generate effective rules</button>
+        <button id="seedExample" type="button">Use starter example</button>
+        <button id="downloadReport" type="button">Download report rules</button>
+        <button id="downloadDataset" type="button">Download dataset rules</button>
+        <button id="downloadSummary" type="button">Download summary</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <aside class="panel">
+      <div class="panel-header"><h2>Effective rule health</h2><div class="muted">Preview what CI will enforce before committing generated files.</div></div>
+      <div class="panel-body grid">
+        <div class="stats">
+          <div class="stat"><div id="reportCount" class="stat-value">0</div><div class="stat-label">Report rules</div></div>
+          <div class="stat"><div id="datasetCount" class="stat-value">0</div><div class="stat-label">Dataset rules</div></div>
+          <div class="stat"><div id="overrideCount" class="stat-value">0</div><div class="stat-label">Overrides</div></div>
+          <div class="stat"><div id="exceptionCount" class="stat-value">0</div><div class="stat-label">Active exceptions</div></div>
+        </div>
+        <div id="statusChips" class="chip-row"></div>
+        <div class="output">Recommended outputs: <code>Rules-Report.effective.json</code>, <code>Rules-Dataset.effective.json</code>, and <code>effective-rules-summary.md</code>.</div>
+      </div>
+    </aside>
+    <section class="panel">
+      <div class="panel-header"><h2>Inputs</h2><div class="muted">Load baseline rules and optional override/exception metadata.</div></div>
+      <div class="panel-body grid">
+        <div class="grid three">
+          <label>Source branch<input id="sourceBranch" value="refs/heads/feature/example"></label>
+          <label>Target branch<input id="targetBranch" value="refs/heads/main"></label>
+          <label>Profile<select id="profile"><option>standard</option><option>advisory</option><option>strict</option><option>custom</option></select></label>
+        </div>
+        <div class="grid two">
+          <label class="file-button">Load Rules-Report.json<input id="reportFile" data-target="reportRules" type="file" accept=".json,application/json"></label>
+          <label class="file-button">Load Rules-Dataset.json<input id="datasetFile" data-target="datasetRules" type="file" accept=".json,application/json"></label>
+        </div>
+        <label>Report rules JSON<textarea id="reportRules" placeholder="Paste Rules-Report.json"></textarea></label>
+        <label>Dataset rules JSON<textarea id="datasetRules" placeholder="Paste Rules-Dataset.json"></textarea></label>
+        <label>Override JSON<textarea id="overrideJson" placeholder='{"reportRuleOverrides":[{"id":"REDUCE_OBJECTS_WITHIN_VISUALS","changes":{"threshold":100}}]}'></textarea></label>
+        <label>Policy exceptions JSON<textarea id="exceptionsJson" placeholder='{"exceptions":[{"id":"EXC-001","ruleId":"ENSURE_THEME_COLOURS","status":"approved","expiresOn":"2099-01-01","changes":{"disabled":true}}]}'></textarea></label>
+        <div class="grid two">
+          <div><h3>Summary</h3><pre id="summaryOutput" class="output"></pre></div>
+          <div><h3>Effective rules JSON</h3><pre id="jsonOutput" class="output"></pre></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="toast" class="toast"></div>
+  <script>
+    const ids=["sourceBranch","targetBranch","profile","reportRules","datasetRules","overrideJson","exceptionsJson","reportCount","datasetCount","overrideCount","exceptionCount","statusChips","summaryOutput","jsonOutput","toast"];
+    const els=Object.fromEntries(ids.map(id=>[id,document.getElementById(id)]));
+    let current={report:null,dataset:null,summary:null};
+    const strictIds=["REDUCE_VISUALS_ON_PAGE","REDUCE_OBJECTS_WITHIN_VISUALS","REDUCE_PAGES","SHOW_AXES_TITLES","GIVE_VISIBLE_PAGES_MEANINGFUL_NAMES"];
+    function parseJson(value,fallback){if(!value.trim())return fallback;return JSON.parse(value)}
+    function isStrictBranch(){const target=els.targetBranch.value.trim()||els.sourceBranch.value.trim();return ["refs/heads/main","refs/heads/develop","main","develop"].includes(target)}
+    function activeException(e){if(!e||e.status!=="approved"||!e.expiresOn)return false;return new Date(`${e.expiresOn}T00:00:00`)>=new Date(new Date().toDateString())}
+    function setThreshold(node,threshold){if(!node)return false;if(Array.isArray(node)){for(const item of node){if(setThreshold(item,threshold))return true}return false}if(typeof node==="object"){for(const op of [">",">=","<","<="]){if(Array.isArray(node[op])&&node[op].length>=2){node[op][1]=Number(threshold);return true}}for(const key of Object.keys(node)){if(setThreshold(node[key],threshold))return true}}return false}
+    function applyChanges(rule,changes){const applied=[];if(!changes)return applied;for(const [key,value]of Object.entries(changes)){if(key==="threshold"){if(setThreshold(rule.test||rule.Expression,value))applied.push(key)}else{rule[key]=value;applied.push(key)}}return applied}
+    function generate(){
+      const report=parseJson(els.reportRules.value,{rules:[]});const dataset=parseJson(els.datasetRules.value,[]);
+      const override=parseJson(els.overrideJson.value,{});const exceptionRegister=parseJson(els.exceptionsJson.value,{exceptions:[]});
+      const strict=isStrictBranch();const summary={generatedAt:new Date().toISOString(),strictBranch:strict,profile:els.profile.value,reportActions:[],datasetActions:[],exceptionsApplied:[],exceptionsIgnored:[]};
+      for(const rule of report.rules||[]){if(!rule.logType)rule.logType="warning";if(strictIds.includes(rule.id)){rule.logType=strict?"error":"warning";summary.reportActions.push({id:rule.id,action:"branch-promotion",value:rule.logType})}}
+      for(const item of override.reportRuleOverrides||[]){const rule=(report.rules||[]).find(r=>r.id===item.id);if(rule)summary.reportActions.push({id:item.id,action:"override",changes:applyChanges(rule,item.changes)})}
+      for(const item of override.disabledRules||[]){const rule=(report.rules||[]).find(r=>r.id===item.id);if(rule){rule.disabled=true;summary.reportActions.push({id:item.id,action:"disabled"})}}
+      for(const item of override.datasetRuleOverrides||[]){const rule=dataset.find(r=>r.ID===(item.id||item.ID));if(rule)summary.datasetActions.push({id:rule.ID,action:"override",changes:applyChanges(rule,item.changes)})}
+      for(const ex of exceptionRegister.exceptions||[]){if(!activeException(ex)){summary.exceptionsIgnored.push({id:ex.id,ruleId:ex.ruleId,status:ex.status,expiresOn:ex.expiresOn});continue}const rule=(report.rules||[]).find(r=>r.id===ex.ruleId)||dataset.find(r=>r.ID===ex.ruleId);const changes=rule&&ex.changes?applyChanges(rule,ex.changes):[];summary.exceptionsApplied.push({id:ex.id,ruleId:ex.ruleId,changes,note:changes.length?"Applied changes":"Tracked approved exception; no rule changes defined"})}
+      const minSeverity=strict?2:3;const effectiveDataset=dataset.filter(r=>Number(r.Severity)>=minSeverity);summary.datasetMinimumSeverity=minSeverity;
+      current={report,dataset:effectiveDataset,summary};render();
+    }
+    function render(){
+      const report=current.report||{rules:[]};const dataset=current.dataset||[];const summary=current.summary||{};
+      els.reportCount.textContent=String((report.rules||[]).length);els.datasetCount.textContent=String(dataset.length);
+      els.overrideCount.textContent=String((summary.reportActions||[]).filter(a=>a.action==="override").length+(summary.datasetActions||[]).filter(a=>a.action==="override").length);
+      els.exceptionCount.textContent=String((summary.exceptionsApplied||[]).length);
+      els.statusChips.innerHTML=[summary.strictBranch?'<span class="chip warning">Strict branch</span>':'<span class="chip success">Feature branch</span>',`<span class="chip success">Dataset severity >= ${summary.datasetMinimumSeverity||"n/a"}</span>`].join("");
+      els.summaryOutput.textContent=summaryMarkdown(summary);els.jsonOutput.textContent=JSON.stringify({report,dataset,summary},null,2)
+    }
+    function summaryMarkdown(s){if(!s.generatedAt)return "# Effective Quality Rules Summary\n\nNo output generated yet.";const lines=["# Effective Quality Rules Summary","",`Generated: ${s.generatedAt}`,"",`- Profile: ${s.profile}` ,`- Strict branch: ${s.strictBranch}` ,`- Dataset minimum severity: ${s.datasetMinimumSeverity}`,"","## Report actions"];for(const a of s.reportActions||[])lines.push(`- ${a.id}: ${a.action}${a.value?` -> ${a.value}`:""}`);if(!(s.reportActions||[]).length)lines.push("- No report actions.");lines.push("","## Dataset actions");for(const a of s.datasetActions||[])lines.push(`- ${a.id}: ${a.action}`);if(!(s.datasetActions||[]).length)lines.push("- No dataset actions.");lines.push("","## Active exceptions");for(const e of s.exceptionsApplied||[])lines.push(`- ${e.id} / ${e.ruleId}: ${e.note}`);if(!(s.exceptionsApplied||[]).length)lines.push("- No active exceptions.");return lines.join("\n")}
+    function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+    function seed(){els.reportRules.value=JSON.stringify({rules:[{id:"REDUCE_OBJECTS_WITHIN_VISUALS",name:"Reduce objects",logType:"warning",disabled:false,test:[{map:[{filter:[{part:"Visuals"},{">":[{count:[{path:"$..projections[*]"}]},5]}]},{var:"name"}]}, {}, []]},{id:"ENSURE_THEME_COLOURS",name:"Ensure theme colours",logType:"warning",disabled:false,test:[{}, {}, []]}]},null,2);els.datasetRules.value=JSON.stringify([{ID:"MARK_PRIMARY_KEYS",Name:"Mark primary keys",Severity:1},{ID:"DATA_COLUMNS_MUST_HAVE_A_SOURCE_COLUMN",Name:"Source columns",Severity:3}],null,2);els.overrideJson.value=JSON.stringify({reportRuleOverrides:[{id:"REDUCE_OBJECTS_WITHIN_VISUALS",changes:{threshold:100}}],datasetRuleOverrides:[{id:"MARK_PRIMARY_KEYS",changes:{Severity:2}}]},null,2);els.exceptionsJson.value=JSON.stringify({exceptions:[{id:"EXC-001",ruleId:"ENSURE_THEME_COLOURS",status:"approved",expiresOn:"2099-01-01",changes:{disabled:true}}]},null,2);generate();toast("Starter example loaded.")}
+    function toast(message){els.toast.textContent=message;els.toast.classList.add("visible");clearTimeout(toast.timer);toast.timer=setTimeout(()=>els.toast.classList.remove("visible"),2800)}
+    async function loadFile(event){const file=event.target.files[0];if(!file)return;document.getElementById(event.target.dataset.target).value=await file.text();generate()}
+    document.querySelectorAll("[data-target]").forEach(input=>input.addEventListener("change",e=>loadFile(e).catch(err=>toast(err.message))));
+    document.getElementById("generate").addEventListener("click",()=>{try{generate()}catch(e){toast(e.message)}});
+    document.getElementById("seedExample").addEventListener("click",seed);
+    document.getElementById("downloadReport").addEventListener("click",()=>download("Rules-Report.effective.json",JSON.stringify(current.report||{rules:[]},null,2),"application/json"));
+    document.getElementById("downloadDataset").addEventListener("click",()=>download("Rules-Dataset.effective.json",JSON.stringify(current.dataset||[],null,2),"application/json"));
+    document.getElementById("downloadSummary").addEventListener("click",()=>download("effective-rules-summary.md",els.summaryOutput.textContent,"text/markdown"));
+    render();
+  </script>
+</body>
+</html>

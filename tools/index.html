@@ -427,6 +427,23 @@
           <p><strong>Outputs:</strong> <code>policy-exceptions.json</code> and exception summary Markdown.</p>
           <a class="button primary" href="policy-exception-register/index.html">Open Policy Exception Register</a>
         </article>
+
+        <article class="card">
+          <div class="card-top">
+            <div>
+              <h3>Effective Rules Generator</h3>
+              <p class="muted">Merge baseline rules, branch policy, project overrides, and approved exceptions into effective CI rule files.</p>
+            </div>
+            <span class="chip accent">CI-ready</span>
+          </div>
+          <div class="chips">
+            <span class="chip">Governance owners</span>
+            <span class="chip">Platform engineers</span>
+            <span class="chip">BI leads</span>
+          </div>
+          <p><strong>Outputs:</strong> effective report/dataset rule files and summary Markdown.</p>
+          <a class="button primary" href="effective-rules-generator/index.html">Open Effective Rules Generator</a>
+        </article>
       </div>
     </section>
 
@@ -468,6 +485,11 @@
           <h3>Track exceptions</h3>
           <p class="muted">Use the Policy Exception Register to keep governance exceptions owned, approved, and time-bound.</p>
         </div>
+        <div class="step">
+          <div class="step-number">8</div>
+          <h3>Generate effective rules</h3>
+          <p class="muted">Use the Effective Rules Generator to preview branch-aware rules after overrides and approved exceptions.</p>
+        </div>
       </div>
     </section>
 
@@ -507,6 +529,9 @@
         <div class="artifact"><strong><code>pr-quality-summary.json</code></strong><br><span class="muted">Machine-readable PR quality summary.</span></div>
         <div class="artifact"><strong><code>policy-exceptions.json</code></strong><br><span class="muted">Owned, approved, time-bound policy exceptions.</span></div>
         <div class="artifact"><strong><code>policy-exceptions-summary.md</code></strong><br><span class="muted">Governance-ready exception summary.</span></div>
+        <div class="artifact"><strong><code>Rules-Report.effective.json</code></strong><br><span class="muted">Effective report rules for CI.</span></div>
+        <div class="artifact"><strong><code>Rules-Dataset.effective.json</code></strong><br><span class="muted">Effective dataset rules for CI.</span></div>
+        <div class="artifact"><strong><code>effective-rules-summary.md</code></strong><br><span class="muted">Branch, override, and exception summary.</span></div>
       </div>
     </section>
 

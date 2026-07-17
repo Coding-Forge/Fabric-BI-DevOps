@@ -40,6 +40,7 @@ tools/index.html
 | **PBIP Project Readiness Scanner** | Report creators, platform team | Scan a local PBIP repo or project folder before PR | Readiness Markdown report, JSON report |
 | **PR Quality Summary Generator** | PR authors, reviewers, BI leads | Generate reviewer-friendly PR summaries from changed files, pipeline logs, readiness output, DAX tests, and deployment context | `PR-Quality-Summary.md`, `pr-quality-summary.json` |
 | **Policy Exception Register** | Governance owners, BI leads, reviewers | Track policy and rule exceptions with owner, reason, expiration, approval, affected artifact, and mitigation | `policy-exceptions.json`, exception summary Markdown |
+| **Effective Rules Generator** | Governance owners, platform engineers | Merge baseline rules, branch policy, project overrides, and approved exceptions into CI-ready effective rule files | `Rules-Report.effective.json`, `Rules-Dataset.effective.json`, summary Markdown |
 
 ## Enterprise Standards Builder
 
@@ -206,9 +207,10 @@ Use this tool when the conversation starts with questions like:
 7. Run the **PBIP Project Readiness Scanner** before opening the PR.
 8. Use the **PR Quality Summary Generator** to turn changed files and validation signals into reviewer-ready PR text.
 9. Use the **Policy Exception Register** for approved temporary exceptions.
-10. Commit the final rule files, `dax-tests.json`, `deployment-manifest.json`, and `policy-exceptions.json` under `shared/`.
-11. Validate the prepared effective rules locally or through CI.
-12. Promote stricter settings after false positives and adoption gaps are resolved.
+10. Use the **Effective Rules Generator** to preview CI-ready rules after branch policy, overrides, and exceptions.
+11. Commit the final rule files, `dax-tests.json`, `deployment-manifest.json`, and `policy-exceptions.json` under `shared/`.
+12. Validate the prepared effective rules locally or through CI.
+13. Promote stricter settings after false positives and adoption gaps are resolved.
 
 ## Marketing Positioning
 
