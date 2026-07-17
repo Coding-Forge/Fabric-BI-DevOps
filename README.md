@@ -58,6 +58,7 @@ The `tools/` folder contains static browser tools that help teams manage BI DevO
 | Release Readiness Dashboard | `tools/release-readiness-dashboard/index.html` | Aggregate release evidence into a readiness score and release recommendation |
 | Adoption Metrics Dashboard | `tools/adoption-metrics-dashboard/index.html` | Track adoption, platform usage, rule maturity, readiness scores, and time-to-onboard |
 | Rule Coverage Matrix | `tools/rule-coverage-matrix/index.html` | Map governance policies to automated rules and manual checks |
+| Competitive Differentiation Matrix | `tools/competitive-differentiation-matrix/index.html` | Score this solution against generic CI/CD samples, decks, accelerators, and public alternatives |
 
 Use the Enterprise Standards Builder first for governance policy setup, then use the Quality Rule Designer for advanced tuning.
 
@@ -112,6 +113,7 @@ shared/dax-tests.json
 shared/platform-parity-matrix.json
 shared/adoption-metrics.json
 shared/rule-coverage-matrix.json
+shared/competitive-differentiation-matrix.json
 shared/scripts/
 shared/scripts/New-EffectiveQualityRules.ps1
 shared/tests/

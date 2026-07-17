@@ -22,6 +22,7 @@ Open [Fabric BI DevOps Accelerator Launchpad](index.html) first. It provides the
 | [Release Readiness Dashboard](release-readiness-dashboard/index.html) | BI leads, release managers, reviewers | Aggregate validation, quality, DAX, manifest, exception, effective-rule, and PR summary signals into one release recommendation | Dashboard HTML, Markdown, JSON |
 | [Adoption Metrics Dashboard](adoption-metrics-dashboard/index.html) | Program owners, governance leads, delivery leads | Track onboarded projects, platform usage, rule maturity, exception aging, readiness score, and time-to-onboard | `adoption-metrics.json`, CSV, Markdown |
 | [Rule Coverage Matrix](rule-coverage-matrix/index.html) | Governance owners, BI leads, rule authors | Map enterprise policies to automated report/dataset rules and manual checks | `rule-coverage-matrix.json`, Markdown matrix |
+| [Competitive Differentiation Matrix](competitive-differentiation-matrix/index.html) | Solution owners, field sellers, delivery leads | Compare this solution against generic CI/CD samples, best-practice decks, internal accelerators, and public alternatives | `competitive-differentiation-matrix.json`, Markdown matrix |
 
 ## Screenshots
 
@@ -57,6 +58,7 @@ A starter catalog of generally accepted DAX test patterns is available at `share
 14. Use `tools/release-readiness-dashboard/index.html` to consolidate evidence and make a release recommendation.
 15. Use `tools/adoption-metrics-dashboard/index.html` to track adoption, platform usage, readiness scores, and onboarding metrics.
 16. Use `tools/rule-coverage-matrix/index.html` to connect governance policies to automated rules and manual checks.
+17. Use `tools/competitive-differentiation-matrix/index.html` to compare solution maturity and positioning against alternatives.
 
 All tools are self-contained HTML files. They do not require a local server, package install, or internet access.
 
