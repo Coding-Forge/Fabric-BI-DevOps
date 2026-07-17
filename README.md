@@ -74,6 +74,8 @@ Use the Enterprise Standards Builder first for governance policy setup, then use
 | Topic | Link |
 |---|---|
 | Documentation hub | [docs/index.md](docs/index.md) |
+| Workshop datasheet | [docs/delivery/workshop-datasheet.md](docs/delivery/workshop-datasheet.md) |
+| Delivery guide | [docs/delivery/workshop-delivery-guide.md](docs/delivery/workshop-delivery-guide.md) |
 | CI/CD architecture | [docs/architecture/cicd-architecture.md](docs/architecture/cicd-architecture.md) |
 | Branching strategy | [docs/architecture/branching-strategy.md](docs/architecture/branching-strategy.md) |
 | Workspace strategy | [docs/architecture/workspace-strategy.md](docs/architecture/workspace-strategy.md) |

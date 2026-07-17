@@ -7,6 +7,8 @@ This wiki provides all workshop plans, labs, governance materials, and architect
 ---
 
 ## 📘 Core Workshop Documents
+- [Workshop Datasheet](./delivery/workshop-datasheet.md)
+- [Delivery Guide](./delivery/workshop-delivery-guide.md)
 - [Workshop Plan](./workshop-plan/Fabric_Git_Workshop_Plan.md)  
 - [Supporting Documents Index](./workshop-plan/Supporting_Documents_for_Workshop.md)
 
