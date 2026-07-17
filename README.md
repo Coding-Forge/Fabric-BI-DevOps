@@ -56,6 +56,7 @@ The `tools/` folder contains static browser tools that help teams manage BI DevO
 | Effective Rules Generator | `tools/effective-rules-generator/index.html` | Generate branch-aware effective rule files from baselines, overrides, and approved exceptions |
 | CI/CD Platform Parity Matrix | `tools/platform-parity-matrix/index.html` | Compare Azure DevOps, GitHub Actions, and GitLab CI/CD support and gaps |
 | Release Readiness Dashboard | `tools/release-readiness-dashboard/index.html` | Aggregate release evidence into a readiness score and release recommendation |
+| Adoption Metrics Dashboard | `tools/adoption-metrics-dashboard/index.html` | Track adoption, platform usage, rule maturity, readiness scores, and time-to-onboard |
 
 Use the Enterprise Standards Builder first for governance policy setup, then use the Quality Rule Designer for advanced tuning.
 
@@ -108,6 +109,7 @@ shared/Rules-Report.json
 shared/Rules-Dataset.json
 shared/dax-tests.json
 shared/platform-parity-matrix.json
+shared/adoption-metrics.json
 shared/scripts/
 shared/scripts/New-EffectiveQualityRules.ps1
 shared/tests/

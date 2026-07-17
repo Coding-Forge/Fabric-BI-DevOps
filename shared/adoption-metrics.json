@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-17T00:00:00.000Z",
+  "projects": [
+    {
+      "name": "Cost Management",
+      "domain": "FinOps",
+      "platform": "Azure DevOps",
+      "status": "pilot",
+      "onboardedOn": "2026-07-17",
+      "goLiveTarget": "2026-09-30",
+      "toolkitProfile": "standard",
+      "rulesEnabled": 12,
+      "rulesBlocking": 5,
+      "activeExceptions": 2,
+      "expiredExceptions": 0,
+      "lastReadinessScore": 90,
+      "lastReleaseDecision": "Release with review",
+      "timeToOnboardDays": 5,
+      "owner": "FinOps BI Team"
+    }
+  ]
+}

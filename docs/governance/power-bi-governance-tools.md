@@ -43,6 +43,7 @@ tools/index.html
 | **Effective Rules Generator** | Governance owners, platform engineers | Merge baseline rules, branch policy, project overrides, and approved exceptions into CI-ready effective rule files | `Rules-Report.effective.json`, `Rules-Dataset.effective.json`, summary Markdown |
 | **CI/CD Platform Parity Matrix** | Platform team, delivery leads, architects | Compare Azure DevOps, GitHub Actions, and GitLab CI/CD support and gaps | `platform-parity-matrix.json`, Markdown matrix |
 | **Release Readiness Dashboard** | BI leads, release managers, reviewers | Aggregate validation, quality, DAX, manifest, exception, effective-rule, and PR summary signals into one release recommendation | Dashboard HTML, Markdown, JSON |
+| **Adoption Metrics Dashboard** | Program owners, governance leads, delivery leads | Track onboarded projects, platform usage, rule maturity, exception aging, readiness score, and time-to-onboard | `adoption-metrics.json`, CSV, Markdown |
 
 ## Enterprise Standards Builder
 
@@ -212,9 +213,10 @@ Use this tool when the conversation starts with questions like:
 10. Use the **Effective Rules Generator** to preview CI-ready rules after branch policy, overrides, and exceptions.
 11. Use the **CI/CD Platform Parity Matrix** to track support gaps across Azure DevOps, GitHub Actions, and GitLab.
 12. Use the **Release Readiness Dashboard** to make a release recommendation from all available evidence.
-13. Commit the final rule files, `dax-tests.json`, `deployment-manifest.json`, and `policy-exceptions.json` under `shared/`.
-14. Validate the prepared effective rules locally or through CI.
-15. Promote stricter settings after false positives and adoption gaps are resolved.
+13. Use the **Adoption Metrics Dashboard** to track project onboarding, rule maturity, exceptions, and readiness trends.
+14. Commit the final rule files, `dax-tests.json`, `deployment-manifest.json`, and `policy-exceptions.json` under `shared/`.
+15. Validate the prepared effective rules locally or through CI.
+16. Promote stricter settings after false positives and adoption gaps are resolved.
 
 ## Marketing Positioning
 

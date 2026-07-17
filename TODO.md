@@ -6,9 +6,9 @@ This roadmap tracks the enterprise tooling being added around PBIP CI/CD for Azu
 
 | Status | Count | Meaning |
 |---|---:|---|
-| Complete | 10 | Tool exists, is documented, and has been smoke tested |
+| Complete | 11 | Tool exists, is documented, and has been smoke tested |
 | In progress | 0 | Tool is actively being built |
-| Planned | 16 | Tool idea is captured but not yet implemented |
+| Planned | 15 | Tool idea is captured but not yet implemented |
 
 ## Completed Tools
 
@@ -24,6 +24,7 @@ This roadmap tracks the enterprise tooling being added around PBIP CI/CD for Azu
 | Effective Rules Generator | `tools/effective-rules-generator/index.html`, `shared/scripts/New-EffectiveQualityRules.ps1` | Users can generate branch-aware effective report and dataset rules from baselines, overrides, and approved exceptions |
 | CI/CD Platform Parity Matrix | `tools/platform-parity-matrix/index.html`, `shared/platform-parity-matrix.json` | Users can compare Azure DevOps, GitHub Actions, and GitLab CI/CD support, setup differences, and known gaps |
 | Release Readiness Dashboard | `tools/release-readiness-dashboard/index.html` | Users can aggregate validation, quality, DAX, manifest, exception, effective-rule, and PR summary signals into a release recommendation |
+| Adoption Metrics Dashboard | `tools/adoption-metrics-dashboard/index.html`, `shared/adoption-metrics.json` | Users can track onboarded projects, platform usage, rule maturity, exception aging, readiness score, and time-to-onboard |
 
 ## In Progress
 
@@ -33,22 +34,21 @@ No toolkit item is currently in progress.
 
 | Priority | Tool | Audience | Purpose | Expected Output |
 |---:|---|---|---|---|
-| 1 | Adoption Metrics Dashboard | Program owners, governance leads | Track toolkit adoption, active projects, rule pass/fail trends, exception aging, and time-to-onboard | Adoption dashboard HTML/CSV |
-| 2 | Rule Coverage Matrix | Governance owners | Map enterprise policies to automated CI rules and manual checklist items | Coverage matrix Markdown/JSON |
-| 3 | Competitive Differentiation Matrix | Solution owner, field sellers, delivery leads | Compare this solution against generic CI/CD samples, internal accelerators, decks, and public solutions using measurable differentiators | Differentiation matrix Markdown |
-| 4 | PBIP Diff Viewer | Reviewers, BI leads | Present report/model diffs in friendly terms instead of raw JSON | HTML diff report |
-| 5 | Dependency Impact Analyzer | BI developers, reviewers | Show reports, measures, visuals, relationships, and columns impacted by a changed model object | Impact report |
-| 6 | Pipeline Config Generator | Platform team | Generate Azure DevOps YAML, GitHub Actions, or GitLab CI from one profile | CI/CD pipeline YAML |
-| 7 | Branch Strategy Wizard | Project leads | Recommend branch policy, environment mapping, PR requirements, and protected branch rules | Branch strategy summary |
-| 8 | Environment Parameter Mapper | BI developers, DevOps | Map Dev/Test/Prod connection strings, workspace IDs, lakehouse/warehouse references, and semantic model bindings | Environment map JSON |
-| 9 | Workspace Promotion Planner | Release managers | Map Dev/Test/Prod workspaces, deployment pipeline stages, approval gates, item ownership, and rollback plan | Promotion plan Markdown/JSON |
-| 10 | Semantic Model Inventory Explorer | BI developers, governance | Extract tables, columns, measures, relationships, roles, perspectives, and calculation groups from TMDL/PBIP | Model inventory JSON/Markdown |
-| 11 | Measure Documentation Generator | Report creators, data stewards | Generate a measure catalog with DAX, descriptions, format strings, dependencies, owner, and certification status | Measure catalog Markdown/CSV |
-| 12 | Report UX Review Checklist Builder | Report creators, UX reviewers | Guide accessibility, navigation, titles, tooltips, theme, page density, and mobile layout review | UX review checklist |
-| 13 | Certification Readiness Checker | BI leads, data stewards | Validate certification requirements for trusted semantic models | Certification readiness report |
-| 14 | Sensitivity & Data Classification Checklist | Security, governance | Capture classification, sensitivity labels, PII indicators, sharing restrictions, and endorsement state | Security checklist |
-| 15 | Workshop / Adoption Portal | End users, delivery teams | Provide a landing page for tools, screenshots, workflow, demo videos, docs, templates, and quick-start paths | Static adoption portal |
-| 16 | Enterprise Quality Rules Governance Model | Enterprise BI platform teams, governance owners | Optional future pattern for centrally governed baseline rules with profile-based enforcement and project-level override files for approved exceptions | Central rules package, override schema, effective rules generator |
+| 1 | Rule Coverage Matrix | Governance owners | Map enterprise policies to automated CI rules and manual checklist items | Coverage matrix Markdown/JSON |
+| 2 | Competitive Differentiation Matrix | Solution owner, field sellers, delivery leads | Compare this solution against generic CI/CD samples, internal accelerators, decks, and public solutions using measurable differentiators | Differentiation matrix Markdown |
+| 3 | PBIP Diff Viewer | Reviewers, BI leads | Present report/model diffs in friendly terms instead of raw JSON | HTML diff report |
+| 4 | Dependency Impact Analyzer | BI developers, reviewers | Show reports, measures, visuals, relationships, and columns impacted by a changed model object | Impact report |
+| 5 | Pipeline Config Generator | Platform team | Generate Azure DevOps YAML, GitHub Actions, or GitLab CI from one profile | CI/CD pipeline YAML |
+| 6 | Branch Strategy Wizard | Project leads | Recommend branch policy, environment mapping, PR requirements, and protected branch rules | Branch strategy summary |
+| 7 | Environment Parameter Mapper | BI developers, DevOps | Map Dev/Test/Prod connection strings, workspace IDs, lakehouse/warehouse references, and semantic model bindings | Environment map JSON |
+| 8 | Workspace Promotion Planner | Release managers | Map Dev/Test/Prod workspaces, deployment pipeline stages, approval gates, item ownership, and rollback plan | Promotion plan Markdown/JSON |
+| 9 | Semantic Model Inventory Explorer | BI developers, governance | Extract tables, columns, measures, relationships, roles, perspectives, and calculation groups from TMDL/PBIP | Model inventory JSON/Markdown |
+| 10 | Measure Documentation Generator | Report creators, data stewards | Generate a measure catalog with DAX, descriptions, format strings, dependencies, owner, and certification status | Measure catalog Markdown/CSV |
+| 11 | Report UX Review Checklist Builder | Report creators, UX reviewers | Guide accessibility, navigation, titles, tooltips, theme, page density, and mobile layout review | UX review checklist |
+| 12 | Certification Readiness Checker | BI leads, data stewards | Validate certification requirements for trusted semantic models | Certification readiness report |
+| 13 | Sensitivity & Data Classification Checklist | Security, governance | Capture classification, sensitivity labels, PII indicators, sharing restrictions, and endorsement state | Security checklist |
+| 14 | Workshop / Adoption Portal | End users, delivery teams | Provide a landing page for tools, screenshots, workflow, demo videos, docs, templates, and quick-start paths | Static adoption portal |
+| 15 | Enterprise Quality Rules Governance Model | Enterprise BI platform teams, governance owners | Optional future pattern for centrally governed baseline rules with profile-based enforcement and project-level override files for approved exceptions | Central rules package, override schema, effective rules generator |
 
 ## Shared Metadata Direction
 
