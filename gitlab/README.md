@@ -111,3 +111,16 @@ The script removes the source `origin` remote after checkout. Add the new custom
 git remote add origin https://gitlab.com/<group>/<repo>.git
 git push -u origin main
 ```
+
+For toolkit-focused clones that exclude workshop material by default, use:
+
+```powershell
+.\shared\scripts\Clone-SparseToolkitProfile.ps1 `
+  -RepoUrl <source-repo-url> `
+  -Destination Fabric-GitLab-Toolkit `
+  -Platform GitLab
+```
+
+Use `-Profile Minimal` for only `README.md`, `shared/`, and `gitlab/`. Use `-IncludeWorkshop` only when the new repo should include workshop docs and slide material.
+
+See [Sparse Clone Guide](../docs/sparse-clone-guide.md) for all toolkit clone options.

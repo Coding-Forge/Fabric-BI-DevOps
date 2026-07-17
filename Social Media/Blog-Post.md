@@ -1,6 +1,10 @@
-# Blog Post Draft
+---
+title: How Microsoft Fabric Teams Can Deliver Analytics Faster Without Losing Control
+publishedDate: 2026-07-17
+slug: enterprise-bi-devops-with-microsoft-fabric
+---
 
-## How Microsoft Fabric Teams Can Deliver Analytics Faster Without Losing Control
+# How Microsoft Fabric Teams Can Deliver Analytics Faster Without Losing Control
 
 Modern analytics teams are under pressure to move faster, reduce manual work, and keep governance intact. That is where Enterprise BI DevOps with Microsoft Fabric fits in. It gives organizations a practical way to bring Git integration, CI/CD automation, and branch-aware quality controls into Microsoft Fabric and Power BI delivery.
 

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Enterprise BI DevOps with Microsoft Fabric architecture</title>
+  <desc id="desc">A high-level architecture showing Power BI and Fabric PBIP projects flowing through Git and CI/CD into governed Fabric workspaces.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f4ef; }
+      .panel { fill: #ffffff; stroke: #dedede; stroke-width: 2; }
+      .accent { fill: #b11f4b; }
+      .accent-soft { fill: #f8e8ee; stroke: #b11f4b; stroke-width: 2; }
+      .blue { fill: #e7f3ff; stroke: #0078d4; stroke-width: 2; }
+      .green { fill: #e9f8ef; stroke: #16a34a; stroke-width: 2; }
+      .orange { fill: #fff5df; stroke: #f59e0b; stroke-width: 2; }
+      .text { fill: #242424; font-family: Segoe UI, Arial, sans-serif; }
+      .muted { fill: #5c5c5c; font-family: Segoe UI, Arial, sans-serif; }
+      .title { font-size: 36px; font-weight: 700; }
+      .label { font-size: 22px; font-weight: 700; }
+      .small { font-size: 17px; }
+      .arrow { stroke: #5c5c5c; stroke-width: 4; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#5c5c5c"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="675"/>
+  <text class="text title" x="60" y="70">Enterprise BI DevOps with Microsoft Fabric</text>
+  <text class="muted small" x="60" y="105">A platform-neutral operating model for governed Power BI and Fabric delivery</text>
+
+  <rect class="panel" x="60" y="155" width="230" height="150" rx="18"/>
+  <circle class="accent" cx="100" cy="195" r="18"/>
+  <text class="text label" x="130" y="202">PBIP Project</text>
+  <text class="muted small" x="90" y="245">Reports, semantic models,</text>
+  <text class="muted small" x="90" y="270">rules, tests, manifests</text>
+
+  <path class="arrow" d="M300 230 H405"/>
+  <rect class="blue" x="425" y="155" width="230" height="150" rx="18"/>
+  <text class="text label" x="485" y="202">Git Repo</text>
+  <text class="muted small" x="460" y="245">PRs, branches, reviews,</text>
+  <text class="muted small" x="465" y="270">source control history</text>
+
+  <path class="arrow" d="M665 230 H770"/>
+  <rect class="orange" x="790" y="120" width="310" height="220" rx="18"/>
+  <text class="text label" x="850" y="165">CI/CD Platform</text>
+  <text class="muted small" x="835" y="210">Azure DevOps</text>
+  <text class="muted small" x="835" y="240">GitHub Actions</text>
+  <text class="muted small" x="835" y="270">GitLab CI/CD</text>
+  <text class="muted small" x="835" y="305">Reusable shared validation assets</text>
+
+  <path class="arrow" d="M945 350 V420"/>
+  <rect class="green" x="715" y="435" width="460" height="155" rx="18"/>
+  <text class="text label" x="785" y="482">Microsoft Fabric Workspaces</text>
+  <text class="muted small" x="765" y="525">Dev, feature, test, and production-ready artifacts</text>
+  <text class="muted small" x="765" y="552">validated before promotion</text>
+
+  <rect class="accent-soft" x="60" y="415" width="560" height="175" rx="18"/>
+  <text class="text label" x="105" y="462">Governed Quality Gates</text>
+  <text class="muted small" x="105" y="505">PBIP validation | Quality rules | DAX tests</text>
+  <text class="muted small" x="105" y="532">Deployment manifests | Readiness checks</text>
+  <text class="muted small" x="105" y="559">Branch-aware enforcement for enterprise teams</text>
+</svg>

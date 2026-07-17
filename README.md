@@ -80,7 +80,10 @@ Use the Enterprise Standards Builder first for governance policy setup, then use
 | Governance checklist | [docs/governance/governance-checklist.md](docs/governance/governance-checklist.md) |
 | Accelerator tools overview | [docs/governance/power-bi-governance-tools.md](docs/governance/power-bi-governance-tools.md) |
 | Enterprise quality rules pattern | [docs/enterprise-quality-rules-pattern.md](docs/enterprise-quality-rules-pattern.md) |
+| Sparse clone guide | [docs/sparse-clone-guide.md](docs/sparse-clone-guide.md) |
 | Workshop support materials | [Supporting_Docs_For_Workshop.md](Supporting_Docs_For_Workshop.md) |
+| Social/blog publishing assets | [Social Media/README.md](Social%20Media/README.md) |
+| Published blog article | [docs/blog/2026-07-17-enterprise-bi-devops-with-microsoft-fabric/index.html](docs/blog/2026-07-17-enterprise-bi-devops-with-microsoft-fabric/index.html) |
 
 ## PBIP artifact guidance
 
@@ -109,6 +112,9 @@ Use the sparse clone scripts when you want only the folders needed for a specifi
 | Azure DevOps | `shared/scripts/Clone-SparseAzDoProfile.ps1` | `azdo`, `shared`, `docs`, `tools`, `images` |
 | GitHub Actions | `shared/scripts/Clone-SparseGitHubProfile.ps1` | `.github`, `shared`, `docs`, `tools`, `images` |
 | GitLab CI/CD | `shared/scripts/Clone-SparseGitLabProfile.ps1` | `gitlab`, `shared`, `docs`, `tools`, `images` |
+| Toolkit | `shared/scripts/Clone-SparseToolkitProfile.ps1` | Platform-specific folders plus either standard toolkit assets or minimal CI/CD assets. Workshop files are excluded unless `-IncludeWorkshop` is passed. |
+
+For detailed sparse clone scenarios, see [Sparse Clone Guide](docs/sparse-clone-guide.md).
 
 Example:
 
@@ -116,6 +122,50 @@ Example:
 .\shared\scripts\Clone-SparseAzDoProfile.ps1 `
   -RepoUrl <source-repo-url> `
   -Destination Fabric-AzDo
+```
+
+Toolkit-only clone with Azure DevOps pipeline assets and no workshop material:
+
+```powershell
+.\shared\scripts\Clone-SparseToolkitProfile.ps1 `
+  -RepoUrl <source-repo-url> `
+  -Destination Fabric-AzDo-Toolkit `
+  -Platform AzDo `
+  -Profile Minimal
+```
+
+`Minimal` includes only `README.md`, `shared/`, and the selected platform folder. It excludes `tools/`, `images/`, `docs/`, `presentations/`, `powerpoint/`, and workshop support files.
+
+Standard toolkit clone with Azure DevOps assets, tools, screenshots, and governance docs, but no workshop material:
+
+```powershell
+.\shared\scripts\Clone-SparseToolkitProfile.ps1 `
+  -RepoUrl <source-repo-url> `
+  -Destination Fabric-AzDo-Toolkit `
+  -Platform AzDo
+```
+
+`Standard` includes `README.md`, `shared/`, `tools/`, `images/`, selected governance/docs assets, and the selected platform folder. It excludes workshop folders unless `-IncludeWorkshop` is used.
+
+Platform clone that also includes workshop material:
+
+```powershell
+.\shared\scripts\Clone-SparseToolkitProfile.ps1 `
+  -RepoUrl <source-repo-url> `
+  -Destination Fabric-AzDo-Workshop `
+  -Platform AzDo `
+  -IncludeWorkshop
+```
+
+`-IncludeWorkshop` adds `Supporting_Docs_For_Workshop.md`, `docs/workshop-plan/`, `presentations/`, and `powerpoint/`.
+
+Toolkit clone with no CI/CD platform folder:
+
+```powershell
+.\shared\scripts\Clone-SparseToolkitProfile.ps1 `
+  -RepoUrl <source-repo-url> `
+  -Destination Fabric-Toolkit `
+  -Platform None
 ```
 
 Each sparse clone script removes the source `origin` remote after checkout so a team can add its own project repository remote before pushing.

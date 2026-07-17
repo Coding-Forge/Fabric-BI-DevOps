@@ -1,0 +1,48 @@
+name: Publish Social Blog
+
+on:
+  push:
+    paths:
+      - 'Social Media/Blog-Post.md'
+      - 'Social Media/images/**'
+      - 'docs/images/**'
+      - 'Social Media/scripts/Publish-BlogPost.ps1'
+      - '.github/workflows/publish-blog.yml'
+  pull_request:
+    paths:
+      - 'Social Media/Blog-Post.md'
+      - 'Social Media/images/**'
+      - 'docs/images/**'
+      - 'Social Media/scripts/Publish-BlogPost.ps1'
+      - '.github/workflows/publish-blog.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish_blog:
+    name: Generate HTML and PDF
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.0
+
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Generate blog outputs
+        shell: pwsh
+        run: "& 'Social Media/scripts/Publish-BlogPost.ps1'"
+
+      - name: Upload generated blog package
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: social-blog-published
+          path: docs/blog/
+
+      - name: Verify committed generated outputs are current
+        shell: bash
+        run: |
+          git diff --exit-code -- "docs/blog"

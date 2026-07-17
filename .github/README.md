@@ -70,6 +70,19 @@ git remote add origin https://github.com/<org>/<repo>.git
 git push -u origin main
 ```
 
+For toolkit-focused clones that exclude workshop material by default, use:
+
+```powershell
+.\shared\scripts\Clone-SparseToolkitProfile.ps1 `
+  -RepoUrl <source-repo-url> `
+  -Destination Fabric-GitHub-Toolkit `
+  -Platform GitHub
+```
+
+Use `-Profile Minimal` for only `README.md`, `shared/`, and `.github/`. Use `-IncludeWorkshop` only when the new repo should include workshop docs and slide material.
+
+See [Sparse Clone Guide](../docs/sparse-clone-guide.md) for all toolkit clone options.
+
 ## Recommended GitHub settings
 
 Branch protection for `main`:

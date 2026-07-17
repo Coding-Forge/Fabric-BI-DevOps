@@ -115,6 +115,19 @@ git remote add origin https://dev.azure.com/<org>/<project>/_git/<repo>
 git push -u origin main
 ```
 
+For toolkit-focused clones that exclude workshop material by default, use:
+
+```powershell
+.\shared\scripts\Clone-SparseToolkitProfile.ps1 `
+  -RepoUrl <source-repo-url> `
+  -Destination Fabric-AzDo-Toolkit `
+  -Platform AzDo
+```
+
+Use `-Profile Minimal` for only `README.md`, `shared/`, and `azdo/`. Use `-IncludeWorkshop` only when the new repo should include workshop docs and slide material.
+
+See [Sparse Clone Guide](../docs/sparse-clone-guide.md) for all toolkit clone options.
+
 ## Branch behavior
 
 | Branch | Behavior |
