@@ -1,0 +1,17 @@
+This folder does not include narration.wav by default.
+
+Create or record narration using:
+
+  Social Media/video/enterprise-bi-devops-script.md
+
+Save the recorded audio as:
+
+  Social Media/video/narration.wav
+
+Then run:
+
+  .\Social` Media\video\Add-NarrationToVideo.ps1 `
+    -VideoPath "Social Media/video/enterprise-bi-devops-demo.mp4" `
+    -AudioPath "Social Media/video/narration.wav" `
+    -OutputPath "Social Media/video/enterprise-bi-devops-demo-narrated.mp4"
+
