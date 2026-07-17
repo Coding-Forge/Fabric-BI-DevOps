@@ -248,6 +248,41 @@
       background: var(--cp-surface-soft);
     }
 
+    .video-frame {
+      position: relative;
+      display: grid;
+    }
+
+    .video-frame video {
+      display: block;
+      width: 100%;
+    }
+
+    .replay-overlay {
+      position: absolute;
+      inset: 0;
+      display: none;
+      place-items: center;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.42);
+    }
+
+    .replay-overlay.visible {
+      display: grid;
+    }
+
+    .replay-button {
+      border: 1px solid var(--cp-accent);
+      border-radius: 999px;
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 850;
+      padding: 14px 24px;
+      box-shadow: var(--cp-shadow);
+    }
+
     .content {
       display: grid;
       gap: 32px;
@@ -774,10 +809,15 @@
         </div>
         <article class="panel card">
           <h3>Enterprise BI DevOps with Microsoft Fabric demo</h3>
-          <video class="screenshot" controls preload="metadata">
-            <source src="videos/enterprise-bi-devops-demo.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
+          <div class="video-frame">
+            <video id="demoVideo" class="screenshot" controls preload="metadata">
+              <source src="videos/enterprise-bi-devops-demo.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <div id="replayOverlay" class="replay-overlay" aria-hidden="true">
+              <button id="replayVideo" class="replay-button" type="button">Replay video</button>
+            </div>
+          </div>
           <div class="toolbar">
             <a class="button primary" href="videos/enterprise-bi-devops-demo.mp4">Open video</a>
             <a class="button" href="../Social%20Media/video/enterprise-bi-devops-script.md">View narration script</a>
@@ -903,5 +943,29 @@
       <a href="https://github.com/Coding-Forge/Fabric-BI-DevOps" target="_blank" rel="noopener">View source and documentation on GitHub</a>
     </footer>
   </div>
+  <script>
+    const demoVideo = document.getElementById("demoVideo");
+    const replayOverlay = document.getElementById("replayOverlay");
+    const replayVideo = document.getElementById("replayVideo");
+
+    if (demoVideo && replayOverlay && replayVideo) {
+      demoVideo.addEventListener("ended", () => {
+        replayOverlay.classList.add("visible");
+        replayOverlay.setAttribute("aria-hidden", "false");
+      });
+
+      demoVideo.addEventListener("play", () => {
+        replayOverlay.classList.remove("visible");
+        replayOverlay.setAttribute("aria-hidden", "true");
+      });
+
+      replayVideo.addEventListener("click", () => {
+        demoVideo.currentTime = 0;
+        replayOverlay.classList.remove("visible");
+        replayOverlay.setAttribute("aria-hidden", "true");
+        demoVideo.play();
+      });
+    }
+  </script>
 </body>
 </html>
