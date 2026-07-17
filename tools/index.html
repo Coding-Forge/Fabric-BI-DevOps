@@ -276,6 +276,47 @@
       padding: 12px;
     }
 
+    .tabs {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      padding: 8px;
+    }
+
+    .tab {
+      border: 1px solid transparent;
+      border-radius: 0.625rem;
+      background: transparent;
+      color: var(--cp-text-muted);
+      cursor: pointer;
+      font-weight: 850;
+      padding: 10px 12px;
+    }
+
+    .tab.active {
+      border-color: var(--cp-border);
+      background: var(--cp-surface);
+      color: var(--cp-text);
+    }
+
+    .tab-panel.hidden {
+      display: none;
+    }
+
+    .category-heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
     code {
       font-family: Consolas, "Courier New", Courier, monospace;
     }
@@ -284,7 +325,8 @@
       .tool-grid,
       .workflow,
       .audience-grid,
-      .artifact-grid {
+      .artifact-grid,
+      .tabs {
         grid-template-columns: 1fr;
       }
     }
@@ -306,326 +348,165 @@
   </header>
 
   <main>
-    <section class="section">
-      <h2>Open a tool</h2>
-      <div class="tool-grid">
-        <article class="card">
-          <div class="card-top">
-            <div>
-              <h3>Enterprise Standards Builder</h3>
-              <p class="muted">Define enterprise policy profiles and generate pipeline-ready report and dataset quality rules.</p>
-            </div>
-            <span class="chip accent">Start here</span>
-          </div>
-          <div class="chips">
-            <span class="chip">BI leads</span>
-            <span class="chip">Governance owners</span>
-            <span class="chip">Report creators</span>
-          </div>
-          <p><strong>Outputs:</strong> <code>Rules-Report.json</code>, <code>Rules-Dataset.json</code>, policy profile, policy summary.</p>
-          <a class="button primary" href="enterprise-standards-builder/index.html">Open Enterprise Standards Builder</a>
-        </article>
+    <nav class="tabs" aria-label="Launchpad sections">
+      <button class="tab active" type="button" data-tab="tools">Tool catalog</button>
+      <button class="tab" type="button" data-tab="workflow">Workflow</button>
+      <button class="tab" type="button" data-tab="artifacts">Artifacts</button>
+      <button class="tab" type="button" data-tab="audiences">Audience paths</button>
+    </nav>
 
-        <article class="card">
-          <div class="card-top">
-            <div>
-              <h3>Quality Rule Designer</h3>
-              <p class="muted">Tune individual report and dataset rules or create custom PBI Inspector and Tabular Editor BPA logic.</p>
-            </div>
-            <span class="chip">Advanced tuning</span>
-          </div>
-          <div class="chips">
-            <span class="chip">Platform team</span>
-            <span class="chip">Advanced BI developers</span>
-            <span class="chip">Rule authors</span>
-          </div>
-          <p><strong>Outputs:</strong> updated <code>Rules-Report.json</code> and <code>Rules-Dataset.json</code>.</p>
-          <a class="button" href="rule-designer/index.html">Open Quality Rule Designer</a>
-        </article>
-
-        <article class="card">
-          <div class="card-top">
-            <div>
-              <h3>DAX Test Builder</h3>
-              <p class="muted">Define measure-level DAX test metadata consumed by the pipeline runner for JUnit reporting.</p>
-            </div>
-            <span class="chip">Testing</span>
-          </div>
-          <div class="chips">
-            <span class="chip">Semantic model owners</span>
-            <span class="chip">BI developers</span>
-            <span class="chip">Data stewards</span>
-          </div>
-          <p><strong>Outputs:</strong> <code>dax-tests.json</code> and DAX test catalog Markdown.</p>
-          <a class="button" href="dax-test-builder/index.html">Open DAX Test Builder</a>
-        </article>
-
-        <article class="card">
-          <div class="card-top">
-            <div>
-              <h3>Deployment Manifest Builder</h3>
-              <p class="muted">Scan an existing PBIP folder or manually create a readable deployment contract that maps ownership, artifacts, environments, parameters, gates, approvals, and rollback.</p>
-            </div>
-            <span class="chip">Release contract</span>
-          </div>
-          <div class="chips">
-            <span class="chip">Release managers</span>
-            <span class="chip">BI leads</span>
-            <span class="chip">Platform engineers</span>
-          </div>
-          <p><strong>Outputs:</strong> <code>deployment-manifest.json</code> and deployment summary Markdown.</p>
-          <a class="button" href="deployment-manifest-builder/index.html">Open Deployment Manifest Builder</a>
-        </article>
-
-        <article class="card">
-          <div class="card-top">
-            <div>
-              <h3>PBIP Project Readiness Scanner</h3>
-              <p class="muted">Scan a local PBIP repo or project folder before PR to catch missing structure, governance assets, and CI wiring.</p>
-            </div>
-            <span class="chip">Pre-PR</span>
-          </div>
-          <div class="chips">
-            <span class="chip">Report creators</span>
-            <span class="chip">Platform team</span>
-            <span class="chip">Reviewers</span>
-          </div>
-          <p><strong>Outputs:</strong> PBIP readiness Markdown report and JSON report.</p>
-          <a class="button" href="pbip-readiness-scanner/index.html">Open PBIP Readiness Scanner</a>
-        </article>
-
-        <article class="card">
-          <div class="card-top">
-            <div>
-              <h3>PR Quality Summary Generator</h3>
-              <p class="muted">Generate a reviewer-friendly pull request summary from changed files, pipeline logs, readiness scans, DAX test metadata, and deployment context.</p>
-            </div>
-            <span class="chip accent">Reviewer handoff</span>
-          </div>
-          <div class="chips">
-            <span class="chip">PR authors</span>
-            <span class="chip">Reviewers</span>
-            <span class="chip">BI leads</span>
-          </div>
-          <p><strong>Outputs:</strong> PR quality summary Markdown and JSON summary.</p>
-          <a class="button primary" href="pr-quality-summary-generator/index.html">Open PR Quality Summary Generator</a>
-        </article>
-
-        <article class="card">
-          <div class="card-top">
-            <div>
-              <h3>Policy Exception Register</h3>
-              <p class="muted">Track rule exceptions with owner, reason, approval status, expiration, affected artifact, and mitigation plan.</p>
-            </div>
-            <span class="chip accent">Governance</span>
-          </div>
-          <div class="chips">
-            <span class="chip">Governance owners</span>
-            <span class="chip">BI leads</span>
-            <span class="chip">Reviewers</span>
-          </div>
-          <p><strong>Outputs:</strong> <code>policy-exceptions.json</code> and exception summary Markdown.</p>
-          <a class="button primary" href="policy-exception-register/index.html">Open Policy Exception Register</a>
-        </article>
-
-        <article class="card">
-          <div class="card-top">
-            <div>
-              <h3>Effective Rules Generator</h3>
-              <p class="muted">Merge baseline rules, branch policy, project overrides, and approved exceptions into effective CI rule files.</p>
-            </div>
-            <span class="chip accent">CI-ready</span>
-          </div>
-          <div class="chips">
-            <span class="chip">Governance owners</span>
-            <span class="chip">Platform engineers</span>
-            <span class="chip">BI leads</span>
-          </div>
-          <p><strong>Outputs:</strong> effective report/dataset rule files and summary Markdown.</p>
-          <a class="button primary" href="effective-rules-generator/index.html">Open Effective Rules Generator</a>
-        </article>
-
-        <article class="card">
-          <div class="card-top">
-            <div>
-              <h3>CI/CD Platform Parity Matrix</h3>
-              <p class="muted">Compare Azure DevOps, GitHub Actions, and GitLab CI/CD support across validation, quality, deployment, and governance capabilities.</p>
-            </div>
-            <span class="chip accent">Platform parity</span>
-          </div>
-          <div class="chips">
-            <span class="chip">Platform team</span>
-            <span class="chip">Delivery leads</span>
-            <span class="chip">Architects</span>
-          </div>
-          <p><strong>Outputs:</strong> <code>platform-parity-matrix.json</code> and Markdown parity matrix.</p>
-          <a class="button primary" href="platform-parity-matrix/index.html">Open Platform Parity Matrix</a>
-        </article>
-
-        <article class="card">
-          <div class="card-top">
-            <div>
-              <h3>Release Readiness Dashboard</h3>
-              <p class="muted">Aggregate validation, quality, DAX, manifest, exception, effective-rule, and PR summary signals into one release recommendation.</p>
-            </div>
-            <span class="chip accent">Release gate</span>
-          </div>
-          <div class="chips">
-            <span class="chip">BI leads</span>
-            <span class="chip">Release managers</span>
-            <span class="chip">Reviewers</span>
-          </div>
-          <p><strong>Outputs:</strong> release readiness dashboard HTML, Markdown, and JSON.</p>
-          <a class="button primary" href="release-readiness-dashboard/index.html">Open Release Readiness Dashboard</a>
-        </article>
-
-        <article class="card">
-          <div class="card-top">
-            <div>
-              <h3>Adoption Metrics Dashboard</h3>
-              <p class="muted">Track onboarded projects, platform usage, rule maturity, exception aging, readiness scores, and time-to-onboard.</p>
-            </div>
-            <span class="chip accent">Growth metrics</span>
-          </div>
-          <div class="chips">
-            <span class="chip">Program owners</span>
-            <span class="chip">Governance leads</span>
-            <span class="chip">Delivery leads</span>
-          </div>
-          <p><strong>Outputs:</strong> <code>adoption-metrics.json</code>, CSV, and Markdown dashboard.</p>
-          <a class="button primary" href="adoption-metrics-dashboard/index.html">Open Adoption Metrics Dashboard</a>
-        </article>
-
-        <article class="card">
-          <div class="card-top">
-            <div>
-              <h3>Rule Coverage Matrix</h3>
-              <p class="muted">Map governance policies to automated report/dataset rules and manual checks so coverage gaps become backlog items.</p>
-            </div>
-            <span class="chip accent">Governance coverage</span>
-          </div>
-          <div class="chips">
-            <span class="chip">Governance owners</span>
-            <span class="chip">BI leads</span>
-            <span class="chip">Rule authors</span>
-          </div>
-          <p><strong>Outputs:</strong> <code>rule-coverage-matrix.json</code> and Markdown coverage matrix.</p>
-          <a class="button primary" href="rule-coverage-matrix/index.html">Open Rule Coverage Matrix</a>
-        </article>
-
-        <article class="card">
-          <div class="card-top">
-            <div>
-              <h3>Competitive Differentiation Matrix</h3>
-              <p class="muted">Compare this solution against generic CI/CD samples, best-practice decks, internal accelerators, and public alternatives.</p>
-            </div>
-            <span class="chip accent">Positioning</span>
-          </div>
-          <div class="chips">
-            <span class="chip">Solution owner</span>
-            <span class="chip">Field sellers</span>
-            <span class="chip">Delivery leads</span>
-          </div>
-          <p><strong>Outputs:</strong> <code>competitive-differentiation-matrix.json</code> and Markdown matrix.</p>
-          <a class="button primary" href="competitive-differentiation-matrix/index.html">Open Competitive Differentiation Matrix</a>
-        </article>
+    <section id="toolsTab" class="tab-panel section">
+      <div class="category-heading">
+        <div>
+          <h2>Tool catalog</h2>
+          <p class="muted">Choose a tool by job-to-be-done. Nothing was removed; the catalog is grouped to keep the page easy to scan.</p>
+        </div>
+        <span class="chip accent">13 tools</span>
       </div>
+
+      <section class="panel section">
+        <h3>Positioning summary</h3>
+        <p>The Fabric BI DevOps Accelerator helps enterprise teams turn Power BI and Fabric delivery standards into action. Instead of asking report creators to hand-edit JSON or become DevOps experts, teams can use guided browser tools to generate quality rules, DAX test metadata, and readiness reports that support Git-based CI/CD workflows.</p>
+      </section>
+
+      <section class="panel section">
+        <div class="category-heading">
+          <h3>Build and tune standards</h3>
+          <span class="muted">Start here when creating or changing governance assets.</span>
+        </div>
+        <div class="tool-grid">
+          <article class="card">
+            <div class="card-top"><div><h3>Enterprise Standards Builder</h3><p class="muted">Define enterprise policy profiles and generate pipeline-ready report and dataset quality rules.</p></div><span class="chip accent">Start here</span></div>
+            <div class="chips"><span class="chip">BI leads</span><span class="chip">Governance owners</span><span class="chip">Report creators</span></div>
+            <p><strong>Outputs:</strong> <code>Rules-Report.json</code>, <code>Rules-Dataset.json</code>, policy profile, policy summary.</p>
+            <a class="button primary" href="enterprise-standards-builder/index.html">Open Enterprise Standards Builder</a>
+          </article>
+          <article class="card">
+            <div class="card-top"><div><h3>Quality Rule Designer</h3><p class="muted">Tune individual report and dataset rules or create custom PBI Inspector and Tabular Editor BPA logic.</p></div><span class="chip">Advanced tuning</span></div>
+            <div class="chips"><span class="chip">Platform team</span><span class="chip">Advanced BI developers</span><span class="chip">Rule authors</span></div>
+            <p><strong>Outputs:</strong> updated <code>Rules-Report.json</code> and <code>Rules-Dataset.json</code>.</p>
+            <a class="button" href="rule-designer/index.html">Open Quality Rule Designer</a>
+          </article>
+          <article class="card">
+            <div class="card-top"><div><h3>DAX Test Builder</h3><p class="muted">Define measure-level DAX test metadata consumed by the pipeline runner for JUnit reporting.</p></div><span class="chip">Testing</span></div>
+            <div class="chips"><span class="chip">Semantic model owners</span><span class="chip">BI developers</span><span class="chip">Data stewards</span></div>
+            <p><strong>Outputs:</strong> <code>dax-tests.json</code> and DAX test catalog Markdown.</p>
+            <a class="button" href="dax-test-builder/index.html">Open DAX Test Builder</a>
+          </article>
+          <article class="card">
+            <div class="card-top"><div><h3>Effective Rules Generator</h3><p class="muted">Merge baseline rules, branch policy, project overrides, and approved exceptions into effective CI rule files.</p></div><span class="chip accent">CI-ready</span></div>
+            <div class="chips"><span class="chip">Governance owners</span><span class="chip">Platform engineers</span><span class="chip">BI leads</span></div>
+            <p><strong>Outputs:</strong> effective report/dataset rule files and summary Markdown.</p>
+            <a class="button primary" href="effective-rules-generator/index.html">Open Effective Rules Generator</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel section">
+        <div class="category-heading">
+          <h3>Review and release</h3>
+          <span class="muted">Use these to prepare pull requests and release decisions.</span>
+        </div>
+        <div class="tool-grid">
+          <article class="card">
+            <div class="card-top"><div><h3>Deployment Manifest Builder</h3><p class="muted">Create a readable deployment contract that maps ownership, artifacts, environments, parameters, gates, approvals, and rollback.</p></div><span class="chip">Release contract</span></div>
+            <div class="chips"><span class="chip">Release managers</span><span class="chip">BI leads</span><span class="chip">Platform engineers</span></div>
+            <p><strong>Outputs:</strong> <code>deployment-manifest.json</code> and deployment summary Markdown.</p>
+            <a class="button" href="deployment-manifest-builder/index.html">Open Deployment Manifest Builder</a>
+          </article>
+          <article class="card">
+            <div class="card-top"><div><h3>PBIP Project Readiness Scanner</h3><p class="muted">Scan a local PBIP repo or project folder before PR to catch missing structure, governance assets, and CI wiring.</p></div><span class="chip">Pre-PR</span></div>
+            <div class="chips"><span class="chip">Report creators</span><span class="chip">Platform team</span><span class="chip">Reviewers</span></div>
+            <p><strong>Outputs:</strong> PBIP readiness Markdown report and JSON report.</p>
+            <a class="button" href="pbip-readiness-scanner/index.html">Open PBIP Readiness Scanner</a>
+          </article>
+          <article class="card">
+            <div class="card-top"><div><h3>PR Quality Summary Generator</h3><p class="muted">Generate a reviewer-friendly pull request summary from changed files, pipeline logs, readiness scans, DAX test metadata, and deployment context.</p></div><span class="chip accent">Reviewer handoff</span></div>
+            <div class="chips"><span class="chip">PR authors</span><span class="chip">Reviewers</span><span class="chip">BI leads</span></div>
+            <p><strong>Outputs:</strong> PR quality summary Markdown and JSON summary.</p>
+            <a class="button primary" href="pr-quality-summary-generator/index.html">Open PR Quality Summary Generator</a>
+          </article>
+          <article class="card">
+            <div class="card-top"><div><h3>Release Readiness Dashboard</h3><p class="muted">Aggregate validation, quality, DAX, manifest, exception, effective-rule, and PR summary signals into one release recommendation.</p></div><span class="chip accent">Release gate</span></div>
+            <div class="chips"><span class="chip">BI leads</span><span class="chip">Release managers</span><span class="chip">Reviewers</span></div>
+            <p><strong>Outputs:</strong> release readiness dashboard HTML, Markdown, and JSON.</p>
+            <a class="button primary" href="release-readiness-dashboard/index.html">Open Release Readiness Dashboard</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel section">
+        <div class="category-heading">
+          <h3>Governance and adoption</h3>
+          <span class="muted">Use these to scale, measure, and position the solution.</span>
+        </div>
+        <div class="tool-grid">
+          <article class="card">
+            <div class="card-top"><div><h3>Policy Exception Register</h3><p class="muted">Track rule exceptions with owner, reason, approval status, expiration, affected artifact, and mitigation plan.</p></div><span class="chip accent">Governance</span></div>
+            <div class="chips"><span class="chip">Governance owners</span><span class="chip">BI leads</span><span class="chip">Reviewers</span></div>
+            <p><strong>Outputs:</strong> <code>policy-exceptions.json</code> and exception summary Markdown.</p>
+            <a class="button primary" href="policy-exception-register/index.html">Open Policy Exception Register</a>
+          </article>
+          <article class="card">
+            <div class="card-top"><div><h3>CI/CD Platform Parity Matrix</h3><p class="muted">Compare Azure DevOps, GitHub Actions, and GitLab CI/CD support across validation, quality, deployment, and governance capabilities.</p></div><span class="chip accent">Platform parity</span></div>
+            <div class="chips"><span class="chip">Platform team</span><span class="chip">Delivery leads</span><span class="chip">Architects</span></div>
+            <p><strong>Outputs:</strong> <code>platform-parity-matrix.json</code> and Markdown parity matrix.</p>
+            <a class="button primary" href="platform-parity-matrix/index.html">Open Platform Parity Matrix</a>
+          </article>
+          <article class="card">
+            <div class="card-top"><div><h3>Adoption Metrics Dashboard</h3><p class="muted">Track onboarded projects, platform usage, rule maturity, exception aging, readiness scores, and time-to-onboard.</p></div><span class="chip accent">Growth metrics</span></div>
+            <div class="chips"><span class="chip">Program owners</span><span class="chip">Governance leads</span><span class="chip">Delivery leads</span></div>
+            <p><strong>Outputs:</strong> <code>adoption-metrics.json</code>, CSV, and Markdown dashboard.</p>
+            <a class="button primary" href="adoption-metrics-dashboard/index.html">Open Adoption Metrics Dashboard</a>
+          </article>
+          <article class="card">
+            <div class="card-top"><div><h3>Rule Coverage Matrix</h3><p class="muted">Map governance policies to automated report/dataset rules and manual checks so coverage gaps become backlog items.</p></div><span class="chip accent">Governance coverage</span></div>
+            <div class="chips"><span class="chip">Governance owners</span><span class="chip">BI leads</span><span class="chip">Rule authors</span></div>
+            <p><strong>Outputs:</strong> <code>rule-coverage-matrix.json</code> and Markdown coverage matrix.</p>
+            <a class="button primary" href="rule-coverage-matrix/index.html">Open Rule Coverage Matrix</a>
+          </article>
+          <article class="card">
+            <div class="card-top"><div><h3>Competitive Differentiation Matrix</h3><p class="muted">Compare this solution against generic CI/CD samples, best-practice decks, internal accelerators, and public alternatives.</p></div><span class="chip accent">Positioning</span></div>
+            <div class="chips"><span class="chip">Solution owner</span><span class="chip">Field sellers</span><span class="chip">Delivery leads</span></div>
+            <p><strong>Outputs:</strong> <code>competitive-differentiation-matrix.json</code> and Markdown matrix.</p>
+            <a class="button primary" href="competitive-differentiation-matrix/index.html">Open Competitive Differentiation Matrix</a>
+          </article>
+        </div>
+      </section>
     </section>
 
-    <section class="panel section">
+    <section id="workflowTab" class="tab-panel panel section hidden">
       <h2>Recommended workflow</h2>
       <div class="workflow">
-        <div class="step">
-          <div class="step-number">1</div>
-          <h3>Define standards</h3>
-          <p class="muted">Use the Enterprise Standards Builder to choose advisory, standard, strict, or custom governance posture.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <h3>Tune rules</h3>
-          <p class="muted">Use the Quality Rule Designer when a single rule needs custom logic, a threshold change, or exception tuning.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <h3>Add DAX tests</h3>
-          <p class="muted">Use the DAX Test Builder to document critical measure validations and export metadata for CI adoption.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">4</div>
-          <h3>Define deployment</h3>
-          <p class="muted">Use the Deployment Manifest Builder to document environments, parameters, approvals, and rollback.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">5</div>
-          <h3>Scan before PR</h3>
-          <p class="muted">Use the PBIP Readiness Scanner before opening a pull request or asking reviewers to inspect changes.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">6</div>
-          <h3>Summarize PR</h3>
-          <p class="muted">Use the PR Quality Summary Generator to create a concise reviewer handoff from validation signals and changed files.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">7</div>
-          <h3>Track exceptions</h3>
-          <p class="muted">Use the Policy Exception Register to keep governance exceptions owned, approved, and time-bound.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">8</div>
-          <h3>Generate effective rules</h3>
-          <p class="muted">Use the Effective Rules Generator to preview branch-aware rules after overrides and approved exceptions.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">9</div>
-          <h3>Compare platforms</h3>
-          <p class="muted">Use the Platform Parity Matrix to track support and gaps across Azure DevOps, GitHub Actions, and GitLab.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">10</div>
-          <h3>Assess release</h3>
-          <p class="muted">Use the Release Readiness Dashboard to consolidate evidence and decide whether to release.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">11</div>
-          <h3>Measure adoption</h3>
-          <p class="muted">Use the Adoption Metrics Dashboard to track project onboarding, rule maturity, and growth.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">12</div>
-          <h3>Map coverage</h3>
-          <p class="muted">Use the Rule Coverage Matrix to connect enterprise policies to automated rules and manual checks.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">13</div>
-          <h3>Differentiate</h3>
-          <p class="muted">Use the Competitive Differentiation Matrix to compare solution maturity and positioning.</p>
-        </div>
+        <div class="step"><div class="step-number">1</div><h3>Define standards</h3><p class="muted">Use the Enterprise Standards Builder to choose advisory, standard, strict, or custom governance posture.</p></div>
+        <div class="step"><div class="step-number">2</div><h3>Tune rules</h3><p class="muted">Use the Quality Rule Designer when a single rule needs custom logic, a threshold change, or exception tuning.</p></div>
+        <div class="step"><div class="step-number">3</div><h3>Add DAX tests</h3><p class="muted">Use the DAX Test Builder to document critical measure validations and export metadata for CI adoption.</p></div>
+        <div class="step"><div class="step-number">4</div><h3>Define deployment</h3><p class="muted">Use the Deployment Manifest Builder to document environments, parameters, approvals, and rollback.</p></div>
+        <div class="step"><div class="step-number">5</div><h3>Scan before PR</h3><p class="muted">Use the PBIP Readiness Scanner before opening a pull request or asking reviewers to inspect changes.</p></div>
+        <div class="step"><div class="step-number">6</div><h3>Summarize PR</h3><p class="muted">Use the PR Quality Summary Generator to create a concise reviewer handoff from validation signals and changed files.</p></div>
+        <div class="step"><div class="step-number">7</div><h3>Track exceptions</h3><p class="muted">Use the Policy Exception Register to keep governance exceptions owned, approved, and time-bound.</p></div>
+        <div class="step"><div class="step-number">8</div><h3>Generate effective rules</h3><p class="muted">Use the Effective Rules Generator to preview branch-aware rules after overrides and approved exceptions.</p></div>
+        <div class="step"><div class="step-number">9</div><h3>Compare platforms</h3><p class="muted">Use the Platform Parity Matrix to track support and gaps across Azure DevOps, GitHub Actions, and GitLab.</p></div>
+        <div class="step"><div class="step-number">10</div><h3>Assess release</h3><p class="muted">Use the Release Readiness Dashboard to consolidate evidence and decide whether to release.</p></div>
+        <div class="step"><div class="step-number">11</div><h3>Measure adoption</h3><p class="muted">Use the Adoption Metrics Dashboard to track project onboarding, rule maturity, and growth.</p></div>
+        <div class="step"><div class="step-number">12</div><h3>Map coverage</h3><p class="muted">Use the Rule Coverage Matrix to connect enterprise policies to automated rules and manual checks.</p></div>
+        <div class="step"><div class="step-number">13</div><h3>Differentiate</h3><p class="muted">Use the Competitive Differentiation Matrix to compare solution maturity and positioning.</p></div>
       </div>
     </section>
 
-    <section class="panel section">
+    <section id="audiencesTab" class="tab-panel panel section hidden">
       <h2>Choose by audience</h2>
       <div class="audience-grid">
-        <div class="audience">
-          <h3>BI lead</h3>
-          <p class="muted">Start with the Enterprise Standards Builder and use the policy summary in governance reviews.</p>
-        </div>
-        <div class="audience">
-          <h3>Report creator</h3>
-          <p class="muted">Use the Readiness Scanner before PR and the Standards Builder when adopting a new policy profile.</p>
-        </div>
-        <div class="audience">
-          <h3>Semantic model owner</h3>
-          <p class="muted">Use the DAX Test Builder to capture key measure validations and model-specific expectations.</p>
-        </div>
-        <div class="audience">
-          <h3>Platform engineer</h3>
-          <p class="muted">Use all generated JSON artifacts as portable CI/CD inputs across Azure DevOps, GitHub, and GitLab.</p>
-        </div>
+        <div class="audience"><h3>BI lead</h3><p class="muted">Start with the Enterprise Standards Builder, then use the PR Summary, Release Dashboard, Coverage Matrix, and Adoption Metrics Dashboard.</p></div>
+        <div class="audience"><h3>Report creator</h3><p class="muted">Use the Readiness Scanner before PR and the Standards Builder when adopting a new policy profile.</p></div>
+        <div class="audience"><h3>Semantic model owner</h3><p class="muted">Use the DAX Test Builder and Effective Rules Generator to validate model standards and branch-aware enforcement.</p></div>
+        <div class="audience"><h3>Platform engineer</h3><p class="muted">Use generated JSON artifacts as portable CI/CD inputs across Azure DevOps, GitHub, and GitLab.</p></div>
+        <div class="audience"><h3>Governance owner</h3><p class="muted">Use the Exception Register, Rule Coverage Matrix, Differentiation Matrix, and Adoption Metrics Dashboard to govern scale-out.</p></div>
+        <div class="audience"><h3>Release manager</h3><p class="muted">Use the Deployment Manifest Builder and Release Readiness Dashboard before Test or Prod promotion.</p></div>
       </div>
     </section>
 
-    <section class="panel section">
+    <section id="artifactsTab" class="tab-panel panel section hidden">
       <h2>Generated artifacts</h2>
       <div class="artifact-grid">
         <div class="artifact"><strong><code>Rules-Report.json</code></strong><br><span class="muted">PBI Inspector report quality rules.</span></div>
@@ -655,10 +536,20 @@
       </div>
     </section>
 
-    <section class="panel section">
-      <h2>Positioning summary</h2>
-      <p>The Fabric BI DevOps Accelerator helps enterprise teams turn Power BI and Fabric delivery standards into action. Instead of asking report creators to hand-edit JSON or become DevOps experts, teams can use guided browser tools to generate quality rules, DAX test metadata, and readiness reports that support Git-based CI/CD workflows.</p>
-    </section>
   </main>
+  <script>
+    function activateTab(tabName) {
+      document.querySelectorAll(".tab").forEach(button => {
+        button.classList.toggle("active", button.dataset.tab === tabName);
+      });
+      document.querySelectorAll(".tab-panel").forEach(panel => {
+        panel.classList.toggle("hidden", panel.id !== `${tabName}Tab`);
+      });
+    }
+
+    document.querySelectorAll(".tab").forEach(button => {
+      button.addEventListener("click", () => activateTab(button.dataset.tab));
+    });
+  </script>
 </body>
 </html>
