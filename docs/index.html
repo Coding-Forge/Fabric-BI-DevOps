@@ -468,12 +468,13 @@
         <div>
           <div class="eyebrow">Governed PBIP delivery with Git and CI/CD</div>
           <h1>Enterprise BI DevOps with Microsoft Fabric</h1>
-          <p class="lede">A practical accelerator for large-scale Power BI and Fabric reporting teams that need Git-based delivery, automated validation, quality gates, deployment contracts, and no-code governance tooling.</p>
+          <p class="lede">A practical accelerator for large-scale Power BI and Fabric reporting teams that need Git-based delivery, automated validation, quality gates, deployment contracts, release readiness, adoption metrics, and no-code governance tooling.</p>
           <div class="toolbar">
             <a class="button primary" href="https://github.com/Coding-Forge/Fabric-BI-DevOps/blob/main/tools/index.html" target="_blank" rel="noopener">Open tool launchpad</a>
             <a class="button" href="https://github.com/Coding-Forge/Fabric-BI-DevOps#readme" target="_blank" rel="noopener">View repository</a>
             <a class="button" href="governance/power-bi-governance-tools.md">Read tool overview</a>
             <a class="button" href="sparse-clone-guide.md">Sparse clone guide</a>
+            <a class="button" href="differentiation-scorecard.md">Differentiation scorecard</a>
           </div>
         </div>
         <div class="hero-card">
@@ -500,6 +501,14 @@
           <article class="card">
             <h3>Pre-PR confidence</h3>
             <p>Use readiness scans and DAX test metadata so report creators and reviewers understand what is ready before a pull request is opened.</p>
+          </article>
+          <article class="card">
+            <h3>Reviewer-ready handoffs</h3>
+            <p>Generate PR quality summaries that combine changed files, validation signals, readiness output, DAX context, and deployment notes.</p>
+          </article>
+          <article class="card">
+            <h3>Release readiness evidence</h3>
+            <p>Aggregate validation results, quality checks, manifests, exceptions, effective rules, and PR summaries into a release recommendation.</p>
           </article>
           <article class="card">
             <h3>Toolkit-first adoption</h3>
@@ -535,9 +544,9 @@
       <section id="tools" class="section">
         <div class="section-heading">
           <h2>No-code tools</h2>
-          <p>Each tool is a static HTML page that can be opened locally. The tools generate JSON and Markdown artifacts that fit naturally into Git and CI/CD workflows.</p>
+          <p>Each tool is a static HTML page that can be opened locally. The tabbed launchpad groups tools by job-to-be-done while keeping every generated JSON, Markdown, HTML, and CSV artifact source-controllable.</p>
         </div>
-        <div class="grid two">
+        <div class="grid three">
           <article class="card">
             <div class="card-top">
               <h3>Enterprise Standards Builder</h3>
@@ -610,6 +619,118 @@
 
           <article class="card">
             <div class="card-top">
+              <h3>PR Quality Summary Generator</h3>
+              <span class="chip accent">Reviewer handoff</span>
+            </div>
+            <p>Create reviewer-friendly pull request summaries from changed files, pipeline logs, readiness output, DAX tests, and deployment context.</p>
+            <div class="chip-row">
+              <span class="chip">PR authors</span>
+              <span class="chip">Reviewers</span>
+              <span class="chip">BI leads</span>
+            </div>
+            <a class="button" href="https://github.com/Coding-Forge/Fabric-BI-DevOps/blob/main/tools/pr-quality-summary-generator/index.html" target="_blank" rel="noopener">Open in GitHub</a>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <h3>Policy Exception Register</h3>
+              <span class="chip accent">Governance</span>
+            </div>
+            <p>Track exceptions with owner, reason, affected artifact, approval status, expiration, and mitigation.</p>
+            <div class="chip-row">
+              <span class="chip">Governance owners</span>
+              <span class="chip">BI leads</span>
+              <span class="chip">Reviewers</span>
+            </div>
+            <a class="button" href="https://github.com/Coding-Forge/Fabric-BI-DevOps/blob/main/tools/policy-exception-register/index.html" target="_blank" rel="noopener">Open in GitHub</a>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <h3>Effective Rules Generator</h3>
+              <span class="chip accent">CI-ready</span>
+            </div>
+            <p>Merge baseline rules, branch policy, project overrides, and approved exceptions into effective CI rule files.</p>
+            <div class="chip-row">
+              <span class="chip">Governance owners</span>
+              <span class="chip">Platform engineers</span>
+              <span class="chip">BI leads</span>
+            </div>
+            <a class="button" href="https://github.com/Coding-Forge/Fabric-BI-DevOps/blob/main/tools/effective-rules-generator/index.html" target="_blank" rel="noopener">Open in GitHub</a>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <h3>CI/CD Platform Parity Matrix</h3>
+              <span class="chip">Platform parity</span>
+            </div>
+            <p>Compare Azure DevOps, GitHub Actions, and GitLab CI/CD support across validation, quality, deployment, governance, and scale capabilities.</p>
+            <div class="chip-row">
+              <span class="chip">Platform team</span>
+              <span class="chip">Delivery leads</span>
+              <span class="chip">Architects</span>
+            </div>
+            <a class="button" href="https://github.com/Coding-Forge/Fabric-BI-DevOps/blob/main/tools/platform-parity-matrix/index.html" target="_blank" rel="noopener">Open in GitHub</a>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <h3>Release Readiness Dashboard</h3>
+              <span class="chip accent">Release gate</span>
+            </div>
+            <p>Aggregate validation, quality, DAX, manifest, exception, effective-rule, and PR summary signals into one release recommendation.</p>
+            <div class="chip-row">
+              <span class="chip">BI leads</span>
+              <span class="chip">Release managers</span>
+              <span class="chip">Reviewers</span>
+            </div>
+            <a class="button" href="https://github.com/Coding-Forge/Fabric-BI-DevOps/blob/main/tools/release-readiness-dashboard/index.html" target="_blank" rel="noopener">Open in GitHub</a>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <h3>Adoption Metrics Dashboard</h3>
+              <span class="chip accent">Growth metrics</span>
+            </div>
+            <p>Track onboarded projects, platform usage, rule maturity, exception aging, readiness scores, and time-to-onboard.</p>
+            <div class="chip-row">
+              <span class="chip">Program owners</span>
+              <span class="chip">Governance leads</span>
+              <span class="chip">Delivery leads</span>
+            </div>
+            <a class="button" href="https://github.com/Coding-Forge/Fabric-BI-DevOps/blob/main/tools/adoption-metrics-dashboard/index.html" target="_blank" rel="noopener">Open in GitHub</a>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <h3>Rule Coverage Matrix</h3>
+              <span class="chip accent">Governance coverage</span>
+            </div>
+            <p>Map governance policies to automated report/dataset rules and manual checks so coverage gaps become backlog items.</p>
+            <div class="chip-row">
+              <span class="chip">Governance owners</span>
+              <span class="chip">BI leads</span>
+              <span class="chip">Rule authors</span>
+            </div>
+            <a class="button" href="https://github.com/Coding-Forge/Fabric-BI-DevOps/blob/main/tools/rule-coverage-matrix/index.html" target="_blank" rel="noopener">Open in GitHub</a>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <h3>Competitive Differentiation Matrix</h3>
+              <span class="chip">Positioning</span>
+            </div>
+            <p>Score this solution against generic CI/CD samples, best-practice decks, internal accelerators, and public alternatives.</p>
+            <div class="chip-row">
+              <span class="chip">Solution owner</span>
+              <span class="chip">Field sellers</span>
+              <span class="chip">Delivery leads</span>
+            </div>
+            <a class="button" href="https://github.com/Coding-Forge/Fabric-BI-DevOps/blob/main/tools/competitive-differentiation-matrix/index.html" target="_blank" rel="noopener">Open in GitHub</a>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
               <h3>Tool launchpad</h3>
               <span class="chip">Central entry</span>
             </div>
@@ -670,6 +791,16 @@
             <h3>Scan before PR</h3>
             <p>Generate a readiness report before review.</p>
           </div>
+          <div class="step">
+            <div class="step-number">6</div>
+            <h3>Summarize and release</h3>
+            <p>Create the PR summary and release readiness dashboard.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">7</div>
+            <h3>Measure adoption</h3>
+            <p>Track platform usage, readiness, rule maturity, and adoption metrics.</p>
+          </div>
         </div>
       </section>
 
@@ -710,6 +841,15 @@
           <div class="artifact"><strong><code>deployment-manifest.json</code></strong><span>Solution ownership, environments, parameters, approvals, and rollback.</span></div>
           <div class="artifact"><strong><code>enterprise-policy-profile.json</code></strong><span>Reusable policy posture and governance settings.</span></div>
           <div class="artifact"><strong><code>PBIP-Readiness-Report.md</code></strong><span>PR-ready structure and governance readiness summary.</span></div>
+          <div class="artifact"><strong><code>PR-Quality-Summary.md</code></strong><span>Reviewer-friendly PR summary.</span></div>
+          <div class="artifact"><strong><code>policy-exceptions.json</code></strong><span>Owned, approved, time-bound policy exceptions.</span></div>
+          <div class="artifact"><strong><code>Rules-Report.effective.json</code></strong><span>Effective report rules for CI.</span></div>
+          <div class="artifact"><strong><code>Rules-Dataset.effective.json</code></strong><span>Effective dataset rules for CI.</span></div>
+          <div class="artifact"><strong><code>platform-parity-matrix.json</code></strong><span>CI/CD platform support and gap matrix.</span></div>
+          <div class="artifact"><strong><code>release-readiness-dashboard.json</code></strong><span>Release readiness score and recommendation.</span></div>
+          <div class="artifact"><strong><code>adoption-metrics.json</code></strong><span>Project adoption and maturity metrics.</span></div>
+          <div class="artifact"><strong><code>rule-coverage-matrix.json</code></strong><span>Policy-to-rule coverage mapping.</span></div>
+          <div class="artifact"><strong><code>competitive-differentiation-matrix.json</code></strong><span>Measurable solution differentiation scores.</span></div>
         </div>
       </section>
 

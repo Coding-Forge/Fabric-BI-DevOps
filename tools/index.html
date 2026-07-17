@@ -309,6 +309,36 @@
       display: none;
     }
 
+    .catalog-menu {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+      padding: 8px;
+    }
+
+    .catalog-button {
+      border: 1px solid transparent;
+      border-radius: 0.625rem;
+      background: transparent;
+      color: var(--cp-text-muted);
+      cursor: pointer;
+      font-weight: 850;
+      padding: 10px 12px;
+    }
+
+    .catalog-button.active {
+      border-color: var(--cp-border);
+      background: var(--cp-surface);
+      color: var(--cp-text);
+    }
+
+    .catalog-panel.hidden {
+      display: none;
+    }
+
     .category-heading {
       display: flex;
       flex-wrap: wrap;
@@ -326,7 +356,8 @@
       .workflow,
       .audience-grid,
       .artifact-grid,
-      .tabs {
+      .tabs,
+      .catalog-menu {
         grid-template-columns: 1fr;
       }
     }
@@ -369,7 +400,13 @@
         <p>The Fabric BI DevOps Accelerator helps enterprise teams turn Power BI and Fabric delivery standards into action. Instead of asking report creators to hand-edit JSON or become DevOps experts, teams can use guided browser tools to generate quality rules, DAX test metadata, and readiness reports that support Git-based CI/CD workflows.</p>
       </section>
 
-      <section class="panel section">
+      <nav class="catalog-menu" aria-label="Tool catalog categories">
+        <button class="catalog-button active" type="button" data-catalog="standards">Build and tune standards</button>
+        <button class="catalog-button" type="button" data-catalog="review">Review and release</button>
+        <button class="catalog-button" type="button" data-catalog="governance">Governance and adoption</button>
+      </nav>
+
+      <section id="standardsCatalog" class="catalog-panel panel section">
         <div class="category-heading">
           <h3>Build and tune standards</h3>
           <span class="muted">Start here when creating or changing governance assets.</span>
@@ -402,7 +439,7 @@
         </div>
       </section>
 
-      <section class="panel section">
+      <section id="reviewCatalog" class="catalog-panel panel section hidden">
         <div class="category-heading">
           <h3>Review and release</h3>
           <span class="muted">Use these to prepare pull requests and release decisions.</span>
@@ -435,7 +472,7 @@
         </div>
       </section>
 
-      <section class="panel section">
+      <section id="governanceCatalog" class="catalog-panel panel section hidden">
         <div class="category-heading">
           <h3>Governance and adoption</h3>
           <span class="muted">Use these to scale, measure, and position the solution.</span>
@@ -549,6 +586,19 @@
 
     document.querySelectorAll(".tab").forEach(button => {
       button.addEventListener("click", () => activateTab(button.dataset.tab));
+    });
+
+    function activateCatalog(categoryName) {
+      document.querySelectorAll(".catalog-button").forEach(button => {
+        button.classList.toggle("active", button.dataset.catalog === categoryName);
+      });
+      document.querySelectorAll(".catalog-panel").forEach(panel => {
+        panel.classList.toggle("hidden", panel.id !== `${categoryName}Catalog`);
+      });
+    }
+
+    document.querySelectorAll(".catalog-button").forEach(button => {
+      button.addEventListener("click", () => activateCatalog(button.dataset.catalog));
     });
   </script>
 </body>
