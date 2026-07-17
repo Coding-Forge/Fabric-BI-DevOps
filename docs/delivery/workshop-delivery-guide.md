@@ -30,7 +30,7 @@ Use the datasheet for customer-facing positioning. Use this delivery guide for p
 | Workshop plan | `docs/workshop-plan/Fabric_Git_Workshop_Plan.md` |
 | Lab guides | `docs/workshop-plan/labs/` |
 | Sparse clone guide | `docs/sparse-clone-guide.md` |
-| Platform setup guides | `azdo/README.md`, `.github/README.md`, `gitlab/README.md` |
+| Platform setup guides | `azdo/README.md`, `.github/GITHUB_ACTIONS_SETUP.md`, `gitlab/README.md` |
 | No-code tools overview | `docs/governance/power-bi-governance-tools.md` |
 | Blog HTML/PDF | `docs/blog/2026-07-17-enterprise-bi-devops-with-microsoft-fabric/` |
 | Social and announcement content | `Social Media/` |

@@ -24,7 +24,7 @@ Choose the CI/CD platform that matches your organization:
 | Platform | Start here | Pipeline entry point |
 |---|---|---|
 | Azure DevOps | [azdo/README.md](azdo/README.md) | `azdo/azure-pipelines.yml` or `azdo/azure-pipelines_ci.yml` |
-| GitHub Actions | [.github/README.md](.github/README.md) | `.github/workflows/powerbi-ci.yml` |
+| GitHub Actions | [.github/GITHUB_ACTIONS_SETUP.md](.github/GITHUB_ACTIONS_SETUP.md) | `.github/workflows/powerbi-ci.yml` |
 | GitLab CI/CD | [gitlab/README.md](gitlab/README.md) | `gitlab/gitlab-ci.yml` |
 | Reusable Azure DevOps template | [shared/universal-pipeline/README.md](shared/universal-pipeline/README.md) | `shared/universal-pipeline/templates/fabric-ci.yml` |
 
