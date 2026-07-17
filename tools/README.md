@@ -16,6 +16,7 @@ Open [Fabric BI DevOps Accelerator Launchpad](index.html) first. It provides the
 | [Deployment Manifest Builder](deployment-manifest-builder/index.html) | Release managers, BI leads, platform engineers | Scan existing PBIP folders or manually define deployment ownership, artifacts, environments, parameters, approvals, and rollback | `deployment-manifest.json`, deployment summary Markdown |
 | [PBIP Project Readiness Scanner](pbip-readiness-scanner/index.html) | Report creators, platform team | Scan a PBIP repo or project folder before PR | Readiness Markdown report, JSON report |
 | [PR Quality Summary Generator](pr-quality-summary-generator/index.html) | PR authors, reviewers, BI leads | Generate a pull request summary from changed files, logs, readiness output, DAX test context, and deployment manifest context | `PR-Quality-Summary.md`, `pr-quality-summary.json` |
+| [Policy Exception Register](policy-exception-register/index.html) | Governance owners, BI leads, reviewers | Track policy and rule exceptions with owner, reason, expiration, approval, and mitigation | `policy-exceptions.json`, exception summary Markdown |
 
 ## Screenshots
 
@@ -45,6 +46,7 @@ A starter catalog of generally accepted DAX test patterns is available at `share
 8. Use `tools/deployment-manifest-builder/index.html` to create the deployment contract for Dev/Test/Prod, parameters, approvals, and rollback.
 9. Use `tools/pbip-readiness-scanner/index.html` before opening a PR to catch missing PBIP structure, governance assets, and CI/CD wiring.
 10. Use `tools/pr-quality-summary-generator/index.html` to create a reviewer-friendly PR summary from changed files and validation output.
+11. Use `tools/policy-exception-register/index.html` when a rule or policy exception needs owner, reason, approval, expiration, and mitigation tracking.
 
 All tools are self-contained HTML files. They do not require a local server, package install, or internet access.
 

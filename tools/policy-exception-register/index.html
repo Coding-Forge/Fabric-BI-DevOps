@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Policy Exception Register</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef; --cp-bg-elevated: #fcfbf8; --cp-surface: #ffffff; --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede; --cp-border-strong: #919191; --cp-text: #242424; --cp-text-muted: #5c5c5c;
+      --cp-accent: #b11f4b; --cp-accent-hover: #9a1a41; --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff; --cp-success: #16a34a; --cp-danger: #dc2626; --cp-warning: #f59e0b;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12); --cp-panel-strong: rgba(255, 255, 255, 0.96);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a; --cp-bg-elevated: #343231; --cp-surface: #292929; --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747; --cp-border-strong: #5f5f5f; --cp-text: #dedede; --cp-text-muted: #b0b0b0;
+      --cp-accent: #fd8ea1; --cp-accent-hover: #fb7b91; --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a; --cp-success: #4ade80; --cp-danger: #f87171; --cp-warning: #fbbf24;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32); --cp-panel-strong: rgba(41, 41, 41, 0.96);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--cp-bg); color: var(--cp-text); font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.45; }
+    button, input, select, textarea { font: inherit; }
+    button, .file-button { border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); color: var(--cp-text); cursor: pointer; padding: 8px 12px; }
+    button:hover, .file-button:hover { border-color: var(--cp-border-strong); }
+    button.primary { background: var(--cp-accent); border-color: var(--cp-accent); color: var(--cp-accent-fg); }
+    button.danger { border-color: var(--cp-danger); color: var(--cp-danger); }
+    input, select, textarea { width: 100%; border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); color: var(--cp-text); padding: 8px 10px; }
+    textarea { min-height: 84px; resize: vertical; }
+    label { display: grid; gap: 6px; color: var(--cp-text-muted); font-size: 13px; font-weight: 700; }
+    pre, code { font-family: Consolas, "Courier New", Courier, monospace; }
+    pre { margin: 0; overflow: auto; white-space: pre-wrap; word-break: break-word; }
+    .hero { border-bottom: 1px solid var(--cp-border); background: var(--cp-bg-elevated); padding: 28px; }
+    .hero-inner, .main { max-width: 1440px; margin: 0 auto; }
+    .hero-inner { display: grid; gap: 16px; }
+    .eyebrow { color: var(--cp-accent); font-size: 13px; font-weight: 850; letter-spacing: 0.04em; text-transform: uppercase; }
+    h1, h2, h3 { margin: 0; line-height: 1.15; }
+    h1 { font-size: clamp(30px, 4vw, 46px); }
+    h2 { font-size: 20px; } h3 { font-size: 16px; }
+    .lede { max-width: 980px; color: var(--cp-text-muted); font-size: 17px; }
+    .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .file-button { position: relative; overflow: hidden; display: inline-flex; }
+    .file-button input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .main { display: grid; grid-template-columns: minmax(300px, 430px) minmax(0, 1fr); gap: 20px; padding: 24px 28px 40px; }
+    .panel, .card { border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); box-shadow: var(--cp-shadow); }
+    .panel-header { border-bottom: 1px solid var(--cp-border); padding: 16px; }
+    .panel-body { padding: 16px; }
+    .grid { display: grid; gap: 14px; }
+    .two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .stat { border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface-soft); padding: 12px; }
+    .stat-value { font-size: 26px; font-weight: 850; }
+    .muted, .stat-label { color: var(--cp-text-muted); }
+    .muted { font-size: 13px; }
+    .list { display: grid; gap: 10px; max-height: 560px; overflow: auto; }
+    .item { border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface-soft); padding: 12px; display: grid; gap: 8px; }
+    .item-title { display: flex; justify-content: space-between; gap: 10px; font-weight: 850; }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { display: inline-flex; border: 1px solid var(--cp-border); border-radius: 999px; background: var(--cp-surface-soft); color: var(--cp-text-muted); font-size: 12px; font-weight: 800; padding: 3px 8px; }
+    .chip.error { border-color: var(--cp-danger); color: var(--cp-danger); }
+    .chip.warning { border-color: var(--cp-warning); color: var(--cp-warning); }
+    .chip.success { border-color: var(--cp-success); color: var(--cp-success); }
+    .output { max-height: 620px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface-soft); color: var(--cp-text); padding: 14px; font-size: 13px; }
+    .tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface-soft); margin-bottom: 16px; padding: 8px; }
+    .tab { border-color: var(--cp-surface-soft); background: var(--cp-surface-soft); color: var(--cp-text-muted); font-weight: 850; }
+    .tab.active { border-color: var(--cp-border); background: var(--cp-surface); color: var(--cp-text); }
+    .hidden { display: none; }
+    .toast { position: fixed; right: 20px; bottom: 20px; max-width: 380px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-panel-strong); color: var(--cp-text); box-shadow: var(--cp-shadow); padding: 12px 14px; display: none; z-index: 20; }
+    .toast.visible { display: block; }
+    @media (max-width: 980px) { .main, .two, .three, .tabs { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Fabric BI DevOps Accelerator</div>
+      <h1>Policy Exception Register</h1>
+      <p class="lede">Track rule exceptions with owner, reason, approval status, expiration, affected artifact, and audit-friendly summaries. All processing runs locally in your browser.</p>
+      <div class="toolbar">
+        <button id="newException" class="primary" type="button">New exception</button>
+        <button id="saveException" type="button">Add or update</button>
+        <button id="deleteException" class="danger" type="button">Delete selected</button>
+        <label class="file-button">Load policy-exceptions.json
+          <input id="loadFile" type="file" accept=".json,application/json">
+        </label>
+        <button id="seedExample" type="button">Use starter examples</button>
+        <button id="downloadJson" type="button">Download JSON</button>
+        <button id="downloadMarkdown" type="button">Download summary</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <aside class="panel">
+      <div class="panel-header">
+        <h2>Register health</h2>
+        <div class="muted">Expired and missing-approval exceptions should block or trigger governance review.</div>
+      </div>
+      <div class="panel-body grid">
+        <div class="stats">
+          <div class="stat"><div id="totalCount" class="stat-value">0</div><div class="stat-label">Total</div></div>
+          <div class="stat"><div id="approvedCount" class="stat-value">0</div><div class="stat-label">Approved</div></div>
+          <div class="stat"><div id="expiringCount" class="stat-value">0</div><div class="stat-label">Expiring</div></div>
+          <div class="stat"><div id="expiredCount" class="stat-value">0</div><div class="stat-label">Expired</div></div>
+        </div>
+        <label>Search exceptions
+          <input id="search" type="search" placeholder="Search rule, owner, artifact, reason">
+        </label>
+        <div id="exceptionList" class="list"></div>
+      </div>
+    </aside>
+
+    <section>
+      <nav class="tabs" aria-label="Register tabs">
+        <button class="tab active" data-tab="builder" type="button">Builder</button>
+        <button class="tab" data-tab="summary" type="button">Summary</button>
+        <button class="tab" data-tab="json" type="button">JSON</button>
+      </nav>
+
+      <div id="builderTab" class="panel tab-panel">
+        <div class="panel-header">
+          <h2>Exception details</h2>
+          <div class="muted">Keep exceptions narrow, owned, justified, approved, and time-bound.</div>
+        </div>
+        <div class="panel-body grid">
+          <div class="grid three">
+            <label>ID<input id="exceptionId" type="text" placeholder="EXC-001"></label>
+            <label>Rule ID<input id="ruleId" type="text" placeholder="REDUCE_OBJECTS_WITHIN_VISUALS"></label>
+            <label>Status
+              <select id="status">
+                <option value="requested">requested</option>
+                <option value="approved">approved</option>
+                <option value="rejected">rejected</option>
+                <option value="expired">expired</option>
+              </select>
+            </label>
+          </div>
+          <div class="grid two">
+            <label>Owner<input id="owner" type="text" placeholder="team or alias"></label>
+            <label>Approver<input id="approver" type="text" placeholder="governance approver"></label>
+          </div>
+          <div class="grid two">
+            <label>Affected artifact<input id="artifact" type="text" placeholder="Report page, semantic model, workspace, or file path"></label>
+            <label>Expires on<input id="expiresOn" type="date"></label>
+          </div>
+          <label>Reason<textarea id="reason" placeholder="Why is this exception needed?"></textarea></label>
+          <label>Mitigation / cleanup plan<textarea id="mitigation" placeholder="How will this be cleaned up or reviewed?"></textarea></label>
+          <label>Tags<input id="tags" type="text" placeholder="migration, finops, dense-matrix"></label>
+        </div>
+      </div>
+
+      <div id="summaryTab" class="panel tab-panel hidden">
+        <div class="panel-header">
+          <h2>Exception summary</h2>
+          <div class="muted">Use this in governance review, PR summaries, or release readiness notes.</div>
+        </div>
+        <div class="panel-body">
+          <pre id="summaryOutput" class="output"></pre>
+        </div>
+      </div>
+
+      <div id="jsonTab" class="panel tab-panel hidden">
+        <div class="panel-header">
+          <h2>policy-exceptions.json</h2>
+          <div class="muted">Commit this under <code>shared/policy-exceptions.json</code> or project root.</div>
+        </div>
+        <div class="panel-body">
+          <pre id="jsonOutput" class="output"></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>
+    const state = {
+      selectedId: "",
+      exceptions: []
+    };
+
+    const ids = ["newException", "saveException", "deleteException", "loadFile", "seedExample", "downloadJson", "downloadMarkdown", "search", "exceptionList", "totalCount", "approvedCount", "expiringCount", "expiredCount", "exceptionId", "ruleId", "status", "owner", "approver", "artifact", "expiresOn", "reason", "mitigation", "tags", "summaryOutput", "jsonOutput", "toast"];
+    const els = Object.fromEntries(ids.map(id => [id, document.getElementById(id)]));
+
+    function todayDate() {
+      const now = new Date();
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    }
+
+    function daysUntil(dateText) {
+      if (!dateText) return null;
+      const date = new Date(`${dateText}T00:00:00`);
+      if (Number.isNaN(date.getTime())) return null;
+      return Math.ceil((date - todayDate()) / 86400000);
+    }
+
+    function health(exception) {
+      const days = daysUntil(exception.expiresOn);
+      if (exception.status === "expired" || (days !== null && days < 0)) return "expired";
+      if (days !== null && days <= 30) return "expiring";
+      if (exception.status === "approved") return "approved";
+      return "open";
+    }
+
+    function normalizeRegister(value) {
+      if (Array.isArray(value)) return { version: 1, exceptions: value };
+      if (value && Array.isArray(value.exceptions)) return { version: value.version || 1, exceptions: value.exceptions };
+      throw new Error("Exception register must be an array or an object with an exceptions array.");
+    }
+
+    function register() {
+      return {
+        version: 1,
+        generatedAt: new Date().toISOString(),
+        exceptions: state.exceptions
+      };
+    }
+
+    function getFormException() {
+      return {
+        id: (els.exceptionId.value.trim() || `EXC-${String(state.exceptions.length + 1).padStart(3, "0")}`).toUpperCase(),
+        ruleId: els.ruleId.value.trim(),
+        status: els.status.value,
+        owner: els.owner.value.trim(),
+        approver: els.approver.value.trim(),
+        artifact: els.artifact.value.trim(),
+        reason: els.reason.value.trim(),
+        mitigation: els.mitigation.value.trim(),
+        expiresOn: els.expiresOn.value,
+        tags: els.tags.value.split(",").map(tag => tag.trim()).filter(Boolean),
+        updatedAt: new Date().toISOString()
+      };
+    }
+
+    function fillForm(exception) {
+      els.exceptionId.value = exception?.id || "";
+      els.ruleId.value = exception?.ruleId || "";
+      els.status.value = exception?.status || "requested";
+      els.owner.value = exception?.owner || "";
+      els.approver.value = exception?.approver || "";
+      els.artifact.value = exception?.artifact || "";
+      els.reason.value = exception?.reason || "";
+      els.mitigation.value = exception?.mitigation || "";
+      els.expiresOn.value = exception?.expiresOn || "";
+      els.tags.value = (exception?.tags || []).join(", ");
+    }
+
+    function saveException() {
+      const exception = getFormException();
+      if (!exception.ruleId || !exception.owner || !exception.reason || !exception.expiresOn) {
+        toast("Rule ID, owner, reason, and expiration are required.");
+        return;
+      }
+      const index = state.exceptions.findIndex(item => item.id === exception.id);
+      if (index >= 0) {
+        state.exceptions.splice(index, 1, exception);
+      } else {
+        state.exceptions.push(exception);
+      }
+      state.selectedId = exception.id;
+      render();
+      toast("Exception saved.");
+    }
+
+    function deleteException() {
+      if (!state.selectedId) {
+        toast("Select an exception before deleting.");
+        return;
+      }
+      state.exceptions = state.exceptions.filter(item => item.id !== state.selectedId);
+      state.selectedId = "";
+      fillForm(null);
+      render();
+      toast("Exception deleted.");
+    }
+
+    function renderList() {
+      const query = els.search.value.trim().toLowerCase();
+      const filtered = state.exceptions.filter(item => {
+        const text = `${item.id} ${item.ruleId} ${item.status} ${item.owner} ${item.approver} ${item.artifact} ${item.reason} ${(item.tags || []).join(" ")}`.toLowerCase();
+        return !query || text.includes(query);
+      });
+      if (!filtered.length) {
+        els.exceptionList.innerHTML = `<div class="item">No matching exceptions.</div>`;
+        return;
+      }
+      els.exceptionList.innerHTML = filtered.map(item => {
+        const h = health(item);
+        const chipClass = h === "expired" ? "error" : h === "expiring" || item.status === "requested" ? "warning" : "success";
+        const days = daysUntil(item.expiresOn);
+        const expiry = days === null ? "no expiration" : days < 0 ? `${Math.abs(days)} day(s) expired` : `${days} day(s) left`;
+        return `
+          <button class="item" type="button" data-id="${escapeHtml(item.id)}">
+            <span class="item-title">${escapeHtml(item.id)} <span class="chip ${chipClass}">${escapeHtml(h)}</span></span>
+            <span><strong>${escapeHtml(item.ruleId || "No rule")}</strong></span>
+            <span class="muted">${escapeHtml(item.artifact || "No artifact")}</span>
+            <span class="muted">Owner: ${escapeHtml(item.owner || "not set")} | Expires: ${escapeHtml(item.expiresOn || "not set")} (${escapeHtml(expiry)})</span>
+          </button>
+        `;
+      }).join("");
+    }
+
+    function summaryMarkdown() {
+      const groups = {
+        approved: state.exceptions.filter(item => health(item) === "approved"),
+        expiring: state.exceptions.filter(item => health(item) === "expiring"),
+        expired: state.exceptions.filter(item => health(item) === "expired"),
+        open: state.exceptions.filter(item => health(item) === "open")
+      };
+      const lines = [
+        "# Policy Exception Summary",
+        "",
+        `Generated: ${new Date().toISOString()}`,
+        "",
+        "| Status | Count |",
+        "|---|---:|",
+        `| Approved | ${groups.approved.length} |`,
+        `| Expiring <= 30 days | ${groups.expiring.length} |`,
+        `| Expired | ${groups.expired.length} |`,
+        `| Open/requested | ${groups.open.length} |`,
+        "",
+        "## Exceptions",
+        ""
+      ];
+      if (!state.exceptions.length) {
+        lines.push("- No exceptions registered.");
+        return lines.join("\n");
+      }
+      for (const item of state.exceptions) {
+        lines.push(`### ${item.id} - ${item.ruleId || "No rule ID"}`);
+        lines.push("");
+        lines.push(`- Status: ${item.status}`);
+        lines.push(`- Health: ${health(item)}`);
+        lines.push(`- Owner: ${item.owner || "not set"}`);
+        lines.push(`- Approver: ${item.approver || "not set"}`);
+        lines.push(`- Artifact: ${item.artifact || "not set"}`);
+        lines.push(`- Expires on: ${item.expiresOn || "not set"}`);
+        lines.push(`- Reason: ${item.reason || "not set"}`);
+        lines.push(`- Mitigation: ${item.mitigation || "not set"}`);
+        if (item.tags?.length) lines.push(`- Tags: ${item.tags.join(", ")}`);
+        lines.push("");
+      }
+      return lines.join("\n");
+    }
+
+    function renderStats() {
+      const approved = state.exceptions.filter(item => health(item) === "approved").length;
+      const expiring = state.exceptions.filter(item => health(item) === "expiring").length;
+      const expired = state.exceptions.filter(item => health(item) === "expired").length;
+      els.totalCount.textContent = String(state.exceptions.length);
+      els.approvedCount.textContent = String(approved);
+      els.expiringCount.textContent = String(expiring);
+      els.expiredCount.textContent = String(expired);
+    }
+
+    function render() {
+      renderStats();
+      renderList();
+      els.summaryOutput.textContent = summaryMarkdown();
+      els.jsonOutput.textContent = JSON.stringify(register(), null, 2);
+    }
+
+    function seedExample() {
+      const now = todayDate();
+      const soon = new Date(now); soon.setDate(soon.getDate() + 20);
+      const later = new Date(now); later.setDate(later.getDate() + 120);
+      state.exceptions = [
+        {
+          id: "EXC-001",
+          ruleId: "REDUCE_OBJECTS_WITHIN_VISUALS",
+          status: "approved",
+          owner: "finops-bi-team",
+          approver: "bi-governance",
+          artifact: "Cost Management report / AHB opportunities page",
+          reason: "Certified matrix visuals require a larger number of projected fields.",
+          mitigation: "Review visual design during next report simplification cycle.",
+          expiresOn: later.toISOString().slice(0, 10),
+          tags: ["finops", "matrix", "approved"],
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: "EXC-002",
+          ruleId: "ENSURE_THEME_COLOURS",
+          status: "requested",
+          owner: "migration-team",
+          approver: "",
+          artifact: "Legacy migrated report pages",
+          reason: "Theme cleanup is tracked separately from initial PBIP onboarding.",
+          mitigation: "Replace hard-coded colors with theme tokens before expiration.",
+          expiresOn: soon.toISOString().slice(0, 10),
+          tags: ["migration", "theme"],
+          updatedAt: new Date().toISOString()
+        }
+      ];
+      state.selectedId = "EXC-001";
+      fillForm(state.exceptions[0]);
+      render();
+      toast("Starter exceptions loaded.");
+    }
+
+    function download(filename, content, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function loadFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const parsed = normalizeRegister(JSON.parse(await file.text()));
+      state.exceptions = parsed.exceptions;
+      state.selectedId = "";
+      fillForm(null);
+      render();
+      toast(`Loaded ${file.name}`);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function toast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("visible");
+      window.clearTimeout(toast.timer);
+      toast.timer = window.setTimeout(() => els.toast.classList.remove("visible"), 2800);
+    }
+
+    function activateTab(tab) {
+      document.querySelectorAll(".tab").forEach(button => button.classList.toggle("active", button.dataset.tab === tab));
+      document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.add("hidden"));
+      document.getElementById(`${tab}Tab`).classList.remove("hidden");
+    }
+
+    els.newException.addEventListener("click", () => { state.selectedId = ""; fillForm(null); });
+    els.saveException.addEventListener("click", saveException);
+    els.deleteException.addEventListener("click", deleteException);
+    els.seedExample.addEventListener("click", seedExample);
+    els.loadFile.addEventListener("change", event => loadFile(event).catch(error => toast(error.message)));
+    els.search.addEventListener("input", renderList);
+    els.downloadJson.addEventListener("click", () => download("policy-exceptions.json", JSON.stringify(register(), null, 2), "application/json"));
+    els.downloadMarkdown.addEventListener("click", () => download("policy-exceptions-summary.md", summaryMarkdown(), "text/markdown"));
+    els.exceptionList.addEventListener("click", event => {
+      const item = event.target.closest("[data-id]");
+      if (!item) return;
+      state.selectedId = item.dataset.id;
+      fillForm(state.exceptions.find(exception => exception.id === state.selectedId));
+      render();
+    });
+    document.querySelectorAll(".tab").forEach(button => button.addEventListener("click", () => activateTab(button.dataset.tab)));
+
+    render();
+  </script>
+</body>
+</html>

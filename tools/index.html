@@ -410,6 +410,23 @@
           <p><strong>Outputs:</strong> PR quality summary Markdown and JSON summary.</p>
           <a class="button primary" href="pr-quality-summary-generator/index.html">Open PR Quality Summary Generator</a>
         </article>
+
+        <article class="card">
+          <div class="card-top">
+            <div>
+              <h3>Policy Exception Register</h3>
+              <p class="muted">Track rule exceptions with owner, reason, approval status, expiration, affected artifact, and mitigation plan.</p>
+            </div>
+            <span class="chip accent">Governance</span>
+          </div>
+          <div class="chips">
+            <span class="chip">Governance owners</span>
+            <span class="chip">BI leads</span>
+            <span class="chip">Reviewers</span>
+          </div>
+          <p><strong>Outputs:</strong> <code>policy-exceptions.json</code> and exception summary Markdown.</p>
+          <a class="button primary" href="policy-exception-register/index.html">Open Policy Exception Register</a>
+        </article>
       </div>
     </section>
 
@@ -445,6 +462,11 @@
           <div class="step-number">6</div>
           <h3>Summarize PR</h3>
           <p class="muted">Use the PR Quality Summary Generator to create a concise reviewer handoff from validation signals and changed files.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">7</div>
+          <h3>Track exceptions</h3>
+          <p class="muted">Use the Policy Exception Register to keep governance exceptions owned, approved, and time-bound.</p>
         </div>
       </div>
     </section>
@@ -483,6 +505,8 @@
         <div class="artifact"><strong><code>pbip-readiness-report.json</code></strong><br><span class="muted">Machine-readable readiness scan output.</span></div>
         <div class="artifact"><strong><code>PR-Quality-Summary.md</code></strong><br><span class="muted">Reviewer-friendly PR summary.</span></div>
         <div class="artifact"><strong><code>pr-quality-summary.json</code></strong><br><span class="muted">Machine-readable PR quality summary.</span></div>
+        <div class="artifact"><strong><code>policy-exceptions.json</code></strong><br><span class="muted">Owned, approved, time-bound policy exceptions.</span></div>
+        <div class="artifact"><strong><code>policy-exceptions-summary.md</code></strong><br><span class="muted">Governance-ready exception summary.</span></div>
       </div>
     </section>
 
