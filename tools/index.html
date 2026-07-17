@@ -444,6 +444,23 @@
           <p><strong>Outputs:</strong> effective report/dataset rule files and summary Markdown.</p>
           <a class="button primary" href="effective-rules-generator/index.html">Open Effective Rules Generator</a>
         </article>
+
+        <article class="card">
+          <div class="card-top">
+            <div>
+              <h3>CI/CD Platform Parity Matrix</h3>
+              <p class="muted">Compare Azure DevOps, GitHub Actions, and GitLab CI/CD support across validation, quality, deployment, and governance capabilities.</p>
+            </div>
+            <span class="chip accent">Platform parity</span>
+          </div>
+          <div class="chips">
+            <span class="chip">Platform team</span>
+            <span class="chip">Delivery leads</span>
+            <span class="chip">Architects</span>
+          </div>
+          <p><strong>Outputs:</strong> <code>platform-parity-matrix.json</code> and Markdown parity matrix.</p>
+          <a class="button primary" href="platform-parity-matrix/index.html">Open Platform Parity Matrix</a>
+        </article>
       </div>
     </section>
 
@@ -490,6 +507,11 @@
           <h3>Generate effective rules</h3>
           <p class="muted">Use the Effective Rules Generator to preview branch-aware rules after overrides and approved exceptions.</p>
         </div>
+        <div class="step">
+          <div class="step-number">9</div>
+          <h3>Compare platforms</h3>
+          <p class="muted">Use the Platform Parity Matrix to track support and gaps across Azure DevOps, GitHub Actions, and GitLab.</p>
+        </div>
       </div>
     </section>
 
@@ -532,6 +554,8 @@
         <div class="artifact"><strong><code>Rules-Report.effective.json</code></strong><br><span class="muted">Effective report rules for CI.</span></div>
         <div class="artifact"><strong><code>Rules-Dataset.effective.json</code></strong><br><span class="muted">Effective dataset rules for CI.</span></div>
         <div class="artifact"><strong><code>effective-rules-summary.md</code></strong><br><span class="muted">Branch, override, and exception summary.</span></div>
+        <div class="artifact"><strong><code>platform-parity-matrix.json</code></strong><br><span class="muted">CI/CD platform support and gap matrix.</span></div>
+        <div class="artifact"><strong><code>platform-parity-matrix.md</code></strong><br><span class="muted">Readable platform comparison matrix.</span></div>
       </div>
     </section>
 

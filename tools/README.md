@@ -18,6 +18,7 @@ Open [Fabric BI DevOps Accelerator Launchpad](index.html) first. It provides the
 | [PR Quality Summary Generator](pr-quality-summary-generator/index.html) | PR authors, reviewers, BI leads | Generate a pull request summary from changed files, logs, readiness output, DAX test context, and deployment manifest context | `PR-Quality-Summary.md`, `pr-quality-summary.json` |
 | [Policy Exception Register](policy-exception-register/index.html) | Governance owners, BI leads, reviewers | Track policy and rule exceptions with owner, reason, expiration, approval, and mitigation | `policy-exceptions.json`, exception summary Markdown |
 | [Effective Rules Generator](effective-rules-generator/index.html) | Governance owners, platform engineers | Merge baseline rules, branch policy, project overrides, and approved exceptions into CI-ready effective rule files | `Rules-Report.effective.json`, `Rules-Dataset.effective.json`, summary Markdown |
+| [CI/CD Platform Parity Matrix](platform-parity-matrix/index.html) | Platform team, delivery leads, architects | Compare Azure DevOps, GitHub Actions, and GitLab CI/CD support and gaps | `platform-parity-matrix.json`, Markdown matrix |
 
 ## Screenshots
 
@@ -49,6 +50,7 @@ A starter catalog of generally accepted DAX test patterns is available at `share
 10. Use `tools/pr-quality-summary-generator/index.html` to create a reviewer-friendly PR summary from changed files and validation output.
 11. Use `tools/policy-exception-register/index.html` when a rule or policy exception needs owner, reason, approval, expiration, and mitigation tracking.
 12. Use `tools/effective-rules-generator/index.html` or `shared/scripts/New-EffectiveQualityRules.ps1` to produce effective CI rule files from baseline rules, overrides, and exceptions.
+13. Use `tools/platform-parity-matrix/index.html` to compare platform capabilities and identify parity gaps.
 
 All tools are self-contained HTML files. They do not require a local server, package install, or internet access.
 

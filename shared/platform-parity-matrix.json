@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-17T00:00:00.000Z",
+  "platforms": [
+    "Azure DevOps",
+    "GitHub Actions",
+    "GitLab CI/CD"
+  ],
+  "capabilities": [
+    {
+      "id": "pbip-validation",
+      "capability": "PBIP structure validation",
+      "category": "Validation",
+      "azureDevOps": "supported",
+      "githubActions": "supported",
+      "gitLabCi": "supported",
+      "notes": "All platforms run shared/tests/validate_pbip_structure.py."
+    },
+    {
+      "id": "dataset-rules",
+      "capability": "Dataset quality rules",
+      "category": "Quality",
+      "azureDevOps": "supported",
+      "githubActions": "supported",
+      "gitLabCi": "supported",
+      "notes": "Tabular Editor execution requires a Windows-capable runner."
+    },
+    {
+      "id": "report-rules",
+      "capability": "Report quality rules",
+      "category": "Quality",
+      "azureDevOps": "supported",
+      "githubActions": "supported",
+      "gitLabCi": "supported",
+      "notes": "PBI Inspector/Fab Inspector execution requires a Windows-capable runner."
+    },
+    {
+      "id": "dax-tests",
+      "capability": "DAX test metadata validation",
+      "category": "Testing",
+      "azureDevOps": "supported",
+      "githubActions": "supported",
+      "gitLabCi": "supported",
+      "notes": "Current runner validates metadata and emits CI-friendly results."
+    },
+    {
+      "id": "artifact-publish",
+      "capability": "Artifact publication",
+      "category": "Release",
+      "azureDevOps": "supported",
+      "githubActions": "supported",
+      "gitLabCi": "supported",
+      "notes": "Artifact storage implementation differs by platform."
+    },
+    {
+      "id": "dev-deploy",
+      "capability": "Dev workspace deployment",
+      "category": "Deployment",
+      "azureDevOps": "supported",
+      "githubActions": "supported",
+      "gitLabCi": "supported",
+      "notes": "Requires service principal configuration and workspace permissions."
+    },
+    {
+      "id": "feature-deploy",
+      "capability": "Feature workspace deployment",
+      "category": "Deployment",
+      "azureDevOps": "supported",
+      "githubActions": "supported",
+      "gitLabCi": "supported",
+      "notes": "Uses configured feature workspace prefix."
+    },
+    {
+      "id": "skip-flags",
+      "capability": "Stage skip controls",
+      "category": "Operations",
+      "azureDevOps": "partial",
+      "githubActions": "supported",
+      "gitLabCi": "supported",
+      "notes": "GitHub and GitLab expose explicit skip variables; Azure DevOps can use variables/templates."
+    },
+    {
+      "id": "branch-policy",
+      "capability": "Branch policy integration",
+      "category": "Governance",
+      "azureDevOps": "supported",
+      "githubActions": "supported",
+      "gitLabCi": "supported",
+      "notes": "Configured through each platform's branch protection/approval model."
+    },
+    {
+      "id": "reusable-template",
+      "capability": "Reusable shared pipeline template",
+      "category": "Scale",
+      "azureDevOps": "supported",
+      "githubActions": "planned",
+      "gitLabCi": "planned",
+      "notes": "Azure DevOps universal template exists; reusable GitHub/GitLab template patterns are future work."
+    }
+  ]
+}

@@ -54,6 +54,7 @@ The `tools/` folder contains static browser tools that help teams manage BI DevO
 | PR Quality Summary Generator | `tools/pr-quality-summary-generator/index.html` | Create reviewer-friendly pull request summaries from validation and quality signals |
 | Policy Exception Register | `tools/policy-exception-register/index.html` | Track rule exceptions with owner, reason, expiration, approval, artifact, and mitigation |
 | Effective Rules Generator | `tools/effective-rules-generator/index.html` | Generate branch-aware effective rule files from baselines, overrides, and approved exceptions |
+| CI/CD Platform Parity Matrix | `tools/platform-parity-matrix/index.html` | Compare Azure DevOps, GitHub Actions, and GitLab CI/CD support and gaps |
 
 Use the Enterprise Standards Builder first for governance policy setup, then use the Quality Rule Designer for advanced tuning.
 
@@ -105,6 +106,7 @@ Keep reusable CI/CD assets in source control:
 shared/Rules-Report.json
 shared/Rules-Dataset.json
 shared/dax-tests.json
+shared/platform-parity-matrix.json
 shared/scripts/
 shared/scripts/New-EffectiveQualityRules.ps1
 shared/tests/

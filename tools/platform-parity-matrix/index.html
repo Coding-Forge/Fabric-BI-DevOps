@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CI/CD Platform Parity Matrix</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root{color-scheme:light;--cp-bg:#f7f4ef;--cp-bg-elevated:#fcfbf8;--cp-surface:#fff;--cp-surface-soft:#f5f5f5;--cp-border:#dedede;--cp-border-strong:#919191;--cp-text:#242424;--cp-text-muted:#5c5c5c;--cp-accent:#b11f4b;--cp-accent-fg:#fff;--cp-success:#16a34a;--cp-danger:#dc2626;--cp-warning:#f59e0b;--cp-shadow:0 18px 48px rgba(0,0,0,.12);--cp-panel-strong:rgba(255,255,255,.96)}
+    html[data-theme=dark]{color-scheme:dark;--cp-bg:#3d3b3a;--cp-bg-elevated:#343231;--cp-surface:#292929;--cp-surface-soft:#2e2e2e;--cp-border:#474747;--cp-border-strong:#5f5f5f;--cp-text:#dedede;--cp-text-muted:#b0b0b0;--cp-accent:#fd8ea1;--cp-accent-fg:#1a1a1a;--cp-success:#4ade80;--cp-danger:#f87171;--cp-warning:#fbbf24;--cp-shadow:0 18px 48px rgba(0,0,0,.32);--cp-panel-strong:rgba(41,41,41,.96)}
+    *{box-sizing:border-box}body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.45}button,input,select,textarea{font:inherit}button,.file-button{border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);cursor:pointer;padding:8px 12px}button:hover,.file-button:hover{border-color:var(--cp-border-strong)}button.primary{background:var(--cp-accent);border-color:var(--cp-accent);color:var(--cp-accent-fg)}button.danger{border-color:var(--cp-danger);color:var(--cp-danger)}input,select,textarea{width:100%;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);padding:8px 10px}textarea{min-height:84px;resize:vertical}label{display:grid;gap:6px;color:var(--cp-text-muted);font-size:13px;font-weight:700}pre,code{font-family:Consolas,"Courier New",monospace}pre{margin:0;overflow:auto;white-space:pre-wrap;word-break:break-word}.hero{border-bottom:1px solid var(--cp-border);background:var(--cp-bg-elevated);padding:28px}.hero-inner,.main{max-width:1440px;margin:0 auto}.hero-inner{display:grid;gap:16px}.eyebrow{color:var(--cp-accent);font-size:13px;font-weight:850;letter-spacing:.04em;text-transform:uppercase}h1,h2,h3{margin:0;line-height:1.15}h1{font-size:clamp(30px,4vw,46px)}h2{font-size:20px}h3{font-size:16px}.lede{max-width:980px;color:var(--cp-text-muted);font-size:17px}.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.file-button{position:relative;overflow:hidden;display:inline-flex}.file-button input{position:absolute;inset:0;opacity:0;cursor:pointer}.main{display:grid;grid-template-columns:minmax(300px,430px) minmax(0,1fr);gap:20px;padding:24px 28px 40px}.panel,.item{border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface);box-shadow:var(--cp-shadow)}.panel-header{border-bottom:1px solid var(--cp-border);padding:16px}.panel-body{padding:16px}.grid{display:grid;gap:14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);padding:12px}.stat-value{font-size:26px;font-weight:850}.muted,.stat-label{color:var(--cp-text-muted)}.muted{font-size:13px}.list{display:grid;gap:10px;max-height:560px;overflow:auto}.item{background:var(--cp-surface-soft);padding:12px;display:grid;gap:8px;text-align:left}.item-title{display:flex;justify-content:space-between;gap:10px;font-weight:850}.chip-row{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;border:1px solid var(--cp-border);border-radius:999px;background:var(--cp-surface-soft);color:var(--cp-text-muted);font-size:12px;font-weight:800;padding:3px 8px}.chip.supported{border-color:var(--cp-success);color:var(--cp-success)}.chip.partial{border-color:var(--cp-warning);color:var(--cp-warning)}.chip.planned,.chip.gap{border-color:var(--cp-danger);color:var(--cp-danger)}.output{max-height:620px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);color:var(--cp-text);padding:14px;font-size:13px}.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);margin-bottom:16px;padding:8px}.tab{border-color:var(--cp-surface-soft);background:var(--cp-surface-soft);color:var(--cp-text-muted);font-weight:850}.tab.active{border-color:var(--cp-border);background:var(--cp-surface);color:var(--cp-text)}.hidden{display:none}.toast{position:fixed;right:20px;bottom:20px;max-width:380px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-panel-strong);box-shadow:var(--cp-shadow);padding:12px 14px;display:none;z-index:20}.toast.visible{display:block}@media(max-width:980px){.main,.two,.three,.tabs{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Fabric BI DevOps Accelerator</div>
+      <h1>CI/CD Platform Parity Matrix</h1>
+      <p class="lede">Compare Azure DevOps, GitHub Actions, and GitLab CI/CD support across validation, quality, deployment, governance, and scaling capabilities.</p>
+      <div class="toolbar">
+        <button id="newCapability" class="primary" type="button">New capability</button>
+        <button id="saveCapability" type="button">Add or update</button>
+        <button id="deleteCapability" class="danger" type="button">Delete selected</button>
+        <label class="file-button">Load platform-parity-matrix.json<input id="loadFile" type="file" accept=".json,application/json"></label>
+        <button id="seedExample" type="button">Use starter matrix</button>
+        <button id="downloadJson" type="button">Download JSON</button>
+        <button id="downloadMarkdown" type="button">Download Markdown</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <aside class="panel">
+      <div class="panel-header"><h2>Parity health</h2><div class="muted">Use this to prove platform neutrality and identify gaps.</div></div>
+      <div class="panel-body grid">
+        <div class="stats">
+          <div class="stat"><div id="totalCount" class="stat-value">0</div><div class="stat-label">Capabilities</div></div>
+          <div class="stat"><div id="fullParityCount" class="stat-value">0</div><div class="stat-label">Full parity</div></div>
+          <div class="stat"><div id="partialCount" class="stat-value">0</div><div class="stat-label">Partial/planned</div></div>
+          <div class="stat"><div id="gapCount" class="stat-value">0</div><div class="stat-label">Gaps</div></div>
+        </div>
+        <label>Search capabilities<input id="search" type="search" placeholder="Search capability, category, notes"></label>
+        <div id="capabilityList" class="list"></div>
+      </div>
+    </aside>
+    <section>
+      <nav class="tabs">
+        <button class="tab active" data-tab="builder" type="button">Builder</button>
+        <button class="tab" data-tab="summary" type="button">Markdown</button>
+        <button class="tab" data-tab="json" type="button">JSON</button>
+      </nav>
+      <div id="builderTab" class="panel tab-panel">
+        <div class="panel-header"><h2>Capability details</h2><div class="muted">Use supported, partial, planned, or gap to track parity.</div></div>
+        <div class="panel-body grid">
+          <div class="grid three">
+            <label>ID<input id="capabilityId" placeholder="pbip-validation"></label>
+            <label>Category<input id="category" placeholder="Validation"></label>
+            <label>Capability<input id="capability" placeholder="PBIP structure validation"></label>
+          </div>
+          <div class="grid three">
+            <label>Azure DevOps<select id="azureDevOps"><option>supported</option><option>partial</option><option>planned</option><option>gap</option></select></label>
+            <label>GitHub Actions<select id="githubActions"><option>supported</option><option>partial</option><option>planned</option><option>gap</option></select></label>
+            <label>GitLab CI/CD<select id="gitLabCi"><option>supported</option><option>partial</option><option>planned</option><option>gap</option></select></label>
+          </div>
+          <label>Notes<textarea id="notes" placeholder="Runner requirements, setup differences, or gaps"></textarea></label>
+        </div>
+      </div>
+      <div id="summaryTab" class="panel tab-panel hidden"><div class="panel-header"><h2>Parity Markdown</h2></div><div class="panel-body"><pre id="summaryOutput" class="output"></pre></div></div>
+      <div id="jsonTab" class="panel tab-panel hidden"><div class="panel-header"><h2>platform-parity-matrix.json</h2></div><div class="panel-body"><pre id="jsonOutput" class="output"></pre></div></div>
+    </section>
+  </main>
+  <div id="toast" class="toast"></div>
+  <script>
+    const els=Object.fromEntries(["newCapability","saveCapability","deleteCapability","loadFile","seedExample","downloadJson","downloadMarkdown","search","capabilityList","totalCount","fullParityCount","partialCount","gapCount","capabilityId","category","capability","azureDevOps","githubActions","gitLabCi","notes","summaryOutput","jsonOutput","toast"].map(id=>[id,document.getElementById(id)]));
+    const state={selectedId:"",matrix:{version:1,generatedAt:new Date().toISOString(),platforms:["Azure DevOps","GitHub Actions","GitLab CI/CD"],capabilities:[]}};
+    function starter(){return {"version":1,"generatedAt":new Date().toISOString(),"platforms":["Azure DevOps","GitHub Actions","GitLab CI/CD"],"capabilities":[{"id":"pbip-validation","capability":"PBIP structure validation","category":"Validation","azureDevOps":"supported","githubActions":"supported","gitLabCi":"supported","notes":"All platforms run shared/tests/validate_pbip_structure.py."},{"id":"dataset-rules","capability":"Dataset quality rules","category":"Quality","azureDevOps":"supported","githubActions":"supported","gitLabCi":"supported","notes":"Tabular Editor requires a Windows-capable runner."},{"id":"report-rules","capability":"Report quality rules","category":"Quality","azureDevOps":"supported","githubActions":"supported","gitLabCi":"supported","notes":"PBI Inspector/Fab Inspector requires a Windows-capable runner."},{"id":"artifact-publish","capability":"Artifact publication","category":"Release","azureDevOps":"supported","githubActions":"supported","gitLabCi":"supported","notes":"Artifact storage implementation differs by platform."},{"id":"reusable-template","capability":"Reusable shared pipeline template","category":"Scale","azureDevOps":"supported","githubActions":"planned","gitLabCi":"planned","notes":"Azure DevOps universal template exists; reusable GitHub/GitLab patterns are future work."}]}}
+    function norm(value){if(Array.isArray(value))return{version:1,generatedAt:new Date().toISOString(),platforms:["Azure DevOps","GitHub Actions","GitLab CI/CD"],capabilities:value};if(value&&Array.isArray(value.capabilities))return{version:value.version||1,generatedAt:value.generatedAt||new Date().toISOString(),platforms:value.platforms||["Azure DevOps","GitHub Actions","GitLab CI/CD"],capabilities:value.capabilities};throw new Error("Matrix must have a capabilities array.")}
+    function formItem(){return{id:(els.capabilityId.value.trim()||slug(els.capability.value)).toLowerCase(),category:els.category.value.trim()||"General",capability:els.capability.value.trim(),azureDevOps:els.azureDevOps.value,githubActions:els.githubActions.value,gitLabCi:els.gitLabCi.value,notes:els.notes.value.trim()}}
+    function fill(item){els.capabilityId.value=item?.id||"";els.category.value=item?.category||"";els.capability.value=item?.capability||"";els.azureDevOps.value=item?.azureDevOps||"supported";els.githubActions.value=item?.githubActions||"supported";els.gitLabCi.value=item?.gitLabCi||"supported";els.notes.value=item?.notes||""}
+    function slug(v){return String(v||"capability").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")||"capability"}
+    function save(){const item=formItem();if(!item.capability){toast("Capability is required.");return}const i=state.matrix.capabilities.findIndex(x=>x.id===item.id);if(i>=0)state.matrix.capabilities.splice(i,1,item);else state.matrix.capabilities.push(item);state.selectedId=item.id;render();toast("Capability saved.")}
+    function del(){if(!state.selectedId){toast("Select a capability first.");return}state.matrix.capabilities=state.matrix.capabilities.filter(x=>x.id!==state.selectedId);state.selectedId="";fill(null);render();toast("Capability deleted.")}
+    function health(item){const vals=[item.azureDevOps,item.githubActions,item.gitLabCi];if(vals.includes("gap"))return"gap";if(vals.includes("partial")||vals.includes("planned"))return"partial";return"supported"}
+    function renderList(){const q=els.search.value.trim().toLowerCase();const rows=state.matrix.capabilities.filter(x=>!q||`${x.id} ${x.category} ${x.capability} ${x.notes}`.toLowerCase().includes(q));els.capabilityList.innerHTML=rows.length?rows.map(x=>`<button class="item" data-id="${esc(x.id)}"><span class="item-title">${esc(x.capability)} <span class="chip ${health(x)}">${health(x)}</span></span><span class="muted">${esc(x.category)} | AzDO: ${x.azureDevOps} | GitHub: ${x.githubActions} | GitLab: ${x.gitLabCi}</span><span class="muted">${esc(x.notes||"")}</span></button>`).join(""):`<div class="item">No matching capabilities.</div>`}
+    function renderStats(){const rows=state.matrix.capabilities;els.totalCount.textContent=rows.length;els.fullParityCount.textContent=rows.filter(x=>health(x)==="supported").length;els.partialCount.textContent=rows.filter(x=>health(x)==="partial").length;els.gapCount.textContent=rows.filter(x=>health(x)==="gap").length}
+    function md(){const lines=["# CI/CD Platform Parity Matrix","","| Capability | Category | Azure DevOps | GitHub Actions | GitLab CI/CD | Notes |","|---|---|---|---|---|---|"];for(const x of state.matrix.capabilities){lines.push(`| ${x.capability} | ${x.category} | ${x.azureDevOps} | ${x.githubActions} | ${x.gitLabCi} | ${String(x.notes||"").replaceAll("|","/")} |`)}return lines.join("\n")}
+    function render(){state.matrix.generatedAt=new Date().toISOString();renderStats();renderList();els.summaryOutput.textContent=md();els.jsonOutput.textContent=JSON.stringify(state.matrix,null,2)}
+    function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+    function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+    function toast(m){els.toast.textContent=m;els.toast.classList.add("visible");clearTimeout(toast.timer);toast.timer=setTimeout(()=>els.toast.classList.remove("visible"),2800)}
+    async function load(e){const file=e.target.files[0];if(!file)return;state.matrix=norm(JSON.parse(await file.text()));state.selectedId="";fill(null);render();toast(`Loaded ${file.name}`)}
+    document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".tab-panel").forEach(p=>p.classList.add("hidden"));document.getElementById(`${b.dataset.tab}Tab`).classList.remove("hidden")}));
+    els.newCapability.addEventListener("click",()=>{state.selectedId="";fill(null)});els.saveCapability.addEventListener("click",save);els.deleteCapability.addEventListener("click",del);els.loadFile.addEventListener("change",e=>load(e).catch(err=>toast(err.message)));els.seedExample.addEventListener("click",()=>{state.matrix=starter();render();toast("Starter matrix loaded.")});els.downloadJson.addEventListener("click",()=>download("platform-parity-matrix.json",JSON.stringify(state.matrix,null,2),"application/json"));els.downloadMarkdown.addEventListener("click",()=>download("platform-parity-matrix.md",md(),"text/markdown"));els.search.addEventListener("input",renderList);els.capabilityList.addEventListener("click",e=>{const item=e.target.closest("[data-id]");if(!item)return;state.selectedId=item.dataset.id;fill(state.matrix.capabilities.find(x=>x.id===state.selectedId));render()});
+    state.matrix=starter();render();
+  </script>
+</body>
+</html>
