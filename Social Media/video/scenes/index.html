@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enterprise BI DevOps Video Scenes</title>
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --surface: #ffffff;
+      --text: #242424;
+      --muted: #5c5c5c;
+      --accent: #b11f4b;
+      --accent-soft: rgba(177, 31, 75, 0.08);
+      --border: #dedede;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", Aptos, Calibri, Arial, sans-serif;
+    }
+    .scene {
+      width: 1920px;
+      height: 1080px;
+      display: grid;
+      grid-template-columns: 46% 54%;
+      gap: 36px;
+      padding: 72px;
+      background:
+        radial-gradient(circle at top left, rgba(177, 31, 75, 0.10), transparent 32%),
+        var(--bg);
+      overflow: hidden;
+    }
+    .scene-text {
+      display: grid;
+      align-content: center;
+      gap: 24px;
+    }
+    .eyebrow {
+      color: var(--accent);
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      font-size: 76px;
+      line-height: 1.04;
+      letter-spacing: -0.04em;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 34px;
+      line-height: 1.35;
+    }
+    .scene-media {
+      display: grid;
+      align-content: center;
+    }
+    .frame {
+      width: 100%;
+      max-height: 850px;
+      object-fit: contain;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: var(--surface);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.16);
+    }
+    .callout {
+      display: inline-flex;
+      width: fit-content;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 28px;
+      font-weight: 800;
+      padding: 12px 22px;
+    }
+  </style>
+</head>
+<body>
+  <section class="scene" id="scene-01">
+    <div class="scene-text">
+      <div class="eyebrow">Enterprise BI DevOps</div>
+      <h1>Governed analytics delivery with Microsoft Fabric</h1>
+      <p>Move from manual BI delivery to a repeatable engineering practice for Power BI and Fabric PBIP projects.</p>
+      <div class="callout">Not just CI/CD. A full operating model.</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../images/enterprise-bi-devops-architecture.svg" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-02">
+    <div class="scene-text">
+      <div class="eyebrow">Challenge</div>
+      <h1>Git integration is only the start</h1>
+      <p>Teams also need validation, quality rules, deployment context, readiness evidence, and adoption metrics.</p>
+      <div class="callout">The launchpad brings the pieces together.</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/launchpad.png" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-03">
+    <div class="scene-text">
+      <div class="eyebrow">Standards</div>
+      <h1>Start with governed quality profiles</h1>
+      <p>Generate report and dataset rules from policy decisions without asking every report author to hand-edit JSON.</p>
+      <div class="callout">Output: Rules-Report.json and Rules-Dataset.json</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/enterprise-standards-builder.png" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-04">
+    <div class="scene-text">
+      <div class="eyebrow">Rule tuning</div>
+      <h1>Tune individual rules safely</h1>
+      <p>Inspect, adjust, and create report or semantic model rules through a guided designer.</p>
+      <div class="callout">Useful for thresholds, exceptions, and custom logic.</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/quality-rule-designer.png" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-05">
+    <div class="scene-text">
+      <div class="eyebrow">DAX validation</div>
+      <h1>Document critical measure expectations</h1>
+      <p>Capture DAX test metadata that can be reviewed, versioned, and consumed by CI.</p>
+      <div class="callout">Output: dax-tests.json</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/dax-test-builder.png" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-06">
+    <div class="scene-text">
+      <div class="eyebrow">Deployment contract</div>
+      <h1>Make release intent readable</h1>
+      <p>Capture owners, artifacts, environments, parameters, approvals, validation gates, and rollback notes.</p>
+      <div class="callout">Output: deployment-manifest.json</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/deployment-manifest-builder.png" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-07">
+    <div class="scene-text">
+      <div class="eyebrow">Pre-PR readiness</div>
+      <h1>Scan before review</h1>
+      <p>Catch missing PBIP structure, governance assets, references, and pipeline wiring before opening a pull request.</p>
+      <div class="callout">Demo folder: C:\Projects\Enterprise-Fabric\shared</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/pbip-readiness-scanner.png" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-08">
+    <div class="scene-text">
+      <div class="eyebrow">PR review</div>
+      <h1>Give reviewers the right summary</h1>
+      <p>Summarize changed files, validation signals, failed rules, readiness output, DAX context, and release notes.</p>
+      <div class="callout">Output: PR-Quality-Summary.md</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/pr-quality-summary-generator.png" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-09">
+    <div class="scene-text">
+      <div class="eyebrow">Exceptions</div>
+      <h1>Keep exceptions owned and temporary</h1>
+      <p>Track owner, reason, approver, affected artifact, expiration, and mitigation plan.</p>
+      <div class="callout">Output: policy-exceptions.json</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/policy-exception-register.png" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-10">
+    <div class="scene-text">
+      <div class="eyebrow">Effective enforcement</div>
+      <h1>Preview what CI will enforce</h1>
+      <p>Merge baseline rules, branch policy, project overrides, and approved exceptions into effective rule files.</p>
+      <div class="callout">Output: Rules-*.effective.json</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/effective-rules-generator.png" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-11">
+    <div class="scene-text">
+      <div class="eyebrow">Platform parity</div>
+      <h1>Measure CI/CD support across platforms</h1>
+      <p>Track support and gaps across Azure DevOps, GitHub Actions, and GitLab CI/CD.</p>
+      <div class="callout">Output: platform-parity-matrix.json</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/platform-parity-matrix.png" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-12">
+    <div class="scene-text">
+      <div class="eyebrow">Release readiness</div>
+      <h1>Turn evidence into a release recommendation</h1>
+      <p>Aggregate validation, quality, DAX, manifest, exception, PR, and effective-rule evidence.</p>
+      <div class="callout">Ready, release with review, or do not release.</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/release-readiness-dashboard.png" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-13">
+    <div class="scene-text">
+      <div class="eyebrow">Adoption metrics</div>
+      <h1>Track growth and maturity</h1>
+      <p>Measure active projects, platform usage, rule maturity, readiness scores, exceptions, and time-to-onboard.</p>
+      <div class="callout">Output: adoption-metrics.json and CSV</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/adoption-metrics-dashboard.png" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-14">
+    <div class="scene-text">
+      <div class="eyebrow">Policy coverage</div>
+      <h1>Map policies to automated rules</h1>
+      <p>Show which policies are covered by rules, which require manual checks, and where gaps remain.</p>
+      <div class="callout">Output: rule-coverage-matrix.json</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/rule-coverage-matrix.png" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-15">
+    <div class="scene-text">
+      <div class="eyebrow">Differentiation</div>
+      <h1>Prove why this solution is different</h1>
+      <p>Score this solution against CI/CD samples, decks, internal accelerators, and public alternatives.</p>
+      <div class="callout">Output: competitive-differentiation-matrix.json</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/competitive-differentiation-matrix.png" alt=""></div>
+  </section>
+
+  <section class="scene" id="scene-16">
+    <div class="scene-text">
+      <div class="eyebrow">Call to action</div>
+      <h1>Start with one PBIP pilot</h1>
+      <p>Use the launchpad, choose your platform, clone the toolkit, and build toward enterprise governance.</p>
+      <div class="callout">Pilot first. Govern at scale.</div>
+    </div>
+    <div class="scene-media"><img class="frame" src="../../../docs/images/tool-walkthrough/launchpad.png" alt=""></div>
+  </section>
+</body>
+</html>
+

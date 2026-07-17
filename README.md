@@ -131,8 +131,17 @@ Use the sparse clone scripts when you want only the folders needed for a specifi
 | GitHub Actions | `shared/scripts/Clone-SparseGitHubProfile.ps1` | `.github`, `shared`, `docs`, `tools`, `images` |
 | GitLab CI/CD | `shared/scripts/Clone-SparseGitLabProfile.ps1` | `gitlab`, `shared`, `docs`, `tools`, `images` |
 | Toolkit | `shared/scripts/Clone-SparseToolkitProfile.ps1` | Platform-specific folders plus either standard toolkit assets or minimal CI/CD assets. Workshop files are excluded unless `-IncludeWorkshop` is passed. |
+| PowerShell UI | `shared/scripts/Start-SparseCloneUI.ps1` | Form-based Windows UI for running toolkit or platform-specific sparse clone scripts |
 
 For detailed sparse clone scenarios, see [Sparse Clone Guide](docs/sparse-clone-guide.md).
+
+To use a form-based Windows UI instead of typing arguments manually:
+
+```powershell
+.\shared\scripts\Start-SparseCloneUI.ps1
+```
+
+The UI lets users choose the destination parent folder and enter a new repo folder name separately, then runs the selected sparse clone script with the combined final path.
 
 Example:
 

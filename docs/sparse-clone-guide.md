@@ -8,6 +8,20 @@ The recommended script for new project repos is:
 shared/scripts/Clone-SparseToolkitProfile.ps1
 ```
 
+If you prefer a form-based experience on Windows, use:
+
+```text
+shared/scripts/Start-SparseCloneUI.ps1
+```
+
+It opens a PowerShell UI where users can fill in repository URL, destination, branch, platform, profile, and workshop inclusion before running the appropriate sparse clone script.
+
+The UI separates:
+
+- **Destination folder**: the parent folder where the new repo folder should be created.
+- **New repo folder name**: the folder name for the sparse-cloned repository.
+- **Final clone path**: the combined path passed to the sparse clone script.
+
 It lets you choose:
 
 - The CI/CD platform folder to include.
@@ -23,6 +37,23 @@ It lets you choose:
   -Platform AzDo `
   -Profile Standard
 ```
+
+## PowerShell UI
+
+Run the UI from the repository root:
+
+```powershell
+.\shared\scripts\Start-SparseCloneUI.ps1
+```
+
+The UI can run:
+
+- `Clone-SparseToolkitProfile.ps1`
+- `Clone-SparseAzDoProfile.ps1`
+- `Clone-SparseGitHubProfile.ps1`
+- `Clone-SparseGitLabProfile.ps1`
+
+Use **Toolkit** mode when you want platform, profile, and workshop options. Use the platform-specific modes when you want the original platform profile behavior.
 
 ## Platform argument
 

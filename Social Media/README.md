@@ -56,3 +56,4 @@ Whenever `Blog-Post.md` or its images change, regenerate and commit the publishe
 - X-Thread.txt
 - YouTube-Demo-Description.txt
 - images/
+- video/
