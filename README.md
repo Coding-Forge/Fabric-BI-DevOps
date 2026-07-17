@@ -1,6 +1,6 @@
 # Enterprise BI DevOps with Microsoft Fabric
 
-> **Version:** 1.1 | **Author:** Brandon Campbell | **Updated:** June 2026
+> **Version:** 1.1 | **Author:** Brandon Campbell | **Updated:** July 2026
 
 Enterprise BI DevOps with Microsoft Fabric helps teams turn Power BI and Fabric delivery into a governed, repeatable engineering practice. It combines CI/CD patterns, quality gates, deployment guidance, no-code governance tools, and workshop-ready reference material for Microsoft Fabric and Power BI PBIP projects.
 
