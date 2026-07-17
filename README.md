@@ -84,6 +84,7 @@ Use the Enterprise Standards Builder first for governance policy setup, then use
 | Documentation hub | [docs/index.md](docs/index.md) |
 | Workshop datasheet | [docs/delivery/workshop-datasheet.md](docs/delivery/workshop-datasheet.md) |
 | Delivery guide | [docs/delivery/workshop-delivery-guide.md](docs/delivery/workshop-delivery-guide.md) |
+| Repository change checklist | [docs/repo-change-checklist.md](docs/repo-change-checklist.md) |
 | CI/CD architecture | [docs/architecture/cicd-architecture.md](docs/architecture/cicd-architecture.md) |
 | Branching strategy | [docs/architecture/branching-strategy.md](docs/architecture/branching-strategy.md) |
 | Workspace strategy | [docs/architecture/workspace-strategy.md](docs/architecture/workspace-strategy.md) |
@@ -189,6 +190,8 @@ Each sparse clone script removes the source `origin` remote after checkout so a 
 ## Contributing
 
 Contributions are welcome when they improve the solution, clarify adoption guidance, or make the examples easier to adapt in real Fabric and Power BI environments.
+
+Before making or submitting changes, follow the [Repository Change Checklist](docs/repo-change-checklist.md).
 
 Good contributions include documentation fixes, safer validation rules, reusable pipeline improvements, clearer lab steps, and examples that help teams adopt the pattern on Azure DevOps, GitHub Actions, or GitLab CI/CD.
 
