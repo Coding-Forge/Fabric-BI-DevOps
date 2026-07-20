@@ -15,6 +15,9 @@ Open [Fabric BI DevOps Accelerator Launchpad](index.html) first. It provides the
 | [DAX Test Builder](dax-test-builder/index.html) | BI developers, semantic model owners | Define DAX measure test metadata consumed by the pipeline runner | `dax-tests.json`, DAX test catalog Markdown |
 | [Deployment Manifest Builder](deployment-manifest-builder/index.html) | Release managers, BI leads, platform engineers | Scan existing PBIP folders or manually define deployment ownership, artifacts, environments, parameters, approvals, and rollback | `deployment-manifest.json`, deployment summary Markdown |
 | [PBIP Project Readiness Scanner](pbip-readiness-scanner/index.html) | Report creators, platform team | Scan a PBIP repo or project folder before PR | Readiness Markdown report, JSON report |
+| [PBIP Diff Viewer](pbip-diff-viewer/index.html) | Reviewers, BI leads | Compare before/after PBIP snapshots and translate report, model, rules, tests, and manifest changes into reviewer guidance | `pbip-diff-report.html`, `pbip-diff-report.md`, `pbip-diff-report.json` |
+| [Dependency Impact Analyzer](dependency-impact-analyzer/index.html) | BI developers, reviewers | Trace changed model objects to impacted measures, relationships, visuals, report pages, tests, and governance assets | `dependency-impact-report.html`, `dependency-impact-report.md`, `dependency-impact-report.json` |
+| [Pipeline Config Generator](pipeline-config-generator/index.html) | Platform team | Generate Azure DevOps, GitHub Actions, or GitLab CI YAML from one PBIP delivery profile | Pipeline YAML, `pipeline-profile.json`, `pipeline-setup-notes.md` |
 | [PR Quality Summary Generator](pr-quality-summary-generator/index.html) | PR authors, reviewers, BI leads | Generate a pull request summary from changed files, logs, readiness output, DAX test context, and deployment manifest context | `PR-Quality-Summary.md`, `pr-quality-summary.json` |
 | [Policy Exception Register](policy-exception-register/index.html) | Governance owners, BI leads, reviewers | Track policy and rule exceptions with owner, reason, expiration, approval, and mitigation | `policy-exceptions.json`, exception summary Markdown |
 | [Effective Rules Generator](effective-rules-generator/index.html) | Governance owners, platform engineers | Merge baseline rules, branch policy, project overrides, and approved exceptions into CI-ready effective rule files | `Rules-Report.effective.json`, `Rules-Dataset.effective.json`, summary Markdown |
@@ -40,6 +43,18 @@ The DAX Test Builder creates test metadata for measure-level validation. It expo
 
 A starter catalog of generally accepted DAX test patterns is available at `shared/dax-tests.json`. The starter tests are disabled by default because measure names, table names, expected values, and filter contexts must be customized for each semantic model before CI enforcement.
 
+### PBIP Diff Viewer
+
+![PBIP Diff Viewer](../images/pbip-diff-viewer.png)
+
+### Dependency Impact Analyzer
+
+![Dependency Impact Analyzer](../images/dependency-impact-analyzer.png)
+
+### Pipeline Config Generator
+
+![Pipeline Config Generator](../images/pipeline-config-generator.png)
+
 ## Recommended Workflow
 
 1. Open `tools/enterprise-standards-builder/index.html` in a browser.
@@ -51,14 +66,17 @@ A starter catalog of generally accepted DAX test patterns is available at `share
 7. Use `tools/dax-test-builder/index.html` to customize `shared/dax-tests.json`, define measure-level DAX tests, and export the updated test catalog.
 8. Use `tools/deployment-manifest-builder/index.html` to create the deployment contract for Dev/Test/Prod, parameters, approvals, and rollback.
 9. Use `tools/pbip-readiness-scanner/index.html` before opening a PR to catch missing PBIP structure, governance assets, and CI/CD wiring.
-10. Use `tools/pr-quality-summary-generator/index.html` to create a reviewer-friendly PR summary from changed files and validation output.
-11. Use `tools/policy-exception-register/index.html` when a rule or policy exception needs owner, reason, approval, expiration, and mitigation tracking.
-12. Use `tools/effective-rules-generator/index.html` or `shared/scripts/New-EffectiveQualityRules.ps1` to produce effective CI rule files from baseline rules, overrides, and exceptions.
-13. Use `tools/platform-parity-matrix/index.html` to compare platform capabilities and identify parity gaps.
-14. Use `tools/release-readiness-dashboard/index.html` to consolidate evidence and make a release recommendation.
-15. Use `tools/adoption-metrics-dashboard/index.html` to track adoption, platform usage, readiness scores, and onboarding metrics.
-16. Use `tools/rule-coverage-matrix/index.html` to connect governance policies to automated rules and manual checks.
-17. Use `tools/competitive-differentiation-matrix/index.html` to compare solution maturity and positioning against alternatives.
+10. Use `tools/pbip-diff-viewer/index.html` to compare before/after PBIP snapshots in reviewer-friendly terms.
+11. Use `tools/dependency-impact-analyzer/index.html` to trace changed semantic model objects to impacted measures, visuals, pages, relationships, tests, and governance assets.
+12. Use `tools/pipeline-config-generator/index.html` to generate CI/CD YAML for Azure DevOps, GitHub Actions, or GitLab CI from one profile.
+13. Use `tools/pr-quality-summary-generator/index.html` to create a reviewer-friendly PR summary from changed files and validation output.
+14. Use `tools/policy-exception-register/index.html` when a rule or policy exception needs owner, reason, approval, expiration, and mitigation tracking.
+15. Use `tools/effective-rules-generator/index.html` or `shared/scripts/New-EffectiveQualityRules.ps1` to produce effective CI rule files from baseline rules, overrides, and exceptions.
+16. Use `tools/platform-parity-matrix/index.html` to compare platform capabilities and identify parity gaps.
+17. Use `tools/release-readiness-dashboard/index.html` to consolidate evidence and make a release recommendation.
+18. Use `tools/adoption-metrics-dashboard/index.html` to track adoption, platform usage, readiness scores, and onboarding metrics.
+19. Use `tools/rule-coverage-matrix/index.html` to connect governance policies to automated rules and manual checks.
+20. Use `tools/competitive-differentiation-matrix/index.html` to compare solution maturity and positioning against alternatives.
 
 All tools are self-contained HTML files. They do not require a local server, package install, or internet access.
 

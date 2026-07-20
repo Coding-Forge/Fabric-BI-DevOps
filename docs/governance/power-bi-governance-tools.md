@@ -1,6 +1,6 @@
 # Fabric BI DevOps Accelerator Tools
 
-This repository includes two no-code browser tools that help teams turn enterprise Power BI standards into CI/CD quality gates without asking report authors to hand-edit JSON.
+This repository includes a no-code browser toolkit that helps teams turn enterprise Power BI standards, PBIP review, CI/CD setup, release readiness, governance, and adoption tracking into source-controllable artifacts without asking report authors to hand-edit JSON.
 
 Use these tools to support:
 
@@ -38,6 +38,9 @@ tools/index.html
 | **DAX Test Builder** | BI developers, semantic model owners | Define measure-level DAX test metadata consumed by the pipeline runner | `dax-tests.json`, test catalog Markdown |
 | **Deployment Manifest Builder** | Release managers, BI leads, platform engineers | Scan existing PBIP folders or define solution deployment ownership, artifacts, environments, parameters, approvals, and rollback | `deployment-manifest.json`, summary Markdown |
 | **PBIP Project Readiness Scanner** | Report creators, platform team | Scan a local PBIP repo or project folder before PR | Readiness Markdown report, JSON report |
+| **PBIP Diff Viewer** | Reviewers, BI leads | Compare before/after PBIP snapshots and translate report, model, rules, tests, and manifest changes into reviewer guidance | `pbip-diff-report.html`, `pbip-diff-report.md`, `pbip-diff-report.json` |
+| **Dependency Impact Analyzer** | BI developers, reviewers | Trace changed model objects to impacted measures, relationships, visuals, report pages, tests, and governance assets | `dependency-impact-report.html`, `dependency-impact-report.md`, `dependency-impact-report.json` |
+| **Pipeline Config Generator** | Platform team | Generate Azure DevOps, GitHub Actions, or GitLab CI YAML from one PBIP delivery profile | Pipeline YAML, `pipeline-profile.json`, `pipeline-setup-notes.md` |
 | **PR Quality Summary Generator** | PR authors, reviewers, BI leads | Generate reviewer-friendly PR summaries from changed files, pipeline logs, readiness output, DAX tests, and deployment context | `PR-Quality-Summary.md`, `pr-quality-summary.json` |
 | **Policy Exception Register** | Governance owners, BI leads, reviewers | Track policy and rule exceptions with owner, reason, expiration, approval, affected artifact, and mitigation | `policy-exceptions.json`, exception summary Markdown |
 | **Effective Rules Generator** | Governance owners, platform engineers | Merge baseline rules, branch policy, project overrides, and approved exceptions into CI-ready effective rule files | `Rules-Report.effective.json`, `Rules-Dataset.effective.json`, summary Markdown |
@@ -201,6 +204,90 @@ Use this tool when the conversation starts with questions like:
 - "Can a report author self-check before pushing?"
 - "Do we have the governance and pipeline assets wired up?"
 
+## PBIP Diff Viewer
+
+Open:
+
+```text
+tools/pbip-diff-viewer/index.html
+```
+
+The PBIP Diff Viewer compares before and after PBIP snapshots and translates raw report, semantic model, rule, test, exception, manifest, and pipeline metadata changes into reviewer-friendly guidance.
+
+![PBIP Diff Viewer](../../images/pbip-diff-viewer.png)
+
+### What It Helps Users Do
+
+- Compare two local PBIP or repository snapshots without uploading files.
+- Classify added, removed, and changed report, model, rule, DAX test, exception, manifest, and pipeline files.
+- Filter changes by artifact type or path.
+- Export HTML, Markdown, and JSON diff reports for pull request review.
+
+### Best Fit
+
+Use this tool when the conversation starts with questions like:
+
+- "What changed between these two PBIP snapshots?"
+- "What should reviewers focus on instead of raw JSON?"
+- "Were any model or report files removed?"
+- "Can we attach a readable diff report to the PR?"
+
+## Dependency Impact Analyzer
+
+Open:
+
+```text
+tools/dependency-impact-analyzer/index.html
+```
+
+The Dependency Impact Analyzer scans PBIP report and semantic model metadata to trace changed model objects to impacted measures, relationships, visuals, report pages, tests, deployment manifests, and governance assets.
+
+![Dependency Impact Analyzer](../../images/dependency-impact-analyzer.png)
+
+### What It Helps Users Do
+
+- Enter changed model objects such as `Revenue`, `Sales[Amount]`, or `Customer[Region]`.
+- Identify measures and relationships that reference changed objects.
+- Find report visuals and pages that may need regression review.
+- Export HTML, Markdown, and JSON impact reports for PR and release review.
+
+### Best Fit
+
+Use this tool when the conversation starts with questions like:
+
+- "If this measure changes, which reports might be affected?"
+- "Which visuals reference this column?"
+- "What should we regression test before approving the PR?"
+- "Which governance assets mention this object?"
+
+## Pipeline Config Generator
+
+Open:
+
+```text
+tools/pipeline-config-generator/index.html
+```
+
+The Pipeline Config Generator creates Azure DevOps, GitHub Actions, or GitLab CI YAML from one PBIP delivery profile, including validation, quality rules, DAX test metadata, artifact publishing, deployment, runner guidance, and required secrets.
+
+![Pipeline Config Generator](../../images/pipeline-config-generator.png)
+
+### What It Helps Users Do
+
+- Generate platform-specific CI/CD YAML from one profile.
+- Choose validation, dataset quality, report quality, DAX test, publish, and deploy stages.
+- Capture branch triggers, PBIP paths, Python version, and deployment script path.
+- Export pipeline YAML, `pipeline-profile.json`, and `pipeline-setup-notes.md`.
+
+### Best Fit
+
+Use this tool when the conversation starts with questions like:
+
+- "What YAML should this PBIP repo use?"
+- "Which jobs need Windows runners?"
+- "Which secrets are required for deployment?"
+- "Can we generate equivalent setup for Azure DevOps, GitHub Actions, and GitLab?"
+
 ## Recommended Governance Workflow
 
 1. Define the enterprise posture in the **Enterprise Standards Builder**.
@@ -210,17 +297,20 @@ Use this tool when the conversation starts with questions like:
 5. Use the **DAX Test Builder** to define measure-level tests for critical business calculations.
 6. Use the **Deployment Manifest Builder** to document environments, parameters, approvals, and rollback.
 7. Run the **PBIP Project Readiness Scanner** before opening the PR.
-8. Use the **PR Quality Summary Generator** to turn changed files and validation signals into reviewer-ready PR text.
-9. Use the **Policy Exception Register** for approved temporary exceptions.
-10. Use the **Effective Rules Generator** to preview CI-ready rules after branch policy, overrides, and exceptions.
-11. Use the **CI/CD Platform Parity Matrix** to track support gaps across Azure DevOps, GitHub Actions, and GitLab.
-12. Use the **Release Readiness Dashboard** to make a release recommendation from all available evidence.
-13. Use the **Adoption Metrics Dashboard** to track project onboarding, rule maturity, exceptions, and readiness trends.
-14. Use the **Rule Coverage Matrix** to prove policy coverage and identify automation gaps.
-15. Use the **Competitive Differentiation Matrix** to compare maturity and positioning against other solution types.
-16. Commit the final rule files, `dax-tests.json`, `deployment-manifest.json`, and `policy-exceptions.json` under `shared/`.
-17. Validate the prepared effective rules locally or through CI.
-18. Promote stricter settings after false positives and adoption gaps are resolved.
+8. Use the **PBIP Diff Viewer** to compare before/after PBIP snapshots in reviewer-friendly terms.
+9. Use the **Dependency Impact Analyzer** to trace changed model objects to impacted measures, visuals, pages, relationships, tests, and governance assets.
+10. Use the **Pipeline Config Generator** to generate platform-specific CI/CD YAML from one delivery profile.
+11. Use the **PR Quality Summary Generator** to turn changed files and validation signals into reviewer-ready PR text.
+12. Use the **Policy Exception Register** for approved temporary exceptions.
+13. Use the **Effective Rules Generator** to preview CI-ready rules after branch policy, overrides, and exceptions.
+14. Use the **CI/CD Platform Parity Matrix** to track support gaps across Azure DevOps, GitHub Actions, and GitLab.
+15. Use the **Release Readiness Dashboard** to make a release recommendation from all available evidence.
+16. Use the **Adoption Metrics Dashboard** to track project onboarding, rule maturity, exceptions, and readiness trends.
+17. Use the **Rule Coverage Matrix** to prove policy coverage and identify automation gaps.
+18. Use the **Competitive Differentiation Matrix** to compare maturity and positioning against other solution types.
+19. Commit the final rule files, `dax-tests.json`, `deployment-manifest.json`, and `policy-exceptions.json` under `shared/`.
+20. Validate the prepared effective rules locally or through CI.
+21. Promote stricter settings after false positives and adoption gaps are resolved.
 
 ## Marketing Positioning
 

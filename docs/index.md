@@ -38,6 +38,9 @@ This wiki provides all workshop plans, labs, governance materials, and architect
 - DAX Test Builder: `../tools/dax-test-builder/index.html`
 - Deployment Manifest Builder: `../tools/deployment-manifest-builder/index.html`
 - PBIP Project Readiness Scanner: `../tools/pbip-readiness-scanner/index.html`
+- PBIP Diff Viewer: `../tools/pbip-diff-viewer/index.html`
+- Dependency Impact Analyzer: `../tools/dependency-impact-analyzer/index.html`
+- Pipeline Config Generator: `../tools/pipeline-config-generator/index.html`
 
 ---
 

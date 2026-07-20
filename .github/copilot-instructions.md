@@ -13,5 +13,5 @@ Always check whether the change requires updates to:
 - `TODO.md`
 - sparse clone scripts under `shared/scripts/`
 
-Validate browser tools and PowerShell scripts before marking work complete.
+Validate browser tools and PowerShell scripts before marking work complete. When changing screenshots or video frames, verify that the intended image content is visibly rendered in the generated assets, not just that the files were created.
 

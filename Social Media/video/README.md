@@ -35,6 +35,10 @@ Social Media/video/scenes/frames/
 
 The generated MP4 is a visual-only video. Use `enterprise-bi-devops-script.md` for narration, voiceover, or speaker notes when producing a final version in PowerPoint, Clipchamp, Stream, or another video editor.
 
+The current scene deck contains 19 scenes covering standards, rule tuning, DAX metadata, deployment manifests, PBIP readiness, PBIP diffing, dependency impact, pipeline generation, PR summaries, exceptions, effective rules, platform parity, release readiness, adoption metrics, governance coverage, differentiation, and the call to action.
+
+When updating scene frames, confirm that the right-side screenshot or image is visibly rendered in each affected frame. A frame is not valid if it only shows a blank rectangle, broken image placeholder, or border where the screenshot should appear. For local captures, generate frames from a path that preserves relative image references and handles spaces in `Social Media` paths correctly.
+
 ## Add narration
 
 `narration.wav` is not created automatically. Create it by recording the narration script:

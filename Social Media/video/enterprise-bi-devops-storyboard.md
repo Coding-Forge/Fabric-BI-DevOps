@@ -6,7 +6,7 @@ Show how the solution helps Microsoft Fabric and Power BI teams move from manual
 
 ## Target length
 
-3 to 4 minutes.
+3 to 5 minutes, depending on narration pace and whether the visual-only video is used as-is or with voiceover.
 
 ## Audience
 
@@ -29,15 +29,18 @@ Show how the solution helps Microsoft Fabric and Power BI teams move from manual
 | 5 | Add DAX validation metadata | DAX Test Builder screenshot | Teams can capture measure-level expectations for CI and review. |
 | 6 | Define release intent | Deployment Manifest Builder screenshot | Release reviewers need ownership, environments, approvals, parameters, and rollback context. |
 | 7 | Scan before PR | PBIP Readiness Scanner screenshot | Authors can catch missing structure, governance files, and CI wiring before review. |
-| 8 | Summarize the PR | PR Quality Summary Generator screenshot | Reviewers get a concise summary of changed files, validation signals, risks, and checklist items. |
-| 9 | Track exceptions | Policy Exception Register screenshot | Exceptions are owned, approved, time-bound, and reviewable. |
-| 10 | Generate effective rules | Effective Rules Generator screenshot | Teams can preview exactly what CI will enforce after branch policy, overrides, and exceptions. |
-| 11 | Compare CI/CD platforms | Platform Parity Matrix screenshot | Platform support and gaps across Azure DevOps, GitHub Actions, and GitLab become visible. |
-| 12 | Decide release readiness | Release Readiness Dashboard screenshot | Validation evidence becomes a score and release recommendation. |
-| 13 | Measure adoption | Adoption Metrics Dashboard screenshot | Program owners can track onboarded projects, readiness, rule maturity, exceptions, and time-to-onboard. |
-| 14 | Prove governance coverage | Rule Coverage Matrix screenshot | Policies are mapped to automated rules and manual checks. |
-| 15 | Differentiate the solution | Competitive Differentiation Matrix screenshot | The solution can be compared against samples, decks, and internal accelerators. |
-| 16 | Call to action | Launchpad screenshot | Start with the launchpad, choose a platform, and pilot one PBIP project. |
+| 8 | Compare PBIP changes | PBIP Diff Viewer screenshot | Reviewers can understand before/after report, model, rule, test, and manifest changes without reading raw JSON. |
+| 9 | Analyze dependency impact | Dependency Impact Analyzer screenshot | Changed model objects can be traced to impacted measures, relationships, visuals, report pages, tests, and governance assets. |
+| 10 | Generate pipeline config | Pipeline Config Generator screenshot | Platform teams can create Azure DevOps, GitHub Actions, or GitLab CI YAML from one PBIP delivery profile. |
+| 11 | Summarize the PR | PR Quality Summary Generator screenshot | Reviewers get a concise summary of changed files, validation signals, risks, and checklist items. |
+| 12 | Track exceptions | Policy Exception Register screenshot | Exceptions are owned, approved, time-bound, and reviewable. |
+| 13 | Generate effective rules | Effective Rules Generator screenshot | Teams can preview exactly what CI will enforce after branch policy, overrides, and exceptions. |
+| 14 | Compare CI/CD platforms | Platform Parity Matrix screenshot | Platform support and gaps across Azure DevOps, GitHub Actions, and GitLab become visible. |
+| 15 | Decide release readiness | Release Readiness Dashboard screenshot | Validation evidence becomes a score and release recommendation. |
+| 16 | Measure adoption | Adoption Metrics Dashboard screenshot | Program owners can track onboarded projects, readiness, rule maturity, exceptions, and time-to-onboard. |
+| 17 | Prove governance coverage | Rule Coverage Matrix screenshot | Policies are mapped to automated rules and manual checks. |
+| 18 | Differentiate the solution | Competitive Differentiation Matrix screenshot | The solution can be compared against samples, decks, and internal accelerators. |
+| 19 | Call to action | Launchpad screenshot | Start with the launchpad, choose a platform, and pilot one PBIP project. |
 
 ## Production notes
 

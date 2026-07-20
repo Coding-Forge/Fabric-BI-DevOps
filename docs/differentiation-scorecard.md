@@ -43,18 +43,21 @@ Source control
 | Azure DevOps support | Often | Conceptual | Often | Yes |
 | GitHub Actions support | Sometimes | Conceptual | Rare | Yes |
 | GitLab CI/CD support | Rare | No | Rare | Yes |
+| Pipeline configuration generator | Rare | No | Rare | Yes |
 | Branch-aware rule enforcement | Rare | Conceptual | Sometimes | Yes |
 | Report quality rules | Sometimes | Conceptual | Sometimes | Yes |
 | Dataset quality rules | Sometimes | Conceptual | Sometimes | Yes |
 | DAX test metadata | Rare | No | Rare | Yes |
 | Deployment manifest | Rare | Conceptual | Rare | Yes |
 | Pre-PR readiness scanner | Rare | No | Rare | Yes |
+| PBIP diff viewer | Rare | No | Rare | Yes |
+| Dependency impact analyzer | Rare | Conceptual | Rare | Yes |
 | No-code rule/tool builders | Rare | No | Rare | Yes |
 | Toolkit-only sparse clone | Rare | No | Rare | Yes |
 | Workshop delivery materials | Rare | Yes | Sometimes | Yes |
 | Social/adoption content | No | Sometimes | Sometimes | Yes |
 | Published HTML/PDF article package | No | Sometimes | Rare | Yes |
-| Enterprise rules override model | Rare | Conceptual | Rare | Planned/documented |
+| Enterprise rules override model | Rare | Conceptual | Rare | Documented and partially implemented |
 
 ## Differentiation pillars
 
@@ -76,7 +79,8 @@ Score each pillar from 0 to 5.
 | Supports Azure DevOps, GitHub Actions, and GitLab CI/CD | Yes |
 | Shared scripts and rule prep reused across platforms | Yes |
 | Platform-specific setup guides exist | Yes |
-| CI/CD behavior parity documented across platforms | Needs improvement |
+| Pipeline YAML can be generated from one profile | Yes |
+| CI/CD behavior parity documented across platforms | Yes |
 | Automated tests prove parity across platforms | Future backlog |
 
 **Growth metric:** number of supported CI/CD platforms with documented and tested parity.
@@ -89,8 +93,8 @@ Score each pillar from 0 to 5.
 | Report quality rules | Yes |
 | Dataset quality rules | Yes |
 | Branch-aware severity/promotion | Yes |
-| Rule exception register | Future backlog |
-| Rule coverage matrix | Future backlog |
+| Rule exception register | Complete |
+| Rule coverage matrix | Complete |
 
 **Growth metric:** percentage of governance policies covered by automated rules or documented manual checks.
 
@@ -103,7 +107,7 @@ Score each pillar from 0 to 5.
 | DAX Test Builder | Complete |
 | Deployment Manifest Builder | Complete |
 | PBIP Readiness Scanner | Complete |
-| Project Exception Designer | Future backlog |
+| Policy Exception Register | Complete |
 
 **Growth metric:** number of governance artifacts a non-developer can generate without editing JSON.
 
@@ -113,9 +117,10 @@ Score each pillar from 0 to 5.
 |---|---|
 | Deployment manifest | Complete |
 | Readiness scanner | Complete |
-| PR quality summary | Future backlog |
-| Release readiness dashboard | Future backlog |
-| Dependency impact analyzer | Future backlog |
+| PBIP diff viewer | Complete |
+| PR quality summary | Complete |
+| Release readiness dashboard | Complete |
+| Dependency impact analyzer | Complete |
 
 **Growth metric:** percentage of release review questions answered by generated artifacts.
 
@@ -140,7 +145,7 @@ Score each pillar from 0 to 5.
 | Central rules pattern documented | Complete |
 | Override file model | Documented |
 | Override schema | Future backlog |
-| Effective rules generator | Future backlog |
+| Effective rules generator | Complete |
 | Exception expiration enforcement | Future backlog |
 
 **Growth metric:** number of projects using governed baseline + exception model without forking full rule files.
@@ -151,7 +156,7 @@ Score each pillar from 0 to 5.
 |---|---|
 | Generated artifacts | Yes |
 | Pipeline pass/fail results | Yes |
-| Adoption metrics dashboard | Future backlog |
+| Adoption metrics dashboard | Complete |
 | Tool usage telemetry | Future backlog, optional and privacy-aware |
 | Before/after delivery metrics | Future backlog |
 
@@ -171,13 +176,13 @@ Score each pillar from 0 to 5.
 
 | Pillar | Score 0-5 | Evidence | Improvement backlog |
 |---|---:|---|---|
-| Platform neutrality | 3 | Three platform folders and setup guides exist | Add parity tests and support matrix |
-| BI-specific quality gates | 3 | PBIP validation, report rules, dataset rules, branch-aware prep | Add rule coverage matrix and exception register |
-| No-code governance tooling | 4 | Five static tools exist | Add project exception designer |
-| Release readiness and reviewability | 3 | Manifest builder and readiness scanner exist | Add PR summary and release dashboard |
+| Platform neutrality | 4 | Three platform folders, setup guides, shared assets, parity matrix, and pipeline generator exist | Add automated parity tests |
+| BI-specific quality gates | 4 | PBIP validation, report rules, dataset rules, branch-aware prep, exceptions, and coverage matrix | Add deeper dependency impact analysis |
+| No-code governance tooling | 4 | Fifteen static tools exist across standards, review, release, governance, adoption, impact analysis, and differentiation | Add deeper inventory and certification tools |
+| Release readiness and reviewability | 4 | Manifest builder, readiness scanner, PBIP diff viewer, dependency impact analyzer, PR summary, and release dashboard exist | Add branch strategy and environment mapping guidance |
 | Enterprise adoption model | 4 | Datasheet, delivery guide, sparse clone guide, social assets | Add adoption portal |
-| Enterprise governance maturity | 2 | Central rules pattern documented | Add override schema and effective rules generator |
-| Evidence and telemetry | 1 | Pipeline outputs exist | Add adoption metrics and quality trend dashboard |
+| Enterprise governance maturity | 3 | Central rules pattern, override model, exception register, and effective rules generator exist | Add override schema and exception expiration enforcement |
+| Evidence and telemetry | 3 | Pipeline outputs, release readiness, adoption metrics, rule coverage, and differentiation metrics exist | Add optional tool usage telemetry and before/after quality trends |
 
 ## Recommended implementation sequence
 
@@ -185,16 +190,16 @@ The next roadmap items should prioritize features that strengthen the clearest d
 
 | Priority | Recommendation | Why it matters |
 |---:|---|---|
-| 1 | PR Quality Summary Generator | Turns pipeline output into a reviewer-friendly artifact and makes the solution feel complete during pull request review |
-| 2 | Policy Exception Register | Adds enterprise-grade exception lifecycle management with owner, reason, approval, and expiration |
-| 3 | Effective Rules Generator | Implements the central baseline + profile + project override model and prevents projects from forking full rule files |
-| 4 | CI/CD Platform Parity Matrix | Makes platform-neutrality measurable across Azure DevOps, GitHub Actions, and GitLab CI/CD |
-| 5 | Release Readiness Dashboard | Consolidates validation, rules, tests, manifest, exceptions, and deployment target into a release-facing view |
-| 6 | Adoption Metrics Dashboard | Provides growth metrics for projects onboarded, rule maturity, exception aging, and time-to-onboard |
-| 7 | Rule Coverage Matrix | Connects enterprise policies to automated rules and manual checks, strengthening governance credibility |
-| 8 | Competitive Differentiation Matrix | Makes external and internal comparison explicit for sellers, delivery leads, and stakeholders |
+| 1 | Branch Strategy Wizard | Recommends branch policy, environment mapping, PR requirements, and protected branch rules |
+| 2 | Environment Parameter Mapper | Documents Dev/Test/Prod connection strings, workspace IDs, lakehouse or warehouse references, and semantic model bindings |
+| 3 | Workspace Promotion Planner | Creates release manager guidance for workspace stages, approval gates, ownership, and rollback |
+| 4 | Semantic Model Inventory Explorer | Extracts model metadata into catalog artifacts that governance and reviewers can inspect |
+| 5 | Measure Documentation Generator | Turns DAX measures, descriptions, dependencies, and owners into a steward-ready catalog |
+| 6 | Report UX Review Checklist Builder | Standardizes accessibility, navigation, tooltip, theme, mobile, and layout review |
+| 7 | Certification Readiness Checker | Validates trusted semantic model ownership, support, documentation, endorsement, and release-readiness evidence |
+| 8 | Sensitivity & Data Classification Checklist | Captures classification, sensitivity labels, PII indicators, sharing restrictions, and endorsement state |
 
-After these items, the roadmap can shift toward deeper analysis tools such as PBIP diffing, dependency impact, semantic model inventory, and measure documentation.
+After these items, the roadmap can shift toward certification, security classification, adoption portal polish, and deeper enterprise quality rules governance.
 
 ## Differentiator statements
 
@@ -228,4 +233,8 @@ The long-term pattern enables central baseline rules with project-level exceptio
 | No central baseline + override implementation | Effective Rules Generator |
 | No adoption metrics | Adoption Metrics Dashboard |
 | No external/public solution comparison artifact | Competitive Differentiation Matrix |
+| Hard to review raw PBIP JSON and TMDL changes | PBIP Diff Viewer |
+| Hard to understand downstream impact of changed model objects | Dependency Impact Analyzer |
+| Hard to generate platform-specific pipeline files consistently | Pipeline Config Generator |
+| Hard to choose branch policy and workspace mapping consistently | Branch Strategy Wizard |
 

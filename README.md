@@ -51,6 +51,9 @@ The `tools/` folder contains static browser tools that help teams manage BI DevO
 | DAX Test Builder | `tools/dax-test-builder/index.html` | Create measure-level DAX test metadata |
 | Deployment Manifest Builder | `tools/deployment-manifest-builder/index.html` | Create readable deployment contracts for review and release |
 | PBIP Project Readiness Scanner | `tools/pbip-readiness-scanner/index.html` | Scan a project before opening a pull request |
+| PBIP Diff Viewer | `tools/pbip-diff-viewer/index.html` | Compare before/after PBIP snapshots and generate reviewer-friendly diff reports |
+| Dependency Impact Analyzer | `tools/dependency-impact-analyzer/index.html` | Trace changed model objects to impacted measures, relationships, visuals, pages, tests, and governance assets |
+| Pipeline Config Generator | `tools/pipeline-config-generator/index.html` | Generate Azure DevOps, GitHub Actions, or GitLab CI YAML from one PBIP delivery profile |
 | PR Quality Summary Generator | `tools/pr-quality-summary-generator/index.html` | Create reviewer-friendly pull request summaries from validation and quality signals |
 | Policy Exception Register | `tools/policy-exception-register/index.html` | Track rule exceptions with owner, reason, expiration, approval, artifact, and mitigation |
 | Effective Rules Generator | `tools/effective-rules-generator/index.html` | Generate branch-aware effective rule files from baselines, overrides, and approved exceptions |
@@ -116,6 +119,14 @@ shared/platform-parity-matrix.json
 shared/adoption-metrics.json
 shared/rule-coverage-matrix.json
 shared/competitive-differentiation-matrix.json
+pbip-diff-report.html
+pbip-diff-report.md
+pbip-diff-report.json
+dependency-impact-report.html
+dependency-impact-report.md
+dependency-impact-report.json
+pipeline-profile.json
+pipeline-setup-notes.md
 shared/scripts/
 shared/scripts/New-EffectiveQualityRules.ps1
 shared/tests/

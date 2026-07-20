@@ -47,6 +47,7 @@ When adding or changing docs:
 - [ ] Keep workshop material separate from toolkit material unless the change is explicitly workshop-related.
 - [ ] If the change affects hosted/blog material, regenerate HTML and PDF outputs.
 - [ ] If the change affects social material, use the most widely supported content format for the target platform.
+- [ ] If the change affects screenshots, tool visuals, or video frames, regenerate the affected PNG/MP4 assets and verify the images are visibly rendered, not just that files were created.
 
 ## CI/CD and script changes
 
@@ -92,6 +93,17 @@ When changing blog or hosted social content:
 - [ ] Confirm generated assets are written to date-stamped folders.
 - [ ] Confirm GitHub Pages links still resolve.
 - [ ] Commit both the source and generated outputs.
+
+## Video and screenshot changes
+
+When changing video frames, scene decks, screenshots, or visual walkthrough assets:
+
+- [ ] Regenerate screenshots for any new or changed tools.
+- [ ] Regenerate affected video frames under `Social Media/video/scenes/frames/`.
+- [ ] Confirm each updated frame shows the intended right-side screenshot/image, not a blank rectangle, broken image icon, or placeholder border.
+- [ ] When rebuilding video from frames, confirm the MP4 uses the corrected frames.
+- [ ] For frame captures from local HTML, use paths/URIs that preserve relative image resolution, especially for folders with spaces such as `Social Media`.
+- [ ] Spot-check a contact sheet or representative frames before reporting completion.
 
 ## Final review before commit
 

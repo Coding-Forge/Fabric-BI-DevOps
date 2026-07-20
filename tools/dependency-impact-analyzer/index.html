@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dependency Impact Analyzer</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root{color-scheme:light;--cp-bg:#f7f4ef;--cp-bg-elevated:#fcfbf8;--cp-surface:#fff;--cp-surface-soft:#f5f5f5;--cp-border:#dedede;--cp-border-strong:#919191;--cp-text:#242424;--cp-text-muted:#5c5c5c;--cp-accent:#b11f4b;--cp-accent-fg:#fff;--cp-success:#16a34a;--cp-danger:#dc2626;--cp-warning:#f59e0b;--cp-shadow:0 18px 48px rgba(0,0,0,.12);--cp-panel-strong:rgba(255,255,255,.96)}
+    html[data-theme=dark]{color-scheme:dark;--cp-bg:#3d3b3a;--cp-bg-elevated:#343231;--cp-surface:#292929;--cp-surface-soft:#2e2e2e;--cp-border:#474747;--cp-border-strong:#5f5f5f;--cp-text:#dedede;--cp-text-muted:#b0b0b0;--cp-accent:#fd8ea1;--cp-accent-fg:#1a1a1a;--cp-success:#4ade80;--cp-danger:#f87171;--cp-warning:#fbbf24;--cp-shadow:0 18px 48px rgba(0,0,0,.32);--cp-panel-strong:rgba(41,41,41,.96)}
+    *{box-sizing:border-box}body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.45}button,input,select,textarea{font:inherit}button,.file-button{border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);cursor:pointer;padding:8px 12px}button:hover,.file-button:hover{border-color:var(--cp-border-strong)}button.primary{background:var(--cp-accent);border-color:var(--cp-accent);color:var(--cp-accent-fg)}input,select,textarea{width:100%;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);padding:8px 10px}textarea{min-height:96px;resize:vertical}label{display:grid;gap:6px;color:var(--cp-text-muted);font-size:13px;font-weight:700}pre,code{font-family:Consolas,"Courier New",monospace}pre{margin:0;overflow:auto;white-space:pre-wrap;word-break:break-word}.hero{border-bottom:1px solid var(--cp-border);background:var(--cp-bg-elevated);padding:28px}.hero-inner,.main{max-width:1440px;margin:0 auto}.hero-inner{display:grid;gap:16px}.eyebrow{color:var(--cp-accent);font-size:13px;font-weight:850;letter-spacing:.04em;text-transform:uppercase}h1,h2,h3{margin:0;line-height:1.15}h1{font-size:clamp(30px,4vw,46px)}h2{font-size:20px}h3{font-size:16px}.lede{max-width:980px;color:var(--cp-text-muted);font-size:17px}.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.file-button{position:relative;overflow:hidden;display:inline-flex}.file-button input{position:absolute;inset:0;opacity:0;cursor:pointer}.main{display:grid;grid-template-columns:minmax(320px,440px) minmax(0,1fr);gap:20px;padding:24px 28px 40px}.panel,.impact-card,.object-row{border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface);box-shadow:var(--cp-shadow)}.panel-header{border-bottom:1px solid var(--cp-border);padding:16px}.panel-body{padding:16px}.grid{display:grid;gap:14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);padding:12px}.stat-value{font-size:26px;font-weight:850}.muted,.stat-label{color:var(--cp-text-muted)}.muted{font-size:13px}.chip-row{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;border:1px solid var(--cp-border);border-radius:999px;background:var(--cp-surface-soft);color:var(--cp-text-muted);font-size:12px;font-weight:800;padding:3px 8px}.chip.success{border-color:var(--cp-success);color:var(--cp-success)}.chip.warning{border-color:var(--cp-warning);color:var(--cp-warning)}.chip.error{border-color:var(--cp-danger);color:var(--cp-danger)}.object-list,.impact-list{display:grid;gap:10px;max-height:480px;overflow:auto}.object-row,.impact-card{box-shadow:none;background:var(--cp-surface-soft);padding:12px}.object-row{display:grid;gap:8px;text-align:left}.object-row.active{outline:2px solid var(--cp-accent)}.row-title{display:flex;justify-content:space-between;gap:10px;font-weight:850}.output{max-height:740px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);color:var(--cp-text);padding:14px;font-size:13px}.toast{position:fixed;right:20px;bottom:20px;max-width:380px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-panel-strong);box-shadow:var(--cp-shadow);padding:12px 14px;display:none;z-index:20}.toast.visible{display:block}@media(max-width:980px){.main,.two,.three{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Fabric BI DevOps Accelerator</div>
+      <h1>Dependency Impact Analyzer</h1>
+      <p class="lede">Scan PBIP report and semantic model metadata to show which measures, columns, relationships, pages, visuals, and governance assets may be impacted by changed model objects.</p>
+      <div class="toolbar">
+        <button type="button" onclick="window.location.href='../index.html'">Back to launchpad</button>
+        <label class="file-button">Load PBIP folder<input id="folderInput" type="file" webkitdirectory multiple></label>
+        <button id="seedExample" type="button">Use starter example</button>
+        <button id="downloadHtml" type="button">Download HTML</button>
+        <button id="downloadMarkdown" type="button">Download Markdown</button>
+        <button id="downloadJson" type="button">Download JSON</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <aside class="panel">
+      <div class="panel-header"><h2>Model object inventory</h2><div class="muted">Select or type changed objects to trace likely downstream impact.</div></div>
+      <div class="panel-body grid">
+        <div class="stats">
+          <div class="stat"><div id="objectCount" class="stat-value">0</div><div class="stat-label">Objects</div></div>
+          <div class="stat"><div id="measureCount" class="stat-value">0</div><div class="stat-label">Measures</div></div>
+          <div class="stat"><div id="visualCount" class="stat-value">0</div><div class="stat-label">Visual refs</div></div>
+          <div class="stat"><div id="impactCount" class="stat-value">0</div><div class="stat-label">Impacts</div></div>
+        </div>
+        <div id="loadStatus" class="chip-row"></div>
+        <label>Changed objects, one per line<textarea id="changedObjects" placeholder="Revenue&#10;Sales[Amount]&#10;Customer[Region]"></textarea></label>
+        <div class="grid two">
+          <label>Filter object inventory<input id="objectFilter" placeholder="Revenue, Sales, Region"></label>
+          <label>Impact type<select id="impactFilter"><option value="">All impact types</option><option>Measure</option><option>Visual</option><option>Report page</option><option>Relationship</option><option>Governance asset</option></select></label>
+        </div>
+        <div id="objectList" class="object-list"></div>
+      </div>
+    </aside>
+    <section class="panel">
+      <div class="panel-header"><h2>Impact analysis</h2><div class="muted">Use this output to focus review and testing after model changes.</div></div>
+      <div class="panel-body grid">
+        <div id="impactList" class="impact-list"></div>
+        <div class="grid two">
+          <div><h3>Impact Markdown</h3><pre id="markdownOutput" class="output"></pre></div>
+          <div><h3>Impact JSON</h3><pre id="jsonOutput" class="output"></pre></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+  <script>
+    const ids=["folderInput","changedObjects","objectFilter","impactFilter","objectCount","measureCount","visualCount","impactCount","loadStatus","objectList","impactList","markdownOutput","jsonOutput","toast"];
+    const els=Object.fromEntries(ids.map(id=>[id,document.getElementById(id)]));
+    let files=new Map(), inventory={objects:[],measures:[],visuals:[],pages:[],relationships:[],governance:[]}, current={generatedAt:null,changedObjects:[],impacts:[]};
+    const textExtensions=[".json",".tmdl",".pbip",".pbir",".pbism",".md",".txt",".yml",".yaml",".ps1",".csv"];
+
+    function normalizePath(path){
+      const parts=String(path||"").replaceAll("\\","/").split("/").filter(Boolean);
+      if(parts.length>1)parts.shift();
+      return parts.join("/");
+    }
+    function isTextFile(name){const lower=name.toLowerCase();return textExtensions.some(ext=>lower.endsWith(ext))}
+    async function readFolder(fileList){
+      const result=new Map();
+      for(const file of Array.from(fileList||[])){
+        const path=normalizePath(file.webkitRelativePath||file.name);
+        if(!path||!isTextFile(path))continue;
+        result.set(path,{path,size:file.size,text:await file.text()});
+      }
+      return result;
+    }
+    function cleanName(value){return String(value||"").trim().replace(/^['"]|['"]$/g,"")}
+    function objectId(table,name){return table?`${table}[${name}]`:name}
+    function addObject(map,type,name,path,table=""){
+      const id=objectId(table,name);
+      if(!name||map.has(`${type}:${id}`))return;
+      map.set(`${type}:${id}`,{id,type,name,table,path});
+    }
+    function findReferences(text,candidates){
+      const lower=String(text||"").toLowerCase();
+      return candidates.filter(o=>{
+        const name=o.name.toLowerCase(), id=o.id.toLowerCase();
+        return lower.includes(id)||lower.includes(`[${name}]`)||lower.includes(`"${o.name.toLowerCase()}"`)||lower.includes(`'${o.name.toLowerCase()}'`)||lower.includes(name);
+      });
+    }
+    function parseTmdl(path,text,objectMap,measures,relationships){
+      let table="";
+      const lines=String(text||"").split(/\r?\n/);
+      for(let i=0;i<lines.length;i++){
+        const line=lines[i], trimmed=line.trim();
+        const tableMatch=trimmed.match(/^table\s+(.+)$/i);
+        if(tableMatch){table=cleanName(tableMatch[1]);addObject(objectMap,"Table",table,path);continue}
+        const measureMatch=trimmed.match(/^measure\s+(.+?)\s*=/i);
+        if(measureMatch){
+          const name=cleanName(measureMatch[1]);
+          let expression=line.slice(line.indexOf("=")+1);
+          let j=i+1;
+          while(j<lines.length&&/^\s{4,}\S/.test(lines[j])){expression+=`\n${lines[j]}`;j++}
+          const id=objectId(table,name);
+          addObject(objectMap,"Measure",name,path,table);
+          measures.push({id,name,table,path,expression,references:[]});
+          continue;
+        }
+        const columnMatch=trimmed.match(/^column\s+(.+)$/i);
+        if(columnMatch)addObject(objectMap,"Column",cleanName(columnMatch[1]),path,table);
+        if(/^relationship\b/i.test(trimmed)||trimmed.includes("fromColumn:")||trimmed.includes("toColumn:"))relationships.push({path,text:trimmed,table});
+      }
+    }
+    function parseJsonArtifacts(path,text,objects){
+      const lower=path.toLowerCase(), refs=findReferences(text,objects);
+      const pageName=(path.match(/pages\/([^/]+)/i)||[])[1]||"Report page";
+      if(lower.includes(".report/definition/pages/")){
+        inventory.pages.push({id:`Page:${pageName}:${path}`,name:pageName,path,references:refs.map(r=>r.id)});
+      }
+      if(lower.includes(".report/")&&(lower.includes("visual")||lower.endsWith(".json"))&&refs.length){
+        inventory.visuals.push({id:`Visual:${path}`,name:path.split("/").slice(-2).join("/"),path,references:refs.map(r=>r.id),page:pageName});
+      }
+      if(lower.includes("rules-")||lower.includes("dax-tests")||lower.includes("deployment-manifest")||lower.includes("policy-exceptions")){
+        inventory.governance.push({id:`Governance:${path}`,name:path,path,references:refs.map(r=>r.id)});
+      }
+    }
+    function analyzeInventory(){
+      const objectMap=new Map(), measures=[], relationships=[];
+      for(const file of files.values())if(file.path.toLowerCase().endsWith(".tmdl"))parseTmdl(file.path,file.text,objectMap,measures,relationships);
+      const objects=[...objectMap.values()];
+      measures.forEach(m=>m.references=findReferences(m.expression,objects).filter(o=>o.id!==m.id).map(o=>o.id));
+      inventory={objects,measures,visuals:[],pages:[],relationships:relationships.map((r,i)=>({id:`Relationship:${i+1}`,name:r.text||`Relationship ${i+1}`,path:r.path,table:r.table,references:findReferences(r.text,objects).map(o=>o.id)})),governance:[]};
+      for(const file of files.values())parseJsonArtifacts(file.path,file.text,objects);
+      analyzeImpact();
+    }
+    function changedList(){
+      return String(els.changedObjects.value||"").split(/\r?\n|,/).map(x=>x.trim()).filter(Boolean);
+    }
+    function matchesChanged(item,changed){
+      const hay=[item.id,item.name,item.table,item.path,...(item.references||[])].join(" ").toLowerCase();
+      return changed.some(c=>hay.includes(c.toLowerCase()));
+    }
+    function impact(type,item,changed,reason,severity="review"){
+      return{type,name:item.name||item.id,path:item.path||"",references:item.references||[],changedObjects:changed.filter(c=>matchesChanged(item,[c])),reason,severity};
+    }
+    function analyzeImpact(){
+      const changed=changedList();
+      const impacts=[];
+      if(changed.length){
+        for(const measure of inventory.measures)if(matchesChanged(measure,changed))impacts.push(impact("Measure",measure,changed,"Measure expression references a changed object.","high"));
+        for(const rel of inventory.relationships)if(matchesChanged(rel,changed))impacts.push(impact("Relationship",rel,changed,"Relationship metadata references a changed table or column.","high"));
+        for(const visual of inventory.visuals)if(matchesChanged(visual,changed))impacts.push(impact("Visual",visual,changed,"Report visual/query metadata references a changed object.","review"));
+        for(const page of inventory.pages)if(matchesChanged(page,changed))impacts.push(impact("Report page",page,changed,"Page contains visuals or metadata referencing a changed object.","review"));
+        for(const asset of inventory.governance)if(matchesChanged(asset,changed))impacts.push(impact("Governance asset",asset,changed,"Governance, test, exception, or manifest asset references a changed object.","review"));
+      }
+      current={generatedAt:new Date().toISOString(),fileCount:files.size,changedObjects:changed,inventorySummary:{objects:inventory.objects.length,measures:inventory.measures.length,visuals:inventory.visuals.length,pages:inventory.pages.length,relationships:inventory.relationships.length,governanceAssets:inventory.governance.length},impacts};
+      render();
+    }
+    function filteredImpacts(){
+      const type=els.impactFilter.value;
+      return current.impacts.filter(x=>!type||x.type===type);
+    }
+    function render(){
+      const q=els.objectFilter.value.trim().toLowerCase();
+      const objects=inventory.objects.filter(o=>!q||[o.id,o.type,o.path].join(" ").toLowerCase().includes(q));
+      const impacts=filteredImpacts();
+      els.objectCount.textContent=inventory.objects.length;
+      els.measureCount.textContent=inventory.measures.length;
+      els.visualCount.textContent=inventory.visuals.length;
+      els.impactCount.textContent=current.impacts.length;
+      els.loadStatus.innerHTML=`<span class="chip ${files.size?"success":"warning"}">${files.size} text files loaded</span><span class="chip">${inventory.pages.length} pages</span><span class="chip">${inventory.relationships.length} relationships</span>`;
+      els.objectList.innerHTML=objects.slice(0,160).map(o=>`<button class="object-row" type="button" data-id="${escAttr(o.id)}"><div class="row-title"><span>${esc(o.id)}</span><span>${esc(o.type)}</span></div><div class="muted">${esc(o.path)}</div></button>`).join("")||"<div class=\"muted\">Load a PBIP folder or starter example to detect model objects.</div>";
+      els.objectList.querySelectorAll("button[data-id]").forEach(btn=>btn.addEventListener("click",()=>addChanged(btn.dataset.id)));
+      els.impactList.innerHTML=impacts.map(i=>`<article class="impact-card"><div class="row-title"><h3>${esc(i.name)}</h3><span class="chip ${i.severity==="high"?"error":"warning"}">${esc(i.type)}</span></div><p>${esc(i.reason)}</p><div class="chip-row">${i.changedObjects.map(c=>`<span class="chip">${esc(c)}</span>`).join("")}</div><div class="muted">${esc(i.path)}</div></article>`).join("")||"<div class=\"muted\">Enter changed objects to calculate impact.</div>";
+      els.markdownOutput.textContent=markdown();
+      els.jsonOutput.textContent=JSON.stringify(current,null,2);
+    }
+    function addChanged(id){
+      const list=changedList();
+      if(!list.includes(id))els.changedObjects.value=[...list,id].join("\n");
+      analyzeImpact();
+    }
+    function markdown(){
+      if(!current.generatedAt)return"# Dependency Impact Report\n\nNo output generated yet.";
+      const lines=["# Dependency Impact Report","",`Generated: ${current.generatedAt}`,"",`- Files scanned: ${current.fileCount}`,`- Changed objects: ${current.changedObjects.length?current.changedObjects.join(", "):"none provided"}`,`- Model objects: ${current.inventorySummary.objects}`,`- Measures: ${current.inventorySummary.measures}`,`- Visual references: ${current.inventorySummary.visuals}`,`- Impacted items: ${current.impacts.length}`,"","## Impacted items"];
+      for(const item of current.impacts)lines.push(`- ${item.type}: ${item.name} (${item.severity}) - ${item.reason}${item.path?` [${item.path}]`:""}`);
+      if(!current.impacts.length)lines.push("- No impacts calculated yet. Enter changed objects to trace dependencies.");
+      return lines.join("\n");
+    }
+    function htmlDoc(){return`<!doctype html><html><head><meta charset="utf-8"><title>Dependency Impact Report</title><style>body{font-family:Segoe UI,Arial,sans-serif;max-width:1040px;margin:40px auto;line-height:1.5}pre{background:#f5f5f5;padding:16px;border-radius:12px;white-space:pre-wrap}</style></head><body><pre>${esc(markdown())}</pre></body></html>`}
+    function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+    function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")}
+    function escAttr(v){return esc(v).replaceAll('"',"&quot;")}
+    function toast(m){els.toast.textContent=m;els.toast.classList.add("visible");clearTimeout(toast.timer);toast.timer=setTimeout(()=>els.toast.classList.remove("visible"),2800)}
+    function seed(){
+      files=new Map([
+        ["Sales.SemanticModel/definition/model.tmdl",{path:"Sales.SemanticModel/definition/model.tmdl",size:0,text:"table Sales\n  column Amount\n  column Cost\n  column CustomerKey\n  measure Revenue = SUM(Sales[Amount])\n  measure Gross Margin = [Revenue] - SUM(Sales[Cost])\n  measure Gross Margin % = DIVIDE([Gross Margin],[Revenue])\n\ntable Customer\n  column CustomerKey\n  column Region\nrelationship Sales[CustomerKey] -> Customer[CustomerKey]"}],
+        ["Sales.Report/definition/pages/Home/visuals/revenue/visual.json",{path:"Sales.Report/definition/pages/Home/visuals/revenue/visual.json",size:0,text:'{"query":{"Measures":["Revenue","Gross Margin %"],"Columns":["Customer[Region]"]}}'}],
+        ["Sales.Report/definition/pages/Detail/visuals/margin/visual.json",{path:"Sales.Report/definition/pages/Detail/visuals/margin/visual.json",size:0,text:'{"query":{"Measures":["Gross Margin"],"Columns":["Sales[Amount]","Sales[Cost]"]}}'}],
+        ["shared/dax-tests.json",{path:"shared/dax-tests.json",size:0,text:'{"tests":[{"measure":"Revenue"},{"measure":"Gross Margin %"}]}'}],
+        ["shared/deployment-manifest.json",{path:"shared/deployment-manifest.json",size:0,text:'{"semanticModel":"Sales","criticalMeasures":["Revenue","Gross Margin %"]}'}]
+      ]);
+      els.changedObjects.value="Sales[Amount]\nRevenue";
+      analyzeInventory();
+      toast("Starter impact model loaded.");
+    }
+    els.folderInput.addEventListener("change",async e=>{files=await readFolder(e.target.files);analyzeInventory();toast("PBIP folder loaded.")});
+    els.changedObjects.addEventListener("input",analyzeImpact);
+    els.objectFilter.addEventListener("input",render);
+    els.impactFilter.addEventListener("change",render);
+    document.getElementById("seedExample").addEventListener("click",seed);
+    document.getElementById("downloadHtml").addEventListener("click",()=>download("dependency-impact-report.html",htmlDoc(),"text/html"));
+    document.getElementById("downloadMarkdown").addEventListener("click",()=>download("dependency-impact-report.md",markdown(),"text/markdown"));
+    document.getElementById("downloadJson").addEventListener("click",()=>download("dependency-impact-report.json",JSON.stringify(current,null,2),"application/json"));
+    analyzeInventory();
+  </script>
+</body>
+</html>

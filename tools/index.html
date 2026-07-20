@@ -392,7 +392,7 @@
           <h2>Tool catalog</h2>
           <p class="muted">Choose a tool by job-to-be-done. Nothing was removed; the catalog is grouped to keep the page easy to scan.</p>
         </div>
-        <span class="chip accent">13 tools</span>
+        <span class="chip accent">16 tools</span>
       </div>
 
       <section class="panel section">
@@ -458,6 +458,24 @@
             <a class="button" href="pbip-readiness-scanner/index.html">Open PBIP Readiness Scanner</a>
           </article>
           <article class="card">
+            <div class="card-top"><div><h3>PBIP Diff Viewer</h3><p class="muted">Compare before/after PBIP snapshots and translate raw report, model, and governance metadata changes into reviewer guidance.</p></div><span class="chip accent">Diff review</span></div>
+            <div class="chips"><span class="chip">Reviewers</span><span class="chip">BI leads</span><span class="chip">Report creators</span></div>
+            <p><strong>Outputs:</strong> PBIP diff report HTML, Markdown, and JSON.</p>
+            <a class="button primary" href="pbip-diff-viewer/index.html">Open PBIP Diff Viewer</a>
+          </article>
+          <article class="card">
+            <div class="card-top"><div><h3>Dependency Impact Analyzer</h3><p class="muted">Trace changed model objects to impacted measures, relationships, visuals, pages, tests, and governance assets.</p></div><span class="chip accent">Impact review</span></div>
+            <div class="chips"><span class="chip">BI developers</span><span class="chip">Reviewers</span><span class="chip">Semantic model owners</span></div>
+            <p><strong>Outputs:</strong> dependency impact report HTML, Markdown, and JSON.</p>
+            <a class="button primary" href="dependency-impact-analyzer/index.html">Open Dependency Impact Analyzer</a>
+          </article>
+          <article class="card">
+            <div class="card-top"><div><h3>Pipeline Config Generator</h3><p class="muted">Generate Azure DevOps, GitHub Actions, or GitLab CI YAML from one PBIP delivery profile.</p></div><span class="chip accent">Pipeline setup</span></div>
+            <div class="chips"><span class="chip">Platform team</span><span class="chip">DevOps engineers</span><span class="chip">BI leads</span></div>
+            <p><strong>Outputs:</strong> pipeline YAML, profile JSON, and setup notes.</p>
+            <a class="button primary" href="pipeline-config-generator/index.html">Open Pipeline Config Generator</a>
+          </article>
+          <article class="card">
             <div class="card-top"><div><h3>PR Quality Summary Generator</h3><p class="muted">Generate a reviewer-friendly pull request summary from changed files, pipeline logs, readiness scans, DAX test metadata, and deployment context.</p></div><span class="chip accent">Reviewer handoff</span></div>
             <div class="chips"><span class="chip">PR authors</span><span class="chip">Reviewers</span><span class="chip">BI leads</span></div>
             <p><strong>Outputs:</strong> PR quality summary Markdown and JSON summary.</p>
@@ -520,14 +538,17 @@
         <div class="step"><div class="step-number">3</div><h3>Add DAX tests</h3><p class="muted">Use the DAX Test Builder to document critical measure validations and export metadata for CI adoption.</p></div>
         <div class="step"><div class="step-number">4</div><h3>Define deployment</h3><p class="muted">Use the Deployment Manifest Builder to document environments, parameters, approvals, and rollback.</p></div>
         <div class="step"><div class="step-number">5</div><h3>Scan before PR</h3><p class="muted">Use the PBIP Readiness Scanner before opening a pull request or asking reviewers to inspect changes.</p></div>
-        <div class="step"><div class="step-number">6</div><h3>Summarize PR</h3><p class="muted">Use the PR Quality Summary Generator to create a concise reviewer handoff from validation signals and changed files.</p></div>
-        <div class="step"><div class="step-number">7</div><h3>Track exceptions</h3><p class="muted">Use the Policy Exception Register to keep governance exceptions owned, approved, and time-bound.</p></div>
-        <div class="step"><div class="step-number">8</div><h3>Generate effective rules</h3><p class="muted">Use the Effective Rules Generator to preview branch-aware rules after overrides and approved exceptions.</p></div>
-        <div class="step"><div class="step-number">9</div><h3>Compare platforms</h3><p class="muted">Use the Platform Parity Matrix to track support and gaps across Azure DevOps, GitHub Actions, and GitLab.</p></div>
-        <div class="step"><div class="step-number">10</div><h3>Assess release</h3><p class="muted">Use the Release Readiness Dashboard to consolidate evidence and decide whether to release.</p></div>
-        <div class="step"><div class="step-number">11</div><h3>Measure adoption</h3><p class="muted">Use the Adoption Metrics Dashboard to track project onboarding, rule maturity, and growth.</p></div>
-        <div class="step"><div class="step-number">12</div><h3>Map coverage</h3><p class="muted">Use the Rule Coverage Matrix to connect enterprise policies to automated rules and manual checks.</p></div>
-        <div class="step"><div class="step-number">13</div><h3>Differentiate</h3><p class="muted">Use the Competitive Differentiation Matrix to compare solution maturity and positioning.</p></div>
+        <div class="step"><div class="step-number">6</div><h3>Compare diffs</h3><p class="muted">Use the PBIP Diff Viewer to translate before/after PBIP snapshots into reviewer-friendly guidance.</p></div>
+        <div class="step"><div class="step-number">7</div><h3>Analyze impact</h3><p class="muted">Use the Dependency Impact Analyzer to focus testing on affected measures, visuals, pages, and relationships.</p></div>
+        <div class="step"><div class="step-number">8</div><h3>Generate pipeline</h3><p class="muted">Use the Pipeline Config Generator to create Azure DevOps, GitHub Actions, or GitLab CI YAML from one profile.</p></div>
+        <div class="step"><div class="step-number">9</div><h3>Summarize PR</h3><p class="muted">Use the PR Quality Summary Generator to create a concise reviewer handoff from validation signals and changed files.</p></div>
+        <div class="step"><div class="step-number">10</div><h3>Track exceptions</h3><p class="muted">Use the Policy Exception Register to keep governance exceptions owned, approved, and time-bound.</p></div>
+        <div class="step"><div class="step-number">11</div><h3>Generate effective rules</h3><p class="muted">Use the Effective Rules Generator to preview branch-aware rules after overrides and approved exceptions.</p></div>
+        <div class="step"><div class="step-number">12</div><h3>Compare platforms</h3><p class="muted">Use the Platform Parity Matrix to track support and gaps across Azure DevOps, GitHub Actions, and GitLab.</p></div>
+        <div class="step"><div class="step-number">13</div><h3>Assess release</h3><p class="muted">Use the Release Readiness Dashboard to consolidate evidence and decide whether to release.</p></div>
+        <div class="step"><div class="step-number">14</div><h3>Measure adoption</h3><p class="muted">Use the Adoption Metrics Dashboard to track project onboarding, rule maturity, and growth.</p></div>
+        <div class="step"><div class="step-number">15</div><h3>Map coverage</h3><p class="muted">Use the Rule Coverage Matrix to connect enterprise policies to automated rules and manual checks.</p></div>
+        <div class="step"><div class="step-number">16</div><h3>Differentiate</h3><p class="muted">Use the Competitive Differentiation Matrix to compare solution maturity and positioning.</p></div>
       </div>
     </section>
 
@@ -535,11 +556,11 @@
       <h2>Choose by audience</h2>
       <div class="audience-grid">
         <div class="audience"><h3>BI lead</h3><p class="muted">Start with the Enterprise Standards Builder, then use the PR Summary, Release Dashboard, Coverage Matrix, and Adoption Metrics Dashboard.</p></div>
-        <div class="audience"><h3>Report creator</h3><p class="muted">Use the Readiness Scanner before PR and the Standards Builder when adopting a new policy profile.</p></div>
-        <div class="audience"><h3>Semantic model owner</h3><p class="muted">Use the DAX Test Builder and Effective Rules Generator to validate model standards and branch-aware enforcement.</p></div>
-        <div class="audience"><h3>Platform engineer</h3><p class="muted">Use generated JSON artifacts as portable CI/CD inputs across Azure DevOps, GitHub, and GitLab.</p></div>
+        <div class="audience"><h3>Report creator</h3><p class="muted">Use the Readiness Scanner and PBIP Diff Viewer before PR, plus the Standards Builder when adopting a new policy profile.</p></div>
+        <div class="audience"><h3>Semantic model owner</h3><p class="muted">Use the DAX Test Builder, Dependency Impact Analyzer, and Effective Rules Generator to validate model standards and downstream impact.</p></div>
+        <div class="audience"><h3>Platform engineer</h3><p class="muted">Use the Pipeline Config Generator and generated JSON artifacts as portable CI/CD inputs across Azure DevOps, GitHub, and GitLab.</p></div>
         <div class="audience"><h3>Governance owner</h3><p class="muted">Use the Exception Register, Rule Coverage Matrix, Differentiation Matrix, and Adoption Metrics Dashboard to govern scale-out.</p></div>
-        <div class="audience"><h3>Release manager</h3><p class="muted">Use the Deployment Manifest Builder and Release Readiness Dashboard before Test or Prod promotion.</p></div>
+        <div class="audience"><h3>Release manager</h3><p class="muted">Use the Deployment Manifest Builder, PBIP Diff Viewer, and Release Readiness Dashboard before Test or Prod promotion.</p></div>
       </div>
     </section>
 
@@ -553,6 +574,17 @@
         <div class="artifact"><strong><code>enterprise-policy-profile.json</code></strong><br><span class="muted">Reusable governance posture and policy settings.</span></div>
         <div class="artifact"><strong><code>PBIP-Readiness-Report.md</code></strong><br><span class="muted">PR-ready readiness summary.</span></div>
         <div class="artifact"><strong><code>pbip-readiness-report.json</code></strong><br><span class="muted">Machine-readable readiness scan output.</span></div>
+        <div class="artifact"><strong><code>pbip-diff-report.html</code></strong><br><span class="muted">Shareable PBIP diff report.</span></div>
+        <div class="artifact"><strong><code>pbip-diff-report.md</code></strong><br><span class="muted">Reviewer-friendly PBIP diff summary.</span></div>
+        <div class="artifact"><strong><code>pbip-diff-report.json</code></strong><br><span class="muted">Machine-readable PBIP diff summary.</span></div>
+        <div class="artifact"><strong><code>dependency-impact-report.html</code></strong><br><span class="muted">Shareable dependency impact report.</span></div>
+        <div class="artifact"><strong><code>dependency-impact-report.md</code></strong><br><span class="muted">Reviewer-friendly dependency impact summary.</span></div>
+        <div class="artifact"><strong><code>dependency-impact-report.json</code></strong><br><span class="muted">Machine-readable dependency impact summary.</span></div>
+        <div class="artifact"><strong><code>azure-pipelines.generated.yml</code></strong><br><span class="muted">Generated Azure DevOps pipeline YAML.</span></div>
+        <div class="artifact"><strong><code>powerbi-ci.generated.yml</code></strong><br><span class="muted">Generated GitHub Actions workflow YAML.</span></div>
+        <div class="artifact"><strong><code>gitlab-ci.generated.yml</code></strong><br><span class="muted">Generated GitLab CI pipeline YAML.</span></div>
+        <div class="artifact"><strong><code>pipeline-profile.json</code></strong><br><span class="muted">Reusable CI/CD pipeline generation profile.</span></div>
+        <div class="artifact"><strong><code>pipeline-setup-notes.md</code></strong><br><span class="muted">Platform setup notes and review checklist.</span></div>
         <div class="artifact"><strong><code>PR-Quality-Summary.md</code></strong><br><span class="muted">Reviewer-friendly PR summary.</span></div>
         <div class="artifact"><strong><code>pr-quality-summary.json</code></strong><br><span class="muted">Machine-readable PR quality summary.</span></div>
         <div class="artifact"><strong><code>policy-exceptions.json</code></strong><br><span class="muted">Owned, approved, time-bound policy exceptions.</span></div>

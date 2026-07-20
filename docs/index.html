@@ -661,6 +661,48 @@
 
           <article class="card">
             <div class="card-top">
+              <h3>PBIP Diff Viewer</h3>
+              <span class="chip accent">Diff review</span>
+            </div>
+            <p>Compare before/after PBIP snapshots and translate report, semantic model, rule, test, and manifest changes into reviewer guidance.</p>
+            <div class="chip-row">
+              <span class="chip">Reviewers</span>
+              <span class="chip">BI leads</span>
+              <span class="chip">Report creators</span>
+            </div>
+            <a class="button" href="https://github.com/Coding-Forge/Fabric-BI-DevOps/blob/main/tools/pbip-diff-viewer/index.html" target="_blank" rel="noopener">Open in GitHub</a>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <h3>Dependency Impact Analyzer</h3>
+              <span class="chip accent">Impact review</span>
+            </div>
+            <p>Trace changed model objects to impacted measures, relationships, visuals, report pages, tests, and governance assets.</p>
+            <div class="chip-row">
+              <span class="chip">BI developers</span>
+              <span class="chip">Reviewers</span>
+              <span class="chip">Semantic model owners</span>
+            </div>
+            <a class="button" href="https://github.com/Coding-Forge/Fabric-BI-DevOps/blob/main/tools/dependency-impact-analyzer/index.html" target="_blank" rel="noopener">Open in GitHub</a>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <h3>Pipeline Config Generator</h3>
+              <span class="chip accent">Pipeline setup</span>
+            </div>
+            <p>Generate Azure DevOps, GitHub Actions, or GitLab CI YAML from one PBIP delivery profile.</p>
+            <div class="chip-row">
+              <span class="chip">Platform team</span>
+              <span class="chip">DevOps engineers</span>
+              <span class="chip">BI leads</span>
+            </div>
+            <a class="button" href="https://github.com/Coding-Forge/Fabric-BI-DevOps/blob/main/tools/pipeline-config-generator/index.html" target="_blank" rel="noopener">Open in GitHub</a>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
               <h3>PR Quality Summary Generator</h3>
               <span class="chip accent">Reviewer handoff</span>
             </div>
@@ -829,7 +871,7 @@
       <section id="workflow" class="section">
         <div class="section-heading">
           <h2>Recommended workflow</h2>
-          <p>The tools are designed to be used in a repeatable order from policy definition through pull request readiness.</p>
+          <p>The tools are designed to be used in a repeatable order from policy definition through review, CI/CD setup, release readiness, governance, and adoption tracking.</p>
         </div>
         <div class="workflow">
           <div class="step">
@@ -859,11 +901,26 @@
           </div>
           <div class="step">
             <div class="step-number">6</div>
+            <h3>Compare diffs</h3>
+            <p>Translate before/after PBIP snapshots into reviewer guidance.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">7</div>
+            <h3>Analyze impact</h3>
+            <p>Trace model changes to affected measures, visuals, pages, and governance assets.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">8</div>
+            <h3>Generate pipeline</h3>
+            <p>Create platform-specific CI/CD YAML from one delivery profile.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">9</div>
             <h3>Summarize and release</h3>
             <p>Create the PR summary and release readiness dashboard.</p>
           </div>
           <div class="step">
-            <div class="step-number">7</div>
+            <div class="step-number">10</div>
             <h3>Measure adoption</h3>
             <p>Track platform usage, readiness, rule maturity, and adoption metrics.</p>
           </div>
@@ -892,6 +949,18 @@
             <h3>PBIP Project Readiness Scanner</h3>
             <img class="screenshot" src="images/pbip-project-readiness-scanner.png" alt="PBIP Project Readiness Scanner screenshot">
           </article>
+          <article class="image-card">
+            <h3>PBIP Diff Viewer</h3>
+            <img class="screenshot" src="images/pbip-diff-viewer.png" alt="PBIP Diff Viewer screenshot">
+          </article>
+          <article class="image-card">
+            <h3>Dependency Impact Analyzer</h3>
+            <img class="screenshot" src="images/dependency-impact-analyzer.png" alt="Dependency Impact Analyzer screenshot">
+          </article>
+          <article class="image-card">
+            <h3>Pipeline Config Generator</h3>
+            <img class="screenshot" src="images/pipeline-config-generator.png" alt="Pipeline Config Generator screenshot">
+          </article>
         </div>
       </section>
 
@@ -907,6 +976,14 @@
           <div class="artifact"><strong><code>deployment-manifest.json</code></strong><span>Solution ownership, environments, parameters, approvals, and rollback.</span></div>
           <div class="artifact"><strong><code>enterprise-policy-profile.json</code></strong><span>Reusable policy posture and governance settings.</span></div>
           <div class="artifact"><strong><code>PBIP-Readiness-Report.md</code></strong><span>PR-ready structure and governance readiness summary.</span></div>
+          <div class="artifact"><strong><code>pbip-diff-report.html</code></strong><span>Shareable PBIP diff report.</span></div>
+          <div class="artifact"><strong><code>pbip-diff-report.md</code></strong><span>Reviewer-friendly PBIP diff summary.</span></div>
+          <div class="artifact"><strong><code>pbip-diff-report.json</code></strong><span>Machine-readable PBIP diff summary.</span></div>
+          <div class="artifact"><strong><code>dependency-impact-report.html</code></strong><span>Shareable dependency impact report.</span></div>
+          <div class="artifact"><strong><code>dependency-impact-report.md</code></strong><span>Reviewer-friendly dependency impact summary.</span></div>
+          <div class="artifact"><strong><code>dependency-impact-report.json</code></strong><span>Machine-readable dependency impact summary.</span></div>
+          <div class="artifact"><strong><code>pipeline-profile.json</code></strong><span>Reusable CI/CD pipeline generation profile.</span></div>
+          <div class="artifact"><strong><code>pipeline-setup-notes.md</code></strong><span>Platform setup notes and review checklist.</span></div>
           <div class="artifact"><strong><code>PR-Quality-Summary.md</code></strong><span>Reviewer-friendly PR summary.</span></div>
           <div class="artifact"><strong><code>policy-exceptions.json</code></strong><span>Owned, approved, time-bound policy exceptions.</span></div>
           <div class="artifact"><strong><code>Rules-Report.effective.json</code></strong><span>Effective report rules for CI.</span></div>

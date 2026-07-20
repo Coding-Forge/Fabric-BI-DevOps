@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pipeline Config Generator</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root{color-scheme:light;--cp-bg:#f7f4ef;--cp-bg-elevated:#fcfbf8;--cp-surface:#fff;--cp-surface-soft:#f5f5f5;--cp-border:#dedede;--cp-border-strong:#919191;--cp-text:#242424;--cp-text-muted:#5c5c5c;--cp-accent:#b11f4b;--cp-accent-fg:#fff;--cp-success:#16a34a;--cp-danger:#dc2626;--cp-warning:#f59e0b;--cp-shadow:0 18px 48px rgba(0,0,0,.12);--cp-panel-strong:rgba(255,255,255,.96)}
+    html[data-theme=dark]{color-scheme:dark;--cp-bg:#3d3b3a;--cp-bg-elevated:#343231;--cp-surface:#292929;--cp-surface-soft:#2e2e2e;--cp-border:#474747;--cp-border-strong:#5f5f5f;--cp-text:#dedede;--cp-text-muted:#b0b0b0;--cp-accent:#fd8ea1;--cp-accent-fg:#1a1a1a;--cp-success:#4ade80;--cp-danger:#f87171;--cp-warning:#fbbf24;--cp-shadow:0 18px 48px rgba(0,0,0,.32);--cp-panel-strong:rgba(41,41,41,.96)}
+    *{box-sizing:border-box}body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.45}button,input,select,textarea{font:inherit}button{border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);cursor:pointer;padding:8px 12px}button:hover{border-color:var(--cp-border-strong)}button.primary{background:var(--cp-accent);border-color:var(--cp-accent);color:var(--cp-accent-fg)}input,select,textarea{width:100%;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);padding:8px 10px}textarea{min-height:84px;resize:vertical}label{display:grid;gap:6px;color:var(--cp-text-muted);font-size:13px;font-weight:700}label.check{display:flex;align-items:center;gap:8px;color:var(--cp-text);font-weight:650}label.check input{width:auto}pre,code{font-family:Consolas,"Courier New",monospace}pre{margin:0;overflow:auto;white-space:pre-wrap;word-break:break-word}.hero{border-bottom:1px solid var(--cp-border);background:var(--cp-bg-elevated);padding:28px}.hero-inner,.main{max-width:1440px;margin:0 auto}.hero-inner{display:grid;gap:16px}.eyebrow{color:var(--cp-accent);font-size:13px;font-weight:850;letter-spacing:.04em;text-transform:uppercase}h1,h2,h3{margin:0;line-height:1.15}h1{font-size:clamp(30px,4vw,46px)}h2{font-size:20px}h3{font-size:16px}.lede{max-width:980px;color:var(--cp-text-muted);font-size:17px}.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.main{display:grid;grid-template-columns:minmax(320px,450px) minmax(0,1fr);gap:20px;padding:24px 28px 40px}.panel,.card{border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface);box-shadow:var(--cp-shadow)}.panel-header{border-bottom:1px solid var(--cp-border);padding:16px}.panel-body{padding:16px}.grid{display:grid;gap:14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);padding:12px}.stat-value{font-size:26px;font-weight:850}.muted,.stat-label{color:var(--cp-text-muted)}.muted{font-size:13px}.chip-row{display:flex;flex-wrap:wrap;gap:6px}.chip{display:inline-flex;border:1px solid var(--cp-border);border-radius:999px;background:var(--cp-surface-soft);color:var(--cp-text-muted);font-size:12px;font-weight:800;padding:3px 8px}.chip.success{border-color:var(--cp-success);color:var(--cp-success)}.chip.warning{border-color:var(--cp-warning);color:var(--cp-warning)}.chip.error{border-color:var(--cp-danger);color:var(--cp-danger)}.output{max-height:760px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);color:var(--cp-text);padding:14px;font-size:13px}.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-surface-soft);padding:8px}.tab{border-color:transparent;background:transparent;color:var(--cp-text-muted);font-weight:850}.tab.active{border-color:var(--cp-border);background:var(--cp-surface);color:var(--cp-text)}.toast{position:fixed;right:20px;bottom:20px;max-width:380px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-panel-strong);box-shadow:var(--cp-shadow);padding:12px 14px;display:none;z-index:20}.toast.visible{display:block}@media(max-width:980px){.main,.two,.three,.tabs{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Fabric BI DevOps Accelerator</div>
+      <h1>Pipeline Config Generator</h1>
+      <p class="lede">Generate Azure DevOps, GitHub Actions, or GitLab CI configuration from one PBIP delivery profile. Use the output as a starter pipeline aligned to this accelerator's validation, quality, DAX test, publish, and deploy pattern.</p>
+      <div class="toolbar">
+        <button type="button" onclick="window.location.href='../index.html'">Back to launchpad</button>
+        <button id="generate" class="primary" type="button">Generate pipeline</button>
+        <button id="seedExample" type="button">Use starter example</button>
+        <button id="copyYaml" type="button">Copy YAML</button>
+        <button id="downloadYaml" type="button">Download YAML</button>
+        <button id="downloadMarkdown" type="button">Download setup notes</button>
+        <button id="downloadJson" type="button">Download profile JSON</button>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <aside class="panel">
+      <div class="panel-header"><h2>Pipeline profile</h2><div class="muted">One profile drives all supported CI/CD platforms.</div></div>
+      <div class="panel-body grid">
+        <div class="grid two">
+          <label>Platform<select id="platform"><option>Azure DevOps</option><option>GitHub Actions</option><option>GitLab CI</option></select></label>
+          <label>Pipeline name<input id="pipelineName" value="Fabric PBIP CI/CD"></label>
+        </div>
+        <div class="grid two">
+          <label>Project root<input id="projectRoot" value="shared"></label>
+          <label>PBIP path<input id="pbipPath" value="shared/pbip-local"></label>
+        </div>
+        <div class="grid two">
+          <label>Python version<input id="pythonVersion" value="3.11"></label>
+          <label>Deploy script path<input id="deployScript" value="shared/scripts/deploy-dynamic.ps1"></label>
+        </div>
+        <label>Branch triggers, one per line<textarea id="branches">main
+develop
+feature/*</textarea></label>
+        <div class="grid two">
+          <label class="check"><input id="datasetRules" type="checkbox" checked> Dataset quality rules</label>
+          <label class="check"><input id="reportRules" type="checkbox" checked> Report quality rules</label>
+          <label class="check"><input id="daxTests" type="checkbox" checked> DAX test metadata</label>
+          <label class="check"><input id="publishArtifact" type="checkbox" checked> Publish PBIP artifact</label>
+          <label class="check"><input id="deployDev" type="checkbox"> Deploy to Dev workspace</label>
+          <label class="check"><input id="featureDeploy" type="checkbox"> Feature workspace deploy</label>
+        </div>
+        <div class="stats">
+          <div class="stat"><div id="stageCount" class="stat-value">0</div><div class="stat-label">Stages/jobs</div></div>
+          <div class="stat"><div id="secretCount" class="stat-value">0</div><div class="stat-label">Secrets</div></div>
+          <div class="stat"><div id="runnerCount" class="stat-value">0</div><div class="stat-label">Runner types</div></div>
+          <div class="stat"><div id="lineCount" class="stat-value">0</div><div class="stat-label">YAML lines</div></div>
+        </div>
+        <div id="statusChips" class="chip-row"></div>
+      </div>
+    </aside>
+    <section class="panel">
+      <div class="panel-header"><h2>Generated output</h2><div class="muted">Review the YAML and setup notes before committing to a platform folder.</div></div>
+      <div class="panel-body grid">
+        <nav class="tabs" aria-label="Output tabs">
+          <button class="tab active" type="button" data-tab="yaml">YAML</button>
+          <button class="tab" type="button" data-tab="notes">Setup notes</button>
+          <button class="tab" type="button" data-tab="json">Profile JSON</button>
+          <button class="tab" type="button" data-tab="checklist">Checklist</button>
+        </nav>
+        <pre id="yamlOutput" class="output"></pre>
+        <pre id="notesOutput" class="output" hidden></pre>
+        <pre id="jsonOutput" class="output" hidden></pre>
+        <pre id="checklistOutput" class="output" hidden></pre>
+      </div>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+  <script>
+    const ids=["platform","pipelineName","projectRoot","pbipPath","pythonVersion","deployScript","branches","datasetRules","reportRules","daxTests","publishArtifact","deployDev","featureDeploy","stageCount","secretCount","runnerCount","lineCount","statusChips","yamlOutput","notesOutput","jsonOutput","checklistOutput","toast"];
+    const els=Object.fromEntries(ids.map(id=>[id,document.getElementById(id)]));
+    let current={profile:{},yaml:"",notes:"",checklist:""};
+
+    function lines(value){return String(value||"").split(/\r?\n|,/).map(x=>x.trim()).filter(Boolean)}
+    function bool(id){return Boolean(els[id].checked)}
+    function profile(){
+      return {
+        platform:els.platform.value,
+        pipelineName:els.pipelineName.value||"Fabric PBIP CI/CD",
+        projectRoot:els.projectRoot.value||"shared",
+        pbipPath:els.pbipPath.value||"shared/pbip-local",
+        pythonVersion:els.pythonVersion.value||"3.11",
+        deployScript:els.deployScript.value||"shared/scripts/deploy-dynamic.ps1",
+        branches:lines(els.branches.value),
+        features:{datasetRules:bool("datasetRules"),reportRules:bool("reportRules"),daxTests:bool("daxTests"),publishArtifact:bool("publishArtifact"),deployDev:bool("deployDev"),featureDeploy:bool("featureDeploy")}
+      };
+    }
+    function yamlList(items,indent="      "){return items.map(x=>`${indent}- ${x}`).join("\n")}
+    function azdo(p){
+      const jobs=[`- stage: Validate
+  displayName: 'Validate PBIP Artifacts'
+  jobs:
+  - job: ValidatePBIP
+    displayName: 'Validate PBIP Structure'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(PYTHON_VERSION)'
+    - script: python $(PROJECT_ROOT)/tests/validate_pbip_structure.py --pbip-path "$(PBIP_PATH)"
+      displayName: 'Run PBIP structure validation'`];
+      if(p.features.datasetRules||p.features.reportRules)jobs.push(`- stage: Quality
+  displayName: 'Run quality rules'
+  dependsOn: Validate
+  jobs:${p.features.datasetRules?`
+  - job: DatasetRules
+    displayName: 'Run Tabular Editor BPA rules'
+    pool:
+      vmImage: 'windows-2022'
+    steps:
+    - pwsh: |
+        Write-Host "Download Tabular Editor and prepare effective dataset rules."
+        & "$(PROJECT_ROOT)/scripts/Prepare-QualityRules.ps1" -Mode dataset -SourcePath "$(PROJECT_ROOT)/Rules-Dataset.json" -OutputPath "$(Agent.TempDirectory)/Rules-Dataset.effective.json" -SourceBranch "$(Build.SourceBranch)"
+        Write-Host "Run Tabular Editor against semantic model definitions under $(PBIP_PATH)."`:""}${p.features.reportRules?`
+  - job: ReportRules
+    displayName: 'Run Fab Inspector report rules'
+    pool:
+      vmImage: 'windows-2022'
+    steps:
+    - pwsh: |
+        Write-Host "Download Fab Inspector and prepare effective report rules."
+        & "$(PROJECT_ROOT)/scripts/Prepare-QualityRules.ps1" -Mode report -SourcePath "$(PROJECT_ROOT)/Rules-Report.json" -OutputPath "$(Agent.TempDirectory)/Rules-Report.effective.json" -SourceBranch "$(Build.SourceBranch)"
+        Write-Host "Run Fab Inspector against report definitions under $(PBIP_PATH)."`:""}`);
+      if(p.features.daxTests)jobs.push(`- stage: Test
+  displayName: 'Run DAX test metadata'
+  dependsOn: Validate
+  jobs:
+  - job: DaxTests
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(PYTHON_VERSION)'
+    - script: |
+        pip install semantic-link-labs
+        python $(PROJECT_ROOT)/tests/run_dax_tests.py --model-path "$(PBIP_PATH)"
+      displayName: 'Run DAX test metadata'
+    - publish: test-results
+      artifact: dax-test-results
+      condition: always()`);
+      if(p.features.publishArtifact)jobs.push(`- stage: Publish
+  displayName: 'Publish PBIP artifact'
+  dependsOn:
+  - Validate
+  ${p.features.daxTests?"- Test":""}
+  jobs:
+  - job: PublishPBIP
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - publish: $(PBIP_PATH)
+      artifact: pbip-drop`);
+      if(p.features.deployDev||p.features.featureDeploy)jobs.push(`- stage: Deploy
+  displayName: 'Deploy Fabric artifacts'
+  dependsOn: Publish
+  condition: succeeded()
+  jobs:
+  - job: DeployWorkspace
+    pool:
+      vmImage: 'windows-2022'
+    steps:
+    - pwsh: |
+        & "$(DEPLOY_SCRIPT_PATH)" -TenantId "$(TenantId)" -AppId "$(AppId)" -ClientSecret "$(ClientSecret)" -WorkspaceName "$(DEV_WORKSPACE_NAME)" -ArtifactPath "$(PBIP_PATH)"
+      displayName: 'Deploy PBIP artifacts'`);
+      return `# Generated by Fabric BI DevOps Pipeline Config Generator
+trigger:
+  branches:
+    include:
+${yamlList(p.branches,"      ")}
+
+pr:
+  branches:
+    include:
+${yamlList(p.branches.filter(x=>!x.includes("*")),"      ")}
+
+variables:
+  - name: PROJECT_ROOT
+    value: '${p.projectRoot}'
+  - name: PBIP_PATH
+    value: '${p.pbipPath}'
+  - name: PYTHON_VERSION
+    value: '${p.pythonVersion}'
+  - name: DEPLOY_SCRIPT_PATH
+    value: '${p.deployScript}'
+
+stages:
+${jobs.join("\n\n")}`;
+    }
+    function github(p){
+      const jobs=[`validate_pbip:
+    name: Validate PBIP Structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.0
+      - uses: actions/setup-python@v5.1.0
+        with:
+          python-version: \${{ env.PYTHON_VERSION }}
+      - run: python \${{ env.PROJECT_ROOT }}/tests/validate_pbip_structure.py --pbip-path "\${{ env.PBIP_PATH }}"`];
+      if(p.features.datasetRules)jobs.push(`dataset_rules:
+    name: Run Dataset Quality Rules
+    runs-on: windows-latest
+    needs: validate_pbip
+    steps:
+      - uses: actions/checkout@v4.2.0
+      - shell: pwsh
+        run: |
+          Write-Host "Download Tabular Editor and prepare effective dataset rules."
+          & "\${{ env.PROJECT_ROOT }}/scripts/Prepare-QualityRules.ps1" -Mode dataset -SourcePath "\${{ env.PROJECT_ROOT }}/Rules-Dataset.json" -OutputPath "$env:RUNNER_TEMP/Rules-Dataset.effective.json" -SourceBranch "\${{ github.ref }}"`);
+      if(p.features.reportRules)jobs.push(`report_rules:
+    name: Run Report Quality Rules
+    runs-on: windows-latest
+    needs: validate_pbip
+    steps:
+      - uses: actions/checkout@v4.2.0
+      - shell: pwsh
+        run: |
+          Write-Host "Download Fab Inspector and prepare effective report rules."
+          & "\${{ env.PROJECT_ROOT }}/scripts/Prepare-QualityRules.ps1" -Mode report -SourcePath "\${{ env.PROJECT_ROOT }}/Rules-Report.json" -OutputPath "$env:RUNNER_TEMP/Rules-Report.effective.json" -SourceBranch "\${{ github.ref }}"`);
+      if(p.features.daxTests)jobs.push(`dax_tests:
+    name: Run DAX Test Metadata
+    runs-on: ubuntu-latest
+    needs: validate_pbip
+    steps:
+      - uses: actions/checkout@v4.2.0
+      - uses: actions/setup-python@v5.1.0
+        with:
+          python-version: \${{ env.PYTHON_VERSION }}
+      - run: |
+          pip install semantic-link-labs
+          python \${{ env.PROJECT_ROOT }}/tests/run_dax_tests.py --model-path "\${{ env.PBIP_PATH }}"
+      - uses: actions/upload-artifact@v4.4.0
+        if: always()
+        with:
+          name: dax-test-results
+          path: test-results/`);
+      if(p.features.publishArtifact)jobs.push(`publish_artifact:
+    name: Publish PBIP Artifact
+    runs-on: ubuntu-latest
+    needs: [validate_pbip${p.features.daxTests?", dax_tests":""}]
+    steps:
+      - uses: actions/checkout@v4.2.0
+      - uses: actions/upload-artifact@v4.4.0
+        with:
+          name: pbip-drop
+          path: \${{ env.PBIP_PATH }}`);
+      if(p.features.deployDev||p.features.featureDeploy)jobs.push(`deploy_workspace:
+    name: Deploy Fabric Workspace
+    runs-on: windows-latest
+    needs: publish_artifact
+    steps:
+      - uses: actions/checkout@v4.2.0
+      - shell: pwsh
+        env:
+          TENANT_ID: \${{ secrets.TENANT_ID }}
+          APP_ID: \${{ secrets.APP_ID }}
+          CLIENT_SECRET: \${{ secrets.CLIENT_SECRET }}
+          DEV_WORKSPACE_NAME: \${{ vars.DEV_WORKSPACE_NAME }}
+        run: |
+          & "\${{ env.DEPLOY_SCRIPT_PATH }}" -TenantId "$env:TENANT_ID" -AppId "$env:APP_ID" -ClientSecret "$env:CLIENT_SECRET" -WorkspaceName "$env:DEV_WORKSPACE_NAME" -ArtifactPath "\${{ env.PBIP_PATH }}"`);
+      return `name: ${p.pipelineName}
+
+on:
+  push:
+    branches:
+${yamlList(p.branches,"      ")}
+  pull_request:
+    branches:
+${yamlList(p.branches.filter(x=>!x.includes("*")),"      ")}
+  workflow_dispatch:
+
+env:
+  PROJECT_ROOT: ${p.projectRoot}
+  PBIP_PATH: ${p.pbipPath}
+  PYTHON_VERSION: "${p.pythonVersion}"
+  DEPLOY_SCRIPT_PATH: ${p.deployScript}
+
+jobs:
+  ${jobs.join("\n\n  ")}`;
+    }
+    function gitlab(p){
+      const stages=["validate"]; if(p.features.datasetRules||p.features.reportRules)stages.push("quality"); if(p.features.daxTests)stages.push("test"); if(p.features.publishArtifact)stages.push("publish"); if(p.features.deployDev||p.features.featureDeploy)stages.push("deploy");
+      const jobs=[`validate_pbip:
+  stage: validate
+  image: python:${p.pythonVersion}-slim
+  script:
+    - python $PROJECT_ROOT/tests/validate_pbip_structure.py --pbip-path "$PBIP_PATH"`];
+      if(p.features.datasetRules)jobs.push(`dataset_rules:
+  stage: quality
+  tags: [windows]
+  needs: [validate_pbip]
+  script:
+    - |
+      Write-Host "Download Tabular Editor and prepare effective dataset rules."
+      & "$env:PROJECT_ROOT/scripts/Prepare-QualityRules.ps1" -Mode dataset -SourcePath "$env:PROJECT_ROOT/Rules-Dataset.json" -OutputPath "$env:TEMP/Rules-Dataset.effective.json" -SourceBranch "refs/heads/$env:CI_COMMIT_REF_NAME"`);
+      if(p.features.reportRules)jobs.push(`report_rules:
+  stage: quality
+  tags: [windows]
+  needs: [validate_pbip]
+  script:
+    - |
+      Write-Host "Download Fab Inspector and prepare effective report rules."
+      & "$env:PROJECT_ROOT/scripts/Prepare-QualityRules.ps1" -Mode report -SourcePath "$env:PROJECT_ROOT/Rules-Report.json" -OutputPath "$env:TEMP/Rules-Report.effective.json" -SourceBranch "refs/heads/$env:CI_COMMIT_REF_NAME"`);
+      if(p.features.daxTests)jobs.push(`dax_tests:
+  stage: test
+  image: python:${p.pythonVersion}-slim
+  needs: [validate_pbip]
+  script:
+    - pip install semantic-link-labs
+    - python $PROJECT_ROOT/tests/run_dax_tests.py --model-path "$PBIP_PATH"
+  artifacts:
+    when: always
+    reports:
+      junit: test-results/*.xml
+    paths:
+      - test-results/`);
+      if(p.features.publishArtifact)jobs.push(`publish_artifact:
+  stage: publish
+  image: alpine:latest
+  needs: [validate_pbip]
+  script:
+    - echo "Publishing PBIP artifact from $PBIP_PATH"
+  artifacts:
+    paths:
+      - $PBIP_PATH
+    expire_in: 7 days`);
+      if(p.features.deployDev||p.features.featureDeploy)jobs.push(`deploy_workspace:
+  stage: deploy
+  tags: [windows]
+  needs: [publish_artifact]
+  script:
+    - |
+      & "$env:DEPLOY_SCRIPT_PATH" -TenantId "$env:TENANT_ID" -AppId "$env:APP_ID" -ClientSecret "$env:CLIENT_SECRET" -WorkspaceName "$env:DEV_WORKSPACE_NAME" -ArtifactPath "$env:PBIP_PATH"`);
+      return `# Generated by Fabric BI DevOps Pipeline Config Generator
+variables:
+  PROJECT_ROOT: "${p.projectRoot}"
+  PBIP_PATH: "${p.pbipPath}"
+  PYTHON_VERSION: "${p.pythonVersion}"
+  DEPLOY_SCRIPT_PATH: "${p.deployScript}"
+
+workflow:
+  rules:
+${p.branches.map(gitlabBranchRule).join("\n")}
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+stages:
+${yamlList(stages,"  ")}
+
+${jobs.join("\n\n")}`;
+    }
+    function gitlabBranchRule(branch){
+      if(branch.endsWith("/*"))return `    - if: '$CI_COMMIT_BRANCH =~ /^${branch.slice(0,-2).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}\\/.+/'`;
+      return `    - if: '$CI_COMMIT_BRANCH == "${branch}"'`;
+    }
+    function secrets(p){
+      if(!(p.features.deployDev||p.features.featureDeploy))return[];
+      if(p.platform==="Azure DevOps")return["TenantId","AppId","ClientSecret","DEV_WORKSPACE_NAME","FeatureWorkspacePrefix"];
+      if(p.platform==="GitHub Actions")return["TENANT_ID","APP_ID","CLIENT_SECRET"]; 
+      return["TENANT_ID","APP_ID","CLIENT_SECRET","DEV_WORKSPACE_NAME","FEATURE_WORKSPACE_PREFIX"];
+    }
+    function setupNotes(p){
+      const file=p.platform==="Azure DevOps"?"azure-pipelines.yml":p.platform==="GitHub Actions"?".github/workflows/powerbi-ci.yml":".gitlab-ci.yml";
+      const s=secrets(p);
+      return [`# Pipeline setup notes`,"",`- Platform: ${p.platform}`,`- Recommended file path: ${file}`,`- Project root: ${p.projectRoot}`,`- PBIP path: ${p.pbipPath}`,`- Enabled capabilities: ${Object.entries(p.features).filter(([,v])=>v).map(([k])=>k).join(", ")||"validation only"}`,"",`## Required runners`,"","- Linux runner for PBIP validation, DAX metadata tests, and artifact publishing.","- Windows runner for Tabular Editor, Fab Inspector, and deployment steps.","",`## Secrets and variables`,...(s.length?s.map(x=>`- ${x}`):["- No deployment secrets required for the selected profile."]),"",`## Review checklist`,"","- Confirm paths match the target repo layout.","- Confirm branch triggers match the team's branching strategy.","- Confirm protected branch policy requires this pipeline before merge.","- Confirm deployment secrets are masked/protected and scoped to approved branches."].join("\n");
+    }
+    function checklist(p){
+      return [`# Pipeline review checklist`,"",`- [ ] Commit YAML to the correct location for ${p.platform}.`,"- [ ] Confirm PBIP validation passes for the selected PBIP path.",p.features.datasetRules?"- [ ] Confirm Windows runner can download and run Tabular Editor.":"- [ ] Dataset quality rules intentionally skipped.",p.features.reportRules?"- [ ] Confirm Windows runner can download and run Fab Inspector.":"- [ ] Report quality rules intentionally skipped.",p.features.daxTests?"- [ ] Confirm DAX test metadata validates and publishes JUnit output.":"- [ ] DAX tests intentionally skipped.",p.features.publishArtifact?"- [ ] Confirm PBIP artifact publish path is correct.":"- [ ] Artifact publishing intentionally skipped.",(p.features.deployDev||p.features.featureDeploy)?"- [ ] Confirm deployment service principal and workspace variables are configured.":"- [ ] Deployment intentionally skipped.","- [ ] Require the pipeline as a branch policy/status check before merge."].join("\n");
+    }
+    function generate(){
+      const p=profile();
+      const yaml=p.platform==="Azure DevOps"?azdo(p):p.platform==="GitHub Actions"?github(p):gitlab(p);
+      current={profile:p,yaml,notes:setupNotes(p),checklist:checklist(p)};
+      render();
+    }
+    function render(){
+      const p=current.profile||profile();
+      const stageCount=(current.yaml.match(/^- stage:|^\s{2}[a-zA-Z0-9_]+:/gm)||[]).length||1;
+      const runnerCount=(p.features.datasetRules||p.features.reportRules||p.features.deployDev||p.features.featureDeploy)?2:1;
+      els.stageCount.textContent=stageCount;
+      els.secretCount.textContent=secrets(p).length;
+      els.runnerCount.textContent=runnerCount;
+      els.lineCount.textContent=current.yaml.split(/\r?\n/).length;
+      els.statusChips.innerHTML=`<span class="chip success">${p.platform}</span><span class="chip">${p.features.deployDev||p.features.featureDeploy?"Deploy enabled":"CI only"}</span><span class="chip ${runnerCount>1?"warning":"success"}">${runnerCount>1?"Windows runner needed":"Linux runner only"}</span>`;
+      els.yamlOutput.textContent=current.yaml;
+      els.notesOutput.textContent=current.notes;
+      els.jsonOutput.textContent=JSON.stringify(current.profile,null,2);
+      els.checklistOutput.textContent=current.checklist;
+    }
+    function activate(tab){
+      document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+      for(const id of ["yaml","notes","json","checklist"])els[`${id}Output`].hidden=id!==tab;
+    }
+    function fileName(){
+      const p=current.profile;
+      return p.platform==="Azure DevOps"?"azure-pipelines.generated.yml":p.platform==="GitHub Actions"?"powerbi-ci.generated.yml":"gitlab-ci.generated.yml";
+    }
+    function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+    function toast(m){els.toast.textContent=m;els.toast.classList.add("visible");clearTimeout(toast.timer);toast.timer=setTimeout(()=>els.toast.classList.remove("visible"),2800)}
+    function seed(){els.pipelineName.value="FinOps PBIP CI/CD";els.projectRoot.value="shared";els.pbipPath.value="shared/pbip-local";els.deployDev.checked=true;els.featureDeploy.checked=true;generate();toast("Starter profile loaded.")}
+    document.querySelectorAll("input,select,textarea").forEach(x=>x.addEventListener("input",generate));
+    document.querySelectorAll("input[type=checkbox],select").forEach(x=>x.addEventListener("change",generate));
+    document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>activate(b.dataset.tab)));
+    document.getElementById("generate").addEventListener("click",generate);
+    document.getElementById("seedExample").addEventListener("click",seed);
+    document.getElementById("copyYaml").addEventListener("click",async()=>{await navigator.clipboard.writeText(current.yaml);toast("YAML copied.")});
+    document.getElementById("downloadYaml").addEventListener("click",()=>download(fileName(),current.yaml,"text/yaml"));
+    document.getElementById("downloadMarkdown").addEventListener("click",()=>download("pipeline-setup-notes.md",current.notes,"text/markdown"));
+    document.getElementById("downloadJson").addEventListener("click",()=>download("pipeline-profile.json",JSON.stringify(current.profile,null,2),"application/json"));
+    generate();
+  </script>
+</body>
+</html>

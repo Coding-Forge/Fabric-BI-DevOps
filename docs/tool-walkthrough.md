@@ -22,14 +22,17 @@ C:\Projects\Enterprise-Fabric\shared
 4. Define DAX test metadata.
 5. Create a deployment manifest.
 6. Scan the PBIP project before pull request.
-7. Generate the PR quality summary.
-8. Track any approved exceptions.
-9. Generate effective branch-aware rule files.
-10. Review platform parity.
-11. Assess release readiness.
-12. Track adoption metrics.
-13. Map policy coverage.
-14. Compare differentiators.
+7. Compare before/after PBIP snapshots.
+8. Analyze dependency impact.
+9. Generate CI/CD pipeline YAML.
+10. Generate the PR quality summary.
+11. Track any approved exceptions.
+12. Generate effective branch-aware rule files.
+13. Review platform parity.
+14. Assess release readiness.
+15. Track adoption metrics.
+16. Map policy coverage.
+17. Compare differentiators.
 
 ## Tool catalog
 
@@ -167,6 +170,75 @@ C:\Projects\Enterprise-Fabric\shared
 - Are CI/CD files wired up?
 
 **Productivity and governance value:** Helps authors self-check before asking reviewers to spend time on a PR.
+
+### PBIP Diff Viewer
+
+![PBIP Diff Viewer](images/tool-walkthrough/pbip-diff-viewer.png)
+
+**What it does:** Compares two PBIP snapshots and translates raw JSON/TMDL changes into reviewer-friendly categories and guidance.
+
+**How to use it:**
+
+1. Open `tools/pbip-diff-viewer/index.html`.
+2. Select the before folder and after folder for the PBIP project or repository snapshot.
+3. Review added, removed, and changed report, semantic model, rule, DAX test, exception, manifest, and pipeline files.
+4. Filter by artifact type or path and inspect the before/after excerpts.
+5. Export HTML, Markdown, or JSON diff reports for PR review.
+
+**Questions it answers:**
+
+- Which report pages, visuals, semantic model files, and governance assets changed?
+- What should reviewers focus on instead of reading raw PBIP JSON?
+- Were files added or removed intentionally?
+- Which JSON properties changed in metadata files?
+
+**Productivity and governance value:** Gives reviewers a concise change lens before they inspect raw PBIP metadata or approve a pull request.
+
+### Dependency Impact Analyzer
+
+![Dependency Impact Analyzer](images/tool-walkthrough/dependency-impact-analyzer.png)
+
+**What it does:** Scans PBIP report and semantic model metadata to trace changed model objects to impacted measures, relationships, report pages, visuals, DAX tests, deployment manifests, and governance assets.
+
+**How to use it:**
+
+1. Open `tools/dependency-impact-analyzer/index.html`.
+2. Load a PBIP project or repository folder.
+3. Enter changed model objects such as `Revenue`, `Sales[Amount]`, or `Customer[Region]`.
+4. Review impacted measures, relationships, visuals, pages, tests, and governance assets.
+5. Export HTML, Markdown, or JSON impact reports for PR and release review.
+
+**Questions it answers:**
+
+- Which measures reference a changed table, column, or measure?
+- Which report pages and visuals may need regression review?
+- Which relationships or governance files mention the changed object?
+- What should reviewers test before approval or promotion?
+
+**Productivity and governance value:** Focuses testing and review on likely downstream impact instead of asking reviewers to manually inspect every report and model file.
+
+### Pipeline Config Generator
+
+![Pipeline Config Generator](images/tool-walkthrough/pipeline-config-generator.png)
+
+**What it does:** Generates Azure DevOps, GitHub Actions, or GitLab CI YAML from one PBIP delivery profile.
+
+**How to use it:**
+
+1. Open `tools/pipeline-config-generator/index.html`.
+2. Choose Azure DevOps, GitHub Actions, or GitLab CI.
+3. Set project root, PBIP path, Python version, deploy script path, branch triggers, and enabled capabilities.
+4. Review the generated YAML, setup notes, profile JSON, and checklist.
+5. Download the YAML and commit it to the platform-specific pipeline location.
+
+**Questions it answers:**
+
+- What CI/CD YAML do we need for this PBIP project?
+- Which jobs require Linux or Windows runners?
+- Which secrets or variables are required for deployment?
+- Which validation, quality, test, publish, and deploy stages are enabled?
+
+**Productivity and governance value:** Converts platform setup decisions into repeatable YAML and setup notes so teams do not hand-build CI/CD pipelines from scratch.
 
 ### PR Quality Summary Generator
 
