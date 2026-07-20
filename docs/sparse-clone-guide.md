@@ -78,7 +78,7 @@ Use **Toolkit** mode when you want platform, profile, and workshop options. Use 
 
 Workshop material is excluded by default from the toolkit script.
 
-Pass `-IncludeWorkshop` when you want to include the workshop docs and slide material:
+Pass `-IncludeWorkshop` when you want to include the workshop docs, sample data, supporting reference docs, and slide material:
 
 ```powershell
 .\shared\scripts\Clone-SparseToolkitProfile.ps1 `
@@ -93,6 +93,11 @@ Pass `-IncludeWorkshop` when you want to include the workshop docs and slide mat
 ```text
 Supporting_Docs_For_Workshop.md
 docs/workshops/
+docs/delivery/
+docs/architecture/
+docs/faq.md
+docs/Rules-Authoring-Guide.md
+docs/sparse-clone-guide.md
 presentations/
 powerpoint/
 ```

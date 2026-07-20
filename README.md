@@ -199,7 +199,7 @@ Platform clone that also includes workshop material:
   -IncludeWorkshop
 ```
 
-`-IncludeWorkshop` adds `Supporting_Docs_For_Workshop.md`, `docs/workshops/`, `presentations/`, and `powerpoint/`.
+`-IncludeWorkshop` adds `Supporting_Docs_For_Workshop.md`, `docs/workshops/`, delivery docs, architecture docs, workshop FAQ/reference docs, `presentations/`, and `powerpoint/`.
 
 Toolkit clone with no CI/CD platform folder:
 

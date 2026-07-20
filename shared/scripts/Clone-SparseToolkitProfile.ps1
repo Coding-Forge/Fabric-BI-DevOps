@@ -86,6 +86,11 @@ function Get-ProfilePaths {
         $standardPaths += @(
             'Supporting_Docs_For_Workshop.md',
             'docs/workshops/',
+            'docs/delivery/',
+            'docs/architecture/',
+            'docs/faq.md',
+            'docs/Rules-Authoring-Guide.md',
+            'docs/sparse-clone-guide.md',
             'presentations/',
             'powerpoint/'
         )

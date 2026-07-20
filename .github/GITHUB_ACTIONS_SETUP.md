@@ -79,7 +79,7 @@ For toolkit-focused clones that exclude workshop material by default, use:
   -Platform GitHub
 ```
 
-Use `-Profile Minimal` for only `README.md`, `shared/`, and `.github/`. Use `-IncludeWorkshop` only when the new repo should include workshop docs and slide material.
+Use `-Profile Minimal` for only `README.md`, `shared/`, and `.github/`. Use `-IncludeWorkshop` only when the new repo should include workshop docs, sample data, supporting reference docs, and slide material.
 
 See [Sparse Clone Guide](../docs/sparse-clone-guide.md) for all toolkit clone options.
 
