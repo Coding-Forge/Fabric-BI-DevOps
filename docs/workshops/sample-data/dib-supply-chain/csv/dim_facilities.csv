@@ -1,0 +1,9 @@
+FacilityID,FacilityName,SupplierID,City,State,FacilityType,HasSecureArea,HasOnPremGateway,ERPSystem,QualitySystem
+FAC-001,Phoenix Microelectronics Plant,SUP-001,Phoenix,AZ,Manufacturing,Yes,Yes,SAP,AS9100
+FAC-002,Dayton Precision Shop,SUP-002,Dayton,OH,Manufacturing,No,Yes,Dynamics 365,AS9100
+FAC-003,Huntsville Composite Cell,SUP-003,Huntsville,AL,Manufacturing,Yes,No,Oracle,ISO9001
+FAC-004,Arlington Secure Integration Lab,SUP-004,Arlington,VA,Integration Lab,Yes,Yes,Dynamics 365,AS9100
+FAC-005,Pittsburgh Cable Assembly,SUP-005,Pittsburgh,PA,Manufacturing,No,No,NetSuite,ISO9001
+FAC-006,Fort Worth Coating Line,SUP-006,Fort Worth,TX,Manufacturing,No,No,QuickBooks,ISO9001
+FAC-007,Aurora Additive Cell,SUP-007,Aurora,CO,Manufacturing,Yes,Yes,SAP,AS9100
+FAC-008,San Diego Environmental Lab,SUP-008,San Diego,CA,Test Lab,Yes,Yes,LabWare,ISO17025

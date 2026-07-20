@@ -39,6 +39,8 @@ By the end of the lab your workspace will be under full source control and every
 | Sample project | PBIP starter project cloned locally (provided by facilitator) |
 | Accelerator tools | Local browser access to `tools/index.html` |
 
+> If you do not have a customer PBIP solution, build one from the synthetic [DIB Supply Chain sample data](../../sample-data/dib-supply-chain/README.md) using the [PBIP Build Guide](../../sample-data/dib-supply-chain/pbip-build-guide.md).
+
 ---
 
 ## Part 1 — Enable Git Integration on Your Workspace

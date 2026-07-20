@@ -1,0 +1,9 @@
+PartID,PartNumber,PartName,Commodity,IsCriticalPart,IsITARControlled,RequiresFAI,LeadTimeDays,UnitOfMeasure,StandardUnitCost
+PRT-001,RDR-MMIC-204,Millimeter Wave IC,Microelectronics,Yes,Yes,Yes,120,Each,1840
+PRT-002,RDR-HSG-110,Radar Housing Assembly,Precision Machining,Yes,Yes,Yes,75,Each,620
+PRT-003,MAR-SNS-332,Maritime Sensor Enclosure,Composite Structures,Yes,Yes,Yes,90,Each,940
+PRT-004,COM-CRP-014,Cryptographic Processor Module,Secure Systems,Yes,Yes,Yes,150,Each,2750
+PRT-005,CBL-HRN-778,Shielded Harness Assembly,Cable Assemblies,No,No,No,45,Each,185
+PRT-006,COAT-RF-221,RF Absorptive Coating,Coatings,No,No,No,30,Gallon,265
+PRT-007,ADD-BKT-510,Additive Mounting Bracket,Additive Parts,No,Yes,Yes,60,Each,410
+PRT-008,TEST-ENV-900,Environmental Qualification Service,Environmental Testing,Yes,Yes,No,21,Lot,12500

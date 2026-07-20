@@ -1,0 +1,9 @@
+RiskID,SupplierID,RiskDate,RiskCategory,RiskScore,Likelihood,Impact,MitigationOwner,MitigationPlan,RiskStatus
+RSK-30001,SUP-001,2026-02-01,Single Source,72,Medium,High,Supply Chain Lead,Qualify alternate microelectronics source,Open
+RSK-30002,SUP-002,2026-02-01,Capacity,48,Medium,Medium,Program Buyer,Reserve second shift capacity,Monitoring
+RSK-30003,SUP-003,2026-02-01,Schedule,68,High,Medium,Program Manager,Weekly recovery plan with supplier,Open
+RSK-30004,SUP-004,2026-02-01,Cyber,35,Low,High,Cyber Lead,Maintain current controls and incident exercise,Monitoring
+RSK-30005,SUP-005,2026-02-01,Cyber,86,High,High,Governance Owner,Close shared account finding before next release,Open
+RSK-30006,SUP-006,2026-02-01,Quality,78,High,Medium,Quality Manager,On-site process audit for coating line,Open
+RSK-30007,SUP-007,2026-02-01,Technical,55,Medium,Medium,Engineering Lead,Review additive process qualification data,Monitoring
+RSK-30008,SUP-008,2026-02-01,Schedule,42,Low,Medium,Test Lead,Reserve chamber time for March test window,Monitoring

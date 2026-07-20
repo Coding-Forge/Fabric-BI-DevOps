@@ -11,6 +11,12 @@ The previous `docs/workshop-plan/` folder is retained only as a compatibility re
 | [Core Fabric Git Workshop](core-fabric-git/README.md) | BI developers, Fabric admins, DevOps engineers, BI leads | Teach Fabric workspace Git integration, PBIP source control, branching, PR flow, CI/CD validation, and deployment pipelines |
 | [Accelerator Toolkit Workshop](accelerator-toolkit/README.md) | BI leads, report creators, semantic model owners, platform engineers, governance owners, release managers | Teach how to use the no-code accelerator tools to create standards, rules, policies, review evidence, pipeline config, release readiness, adoption metrics, and reference outputs |
 
+## Sample data
+
+| Dataset | Purpose |
+|---|---|
+| [Synthetic DIB Supply Chain Sample Data](sample-data/dib-supply-chain/README.md) | CSV-based workshop dataset for building a PBIP project when participants do not have customer data available |
+
 ## Future workshop placeholders
 
 | Placeholder | Purpose |
@@ -38,4 +44,14 @@ docs/workshops/<workshop-name>/
 ```
 
 Only add subfolders that are actually needed. Every workshop should include a `README.md` with audience, outcomes, prerequisites, agenda, and links to labs/reference outputs.
+
+Sample data should live under:
+
+```text
+docs/workshops/sample-data/<scenario-name>/
+  README.md
+  data-dictionary.md
+  pbip-build-guide.md
+  csv/
+```
 

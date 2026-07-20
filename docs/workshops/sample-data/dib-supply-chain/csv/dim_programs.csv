@@ -1,0 +1,6 @@
+ProgramID,ProgramName,CustomerAgency,ContractVehicle,SecurityClassification,ProgramManager,StartDate,EndDate,Status
+PRG-001,NextGen Radar Sustainment,US Air Force,IDIQ-FA8726,Synthetic CUI,Alex Morgan,2025-10-01,2028-09-30,Active
+PRG-002,Maritime Sensor Modernization,US Navy,FFP-N00024,Synthetic CUI,Jordan Lee,2025-07-15,2027-07-14,Active
+PRG-003,Tactical Comms Refresh,US Army,CPFF-W15QKN,Unclassified,Riley Carter,2026-01-01,2028-12-31,Active
+PRG-004,Secure Avionics Upgrade,Defense Logistics Agency,IDIQ-SPM7M,Synthetic CUI,Taylor Brooks,2024-04-01,2027-03-31,At Risk
+PRG-005,Depot Tooling Readiness,US Space Force,T&M-FA8808,Unclassified,Casey Nguyen,2026-02-01,2026-12-31,Planned

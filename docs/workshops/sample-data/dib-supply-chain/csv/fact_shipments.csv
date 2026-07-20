@@ -1,0 +1,9 @@
+ShipmentID,PurchaseOrderID,ShipDate,ReceivedDate,QuantityShipped,QuantityAccepted,QuantityRejected,Carrier,ShipmentStatus,LateReason
+SHP-50001,PO-10002,2026-03-28,2026-04-02,15,15,0,SecureFreight,Received,
+SHP-50002,PO-10005,2026-03-05,2026-03-10,80,78,2,GroundPlus,Received,Quality hold
+SHP-50003,PO-10006,2026-02-20,2026-02-24,50,50,0,HazMat Logistics,Received,
+SHP-50004,PO-10008,2026-02-18,2026-02-24,1,1,0,SecureFreight,Received,
+SHP-50005,PO-10001,2026-05-10,,12,0,0,SecureFreight,In Transit,
+SHP-50006,PO-10003,2026-04-30,,6,0,0,AirExpedite,Delayed,Supplier capacity constraint
+SHP-50007,PO-10010,2026-03-24,,60,0,0,GroundPlus,Delayed,Raw material delay
+SHP-50008,PO-10012,2026-03-18,,35,0,0,HazMat Logistics,In Transit,

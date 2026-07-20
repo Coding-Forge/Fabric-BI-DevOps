@@ -1,0 +1,9 @@
+SupplierID,SupplierName,SupplierTier,CAGECode,Country,State,SmallBusiness,OwnershipType,CMMCLevel,NIST800171Score,ITARRegistered,PrimaryCommodity,ApprovedSupplierStatus
+SUP-001,Aegis Microelectronics,Tier 2,7A1B2,USA,AZ,No,Private,2,103,Yes,Microelectronics,Approved
+SUP-002,Patriot Precision Machining,Tier 2,3C4D5,USA,OH,Yes,Private,2,98,Yes,Precision Machining,Approved
+SUP-003,Liberty Composites,Tier 1,8E6F1,USA,AL,Yes,Private,2,91,Yes,Composite Structures,Conditional
+SUP-004,Frontier Secure Systems,Tier 1,1G7H9,USA,VA,No,Private,3,110,Yes,Secure Systems,Approved
+SUP-005,Keystone Cableworks,Tier 3,4J2K8,USA,PA,Yes,Private,1,72,No,Cable Assemblies,Conditional
+SUP-006,Orion Industrial Coatings,Tier 3,9L5M3,USA,TX,Yes,Private,1,65,No,Coatings,Watchlist
+SUP-007,Summit Additive Manufacturing,Tier 2,2N8P4,USA,CO,Yes,Private,2,87,Yes,Additive Parts,Approved
+SUP-008,Harbor Test Labs,Tier 2,5Q9R6,USA,CA,No,Private,2,100,Yes,Environmental Testing,Approved

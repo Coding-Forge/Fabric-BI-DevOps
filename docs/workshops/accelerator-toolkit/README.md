@@ -67,6 +67,8 @@ Use the files under [`reference-output/`](reference-output/README.md) as the fin
    C:\Projects\Enterprise-Fabric\shared
    ```
 
+   If a customer PBIP solution is not available, build a workshop model from the synthetic [DIB Supply Chain sample data](../sample-data/dib-supply-chain/README.md).
+
 4. Keep generated workshop files in a participant working folder, for example:
 
    ```text

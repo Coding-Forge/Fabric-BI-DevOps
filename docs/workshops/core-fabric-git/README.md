@@ -44,6 +44,8 @@ Participants will learn workspace–repo integration, branching strategies, PR w
 - PAT or **service principal** credentials (if org CA policies block OAuth)  
 - Local copy of sample dataset & PBIP starter project  
 
+If participants do not have customer data or an existing PBIP solution, use the synthetic [DIB Supply Chain sample data](../sample-data/dib-supply-chain/README.md) and [PBIP build guide](../sample-data/dib-supply-chain/pbip-build-guide.md) before starting Lab 1.
+
 ---
 
 # 3. Version Control & Git Integration Concepts

@@ -1,0 +1,9 @@
+AssessmentID,SupplierID,AssessmentDate,Framework,ControlFamily,Score,FindingSeverity,FindingSummary,RemediationDueDate,Status
+CMP-70001,SUP-001,2026-01-18,NIST SP 800-171,Access Control,92,Low,MFA evidence requires updated screenshot,2026-03-15,Open
+CMP-70002,SUP-002,2026-01-20,NIST SP 800-171,Audit and Accountability,88,Medium,Log retention below program expectation,2026-04-01,Open
+CMP-70003,SUP-003,2026-01-22,CMMC Level 2,Configuration Management,84,Medium,Baseline configuration review overdue,2026-04-15,Open
+CMP-70004,SUP-004,2026-01-25,CMMC Level 3,Incident Response,96,Low,Exercise report pending signature,2026-03-01,Closed
+CMP-70005,SUP-005,2026-02-01,NIST SP 800-171,Identification and Authentication,70,High,Shared operator account found in test cell,2026-03-10,Open
+CMP-70006,SUP-006,2026-02-03,NIST SP 800-171,Media Protection,64,High,Removable media process not documented,2026-03-20,Open
+CMP-70007,SUP-007,2026-02-05,CMMC Level 2,System and Communications Protection,82,Medium,Network segmentation diagram incomplete,2026-04-30,Open
+CMP-70008,SUP-008,2026-02-08,NIST SP 800-171,Personnel Security,94,Low,Annual training roster needs update,2026-03-30,Closed

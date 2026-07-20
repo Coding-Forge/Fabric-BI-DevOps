@@ -90,6 +90,7 @@ Use the Enterprise Standards Builder first for governance policy setup, then use
 | Delivery guide | [docs/delivery/workshop-delivery-guide.md](docs/delivery/workshop-delivery-guide.md) |
 | Core Fabric Git workshop | [docs/workshops/core-fabric-git/README.md](docs/workshops/core-fabric-git/README.md) |
 | Toolkit workshop | [docs/workshops/accelerator-toolkit/README.md](docs/workshops/accelerator-toolkit/README.md) |
+| Synthetic DIB sample data | [docs/workshops/sample-data/dib-supply-chain/README.md](docs/workshops/sample-data/dib-supply-chain/README.md) |
 | Repository change checklist | [docs/repo-change-checklist.md](docs/repo-change-checklist.md) |
 | CI/CD architecture | [docs/architecture/cicd-architecture.md](docs/architecture/cicd-architecture.md) |
 | Branching strategy | [docs/architecture/branching-strategy.md](docs/architecture/branching-strategy.md) |

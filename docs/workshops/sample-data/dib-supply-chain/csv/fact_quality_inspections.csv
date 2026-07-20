@@ -1,0 +1,6 @@
+InspectionID,ShipmentID,InspectionDate,Inspector,InspectionType,DefectCategory,DefectCount,Disposition,CorrectiveActionRequired
+INSP-90001,SHP-50001,2026-04-03,Kim Patel,Receiving,None,0,Accepted,No
+INSP-90002,SHP-50002,2026-03-11,Morgan Davis,Receiving,Connector Crimp,2,Partial Reject,Yes
+INSP-90003,SHP-50003,2026-02-25,Sam Rivera,Receiving,None,0,Accepted,No
+INSP-90004,SHP-50004,2026-02-25,Lee Chen,Environmental Test,None,0,Accepted,No
+INSP-90005,SHP-50002,2026-03-15,Morgan Davis,Corrective Action Review,Connector Crimp,1,Rework,Yes

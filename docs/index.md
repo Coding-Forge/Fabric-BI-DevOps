@@ -19,6 +19,7 @@ This wiki provides all workshop plans, labs, governance materials, and architect
 - [Lab 2 — CI/CD Pipeline for PBIP](./workshops/core-fabric-git/labs/lab2-ci-pipeline.md)  
 - [Lab 3 — Fabric Deployment Pipelines (Dev → Test → Prod)](./workshops/core-fabric-git/labs/lab3-deployment-pipelines.md)
 - [Toolkit Workshop — Accelerator tools, examples, and reference outputs](./workshops/accelerator-toolkit/README.md)
+- [Synthetic DIB Supply Chain sample data](./workshops/sample-data/dib-supply-chain/README.md)
 
 ---
 
