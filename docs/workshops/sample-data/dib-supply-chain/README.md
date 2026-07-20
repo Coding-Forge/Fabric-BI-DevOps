@@ -58,11 +58,20 @@ Use this dataset when:
 ## Build path
 
 1. Follow [PBIP Build Guide](pbip-build-guide.md).
-2. Import the CSV files from `csv/`.
+2. Import the CSV files from `csv/`, or use the public raw GitHub URLs documented in the build guide.
 3. Create relationships and measures.
 4. Build the recommended report pages.
 5. Save as a PBIP project under `shared/pbip-local/` or a separate workshop repo.
 6. Run the accelerator tools against the resulting PBIP project.
+
+## Data source options
+
+| Option | Best for | Refresh behavior |
+|---|---|---|
+| Local CSV folder | Offline workshops, local Desktop-only demos, or private facilitator prep | Power BI Service refresh generally requires an on-premises data gateway because the files live on a local machine or file share |
+| Public raw GitHub URLs | Power BI Service or Fabric workshops where participants need repeatable cloud-accessible data | Power BI Service can refresh through the cloud Web connector with Anonymous authentication; no on-premises gateway is needed for these public CSV files |
+
+For service-friendly workshop delivery, prefer the raw GitHub URL option once the repository is public and the sample files are committed.
 
 ## Suggested report name
 

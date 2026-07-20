@@ -21,7 +21,7 @@ The report should help a defense-oriented manufacturing team answer:
 ## Prerequisites
 
 - Power BI Desktop installed
-- Local copy of this repository
+- Local copy of this repository **or** access to the public raw GitHub CSV URLs
 - CSV files in:
 
   ```text
@@ -30,16 +30,49 @@ The report should help a defense-oriented manufacturing team answer:
 
 - Optional: Fabric workspace connected to Git for PBIP sync
 
+## Data source options
+
+You can build the PBIP project from either local CSV files or public raw GitHub URLs.
+
+| Option | Use when | Gateway impact |
+|---|---|---|
+| Local folder CSV files | Participants are working only in Power BI Desktop or the facilitator has distributed a local copy of the repo | If published to the Power BI Service, scheduled refresh requires a configured on-premises data gateway because the Service cannot directly reach the participant's local disk |
+| Public raw GitHub URLs | Participants are building in Power BI Service/Fabric or need a repeatable cloud-accessible source | Scheduled refresh can use the cloud Web connector with Anonymous authentication, so no on-premises data gateway is required for these public CSV files |
+
+The raw GitHub option is recommended for service-based workshops because every participant connects to the same public source over HTTPS.
+
 ## Part 1 — Create the PBIP project
 
 1. Open **Power BI Desktop**.
 2. Choose **File → Options and settings → Options**.
 3. Confirm Power BI Project save format is available/enabled.
-4. Import each CSV file from:
+4. Import each CSV file using one of the following methods.
+
+   **Option A — Local CSV folder**
 
    ```text
    docs/workshops/sample-data/dib-supply-chain/csv/
    ```
+
+   **Option B — Web / raw GitHub URL**
+
+   Use **Get data → Web** and paste the raw CSV URL for each table. Use **Anonymous** authentication.
+
+   > Replace `main` with the appropriate branch name if running from a fork or workshop branch.
+
+   | Table | Raw GitHub URL |
+   |---|---|
+   | `dim_date` | `https://raw.githubusercontent.com/Coding-Forge/Fabric-BI-DevOps/main/docs/workshops/sample-data/dib-supply-chain/csv/dim_date.csv` |
+   | `dim_programs` | `https://raw.githubusercontent.com/Coding-Forge/Fabric-BI-DevOps/main/docs/workshops/sample-data/dib-supply-chain/csv/dim_programs.csv` |
+   | `dim_suppliers` | `https://raw.githubusercontent.com/Coding-Forge/Fabric-BI-DevOps/main/docs/workshops/sample-data/dib-supply-chain/csv/dim_suppliers.csv` |
+   | `dim_facilities` | `https://raw.githubusercontent.com/Coding-Forge/Fabric-BI-DevOps/main/docs/workshops/sample-data/dib-supply-chain/csv/dim_facilities.csv` |
+   | `dim_parts` | `https://raw.githubusercontent.com/Coding-Forge/Fabric-BI-DevOps/main/docs/workshops/sample-data/dib-supply-chain/csv/dim_parts.csv` |
+   | `fact_purchase_orders` | `https://raw.githubusercontent.com/Coding-Forge/Fabric-BI-DevOps/main/docs/workshops/sample-data/dib-supply-chain/csv/fact_purchase_orders.csv` |
+   | `fact_shipments` | `https://raw.githubusercontent.com/Coding-Forge/Fabric-BI-DevOps/main/docs/workshops/sample-data/dib-supply-chain/csv/fact_shipments.csv` |
+   | `fact_quality_inspections` | `https://raw.githubusercontent.com/Coding-Forge/Fabric-BI-DevOps/main/docs/workshops/sample-data/dib-supply-chain/csv/fact_quality_inspections.csv` |
+   | `fact_compliance_assessments` | `https://raw.githubusercontent.com/Coding-Forge/Fabric-BI-DevOps/main/docs/workshops/sample-data/dib-supply-chain/csv/fact_compliance_assessments.csv` |
+   | `fact_supplier_risk` | `https://raw.githubusercontent.com/Coding-Forge/Fabric-BI-DevOps/main/docs/workshops/sample-data/dib-supply-chain/csv/fact_supplier_risk.csv` |
+   | `fact_inventory` | `https://raw.githubusercontent.com/Coding-Forge/Fabric-BI-DevOps/main/docs/workshops/sample-data/dib-supply-chain/csv/fact_inventory.csv` |
 
 5. In Power Query, confirm data types:
 
@@ -64,6 +97,49 @@ The report should help a defense-oriented manufacturing team answer:
    ```text
    shared/pbip-local/DIB Supply Chain Readiness/
    ```
+
+## Part 1b — Power Query pattern for Web CSVs
+
+If using **Get data → Web**, Power BI will generate most of this for you. The following pattern is useful when participants want to inspect or standardize the query.
+
+Example for `dim_suppliers`:
+
+```powerquery
+let
+    Source = Csv.Document(
+        Web.Contents("https://raw.githubusercontent.com/Coding-Forge/Fabric-BI-DevOps/main/docs/workshops/sample-data/dib-supply-chain/csv/dim_suppliers.csv"),
+        [Delimiter = ",", Columns = 13, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
+    ),
+    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+    ChangedTypes = Table.TransformColumnTypes(
+        PromotedHeaders,
+        {
+            {"SupplierID", type text},
+            {"SupplierName", type text},
+            {"SupplierTier", type text},
+            {"CAGECode", type text},
+            {"Country", type text},
+            {"State", type text},
+            {"SmallBusiness", type text},
+            {"OwnershipType", type text},
+            {"CMMCLevel", Int64.Type},
+            {"NIST800171Score", Int64.Type},
+            {"ITARRegistered", type text},
+            {"PrimaryCommodity", type text},
+            {"ApprovedSupplierStatus", type text}
+        }
+    )
+in
+    ChangedTypes
+```
+
+### Why the Web source avoids a gateway
+
+Power BI Service requires an on-premises data gateway when a semantic model refresh needs to reach data that is only available inside a private network, on a local workstation, or on a file share.
+
+The raw GitHub URLs are public HTTPS endpoints. Power BI Service can reach them directly from the cloud using the built-in Web connector. Because the data source is cloud-accessible and uses Anonymous authentication, no on-premises data gateway is needed for scheduled refresh.
+
+Use this approach only for the synthetic workshop data. Do not publish real customer, supplier, controlled, export-controlled, CUI, or classified data to a public repository.
 
 ## Part 2 — Create relationships
 
