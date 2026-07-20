@@ -94,7 +94,8 @@ See the [Branching Strategy architecture doc](../../architecture/branching-strat
 2. Initialize synchronization  
 3. Create feature branches  
 4. Make changes in PBIP  
-5. Submit and merge PR  
+5. Use accelerator readiness, diff, and PR summary tools to support review  
+6. Submit and merge PR  
 
 ## Step‑by‑Step
 
@@ -105,8 +106,9 @@ See the [Branching Strategy architecture doc](../../architecture/branching-strat
 5. Sync from Git → Fabric items appear with Git status indicators  
 6. Create feature branch  
 7. Make a small report or model change  
-8. Commit & push  
-9. Open PR → request reviewers → merge  
+8. Run PBIP readiness/diff checkpoints where available  
+9. Commit & push  
+10. Open PR → add accelerator summary → request reviewers → merge  
 
 ---
 
@@ -155,6 +157,8 @@ Example:
 # 7. Lab #2 — CI Pipeline Validation for the Power BI Project
 
 ## Objectives
+- Use the Pipeline Config Generator to understand the expected CI/CD profile  
+- Use standards, DAX, and effective-rule tools to confirm pipeline inputs  
 - Use the existing YAML pipeline at `azdo/azure-pipelines.yml`  
 - Validate PBIP structure and run dataset/report quality rules  
 - Run DAX unit tests and publish JUnit results  
@@ -247,6 +251,7 @@ For the reusable multi-repo variant, see [shared/universal-pipeline/README.md](.
 - Create a three-stage Fabric Deployment Pipeline in the Fabric portal  
 - Bind `WS-Dev`, `WS-Test`, and `WS-Prod` workspaces to their respective stages  
 - Configure **deployment rules** to swap data source parameters (server, database) per environment  
+- Create accelerator release artifacts such as a deployment manifest, diff/impact reports, policy exceptions, release readiness output, and adoption metrics  
 - Review the **comparison diff** between stages before promoting  
 - Promote content **Dev → Test** and validate via UAT checklist  
 - Gate **Test → Prod** with a manual approval  

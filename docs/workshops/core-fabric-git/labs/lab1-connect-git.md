@@ -22,7 +22,8 @@ By the end of the lab your workspace will be under full source control and every
 3. Create a **feature branch** from `main`  
 4. Make a report or semantic model change  
 5. Commit and push the change  
-6. Open a **pull request**, request a review, and merge  
+6. Use accelerator tools to scan readiness and prepare a reviewer handoff  
+7. Open a **pull request**, request a review, and merge  
 
 ---
 
@@ -36,6 +37,7 @@ By the end of the lab your workspace will be under full source control and every
 | Fabric admin toggle | **Users can synchronize workspace items with their Git repositories** — must be enabled in the Fabric Admin portal |
 | Authentication | OAuth (default) **or** a Personal Access Token (PAT) scoped to `Code (Read & Write)` |
 | Sample project | PBIP starter project cloned locally (provided by facilitator) |
+| Accelerator tools | Local browser access to `tools/index.html` |
 
 ---
 
@@ -100,6 +102,51 @@ shared/
 
 ---
 
+## Part 2b — Accelerator Checkpoint: Scan PBIP Readiness
+
+Before making a feature change, use the accelerator to confirm the exported PBIP structure is ready for source-controlled review.
+
+### 2b.1 Open the PBIP Project Readiness Scanner
+
+1. Open:
+
+   ```text
+   tools/pbip-readiness-scanner/index.html
+   ```
+
+2. Select the repo folder that contains the synced PBIP artifacts.
+3. Confirm the scanner finds:
+
+   - One `.pbip` project file
+   - `.Report` and `.SemanticModel` folders
+   - Required definition files
+   - Quality rule files if available
+   - DAX test metadata if available
+   - Pipeline files if available
+
+4. Export the readiness output as:
+
+   ```text
+   PBIP-Readiness-Report.md
+   pbip-readiness-report.json
+   ```
+
+### 2b.2 Record readiness findings
+
+Add a short note to your lab working folder:
+
+```text
+Initial PBIP readiness:
+- Structure:
+- Governance assets:
+- Pipeline assets:
+- Warnings or blockers:
+```
+
+This gives reviewers a baseline before you make a change.
+
+---
+
 ## Part 3 — Create a Feature Branch
 
 Working directly on `main` is prohibited by branch policy. All changes must go through a short-lived feature branch.
@@ -142,6 +189,27 @@ Fabric re-syncs the workspace to your feature branch. The status bar at the top 
 2. Click **Source control** (the Git icon in the top-right corner of the portal) to open the **Pending changes** panel.  
 3. Verify your change appears in the diff.
 
+### 4.2b Accelerator Checkpoint: Compare the PBIP Change
+
+If you have a local copy of the repo before and after your change, use the PBIP Diff Viewer to create a reviewer-friendly diff.
+
+1. Open:
+
+   ```text
+   tools/pbip-diff-viewer/index.html
+   ```
+
+2. Load the before snapshot and after snapshot.
+3. Confirm the changed report metadata appears as a report/page/visual change.
+4. Export:
+
+   ```text
+   pbip-diff-report.md
+   pbip-diff-report.json
+   ```
+
+If you do not have two local snapshots, write a short PR note explaining what changed in the Fabric portal and continue to Part 5.
+
 ### 4.3 Commit and Push
 
 1. In the **Pending changes** panel:
@@ -161,14 +229,35 @@ Fabric re-syncs the workspace to your feature branch. The status bar at the top 
 2. Set **Source** = `feature/<your-alias>-lab1` and **Target** = `main`.  
 3. Add a meaningful title: `[Lab 1] Add lab1 text box to SalesReport`.  
 4. Add a description, link any work items if applicable.  
-5. Add at least one reviewer (your lab partner or the facilitator).  
-6. Click **Create**.
+5. If you generated readiness or diff output, summarize it in the PR body.  
+6. Add at least one reviewer (your lab partner or the facilitator).  
+7. Click **Create**.
 
 **GitHub:**
 1. Navigate to the repository and click **Compare & pull request** when the branch prompt appears.  
 2. Set the base to `main` and the compare to your feature branch.  
 3. Fill in the title and description, assign a reviewer.  
-4. Click **Create pull request**.
+4. If you generated readiness or diff output, summarize it in the PR body.  
+5. Click **Create pull request**.
+
+### 5.1b Accelerator Checkpoint: Generate a PR Summary
+
+For a more complete handoff, use the PR Quality Summary Generator.
+
+1. Open:
+
+   ```text
+   tools/pr-quality-summary-generator/index.html
+   ```
+
+2. Paste:
+
+   - Changed paths from the PR
+   - PBIP readiness output
+   - PBIP diff output, if available
+   - Any reviewer notes
+
+3. Generate Markdown and paste it into the PR description or a PR comment.
 
 ### 5.2 Review and Merge
 
@@ -191,8 +280,10 @@ Use this checklist to confirm you have completed the lab successfully:
 
 - [ ] Workspace is connected to the Git repo and shows Git status badges  
 - [ ] Initial sync completed — PBIP artifacts are visible in the repo  
+- [ ] PBIP Readiness Scanner was run against the synced artifact folder  
 - [ ] Feature branch created and workspace switched to it  
 - [ ] A change was made, committed, and pushed from the Fabric portal  
+- [ ] PR includes readiness and/or diff context for reviewers  
 - [ ] Pull request opened with a reviewer assigned  
 - [ ] PR approved and merged to `main`  
 - [ ] Workspace switched back to `main` and shows **Synced**  
@@ -232,7 +323,7 @@ In this lab you connected a workspace to `main` and switched it to a feature bra
 6. Work in this personal workspace for the duration of the feature.  
 7. After your PR merges, **delete this workspace** — its branch is gone and so is the workspace.
 
-For the complete workflow, topology diagrams, naming conventions, and anti-patterns, see the [Branching Strategy](../../architecture/branching-strategy.md) architecture document.
+For the complete workflow, topology diagrams, naming conventions, and anti-patterns, see the [Branching Strategy](../../../architecture/branching-strategy.md) architecture document.
 
 ---
 

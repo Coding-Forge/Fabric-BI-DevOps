@@ -20,10 +20,11 @@ This lab picks up where Lab 2 ends — your CI pipeline is green on `main` and y
 1. Create a Fabric Deployment Pipeline with three stages  
 2. Bind the Dev, Test, and Prod workspaces to their respective stages  
 3. Configure **deployment rules** to swap data source connections per environment  
-4. Promote content from **Dev → Test**  
-5. Review a **deployment comparison** (diff) before promoting  
-6. Gate the **Test → Prod** promotion with a manual approval  
-7. Verify content in the Prod workspace  
+4. Create a deployment manifest and release evidence using accelerator tools  
+5. Promote content from **Dev → Test**  
+6. Review a **deployment comparison** (diff) before promoting  
+7. Gate the **Test → Prod** promotion with readiness evidence and manual approval  
+8. Verify content in the Prod workspace  
 
 ---
 
@@ -36,6 +37,7 @@ This lab picks up where Lab 2 ends — your CI pipeline is green on `main` and y
 | Fabric role | You need **Admin** on all three workspaces, and at minimum **Contributor** on the Deployment Pipeline |
 | Deployment Pipelines enabled | Admin toggle in Fabric Admin Portal: **Users can create and use deployment pipelines** must be on |
 | Parameterized data sources | The sample semantic model uses Power Query parameters for the server and database name |
+| Accelerator tools | Local browser access to `tools/index.html` |
 
 ---
 
@@ -132,6 +134,37 @@ Repeat the process for the **Production** stage, pointing parameters to the Prod
 | `DatabaseName` | `SalesDB_Prod` |
 
 > **Tip:** If your model uses a **gateway** for on-premises sources, add a **gateway rule** alongside the data source rule to redirect to the correct gateway data source for each environment.
+
+---
+
+## Part 3a — Accelerator Checkpoint: Create the Deployment Manifest
+
+Before promoting between workspaces, create a deployment contract that explains what is being released.
+
+1. Open:
+
+   ```text
+   tools/deployment-manifest-builder/index.html
+   ```
+
+2. Capture:
+
+   - Solution name and business purpose
+   - Business, technical, and release owners
+   - Dev/Test/Prod workspace names
+   - Required validation gates
+   - Approval requirements
+   - Rollback plan
+   - Known exceptions
+
+3. Export:
+
+   ```text
+   deployment-manifest.json
+   deployment-summary.md
+   ```
+
+4. Save the manifest with your lab outputs. You will use it again in the release readiness step.
 
 ---
 
@@ -250,6 +283,36 @@ Before promoting, always review what will change using the comparison view.
 3. Expand any item to see which properties have changed.
 4. Confirm the expected changes match your recent commits before proceeding.
 
+### 4.1 Accelerator Checkpoint: Compare PBIP and Impact
+
+Use the accelerator tools to supplement the Fabric Deployment Pipeline comparison.
+
+1. Open:
+
+   ```text
+   tools/pbip-diff-viewer/index.html
+   ```
+
+2. Compare the before/after PBIP snapshots if available and export:
+
+   ```text
+   pbip-diff-report.md
+   ```
+
+3. Open:
+
+   ```text
+   tools/dependency-impact-analyzer/index.html
+   ```
+
+4. Enter changed model objects from the release and export:
+
+   ```text
+   dependency-impact-report.md
+   ```
+
+5. Use these outputs to decide which report pages, visuals, measures, and relationships need regression review in Test.
+
 ---
 
 ## Part 5 — Promote Dev → Test
@@ -282,7 +345,25 @@ Fabric promotes all selected items to `WS-Test-<team>`, applying the data source
 
 Before promoting to Prod, complete the validation gates defined in the governance checklist.
 
-### 6.1 UAT Checklist
+### 6.1 Accelerator Checkpoint: Register Exceptions
+
+If any validation or UAT finding is approved for temporary release, record it before continuing.
+
+1. Open:
+
+   ```text
+   tools/policy-exception-register/index.html
+   ```
+
+2. Capture owner, approver, reason, affected artifact, expiration, and mitigation.
+3. Export:
+
+   ```text
+   policy-exceptions.json
+   policy-exceptions-summary.md
+   ```
+
+### 6.2 UAT Checklist
 
 Work through the following with your lab partner acting as a stakeholder:
 
@@ -292,11 +373,35 @@ Work through the following with your lab partner acting as a stakeholder:
 - [ ] Dataset refresh completed without errors in Test workspace  
 - [ ] Deployment rules are correct (Test connection, not Dev)  
 
-### 6.2 Compare Test → Prod
+### 6.3 Compare Test → Prod
 
 1. Click the difference count between the **Test** and **Production** stages in the pipeline canvas.  
 2. Confirm the comparison matches what was just promoted to Test.  
 3. If the diff looks unexpected, stop and investigate before proceeding.
+
+### 6.4 Accelerator Checkpoint: Release Readiness
+
+Before requesting Prod approval, consolidate all release evidence.
+
+1. Open:
+
+   ```text
+   tools/release-readiness-dashboard/index.html
+   ```
+
+2. Paste or summarize:
+
+   - Pipeline validation log
+   - PR quality summary
+   - PBIP readiness report
+   - Deployment manifest
+   - Policy exceptions
+   - Effective rules summary
+   - DAX test summary
+   - PBIP diff and dependency impact notes
+
+3. Generate a release recommendation.
+4. Do not proceed to Prod unless the recommendation is **Ready to release** or the facilitator explicitly accepts **Release with review**.
 
 ---
 
@@ -317,8 +422,9 @@ Fabric Deployment Pipelines do not have a native built-in approval step in all c
 For this lab, use **Option B**:
 
 1. Post a message in your workshop Teams channel: `[Lab 3] Requesting Prod promotion approval — @facilitator`.  
-2. The facilitator (or your lab partner) responds: `Approved`.  
-3. Proceed.
+2. Attach or summarize the Release Readiness Dashboard recommendation.  
+3. The facilitator (or your lab partner) responds: `Approved`.  
+4. Proceed.
 
 ### 7.2 Deploy Test → Prod
 
@@ -334,6 +440,27 @@ For this lab, use **Option B**:
 3. Trigger a **manual refresh** on the Prod semantic model and confirm success.  
 4. Open the report and spot-check 2–3 key visuals against expected values.  
 5. Return to the Deployment Pipeline canvas — all three stages should now show **identical content** (no differences highlighted).
+
+### 7.4 Accelerator Checkpoint: Adoption Metrics
+
+Record that this project completed a governed promotion path.
+
+1. Open:
+
+   ```text
+   tools/adoption-metrics-dashboard/index.html
+   ```
+
+2. Add or update a project row with:
+
+   - Platform
+   - Toolkit profile
+   - Readiness score
+   - Rule maturity
+   - Open exceptions
+   - Time-to-onboard
+
+3. Export or save the adoption summary for program tracking.
 
 ---
 
@@ -384,13 +511,18 @@ Invoke-PowerBIRestMethod `
 ## Validation Checklist
 
 - [ ] Deployment Pipeline created and all three workspaces assigned  
+- [ ] Deployment Manifest Builder output created and reviewed  
 - [ ] Data source rules configured for both Test and Prod stages  
 - [ ] Gateway rules configured for both Test and Prod stages *(on-premises sources only)*  
 - [ ] Comparison (diff) reviewed before both promotions  
+- [ ] PBIP Diff Viewer and Dependency Impact Analyzer outputs reviewed when PBIP/model changes are available  
 - [ ] Dev → Test promotion completed; Test dataset refreshes against Test DB via `GW-Test`  
 - [ ] UAT checklist completed and sign-off obtained  
+- [ ] Policy exceptions, if any, are recorded with owner, approver, expiration, and mitigation  
+- [ ] Release Readiness Dashboard recommendation reviewed before Prod approval  
 - [ ] Test → Prod promotion completed; Prod dataset refreshes against Prod DB via `GW-Prod`  
 - [ ] Pipeline canvas shows no differences across all three stages  
+- [ ] Adoption Metrics Dashboard updated for the promoted project  
 - [ ] *(Extension)* REST API call triggers deployment programmatically  
 
 ---

@@ -11,7 +11,7 @@ duration: "60 minutes"
 
 In this lab you will use the existing Azure DevOps pipeline definition at `azdo/azure-pipelines.yml` to validate, test, publish, and deploy the Power BI Project artifacts used in the workshop.
 
-This lab focuses on the **project-local** CI/CD pipeline pattern. If your organization wants one shared CI definition for many Fabric repositories, see the reusable template guidance in [shared/universal-pipeline/README.md](../../../shared/universal-pipeline/README.md). That pattern keeps a small consumer YAML in each repo and centralizes the Validate, Test, and Publish stages in one shared template repo.
+This lab focuses on the **project-local** CI/CD pipeline pattern. If your organization wants one shared CI definition for many Fabric repositories, see the reusable template guidance in [shared/universal-pipeline/README.md](../../../../shared/universal-pipeline/README.md). That pattern keeps a small consumer YAML in each repo and centralizes the Validate, Test, and Publish stages in one shared template repo.
 
 The project-local pipeline runs five stages:
 
@@ -27,12 +27,13 @@ By the end of the lab, every PR targeting `main` can be gated by this pipeline s
 
 ## Objectives
 
-1. Review the existing pipeline YAML at `azdo/azure-pipelines.yml`
-2. Understand how the Validate stage runs PBIP and quality-rule checks
-3. Understand how the Test stage runs DAX unit tests
-4. Verify `pbip-drop` publication in the Publish stage
-5. Understand how `scripts/deploy-dynamic.ps1` deploys Dev and feature branch runs
-6. Configure branch policy to require a green pipeline on PRs to `main`
+1. Generate a candidate pipeline profile with the **Pipeline Config Generator**
+2. Review the existing pipeline YAML at `azdo/azure-pipelines.yml`
+3. Understand how the Validate stage runs PBIP and quality-rule checks
+4. Understand how the Test stage runs DAX unit tests
+5. Verify `pbip-drop` publication in the Publish stage
+6. Understand how `scripts/deploy-dynamic.ps1` deploys Dev and feature branch runs
+7. Configure branch policy to require a green pipeline on PRs to `main`
 
 ---
 
@@ -47,10 +48,92 @@ By the end of the lab, every PR targeting `main` can be gated by this pipeline s
 | Agent pool | Microsoft-hosted Windows agent (configured as `windows-2022` in YAML) |
 | Service principal | Tenant settings allow the service principal, and it has access to the Dev workspace |
 | Pipeline variables | Variable group or pipeline variables for `TenantId`, `AppId`, `ClientSecret`, `DevWorkspaceId` or `DEV_WORKSPACE_NAME`, and `FeatureWorkspacePrefix` for feature deployments |
+| Accelerator tools | Local browser access to `tools/index.html` |
 
 ---
 
-## Part 1 - Review the Existing YAML Pipeline
+## Part 1 - Generate a Pipeline Profile
+
+Before reviewing the checked-in YAML, use the accelerator to understand what the pipeline should contain for your project.
+
+1. Open:
+
+   ```text
+   tools/pipeline-config-generator/index.html
+   ```
+
+2. Select **Azure DevOps**.
+3. Set:
+
+   | Field | Value |
+   |---|---|
+   | Project root | `shared` |
+   | PBIP path | `shared/pbip-local` |
+   | Python version | `3.11` |
+   | Deploy script path | `shared/scripts/deploy-dynamic.ps1` |
+   | Branches | `main`, `develop`, `feature/*` |
+
+4. Enable:
+
+   - Dataset quality rules
+   - Report quality rules
+   - DAX test metadata
+   - Publish PBIP artifact
+   - Deploy to Dev workspace
+   - Feature workspace deploy
+
+5. Export:
+
+   ```text
+   azure-pipelines.generated.yml
+   pipeline-profile.json
+   pipeline-setup-notes.md
+   ```
+
+6. Compare the generated YAML to the repository's existing pipeline and note any differences.
+
+---
+
+## Part 2 - Prepare Standards and Test Inputs
+
+The CI pipeline is only useful if it has rule files and test metadata to run.
+
+1. Open the **Enterprise Standards Builder**:
+
+   ```text
+   tools/enterprise-standards-builder/index.html
+   ```
+
+2. Confirm the workshop has baseline rules:
+
+   ```text
+   shared/Rules-Report.json
+   shared/Rules-Dataset.json
+   ```
+
+3. Open the **DAX Test Builder**:
+
+   ```text
+   tools/dax-test-builder/index.html
+   ```
+
+4. Confirm the workshop has DAX test metadata:
+
+   ```text
+   shared/dax-tests.json
+   ```
+
+5. Open the **Effective Rules Generator**:
+
+   ```text
+   tools/effective-rules-generator/index.html
+   ```
+
+6. Preview effective rules for a feature branch targeting `main`. This explains why branch policy matters before you run the pipeline.
+
+---
+
+## Part 3 - Review the Existing YAML Pipeline
 
 Open `azdo/azure-pipelines.yml` and confirm the key settings:
 
@@ -89,7 +172,7 @@ If you later move to a shared-enterprise model, these same settings become templ
 
 ---
 
-## Part 2 - Validate Stage (Structure + Quality Rules)
+## Part 4 - Validate Stage (Structure + Quality Rules)
 
 The **Validate** stage has three jobs:
 
@@ -113,7 +196,7 @@ This catches structural, semantic model, and report-quality issues before change
 
 ---
 
-## Part 3 - Test Stage (DAX Unit Tests)
+## Part 5 - Test Stage (DAX Unit Tests)
 
 The **Test** stage runs after Validate succeeds:
 
@@ -125,7 +208,7 @@ This ensures DAX checks are visible in Azure DevOps test reporting.
 
 ---
 
-## Part 4 - Publish Stage (Pipeline Artifact)
+## Part 6 - Publish Stage (Pipeline Artifact)
 
 The **Publish** stage runs only if Validate and Test succeed.
 
@@ -143,7 +226,7 @@ Use this artifact for traceability and for the downstream deployment stages.
 
 ---
 
-## Part 5 - Deployment Stages
+## Part 7 - Deployment Stages
 
 The deployment stages download `pbip-drop` and run `scripts/deploy-dynamic.ps1`.
 
@@ -158,7 +241,7 @@ Before running the pipeline, confirm the service principal is allowed by Fabric 
 
 ---
 
-## Part 6 - Create and Run the Pipeline in Azure DevOps
+## Part 8 - Create and Run the Pipeline in Azure DevOps
 
 1. Go to **Pipelines -> New pipeline**.
 2. Choose your Git provider and repository.
@@ -176,7 +259,7 @@ Before running the pipeline, confirm the service principal is allowed by Fabric 
 
 ---
 
-## Part 7 - Set Required Branch Policy on `main`
+## Part 9 - Set Required Branch Policy on `main`
 
 1. Go to **Repos -> Branches**.
 2. Open branch policies for `main`.
@@ -188,7 +271,7 @@ After this, PRs into `main` must pass the pipeline before merge.
 
 ---
 
-## Part 8 - Validate with a Feature Branch PR
+## Part 10 - Validate with a Feature Branch PR
 
 1. Create or use a feature branch with a small PBIP change.
 2. Push branch and open PR to `main`.
@@ -199,9 +282,41 @@ After this, PRs into `main` must pass the pipeline before merge.
 
 ---
 
+## Part 11 - Accelerator Checkpoint: Compare Platform Parity
+
+Use the CI/CD Platform Parity Matrix to understand how this pipeline pattern maps to other platforms.
+
+1. Open:
+
+   ```text
+   tools/platform-parity-matrix/index.html
+   ```
+
+2. Compare Azure DevOps, GitHub Actions, and GitLab CI for:
+
+   - PBIP validation
+   - Dataset rules
+   - Report rules
+   - DAX test metadata
+   - Artifact publishing
+   - Dev workspace deployment
+   - Feature workspace deployment
+
+3. Export or save notes as:
+
+   ```text
+   platform-parity-matrix.md
+   platform-parity-matrix.json
+   ```
+
+---
+
 ## Validation Checklist
 
 - [ ] `azdo/azure-pipelines.yml` is used by the Azure DevOps pipeline
+- [ ] Pipeline Config Generator profile was created and compared to the checked-in YAML
+- [ ] Baseline rule files and DAX test metadata are present before pipeline execution
+- [ ] Effective Rules Generator was used to preview branch-aware enforcement
 - [ ] Validate stage runs PBIP structure and dataset/report quality jobs
 - [ ] Test stage runs `tests/run_dax_tests.py` and publishes JUnit results
 - [ ] Publish stage outputs the `pbip-drop` artifact
@@ -209,6 +324,7 @@ After this, PRs into `main` must pass the pipeline before merge.
 - [ ] Deployment logs show `scripts/deploy-dynamic.ps1` completed successfully
 - [ ] Pipeline is configured as a required PR check on `main`
 - [ ] A PR to `main` passes the pipeline end-to-end
+- [ ] Platform Parity Matrix was reviewed for Azure DevOps, GitHub Actions, and GitLab implications
 
 ---
 
@@ -231,6 +347,6 @@ After this, PRs into `main` must pass the pipeline before merge.
 
 Proceed to **[Lab 3 - Fabric Deployment Pipelines (Dev -> Test -> Prod)](lab3-deployment-pipelines.md)**.
 
-For a multi-repo operating model, review [shared/universal-pipeline/README.md](../../../shared/universal-pipeline/README.md) after completing this lab.
+For a multi-repo operating model, review [shared/universal-pipeline/README.md](../../../../shared/universal-pipeline/README.md) after completing this lab.
 
 
