@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "profileName": "Sales Performance Analytics - Enterprise Standard",
+  "posture": "enterprise-standard",
+  "description": "Balanced enterprise policy profile for a PBIP pilot moving toward protected-branch enforcement.",
+  "owners": {
+    "businessOwner": "Sales Operations",
+    "technicalOwner": "BI Platform Team",
+    "governanceOwner": "Enterprise BI Governance"
+  },
+  "branchPolicy": {
+    "featureBranches": "advisory",
+    "develop": "standard",
+    "main": "strict"
+  },
+  "reportPolicies": {
+    "businessReadablePageNames": "error",
+    "maxVisualsPerPage": {
+      "threshold": 10,
+      "featureSeverity": "warning",
+      "protectedBranchSeverity": "error"
+    },
+    "axisTitlesRequired": "warning",
+    "themeConsistency": "warning",
+    "mobileLayoutReview": "manual"
+  },
+  "semanticModelPolicies": {
+    "hideTechnicalKeys": "error",
+    "relationshipDataTypes": "error",
+    "measureFormatStrings": "warning",
+    "safeDivision": "warning",
+    "criticalMeasureTests": "error"
+  },
+  "lifecyclePolicies": {
+    "deploymentManifestRequired": true,
+    "policyExceptionsMustExpire": true,
+    "readinessScanRequiredBeforePr": true,
+    "releaseReadinessRequiredBeforeProd": true
+  }
+}
+

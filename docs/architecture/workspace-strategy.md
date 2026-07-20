@@ -141,4 +141,5 @@ main ─────────────────────────
 - [Branching Strategy](branching-strategy.md) — branch-out pattern, personal workspaces, parallel development  
 - [CI/CD Architecture](cicd-architecture.md)  
 - [Governance Checklist](../governance/governance-checklist.md)  
-- [Lab 1 — Connect Workspace to Git](../workshop-plan/labs/lab1-connect-git.md)
+- [Lab 1 — Connect Workspace to Git](../workshops/core-fabric-git/labs/lab1-connect-git.md)
+

@@ -1,0 +1,96 @@
+# Generated workshop baseline for Sales Performance Analytics
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+      - feature/*
+
+pr:
+  branches:
+    include:
+      - main
+      - develop
+
+variables:
+  - name: PROJECT_ROOT
+    value: 'shared'
+  - name: PBIP_PATH
+    value: 'shared/pbip-local'
+  - name: PYTHON_VERSION
+    value: '3.11'
+  - name: DEPLOY_SCRIPT_PATH
+    value: 'shared/scripts/deploy-dynamic.ps1'
+
+stages:
+- stage: Validate
+  displayName: 'Validate PBIP Artifacts'
+  jobs:
+  - job: ValidatePBIP
+    displayName: 'Validate PBIP Structure'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(PYTHON_VERSION)'
+    - script: python $(PROJECT_ROOT)/tests/validate_pbip_structure.py --pbip-path "$(PBIP_PATH)"
+      displayName: 'Run PBIP structure validation'
+
+- stage: Quality
+  displayName: 'Run quality rules'
+  dependsOn: Validate
+  jobs:
+  - job: DatasetRules
+    displayName: 'Run Tabular Editor BPA rules'
+    pool:
+      vmImage: 'windows-2022'
+    steps:
+    - pwsh: |
+        & "$(PROJECT_ROOT)/scripts/Prepare-QualityRules.ps1" -Mode dataset -SourcePath "$(PROJECT_ROOT)/Rules-Dataset.json" -OutputPath "$(Agent.TempDirectory)/Rules-Dataset.effective.json" -SourceBranch "$(Build.SourceBranch)"
+  - job: ReportRules
+    displayName: 'Run Fab Inspector report rules'
+    pool:
+      vmImage: 'windows-2022'
+    steps:
+    - pwsh: |
+        & "$(PROJECT_ROOT)/scripts/Prepare-QualityRules.ps1" -Mode report -SourcePath "$(PROJECT_ROOT)/Rules-Report.json" -OutputPath "$(Agent.TempDirectory)/Rules-Report.effective.json" -SourceBranch "$(Build.SourceBranch)"
+
+- stage: Test
+  displayName: 'Run DAX test metadata'
+  dependsOn: Validate
+  jobs:
+  - job: DaxTests
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: |
+        pip install semantic-link-labs
+        python $(PROJECT_ROOT)/tests/run_dax_tests.py --model-path "$(PBIP_PATH)"
+
+- stage: Publish
+  displayName: 'Publish PBIP artifact'
+  dependsOn:
+  - Validate
+  - Test
+  jobs:
+  - job: PublishPBIP
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - publish: $(PBIP_PATH)
+      artifact: pbip-drop
+
+- stage: Deploy
+  displayName: 'Deploy Fabric artifacts'
+  dependsOn: Publish
+  condition: succeeded()
+  jobs:
+  - job: DeployWorkspace
+    pool:
+      vmImage: 'windows-2022'
+    steps:
+    - pwsh: |
+        & "$(DEPLOY_SCRIPT_PATH)" -TenantId "$(TenantId)" -AppId "$(AppId)" -ClientSecret "$(ClientSecret)" -WorkspaceName "$(DEV_WORKSPACE_NAME)" -ArtifactPath "$(PBIP_PATH)"
+      displayName: 'Deploy PBIP artifacts'
+

@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "solution": "Sales Performance Analytics",
+  "policies": [
+    {
+      "id": "POL-REPORT-001",
+      "policy": "Report pages must use business-readable names.",
+      "coverage": "automated",
+      "automatedRules": ["report-page-business-name"],
+      "manualChecks": [],
+      "owner": "BI Lead"
+    },
+    {
+      "id": "POL-REPORT-002",
+      "policy": "Visual density must be reviewed before release.",
+      "coverage": "hybrid",
+      "automatedRules": ["report-page-visual-density"],
+      "manualChecks": ["UX reviewer confirms page readability"],
+      "owner": "UX Reviewer"
+    },
+    {
+      "id": "POL-MODEL-001",
+      "policy": "Technical keys should be hidden from report authors.",
+      "coverage": "automated",
+      "automatedRules": ["dataset-hide-technical-keys"],
+      "manualChecks": [],
+      "owner": "Semantic Model Owner"
+    },
+    {
+      "id": "POL-DAX-001",
+      "policy": "Critical KPI measures must have DAX test metadata.",
+      "coverage": "automated",
+      "automatedRules": ["dax-tests-critical-measures"],
+      "manualChecks": [],
+      "owner": "Data Steward"
+    },
+    {
+      "id": "POL-REL-001",
+      "policy": "Production semantic models must have an accountable owner.",
+      "coverage": "manual",
+      "automatedRules": [],
+      "manualChecks": ["Deployment manifest owner review"],
+      "owner": "Release Manager"
+    },
+    {
+      "id": "POL-GOV-001",
+      "policy": "Policy exceptions must be approved, owned, mitigated, and time-bound.",
+      "coverage": "automated",
+      "automatedRules": ["policy-exception-expiration"],
+      "manualChecks": ["Governance owner reviews requested exceptions"],
+      "owner": "Governance Owner"
+    }
+  ]
+}
+

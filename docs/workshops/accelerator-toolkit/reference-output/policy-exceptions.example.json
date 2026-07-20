@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "exceptions": [
+    {
+      "id": "EXC-SALES-001",
+      "ruleId": "report-page-visual-density",
+      "status": "approved",
+      "owner": "Sales BI Lead",
+      "approver": "Governance Owner",
+      "affectedArtifact": "Sales Performance.Report/Executive Overview",
+      "reason": "Existing executive page contains dense KPI layout required for current pilot review.",
+      "mitigation": "Split detailed visuals into drillthrough pages and reduce Executive Overview to top KPIs.",
+      "expiresOn": "2026-09-03",
+      "severity": "warning"
+    }
+  ]
+}
+

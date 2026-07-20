@@ -241,11 +241,12 @@ _Fabric BI DevOps Accelerator_
 - Set up the CI pipeline in your team's ADO project
 - Create the three-workspace (Dev / Test / Prod) environment
 - Review the [Governance Checklist](../docs/governance/governance-checklist.md) with your BI Lead
-- Explore [Lab guides](../docs/workshop-plan/labs/) for reference
+- Explore [Lab guides](../docs/workshops/core-fabric-git/labs/) for reference
 
 **Resources:**
 - [Workshop Repo README](../README.md)
 - [Architecture Diagrams](../docs/architecture/fabric-git-integration.md)
 - [Microsoft Learn — Fabric Git Integration](https://learn.microsoft.com/fabric/cicd/git-integration/intro-to-git-integration)
 - [Microsoft Learn — Deployment Pipelines](https://learn.microsoft.com/fabric/cicd/deployment-pipelines/intro-to-deployment-pipelines)
+
 

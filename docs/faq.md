@@ -37,7 +37,7 @@ The **Users can synchronize workspace items with their Git repositories** admin 
 
 If the toggle is already on but you still cannot see the option, confirm that your workspace is on a **Fabric capacity (F2 or higher)** or PPU. Workspaces on shared (Pro-only) capacity do not support Git integration.
 
-> See also: [Lab 1 — Connect a Fabric Workspace to Git](workshop-plan/labs/lab1-connect-git.md), Part 1.
+> See also: [Lab 1 — Connect a Fabric Workspace to Git](workshops/core-fabric-git/labs/lab1-connect-git.md), Part 1.
 
 ---
 
@@ -52,7 +52,7 @@ OAuth is blocked by a Conditional Access policy in many enterprise tenants. Use 
 5. Copy the token.
 6. In Fabric workspace settings → Git integration, choose **Azure DevOps** and paste the PAT when prompted.
 
-> See also: [Lab 1](workshop-plan/labs/lab1-connect-git.md), Part 1.2 Tip.
+> See also: [Lab 1](workshops/core-fabric-git/labs/lab1-connect-git.md), Part 1.2 Tip.
 
 ---
 
@@ -65,7 +65,7 @@ Check these in order:
 3. **Branch mismatch** — the workspace is connected to a branch that does not contain the PBIP files. Switch to the correct branch in workspace settings.
 4. **Pending sync** — click **Source control** → **Update all** to force a push of all workspace items.
 
-> See also: [Lab 1](workshop-plan/labs/lab1-connect-git.md), Part 2.2.
+> See also: [Lab 1](workshops/core-fabric-git/labs/lab1-connect-git.md), Part 2.2.
 
 ---
 
@@ -112,7 +112,7 @@ No. Git integration requires the workspace to be assigned to a **Fabric capacity
 
 If your branch is not listed, confirm it has been pushed to the remote repo (not just created locally) and refresh the dropdown.
 
-> See also: [Lab 1](workshop-plan/labs/lab1-connect-git.md), Part 3.2.
+> See also: [Lab 1](workshops/core-fabric-git/labs/lab1-connect-git.md), Part 3.2.
 
 ---
 
@@ -136,7 +136,7 @@ Steps:
 4. Work in this personal workspace.
 5. After your PR merges, delete the personal workspace.
 
-> See also: [Branching Strategy](architecture/branching-strategy.md) and [Lab 1](workshop-plan/labs/lab1-connect-git.md) — Extension section.
+> See also: [Branching Strategy](architecture/branching-strategy.md) and [Lab 1](workshops/core-fabric-git/labs/lab1-connect-git.md) — Extension section.
 
 ---
 
@@ -160,7 +160,7 @@ For the workshop, your lab partner can act as the reviewer. For production use:
 4. The workspace re-syncs to the merged state on `main`.
 5. All items should show **Synced** status.
 
-> See also: [Lab 1](workshop-plan/labs/lab1-connect-git.md), Part 5.3.
+> See also: [Lab 1](workshops/core-fabric-git/labs/lab1-connect-git.md), Part 5.3.
 
 ---
 
@@ -176,7 +176,7 @@ For the workshop pipeline (`azdo/azure-pipelines.yml`):
 2. If running against your own project, place the `.pbip` file and its associated report/model folders under `shared/pbip-local/` before running.
 3. Check the pipeline variable `PBIP_PATH` — if your folder is named differently, update the variable in the YAML.
 
-> See also: [Lab 2 — CI Pipeline](workshop-plan/labs/lab2-ci-pipeline.md), Part 1. [shared/pbip-local/README.md](../shared/pbip-local/README.md).
+> See also: [Lab 2 — CI Pipeline](workshops/core-fabric-git/labs/lab2-ci-pipeline.md), Part 1. [shared/pbip-local/README.md](../shared/pbip-local/README.md).
 
 ---
 
@@ -190,7 +190,7 @@ For the workshop pipeline (`azdo/azure-pipelines.yml`):
 
 If the rule is a false positive or does not apply to your project, use `tools/enterprise-standards-builder/index.html` to adjust the approved policy profile, or use `tools/rule-designer/index.html` to tune an individual dataset rule. Avoid editing JSON by hand unless you are authoring advanced Tabular Editor BPA logic.
 
-> See also: [Lab 2](workshop-plan/labs/lab2-ci-pipeline.md), Part 2 — Validate Stage. [shared/Rules-Dataset.json](../shared/Rules-Dataset.json). [Rules Authoring Guide](Rules-Authoring-Guide.md).
+> See also: [Lab 2](workshops/core-fabric-git/labs/lab2-ci-pipeline.md), Part 2 — Validate Stage. [shared/Rules-Dataset.json](../shared/Rules-Dataset.json). [Rules Authoring Guide](Rules-Authoring-Guide.md).
 
 ---
 
@@ -220,7 +220,7 @@ The `PublishTestResults@2` task requires that the JUnit XML file exists **before
 3. Confirm `testResultsFormat` is set to `JUnit` in the YAML task.
 4. If tests pass but results still don't show, add a `condition: always()` to the `PublishTestResults` task so it runs even when the test script exits with a non-zero code.
 
-> See also: [Lab 2](workshop-plan/labs/lab2-ci-pipeline.md), Part 3 — Test Stage.
+> See also: [Lab 2](workshops/core-fabric-git/labs/lab2-ci-pipeline.md), Part 3 — Test Stage.
 
 ---
 
@@ -246,7 +246,7 @@ Additionally, for the pipeline to act as a **required check**, you must configur
 
 Without the branch policy, the `pr:` trigger fires the pipeline as an informational check only — it will not block merges.
 
-> See also: [Lab 2](workshop-plan/labs/lab2-ci-pipeline.md), Part 6 — Set Required Branch Policy.
+> See also: [Lab 2](workshops/core-fabric-git/labs/lab2-ci-pipeline.md), Part 6 — Set Required Branch Policy.
 
 ---
 
@@ -343,7 +343,7 @@ You need **Admin** on the target workspace. Confirm:
 2. Your account must show **Admin**. Contributor and Member roles cannot assign a workspace to a deployment pipeline stage.
 3. Also confirm the workspace is on Fabric capacity (F2+). Shared-capacity workspaces cannot be assigned to deployment pipeline stages.
 
-> See also: [Lab 3](workshop-plan/labs/lab3-deployment-pipelines.md) — Troubleshooting.
+> See also: [Lab 3](workshops/core-fabric-git/labs/lab3-deployment-pipelines.md) — Troubleshooting.
 
 ---
 
@@ -356,7 +356,7 @@ The **Users can create and use deployment pipelines** admin toggle must be enabl
 3. Enable **Users can create and use deployment pipelines**.
 4. Scope it to the appropriate security group or the entire organization.
 
-> See also: [Lab 3](workshop-plan/labs/lab3-deployment-pipelines.md) — Prerequisites.
+> See also: [Lab 3](workshops/core-fabric-git/labs/lab3-deployment-pipelines.md) — Prerequisites.
 
 ---
 
@@ -370,7 +370,7 @@ The **Users can create and use deployment pipelines** admin toggle must be enabl
 
 Review each item in the diff. If you cannot explain a difference, roll back by promoting from a known-good stage or by re-binding the workspace to a fresh state. Never promote if you cannot account for all differences.
 
-> See also: [Lab 3](workshop-plan/labs/lab3-deployment-pipelines.md), Part 4 — Review the Comparison. [Governance Checklist](governance/governance-checklist.md), Section 3.
+> See also: [Lab 3](workshops/core-fabric-git/labs/lab3-deployment-pipelines.md), Part 4 — Review the Comparison. [Governance Checklist](governance/governance-checklist.md), Section 3.
 
 ---
 
@@ -383,7 +383,7 @@ This is almost always a missing or misconfigured deployment rule. Check in order
 3. **Refresh not triggered** — the deployment copies the semantic model but does not automatically refresh it. Trigger a manual refresh in the Test workspace after promotion.
 4. **Import mode cache** — if the model is Import mode, the data is baked in from the last Dev refresh. Trigger a Test refresh to pull from the Test database.
 
-> See also: [Lab 3](workshop-plan/labs/lab3-deployment-pipelines.md), Part 3 and Part 3b. [On-Premises Gateway Architecture](architecture/gateway-deployment-pipeline.md) — Complete Rules Summary.
+> See also: [Lab 3](workshops/core-fabric-git/labs/lab3-deployment-pipelines.md), Part 3 and Part 3b. [On-Premises Gateway Architecture](architecture/gateway-deployment-pipeline.md) — Complete Rules Summary.
 
 ---
 
@@ -413,7 +413,7 @@ Invoke-PowerBIRestMethod `
 
 In production, replace `Connect-PowerBIServiceAccount` with service principal authentication using credentials from **Azure Key Vault**.
 
-> See also: [Lab 3](workshop-plan/labs/lab3-deployment-pipelines.md), Part 8 — Automate via REST API. [CI/CD Architecture](architecture/cicd-architecture.md).
+> See also: [Lab 3](workshops/core-fabric-git/labs/lab3-deployment-pipelines.md), Part 8 — Automate via REST API. [CI/CD Architecture](architecture/cicd-architecture.md).
 
 ---
 
@@ -423,7 +423,7 @@ Yes — use **Selective deployment**. When you click **Deploy** in the pipeline 
 
 This is useful when a workspace contains multiple projects at different stages of readiness, or when a hotfix needs to go to Prod before the rest of a feature is complete.
 
-> See also: [Lab 3](workshop-plan/labs/lab3-deployment-pipelines.md) — Background: Key Concepts.
+> See also: [Lab 3](workshops/core-fabric-git/labs/lab3-deployment-pipelines.md) — Background: Key Concepts.
 
 ---
 
@@ -487,7 +487,7 @@ Without the **gateway rule**, the refresh routes through the Dev gateway to the 
 
 Both rules must be set together for on-premises connections that use Power Query parameters.
 
-> See also: [On-Premises Gateway Architecture](architecture/gateway-deployment-pipeline.md) — Test Stage Deployment Rules (Why both rules?). [Lab 3](workshop-plan/labs/lab3-deployment-pipelines.md), Part 3b — Complete Rules at a Glance.
+> See also: [On-Premises Gateway Architecture](architecture/gateway-deployment-pipeline.md) — Test Stage Deployment Rules (Why both rules?). [Lab 3](workshops/core-fabric-git/labs/lab3-deployment-pipelines.md), Part 3b — Complete Rules at a Glance.
 
 ---
 
@@ -569,7 +569,7 @@ Configure **branch policies** on `main` in Azure DevOps:
 
 With these policies active, `git push origin main` will be rejected, and direct commits via the Fabric portal Source control panel to `main` will also be blocked.
 
-> See also: [Governance Checklist](governance/governance-checklist.md), Section 1.3. [Lab 2](workshop-plan/labs/lab2-ci-pipeline.md), Part 6.
+> See also: [Governance Checklist](governance/governance-checklist.md), Section 1.3. [Lab 2](workshops/core-fabric-git/labs/lab2-ci-pipeline.md), Part 6.
 
 ---
 
@@ -630,7 +630,7 @@ For the workshop, all participants are assigned **Admin** on their workspaces an
 
 All files are text-based and human-readable, making them diff-able in Git pull requests.
 
-> See also: [Lab 1](workshop-plan/labs/lab1-connect-git.md), Part 2.2.
+> See also: [Lab 1](workshops/core-fabric-git/labs/lab1-connect-git.md), Part 2.2.
 
 ---
 
@@ -669,7 +669,7 @@ Work through this checklist before escalating:
 - [ ] **Network access?** The gateway host must be able to reach the SQL Server on TCP 1433. Run `Test-NetConnection` from the gateway host to verify.
 - [ ] **Firewall rules?** SQL Server firewall and any intervening network firewalls must permit the gateway host's IP.
 
-> See also: [On-Premises Gateway Architecture](architecture/gateway-deployment-pipeline.md) — Troubleshooting. [Lab 3](workshop-plan/labs/lab3-deployment-pipelines.md) — Troubleshooting.
+> See also: [On-Premises Gateway Architecture](architecture/gateway-deployment-pipeline.md) — Troubleshooting. [Lab 3](workshops/core-fabric-git/labs/lab3-deployment-pipelines.md) — Troubleshooting.
 
 ---
 
@@ -693,7 +693,7 @@ Invoke-PowerBIRestMethod `
     -Method Post
 ```
 
-> See also: [Lab 3](workshop-plan/labs/lab3-deployment-pipelines.md), Part 5.3 and 7.3.
+> See also: [Lab 3](workshops/core-fabric-git/labs/lab3-deployment-pipelines.md), Part 5.3 and 7.3.
 
 ---
 
@@ -713,5 +713,6 @@ Consider scripting this via the Power BI REST API if you manage many models.
 ---
 
 *For issues not covered here, check the [Microsoft Fabric documentation](https://learn.microsoft.com/fabric/) or raise a question in the workshop Teams channel.*
+
 
 

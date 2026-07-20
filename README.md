@@ -85,8 +85,11 @@ Use the Enterprise Standards Builder first for governance policy setup, then use
 | Topic | Link |
 |---|---|
 | Documentation hub | [docs/index.md](docs/index.md) |
+| Workshop catalog | [docs/workshops/README.md](docs/workshops/README.md) |
 | Workshop datasheet | [docs/delivery/workshop-datasheet.md](docs/delivery/workshop-datasheet.md) |
 | Delivery guide | [docs/delivery/workshop-delivery-guide.md](docs/delivery/workshop-delivery-guide.md) |
+| Core Fabric Git workshop | [docs/workshops/core-fabric-git/README.md](docs/workshops/core-fabric-git/README.md) |
+| Toolkit workshop | [docs/workshops/accelerator-toolkit/README.md](docs/workshops/accelerator-toolkit/README.md) |
 | Repository change checklist | [docs/repo-change-checklist.md](docs/repo-change-checklist.md) |
 | CI/CD architecture | [docs/architecture/cicd-architecture.md](docs/architecture/cicd-architecture.md) |
 | Branching strategy | [docs/architecture/branching-strategy.md](docs/architecture/branching-strategy.md) |
@@ -195,7 +198,7 @@ Platform clone that also includes workshop material:
   -IncludeWorkshop
 ```
 
-`-IncludeWorkshop` adds `Supporting_Docs_For_Workshop.md`, `docs/workshop-plan/`, `presentations/`, and `powerpoint/`.
+`-IncludeWorkshop` adds `Supporting_Docs_For_Workshop.md`, `docs/workshops/`, `presentations/`, and `powerpoint/`.
 
 Toolkit clone with no CI/CD platform folder:
 
@@ -223,4 +226,6 @@ Do not commit tenant-specific IDs, secrets, tokens, real customer data, exported
 This repository contains workshop material and example automation code. The YAML pipelines, PowerShell scripts, validation rules, tests, and deployment examples are reference implementations and starting points only.
 
 Before using any code from this repository in your own environment, review and adapt it for your tenant, workspace topology, security model, naming conventions, branch policies, and deployment process. Validate everything with non-production workspaces and test data first.
+
+
 

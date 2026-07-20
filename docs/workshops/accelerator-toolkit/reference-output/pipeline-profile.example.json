@@ -1,0 +1,18 @@
+{
+  "platform": "Azure DevOps",
+  "pipelineName": "Sales Performance PBIP CI/CD",
+  "projectRoot": "shared",
+  "pbipPath": "shared/pbip-local",
+  "pythonVersion": "3.11",
+  "deployScript": "shared/scripts/deploy-dynamic.ps1",
+  "branches": ["main", "develop", "feature/*"],
+  "features": {
+    "datasetRules": true,
+    "reportRules": true,
+    "daxTests": true,
+    "publishArtifact": true,
+    "deployDev": true,
+    "featureDeploy": true
+  }
+}
+

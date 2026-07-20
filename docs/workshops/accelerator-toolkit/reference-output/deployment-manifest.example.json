@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "solutionName": "Sales Performance Analytics",
+  "businessPurpose": "Provide governed sales KPI reporting for sales operations and executive review.",
+  "owners": {
+    "businessOwner": "Sales Operations",
+    "technicalOwner": "BI Platform Team",
+    "releaseOwner": "Sales BI Lead"
+  },
+  "artifacts": [
+    "Sales Performance.pbip",
+    "Sales Performance.Report",
+    "Sales Performance.SemanticModel",
+    "Rules-Report.json",
+    "Rules-Dataset.json",
+    "dax-tests.json",
+    "policy-exceptions.json"
+  ],
+  "environments": {
+    "dev": "WS-Dev-Sales",
+    "test": "WS-Test-Sales",
+    "prod": "WS-Prod-Sales"
+  },
+  "validationGates": [
+    "PBIP structure validation",
+    "Report quality rules",
+    "Dataset quality rules",
+    "DAX test metadata validation",
+    "PR quality summary",
+    "Release readiness dashboard"
+  ],
+  "approval": {
+    "testPromotion": "BI Lead",
+    "prodPromotion": "Sales Operations Owner and Governance Owner"
+  },
+  "rollback": "Revert the merged PR, redeploy the last approved PBIP artifact, and confirm semantic model refresh."
+}
+

@@ -23,6 +23,7 @@ It acts as a companion index to the main workshop plan, ensuring you can quickly
 | **Collaboration Patterns & Best Practices**<br>(11:30–12:15) | DataOps deck; Governance essentials; RACI examples; Go‑Live assessment |
 | **Deployment Strategy: Dev→Test→Prod**<br>(13:00–13:45) | CI/CD Delivery Guide; Enterprise‑scale Power BI Dev examples; Deployment pipeline docs |
 | **Lab #2 — CI/CD Pipeline for the Power BI Project**<br>(13:45–14:45) | CI/CD lab guide (YAML examples, PBIP validation, artifact publication, workspace deployment); ADO test integration; MS Learn pipeline tutorials |
+| **Toolkit Workshop — Accelerator tools, examples, and final outputs**<br>(Optional extension) | Tool-focused labs for standards, rule authoring, DAX metadata, manifests, readiness, diffs, impact analysis, pipeline config, PR summaries, exceptions, release readiness, adoption metrics, and reference output comparison |
 | **Dashboard Design Solving Session**<br>(15:00–16:00) | Visualization best practices; Persona & decision frameworks; Wireframe examples |
 | **Publishing Artifacts & Release Checklist**<br>(16:00–16:30) | Release checklist; Prod readiness; RLS/CLS validation; Sensitivity labels guidance |
 | **Power BI Embedded POC + Communication Plan**<br>(16:30–17:00) | Embedded analytics deck; Service principal setup guide; Comms plan templates |
@@ -289,13 +290,19 @@ Supporting documents:
 ```text
 /docs
   index.md
-  /workshop-plan
-    Fabric_Git_Workshop_Plan.md
-    Supporting_Documents_for_Workshop.md
-    /labs
-      lab1-connect-git.md
-      lab2-ci-pipeline.md
-      lab3-deployment-pipelines.md
+  /workshops
+    README.md
+    /core-fabric-git
+      README.md
+      /labs
+        lab1-connect-git.md
+        lab2-ci-pipeline.md
+        lab3-deployment-pipelines.md
+    /accelerator-toolkit
+      README.md
+      /labs
+      /reference-output
+    /future
   /governance
     governance-checklist.md
   /architecture
@@ -320,4 +327,6 @@ Supporting documents:
     <your-project>.Report/         (local, not committed)
     <your-project>.SemanticModel/  (local, not committed)
 ```
+
+
 

@@ -85,7 +85,7 @@ function Get-ProfilePaths {
     if ($WithWorkshop) {
         $standardPaths += @(
             'Supporting_Docs_For_Workshop.md',
-            'docs/workshop-plan/',
+            'docs/workshops/',
             'presentations/',
             'powerpoint/'
         )
@@ -139,4 +139,5 @@ try {
 finally {
     Pop-Location
 }
+
 

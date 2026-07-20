@@ -9,15 +9,16 @@ This wiki provides all workshop plans, labs, governance materials, and architect
 ## 📘 Core Workshop Documents
 - [Workshop Datasheet](./delivery/workshop-datasheet.md)
 - [Delivery Guide](./delivery/workshop-delivery-guide.md)
-- [Workshop Plan](./workshop-plan/Fabric_Git_Workshop_Plan.md)  
-- [Supporting Documents Index](./workshop-plan/Supporting_Documents_for_Workshop.md)
+- [Workshop Plan](./workshops/core-fabric-git/README.md)  
+- [Supporting Documents Index](../Supporting_Docs_For_Workshop.md)
 
 ---
 
 ## 🧪 Hands‑On Labs
-- [Lab 1 — Connect Fabric Workspace to Git](./workshop-plan/labs/lab1-connect-git.md)  
-- [Lab 2 — CI/CD Pipeline for PBIP](./workshop-plan/labs/lab2-ci-pipeline.md)  
-- [Lab 3 — Fabric Deployment Pipelines (Dev → Test → Prod)](./workshop-plan/labs/lab3-deployment-pipelines.md)
+- [Lab 1 — Connect Fabric Workspace to Git](./workshops/core-fabric-git/labs/lab1-connect-git.md)  
+- [Lab 2 — CI/CD Pipeline for PBIP](./workshops/core-fabric-git/labs/lab2-ci-pipeline.md)  
+- [Lab 3 — Fabric Deployment Pipelines (Dev → Test → Prod)](./workshops/core-fabric-git/labs/lab3-deployment-pipelines.md)
+- [Toolkit Workshop — Accelerator tools, examples, and reference outputs](./workshops/accelerator-toolkit/README.md)
 
 ---
 
@@ -80,3 +81,7 @@ Recommended for project teams:
 Begin with the **Workshop Plan** to understand the full day flow and required setup.
 
 Happy building!
+
+
+
+

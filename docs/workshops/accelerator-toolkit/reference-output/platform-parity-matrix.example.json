@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "solution": "Sales Performance Analytics",
+  "platforms": ["Azure DevOps", "GitHub Actions", "GitLab CI"],
+  "capabilities": [
+    {
+      "id": "pbip-validation",
+      "capability": "PBIP structure validation",
+      "azureDevOps": "supported",
+      "githubActions": "supported",
+      "gitLabCi": "supported",
+      "notes": "All platforms run shared/tests/validate_pbip_structure.py."
+    },
+    {
+      "id": "dataset-rules",
+      "capability": "Dataset quality rules",
+      "azureDevOps": "supported",
+      "githubActions": "supported",
+      "gitLabCi": "supported",
+      "notes": "Requires Windows runner because Tabular Editor is used."
+    },
+    {
+      "id": "report-rules",
+      "capability": "Report quality rules",
+      "azureDevOps": "supported",
+      "githubActions": "supported",
+      "gitLabCi": "supported",
+      "notes": "Requires Windows runner because Fab Inspector is used."
+    },
+    {
+      "id": "dax-tests",
+      "capability": "DAX test metadata validation",
+      "azureDevOps": "supported",
+      "githubActions": "supported",
+      "gitLabCi": "supported",
+      "notes": "Current runner validates metadata and publishes test output."
+    },
+    {
+      "id": "artifact-publish",
+      "capability": "PBIP artifact publishing",
+      "azureDevOps": "supported",
+      "githubActions": "supported",
+      "gitLabCi": "supported",
+      "notes": "Artifact storage syntax differs by platform."
+    },
+    {
+      "id": "workspace-deploy",
+      "capability": "Dev workspace deployment",
+      "azureDevOps": "supported",
+      "githubActions": "partial",
+      "gitLabCi": "partial",
+      "notes": "Deployment support depends on runner, service principal, and workspace variable configuration."
+    }
+  ]
+}
+

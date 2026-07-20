@@ -175,5 +175,6 @@ Use this checklist at each stage of the development lifecycle to ensure Fabric w
 - [OneLake Security Guidance](onelake-security.md)  
 - [CI/CD Architecture](../architecture/cicd-architecture.md)  
 - [Rules Authoring Guide](../Rules-Authoring-Guide.md)  
-- [Lab 1 — Connect Workspace to Git](../workshop-plan/labs/lab1-connect-git.md)  
-- [Lab 2 — CI/CD Pipeline for the Power BI Project](../workshop-plan/labs/lab2-ci-pipeline.md)
+- [Lab 1 — Connect Workspace to Git](../workshops/core-fabric-git/labs/lab1-connect-git.md)  
+- [Lab 2 — CI/CD Pipeline for the Power BI Project](../workshops/core-fabric-git/labs/lab2-ci-pipeline.md)
+

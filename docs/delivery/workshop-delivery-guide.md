@@ -27,8 +27,8 @@ Use the datasheet for customer-facing positioning. Use this delivery guide for p
 |---|---|
 | Root solution README | `README.md` |
 | Workshop datasheet | `docs/delivery/workshop-datasheet.md` |
-| Workshop plan | `docs/workshop-plan/Fabric_Git_Workshop_Plan.md` |
-| Lab guides | `docs/workshop-plan/labs/` |
+| Workshop plan | `docs/workshops/core-fabric-git/README.md` |
+| Lab guides | `docs/workshops/core-fabric-git/labs/` |
 | Sparse clone guide | `docs/sparse-clone-guide.md` |
 | Platform setup guides | `azdo/README.md`, `.github/GITHUB_ACTIONS_SETUP.md`, `gitlab/README.md` |
 | No-code tools overview | `docs/governance/power-bi-governance-tools.md` |
@@ -219,4 +219,6 @@ A delivery is successful when the customer or team can explain:
 - How release readiness will be documented.
 - Which project will be used as the first pilot.
 - Which rules should start advisory and which should become blocking later.
+
+
 

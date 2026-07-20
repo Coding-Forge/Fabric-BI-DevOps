@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "solutions": [
+    {
+      "name": "Generic CI/CD sample",
+      "platformNeutrality": 2,
+      "biQualityGates": 2,
+      "noCodeGovernance": 0,
+      "releaseReadiness": 1,
+      "adoptionModel": 1,
+      "evidenceTelemetry": 1
+    },
+    {
+      "name": "Best-practice deck",
+      "platformNeutrality": 1,
+      "biQualityGates": 1,
+      "noCodeGovernance": 0,
+      "releaseReadiness": 1,
+      "adoptionModel": 2,
+      "evidenceTelemetry": 0
+    },
+    {
+      "name": "Enterprise BI DevOps with Microsoft Fabric",
+      "platformNeutrality": 4,
+      "biQualityGates": 4,
+      "noCodeGovernance": 4,
+      "releaseReadiness": 4,
+      "adoptionModel": 4,
+      "evidenceTelemetry": 3
+    }
+  ]
+}
+

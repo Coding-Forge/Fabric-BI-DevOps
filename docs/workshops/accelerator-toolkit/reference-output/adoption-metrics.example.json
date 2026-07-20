@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "program": "Enterprise BI DevOps Accelerator Pilot",
+  "projects": [
+    {
+      "project": "Sales Performance Analytics",
+      "status": "pilot",
+      "platform": "Azure DevOps",
+      "owner": "Sales BI Lead",
+      "toolkitProfile": "Standard",
+      "readinessScore": 86,
+      "ruleMaturity": "enterprise-standard",
+      "openExceptions": 1,
+      "timeToOnboardDays": 5,
+      "nextAction": "Complete visual density mitigation before Prod promotion"
+    }
+  ],
+  "metrics": {
+    "activeProjects": 1,
+    "averageReadinessScore": 86,
+    "approvedExceptions": 1,
+    "expiredExceptions": 0
+  }
+}
+

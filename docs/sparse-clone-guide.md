@@ -92,7 +92,7 @@ Pass `-IncludeWorkshop` when you want to include the workshop docs and slide mat
 
 ```text
 Supporting_Docs_For_Workshop.md
-docs/workshop-plan/
+docs/workshops/
 presentations/
 powerpoint/
 ```
@@ -168,4 +168,5 @@ Add your project repository remote before pushing:
 git remote add origin <new-project-repo-url>
 git push -u origin main
 ```
+
 

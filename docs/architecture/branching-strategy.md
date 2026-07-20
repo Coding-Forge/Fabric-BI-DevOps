@@ -297,5 +297,6 @@ The pattern mirrors how software engineering teams run feature environments (pre
 
 - [Workspace Strategy](workspace-strategy.md) — naming conventions, roles, and workspace lifecycle  
 - [CI/CD Architecture](cicd-architecture.md) — how the pipeline validates branches and deploys Dev or feature workspaces  
-- [Lab 1 — Connect Workspace to Git](../workshop-plan/labs/lab1-connect-git.md) — hands-on: connect a workspace to a branch  
-- [Lab 2 — CI/CD Pipeline for PBIP](../workshop-plan/labs/lab2-ci-pipeline.md) — validation, artifact publication, and workspace deployment  
+- [Lab 1 — Connect Workspace to Git](../workshops/core-fabric-git/labs/lab1-connect-git.md) — hands-on: connect a workspace to a branch  
+- [Lab 2 — CI/CD Pipeline for PBIP](../workshops/core-fabric-git/labs/lab2-ci-pipeline.md) — validation, artifact publication, and workspace deployment  
+
