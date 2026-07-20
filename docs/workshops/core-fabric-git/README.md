@@ -44,6 +44,18 @@ Participants will learn workspace–repo integration, branching strategies, PR w
 - PAT or **service principal** credentials (if org CA policies block OAuth)  
 - Local copy of sample dataset & PBIP starter project  
 
+## Recommended workshop setup
+
+Use the [Workshop Catalog setup instructions](../README.md#workshop-setup) or the [Sparse Clone Guide](../../sparse-clone-guide.md) to create a working directory that includes the platform folder, shared assets, tools, workshop docs, sample data, and supporting references.
+
+For a UI-based setup, run:
+
+```powershell
+.\shared\scripts\Start-SparseCloneUI.ps1
+```
+
+Choose **Toolkit** mode, select the target platform, and check **Include workshop material**.
+
 If participants do not have customer data or an existing PBIP solution, use the synthetic [DIB Supply Chain sample data](../sample-data/dib-supply-chain/README.md) and [PBIP build guide](../sample-data/dib-supply-chain/pbip-build-guide.md) before starting Lab 1.
 
 ---

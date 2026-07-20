@@ -54,7 +54,16 @@ Use the files under [`reference-output/`](reference-output/README.md) as the fin
 
 ## Setup
 
-1. Clone or open this repository locally.
+1. Create a workshop working directory using the [Workshop Catalog setup instructions](../README.md#workshop-setup) or the [Sparse Clone Guide](../../sparse-clone-guide.md).
+
+   For a UI-based setup, run:
+
+   ```powershell
+   .\shared\scripts\Start-SparseCloneUI.ps1
+   ```
+
+   Choose **Toolkit** mode, select the target platform, and check **Include workshop material** so the clone includes `docs/workshops/`, sample data, tools, images, platform files, and supporting references.
+
 2. Open the tool launchpad:
 
    ```text

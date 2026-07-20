@@ -4,6 +4,40 @@ This folder is the canonical home for workshop material in **Enterprise BI DevOp
 
 The previous `docs/workshop-plan/` folder is retained only as a compatibility redirect for older links. New workshop content should be added under this `docs/workshops/` catalog.
 
+## Workshop setup
+
+For the fastest workshop setup, use the sparse clone tooling documented in the [Sparse Clone Guide](../sparse-clone-guide.md).
+
+### Option 1 — Use the sparse clone UI
+
+From the repository root, run:
+
+```powershell
+.\shared\scripts\Start-SparseCloneUI.ps1
+```
+
+In the UI:
+
+1. Set **Clone mode** to `Toolkit`.
+2. Choose the target **Toolkit platform** such as `AzDo`, `GitHub`, or `GitLab`.
+3. Keep **Toolkit profile** as `Standard` unless you only need minimal CI/CD assets.
+4. Check **Include workshop material**.
+5. Run the sparse clone.
+
+When **Include workshop material** is selected, the cloned working directory includes this workshop catalog, sample data, delivery docs, architecture docs, FAQ/reference docs, presentations, and platform-specific files.
+
+### Option 2 — Use the script directly
+
+```powershell
+.\shared\scripts\Clone-SparseToolkitProfile.ps1 `
+  -RepoUrl <source-repo-url> `
+  -Destination Fabric-AzDo-Workshop `
+  -Platform AzDo `
+  -IncludeWorkshop
+```
+
+Use `-Platform GitHub`, `-Platform GitLab`, or `-Platform All` for other delivery environments.
+
 ## Current workshops
 
 | Workshop | Audience | Purpose |

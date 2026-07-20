@@ -100,9 +100,9 @@ $profileBox = New-ComboBox 170 298 @('Standard', 'Minimal')
 $form.Controls.Add($profileBox)
 
 $includeWorkshopBox = New-Object System.Windows.Forms.CheckBox
-$includeWorkshopBox.Text = 'Include workshop material'
+$includeWorkshopBox.Text = 'Include workshop material, sample data, and supporting docs'
 $includeWorkshopBox.Location = New-Object System.Drawing.Point(170, 338)
-$includeWorkshopBox.Size = New-Object System.Drawing.Size(220, 24)
+$includeWorkshopBox.Size = New-Object System.Drawing.Size(420, 24)
 $form.Controls.Add($includeWorkshopBox)
 
 $commandLabel = New-Object System.Windows.Forms.Label
