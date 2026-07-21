@@ -129,7 +129,9 @@ $closeButton = New-Object System.Windows.Forms.Button
 $closeButton.Text = 'Close'
 $closeButton.Location = New-Object System.Drawing.Point(180, 490)
 $closeButton.Size = New-Object System.Drawing.Size(90, 34)
+$closeButton.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
 $form.Controls.Add($closeButton)
+$form.CancelButton = $closeButton
 
 $outputBox = New-Object System.Windows.Forms.TextBox
 $outputBox.Location = New-Object System.Drawing.Point(20, 540)
@@ -194,8 +196,6 @@ $browseButton.Add_Click({
         Update-UiState
     }
 })
-
-$closeButton.Add_Click({ $form.Close() })
 
 $runButton.Add_Click({
     try {
@@ -262,5 +262,6 @@ $profileBox.Add_SelectedIndexChanged({ Update-UiState })
 $includeWorkshopBox.Add_CheckedChanged({ Update-UiState })
 
 Update-UiState
-[void]$form.ShowDialog()
+$dialogResult = $form.ShowDialog()
+$form.Dispose()
 
