@@ -32,6 +32,22 @@ if (Test-Path -LiteralPath $Destination) {
     throw "Destination path already exists: $Destination"
 }
 
+function Complete-IndependentClone {
+    git sparse-checkout disable
+    if ($LASTEXITCODE -ne 0) { throw 'git sparse-checkout disable failed.' }
+    git config --unset core.sparseCheckout 2>$null
+    git config --unset core.sparseCheckoutCone 2>$null
+    git config --worktree --unset core.sparseCheckout 2>$null
+    git config --worktree --unset core.sparseCheckoutCone 2>$null
+    Remove-Item -LiteralPath (Join-Path (Get-Location) '.git\info\sparse-checkout') -Force -ErrorAction SilentlyContinue
+
+    $remotes = @(git remote)
+    foreach ($remote in $remotes) {
+        git remote remove $remote
+        if ($LASTEXITCODE -ne 0) { throw "Failed to remove remote: $remote" }
+    }
+}
+
 Write-Host "Cloning $RepoUrl into $Destination (branch: $Branch)..."
 git clone --no-checkout --branch $Branch $RepoUrl $Destination
 
@@ -45,13 +61,14 @@ try {
     git sparse-checkout init --cone
     git sparse-checkout set azdo shared docs tools images
     git checkout $Branch
-    git remote remove origin
+    Complete-IndependentClone
 
     Write-Host ''
-    Write-Host 'Sparse checkout configured for Azure DevOps profile.'
+    Write-Host 'Azure DevOps profile materialized as a normal standalone working tree.'
     Write-Host 'Included folders: azdo, shared, docs, tools, images'
-    Write-Host 'Removed source remote: origin'
-    Write-Host 'Add your customer Azure DevOps remote with: git remote add origin <new-azdo-repo-url>'
+    Write-Host 'Sparse checkout disabled.'
+    Write-Host 'Removed all source remotes.'
+    Write-Host 'Create a new empty repo, then add it with: git remote add origin <new-azdo-repo-url>'
     Write-Host "Working directory: $(Get-Location)"
 }
 finally {

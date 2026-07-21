@@ -57,9 +57,16 @@ Use **Toolkit** mode when you want platform, profile, and workshop options. Use 
 
 ## Commit-safe clone behavior
 
-The sparse clone scripts use a normal Git clone followed by sparse checkout. They intentionally do **not** use partial clone blob filtering such as `--filter=blob:none`.
+The sparse clone scripts use sparse checkout only as a temporary file selection mechanism.
 
-This keeps the resulting workshop or toolkit working directory commit-safe after the script removes the source `origin` remote. If blob filtering is used and the source remote is removed, Git may be unable to resolve missing blob objects when users make their first commit in the sparse-cloned repo.
+The final working directory is left as a **normal, non-sparse Git repository**:
+
+- Sparse checkout is disabled before the script completes.
+- All source remotes are removed.
+- No active remote points back to the parent repository.
+- Users should create their own empty remote repo and add it with `git remote add origin <new-repo-url>`.
+
+The scripts also intentionally do **not** use partial clone blob filtering such as `--filter=blob:none`. This keeps the resulting workshop or toolkit working directory commit-safe after the source remotes are removed. If blob filtering is used and the source remote is removed, Git may be unable to resolve missing blob objects when users make their first commit in the cloned repo.
 
 ## Platform argument
 

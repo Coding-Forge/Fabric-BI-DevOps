@@ -115,6 +115,26 @@ function ConvertTo-SparsePattern {
     return "/$normalized"
 }
 
+function Complete-IndependentClone {
+    git sparse-checkout disable
+    if ($LASTEXITCODE -ne 0) {
+        throw 'git sparse-checkout disable failed.'
+    }
+    git config --unset core.sparseCheckout 2>$null
+    git config --unset core.sparseCheckoutCone 2>$null
+    git config --worktree --unset core.sparseCheckout 2>$null
+    git config --worktree --unset core.sparseCheckoutCone 2>$null
+    Remove-Item -LiteralPath (Join-Path (Get-Location) '.git\info\sparse-checkout') -Force -ErrorAction SilentlyContinue
+
+    $remotes = @(git remote)
+    foreach ($remote in $remotes) {
+        git remote remove $remote
+        if ($LASTEXITCODE -ne 0) {
+            throw "Failed to remove remote: $remote"
+        }
+    }
+}
+
 $sparsePatterns = @($paths | ForEach-Object { ConvertTo-SparsePattern -Path $_ })
 
 Write-Host "Cloning $RepoUrl into $Destination (branch: $Branch)..."
@@ -129,16 +149,17 @@ try {
     git sparse-checkout init --no-cone
     git sparse-checkout set --no-cone @sparsePatterns
     git checkout $Branch
-    git remote remove origin
+    Complete-IndependentClone
 
     Write-Host ''
-    Write-Host "Sparse checkout configured for toolkit profile."
+    Write-Host "Toolkit profile materialized as a normal standalone working tree."
     Write-Host "Platform: $Platform"
     Write-Host "Profile: $Profile"
     Write-Host "Include workshop material: $($IncludeWorkshop.IsPresent)"
     Write-Host "Included paths: $($paths -join ', ')"
-    Write-Host 'Removed source remote: origin'
-    Write-Host 'Add your project remote with: git remote add origin <new-repo-url>'
+    Write-Host 'Sparse checkout disabled.'
+    Write-Host 'Removed all source remotes.'
+    Write-Host 'Create a new empty repo, then add it with: git remote add origin <new-repo-url>'
     Write-Host "Working directory: $(Get-Location)"
 }
 finally {
