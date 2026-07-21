@@ -118,7 +118,7 @@ function ConvertTo-SparsePattern {
 $sparsePatterns = @($paths | ForEach-Object { ConvertTo-SparsePattern -Path $_ })
 
 Write-Host "Cloning $RepoUrl into $Destination (branch: $Branch)..."
-git clone --filter=blob:none --no-checkout --branch $Branch $RepoUrl $Destination
+git clone --no-checkout --branch $Branch $RepoUrl $Destination
 
 if ($LASTEXITCODE -ne 0 -or !(Test-Path -LiteralPath $Destination)) {
     throw 'git clone failed. Verify repository URL, branch, and access permissions.'

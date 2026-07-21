@@ -55,6 +55,12 @@ The UI can run:
 
 Use **Toolkit** mode when you want platform, profile, and workshop options. Use the platform-specific modes when you want the original platform profile behavior.
 
+## Commit-safe clone behavior
+
+The sparse clone scripts use a normal Git clone followed by sparse checkout. They intentionally do **not** use partial clone blob filtering such as `--filter=blob:none`.
+
+This keeps the resulting workshop or toolkit working directory commit-safe after the script removes the source `origin` remote. If blob filtering is used and the source remote is removed, Git may be unable to resolve missing blob objects when users make their first commit in the sparse-cloned repo.
+
 ## Platform argument
 
 | Platform value | Includes |
