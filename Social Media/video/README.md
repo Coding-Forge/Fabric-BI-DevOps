@@ -14,6 +14,8 @@ This folder contains video production assets for **Enterprise BI DevOps with Mic
 | `narration.README.txt` | Placeholder instructions for creating `narration.wav` |
 | `narration.wav` | Recorded narration audio; not included until you create it |
 | `enterprise-bi-devops-demo-narrated.mp4` | Final narrated video; generated after audio is added |
+| `toolkit-walkthrough-recording-runbook.md` | Clipchamp recording runbook and narration script for walking through all toolkit tools |
+| `walkthrough-runbooks/` | Focused runbooks for recording the toolkit walkthrough as a three-part video series |
 | `Build-EnterpriseBIDevOpsVideo.ps1` | Local build script for frames and MP4 |
 | `Add-NarrationToVideo.ps1` | Adds a recorded narration track to the MP4 |
 
@@ -38,6 +40,22 @@ The generated MP4 is a visual-only video. Use `enterprise-bi-devops-script.md` f
 The current scene deck contains 19 scenes covering standards, rule tuning, DAX metadata, deployment manifests, PBIP readiness, PBIP diffing, dependency impact, pipeline generation, PR summaries, exceptions, effective rules, platform parity, release readiness, adoption metrics, governance coverage, differentiation, and the call to action.
 
 When updating scene frames, confirm that the right-side screenshot or image is visibly rendered in each affected frame. A frame is not valid if it only shows a blank rectangle, broken image placeholder, or border where the screenshot should appear. For local captures, generate frames from a path that preserves relative image references and handles spaces in `Social Media` paths correctly.
+
+## Toolkit walkthrough recording
+
+For a live instructional recording of all browser tools, use:
+
+```text
+Social Media/video/toolkit-walkthrough-recording-runbook.md
+```
+
+The runbook explains how to start localhost, record with Clipchamp, use starter examples, and narrate each tool in workflow order.
+
+For shorter recordings, use the focused runbooks:
+
+```text
+Social Media/video/walkthrough-runbooks/
+```
 
 ## Add narration
 
