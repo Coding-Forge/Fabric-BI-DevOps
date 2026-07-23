@@ -1,5 +1,19 @@
 # Part 3 Runbook — Pipeline, Release, Governance, and Adoption
 
+## Overview
+
+**This is the third and final video in a three-part series.**
+
+**Prerequisites:** To get the most from this video, you should watch [Part 1 — Standards and Quality Foundation](part-1-standards-quality.md) and [Part 2 — PBIP Review and PR Readiness](part-2-pbip-review.md) first. Part 1 established governance rules. Part 2 showed PR review workflow. Part 3 shows how platform teams automate all of this and measure success.
+
+**What we assume you have:** By the start of Part 3, your organization should have:
+- Quality rules committed to your repo (from Part 1)
+- PR review workflows in place (from Part 2)
+- One or more PBIP projects ready to deploy
+- A choice of CI/CD platform (Azure DevOps, GitHub Actions, or GitLab CI)
+
+If you're watching standalone: this part still works. You'll understand platform-level governance and scaling, even without Parts 1 & 2.
+
 ## Goal
 
 Show how the toolkit supports platform teams in generating CI/CD configuration, managing policy exceptions, tracking governance coverage, assessing release readiness, and measuring adoption across the organization.
@@ -12,7 +26,20 @@ This part is designed for:
 
 ## Recommended length
 
-10–15 minutes (allows for exploring multiple advanced tools and real-world scenarios).
+12–18 minutes (8 tools means more content; consider breaking into two shorter videos if needed).
+
+**Note:** This part has more tools than Parts 1 & 2. If timing becomes tight, consider focusing on the first 5 tools (Pipeline Config through Release Readiness) and skipping or abbreviating the last 3 (Rule Coverage, Adoption, Differentiation) for a later video.
+
+## What you'll create by the end of this part
+
+By the end of Part 3, you'll have created:
+- Platform-specific CI/CD YAML (azure-pipelines.yml, github-actions.yml, or gitlab-ci.yml)
+- Exception tracking register (policy-exceptions.json)
+- Effective rules files showing what CI actually enforces
+- Release readiness assessment
+- Adoption metrics and program reporting
+
+These artifacts **enable governance at scale**: consistent enforcement across teams and platforms.
 
 ## Tools covered
 
@@ -50,11 +77,15 @@ Say:
 
 > Welcome to Part 3 of the Fabric BI DevOps Accelerator Toolkit walkthrough.
 
-> In Part 1, we defined quality standards and DAX tests. In Part 2, we showed how report authors prepare pull requests and how reviewers assess changes.
+> If you've watched Parts 1 and 2, you know how to define governance and how to review pull requests. Great.
 
-> In this final part, we're shifting to the platform team and governance owner perspective: How do we scale this across the organization? How do we generate CI/CD configuration? How do we manage exceptions? How do we track whether the program is actually working?
+> But here's the next question: How do you scale this across your whole organization? How do you generate the same CI/CD pipeline for 20 different projects? How do you track exceptions? How do you know if the program is actually working?
 
-> These are the tools for building a sustainable, measurable BI DevOps program.
+> This part is about platform-level governance and sustainability. It's for the teams that build and maintain the infrastructure.
+
+> We're going to show how to generate CI/CD configuration for multiple platforms, manage policy exceptions so they don't become permanent bypasses, track governance completeness, and measure adoption and program success.
+
+> By the end, you'll understand how to take a working governance model on one team and scale it to dozens of teams without reinventing everything.
 
 > Let's start.
 
@@ -460,23 +491,32 @@ competitive-differentiation-matrix.md
 
 Say:
 
-> Let's recap the full journey.
+> Let's recap what we've covered across all three parts.
 
-> **Part 1 (Standards):** Define policy once, enforce everywhere. Use the Enterprise Standards Builder, Quality Rule Designer, and DAX Test Builder to create the baseline. Commit these files to your repo.
+> **Part 1 — Standards Foundation:** You define quality policy once. You create rules, tune them for adoption phases, and document measure tests. These become the **governance foundation** that everything else depends on.
 
-> **Part 2 (Review):** Move from code review to context-aware review. Use the Deployment Manifest, Readiness Scanner, PBIP Diff Viewer, Dependency Impact Analyzer, and PR Summary Generator to give reviewers all the context they need.
+> **Part 2 — Review Workflow:** You show how report authors and reviewers use the toolkit to move from slow, confusion-filled reviews to fast, context-rich assessments. Authors check readiness before opening PRs. Reviewers understand changes in business terms, not JSON.
 
-> **Part 3 (Platform & Governance):** Scale consistently across teams and platforms. Use the Pipeline Config Generator for multi-platform support, exception tracking for flexibility, effective rules for transparency, release readiness for evidence-based decisions, and adoption metrics for program accountability.
+> **Part 3 — Platform & Scale:** You show how platform teams generate consistent CI/CD configuration across platforms, manage exceptions so they don't become permanent, track governance completeness, assess releases with evidence, and measure program success.
 
-> The magic is in the combination. Standards alone don't work. Automation alone doesn't work. Review alone doesn't work. But standards + automation + smart review + governance + platform consistency + adoption tracking = a sustainable BI DevOps operating model.
+> Here's what makes this powerful: **These three pieces reinforce each other.**
 
-> Teams can start small—one PBIP, one set of rules, one pipeline. Then they scale. They add more projects, more teams, more exceptions, more metrics. Every team is enforcing the same standards, every reviewer has the same tools, every release is evidence-based.
+> - Standards from Part 1 are automatically enforced by the CI/CD from Part 3.
+> - Reviewers in Part 2 apply the standards from Part 1.
+> - Exceptions tracked in Part 3 explain why Part 2 reviews sometimes approve deviations.
+> - Adoption metrics in Part 3 show how many teams from Part 1 and Part 2 are successful.
 
-> That's the point of this accelerator.
+> It's not just governance. It's not just CI/CD. It's an operating model.
 
-> Thank you for watching all three parts. We hope the toolkit helps you build a better BI DevOps program for your organization.
+> Teams can start small: one PBIP, one set of rules, one pipeline. Then they scale: more projects, more teams, more metrics. Every team enforces the same standards. Every reviewer has the same tools. Every release is evidence-based. Governance is visible, not hidden in Slack.
 
-**Timing:** 2–3 minutes.
+> That's the goal of this accelerator.
+
+> Thank you for watching all three parts. We hope this helps you build a better, more measurable BI DevOps program.
+
+> For more information, documentation, and sample artifacts, visit the GitHub repository. Good luck!
+
+**Timing:** 3 minutes.
 
 ## Checklist before ending recording
 
@@ -501,14 +541,55 @@ Say:
 - [ ] Pauses on generated outputs are adequate (2–3 seconds).
 - [ ] This is the longest part; ensure no long pauses or rambling.
 
-## Production notes for this part
+## Part-specific production tips
 
-This part covers the most complex and abstract tools. Focus on:
+### For this part
 
-- **Why**, not just **how**. Viewers need to understand the business problem each tool solves.
-- **Use cases**. Give real-world examples that show the tool's value.
-- **Integration**. Show how tools work together, not in isolation.
-- **Scalability**. Emphasize that the toolkit is designed to grow from 1 project to 100.
+- **This part is abstract.** Pipeline YAML, exception registers, and adoption metrics are less visual than Parts 1 & 2. Use use-cases to ground them in reality.
+- **Emphasize patterns, not details.** Viewers don't need to understand every line of YAML. They need to understand: "The generator creates platform-specific files from one profile."
+- **Show the exception register carefully.** The concept of 'time-bound exceptions' is important for governance credibility. Make sure viewers understand why this matters.
+- **Platform Parity Matrix is validation.** This is where you back up the claim "it works with all three platforms." Show it clearly.
+- **Adoption metrics close strong.** End with concrete numbers ("40 projects onboarded, average readiness 82%") to show program success.
+
+### Recording order suggestion
+
+1. Record opening narration (sets platform team perspective).
+2. Record Pipeline Config Generator (most tangible tool).
+3. Record Exception Register (foundation for flexibility).
+4. Record Effective Rules (the enforcement transparency).
+5. Record Platform Parity Matrix (proof of platform-neutrality).
+6. Record Release Readiness (governance in action).
+7. Record Adoption Metrics (program success).
+8. Optional: Record Rule Coverage and Differentiation (these can be cut if time is tight).
+9. Record closing narration.
+
+### Timing breakdown (target: 15 minutes total)
+
+- Opening: 1 min
+- Pipeline Config: 3.5 min
+- Exception Register: 2.5 min
+- Effective Rules: 2.5 min
+- Platform Parity: 1.5 min
+- Release Readiness: 2 min
+- Adoption Metrics: 2 min
+- Optional (Rule Coverage + Differentiation): 3 min
+- Closing: 2 min
+- **Total: 18 min** (without optional: 15 min)
+- **Edit to: 12–15 min** by trimming long pauses
+
+### Length warning
+
+This part has 8 tools. If your recording exceeds 15 minutes, consider:
+1. **Speed up slightly** (130% playback speed is still clear).
+2. **Cut optional tools** (Rule Coverage and Differentiation can go into a separate "advanced governance" video).
+3. **Abbreviate tool explanations** (less detail on each tool, more focus on why it matters).
+4. **Create two videos** (Pipeline + Exceptions + Effective Rules as "Part 3a"; Metrics + Coverage as "Part 3b").
+
+### What viewers should know before watching
+
+- **Watching after Parts 1 & 2:** This is the final piece. You've seen governance and review. Now you'll see how to automate and scale.
+- **Watching standalone:** You can understand this part, but you'll get more value if you've seen Parts 1 & 2 first.
+- **Series complete:** After this part, viewers have the full operating model: define → review → automate & scale.
 
 
 

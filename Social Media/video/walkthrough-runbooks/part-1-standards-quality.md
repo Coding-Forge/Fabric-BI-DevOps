@@ -1,5 +1,11 @@
 # Part 1 Runbook — Standards and Quality Foundation
 
+## Overview
+
+**This is the first video in a three-part series.**
+
+Part 1 establishes the governance foundation that all other tools depend on. If you're watching this as a standalone video, you'll learn how to define quality standards. If you're watching the series, this part creates the governance rules that reviewers will use in Part 2 and that the CI/CD pipeline will enforce in Part 3.
+
 ## Goal
 
 Show how the toolkit helps teams define BI quality standards without hand-editing JSON, tune individual rules for adoption flexibility, and create DAX test metadata that documents measure expectations before CI/CD enforcement.
@@ -13,6 +19,17 @@ This part is designed for:
 ## Recommended length
 
 8–12 minutes (allows time for detailed explanations and use-case context).
+
+## What you'll create by the end of this part
+
+By the end of Part 1, you'll have created and committed:
+- `Rules-Report.json` — Report quality rules
+- `Rules-Dataset.json` — Semantic model quality rules
+- `enterprise-policy-profile.json` — Your governance choices
+- `dax-tests.json` — Measure test metadata
+- `Policy-Summary.md` — Human-readable governance documentation
+
+These files are the **governance foundation** that Parts 2 and 3 reference.
 
 ## Tools covered
 
@@ -282,9 +299,13 @@ Say:
 >
 > All three get committed to your repo and consumed by CI/CD. Every PR validates against all of them automatically.
 
-> In the next part of this walkthrough, we'll see how these standards work in practice when a report author prepares a pull request for review. We'll use PBIP diff tools, dependency analyzers, and PR summary generators to make review faster and more accurate.
+> These files we just created—the Rules-Report.json, Rules-Dataset.json, and dax-tests.json—are the **foundation**. They're the guardrails that keep quality consistent.
 
-> Thank you for watching Part 1. Let's move to Part 2.
+> But what happens next? What happens when a report author prepares a pull request? How do reviewers understand what changed? That's what Part 2 is about.
+
+> In Part 2, we'll show how these standards work in practice. We'll see how report authors scan for readiness, how reviewers understand changes without reading raw JSON, and how the toolkit makes pull requests faster and more accurate.
+
+> Thank you for watching Part 1. If you want to continue, head to [Part 2 — PBIP Review and PR Readiness](part-2-pbip-review.md).
 
 **Timing:** 2–3 minutes.
 
@@ -307,6 +328,39 @@ Say:
 - [ ] No unrelated notifications or popups during recording.
 - [ ] Mouse movements are deliberate and easy to follow.
 - [ ] Pauses on generated outputs are 2–3 seconds (not too long, not too short).
+## Part-specific production tips
 
+### For this part
+
+- **Emphasize the policy angle.** This isn't about buttons; it's about decisions. Speak to the governance choices, not the UI.
+- **Show the three profiles clearly.** These represent different maturity levels. Make sure viewers understand when to use each.
+- **Pause on generated JSON/Markdown.** Viewers need to see what governance looks like when it's written down.
+- **Use the use-case scenarios.** They help viewers understand why governance matters.
+- **Don't gloss over DAX tests.** Many practitioners skip this, but it's critical for semantic model quality.
+
+### Recording order suggestion
+
+1. Record the opening narration first (it sets the tone).
+2. Record the Launchpad section next (establishes context).
+3. Record Standards Builder (most important).
+4. Record Rule Designer (builds on Standards Builder).
+5. Record DAX Test Builder last (some viewers may skip it, so put it last for easy edits).
+6. Record closing narration.
+
+### Timing breakdown (target: 10 minutes total)
+
+- Opening: 1 min
+- Launchpad: 2.5 min
+- Standards Builder: 3 min
+- Rule Designer: 2.5 min
+- DAX Test Builder: 2.5 min
+- Closing: 1 min
+- **Total: 12 min** (edit to ~10 min by trimming long pauses)
+
+### What viewers should know before watching
+
+This video works standalone, but it's the first in a three-part series:
+- **Watching alone:** You'll understand how to define governance in your organization.
+- **As Part 1 of series:** Watch this, then [Part 2](part-2-pbip-review.md) to see governance in action, then [Part 3](part-3-release-governance.md) to scale it.
 
 

@@ -1,5 +1,18 @@
 # Part 2 Runbook — PBIP Review and PR Readiness
 
+## Overview
+
+**This is the second video in a three-part series.**
+
+**Prerequisites:** To get the most from this video, you should watch [Part 1 — Standards and Quality Foundation](part-1-standards-quality.md) first. Part 1 explains where quality standards come from. Part 2 shows how those standards are applied when report authors and reviewers work together.
+
+**What we assume you have:** By the start of Part 2, your organization should have:
+- Quality rules (from Part 1)
+- DAX test metadata (from Part 1)
+- A shared semantic model or reports you want to review
+
+If you're watching this standalone without Part 1, don't worry—this part still makes sense. You'll understand the review workflow, and you can fill in the governance details later.
+
 ## Goal
 
 Show how the toolkit helps report authors prepare pull requests for review and helps reviewers understand changes efficiently. This part demonstrates the end-to-end workflow from development readiness through PR summary generation.
@@ -13,6 +26,17 @@ This part is designed for:
 ## Recommended length
 
 10–15 minutes (allows for exploring multiple tools and real-world scenarios).
+
+## What you'll create by the end of this part
+
+By the end of Part 2, you'll have created:
+- `deployment-manifest.json` — Release contract (who, what, where, when)
+- `pbip-readiness-report.md` — Pre-PR quality checkpoint
+- `pbip-diff-report.md` — Reviewer-friendly change summary
+- `dependency-impact-report.md` — Downstream impact analysis
+- `PR-Quality-Summary.md` — Executive handoff for the pull request
+
+These artifacts **move pull request review from guessing to clarity**. Instead of asking questions, reviewers have evidence.
 
 ## Tools covered
 
@@ -55,13 +79,15 @@ Say:
 
 > Welcome to Part 2 of the Fabric BI DevOps Accelerator Toolkit walkthrough.
 
-> In Part 1, we defined quality standards: enterprise policies, tuned rules, and measure tests. Those standards are enforced by CI/CD on every pull request.
+> If you just watched Part 1, you now understand how to define governance standards and quality rules. Good. Those rules are the safety net.
 
-> But standards and automation only get you halfway. Code review still matters. And code review is slow when reviewers have to read raw JSON to understand what changed and why.
+> But here's the reality: rules and automation only get you halfway. Real people still need to review code. And code review is slow when reviewers have to decode raw JSON to understand what changed.
 
-> In this part, we're going to show how the toolkit makes code review faster and more effective. We'll show how report authors prepare pull requests, how reviewers understand changes, and how the team documents deployment intent and risk.
+> This part is about moving from 'code review is tedious' to 'code review is actually fast because I have the context I need.'
 
-> By the end of this part, you'll see a complete PR workflow that takes hours of manual review and compresses it into minutes of context-aware assessment.
+> We're going to show how report authors prepare pull requests using readiness scanners, how reviewers understand changes without reading JSON, and how you document what's being deployed and why.
+
+> By the end, you'll see a pull request workflow that typically takes 30 minutes of back-and-forth compress down to 5 minutes of clear assessment.
 
 > Let's start.
 
@@ -357,21 +383,23 @@ Say:
 
 > Let's recap what we just saw:
 
-> 1. **Deployment Manifest** — The release contract. Everyone knows what's being deployed, who owns it, and what conditions must be met.
+> 1. **Deployment Manifest** — The release contract. Everyone knows what's being deployed, who owns it, what conditions must be met, and how rollback works.
 
-> 2. **Readiness Scanner** — Pre-PR checkpoint. Authors catch structural problems before reviewers see them.
+> 2. **Readiness Scanner** — Pre-PR checkpoint. Authors catch structural problems before they waste reviewers' time.
 
-> 3. **PBIP Diff Viewer** — Translate raw changes into business language. Reviewers understand what changed without decoding JSON.
+> 3. **PBIP Diff Viewer** — Translate raw PBIP changes into business terms. Reviewers see what changed: 'A measure was added' instead of 'line 47 of model.tmdl changed.'
 
-> 4. **Dependency Impact Analyzer** — Quantify the blast radius. Reviewers assess risk without hunting for dependencies.
+> 4. **Dependency Impact Analyzer** — Quantify risk. Reviewers see: 'This change affects 12 other measures, 30 visuals, and 5 report pages. High impact.'
 
-> 5. **PR Summary Generator** — Package all evidence into one document. Reviewers get context without asking questions.
+> 5. **PR Summary Generator** — Package all evidence. The author pastes this into the PR, and the reviewer has everything needed to make a decision.
 
-> Together, these tools compress hours of manual review into minutes. More importantly, they move review from 'Does this look okay?' to 'Is this safe and does it fit the deployment plan?'
+> Together, these tools do something powerful: they move pull request review from **'Does this look okay?'** to **'Is this safe, tested, and does it fit the plan?'**
 
-> In the next part of this walkthrough, we'll see the platform team perspective: pipeline generation, governance and exception tracking, and adoption measurement.
+> And that speeds everything up.
 
-> Thank you for watching Part 2.
+> If you're watching this as part of the series: in the next part, we'll see how this review workflow feeds into the platform team's CI/CD setup, exception management, and adoption tracking.
+
+> Thank you for watching Part 2. To continue the series, watch [Part 3 — Pipeline, Release, Governance, and Adoption](part-3-release-governance.md).
 
 **Timing:** 2–3 minutes.
 
@@ -395,6 +423,43 @@ Say:
 - [ ] Sample PBIP folder exists and scanner runs without error.
 - [ ] Mouse movements are deliberate and easy to follow.
 - [ ] Pauses on generated outputs are adequate (2–3 seconds).
+
+## Part-specific production tips
+
+### For this part
+
+- **Emphasize efficiency.** The whole theme is "faster review." Show time savings through context, not through speed-talking.
+- **Show the Readiness Scanner output clearly.** Viewers need to see what a "ready" PBIP looks like.
+- **Pause on diffs and impacts.** These are visual tools. Let viewers read them.
+- **Use realistic examples.** "A measure changed that appears on 15 pages" resonates more than abstract descriptions.
+- **Mention artifact names explicitly.** Each tool generates files that can be committed and shared.
+
+### Recording order suggestion
+
+1. Record opening narration.
+2. Record Deployment Manifest (sets context for the whole PR).
+3. Record Readiness Scanner (author's pre-PR checkpoint).
+4. Record PBIP Diff Viewer (what changed).
+5. Record Dependency Impact Analyzer (what's affected).
+6. Record PR Summary Generator (package it all together).
+7. Record closing narration.
+
+### Timing breakdown (target: 12 minutes total)
+
+- Opening: 1 min
+- Manifest: 3 min
+- Readiness Scanner: 2.5 min
+- Diff Viewer: 2.5 min
+- Impact Analyzer: 2 min
+- PR Summary: 2 min
+- Closing: 1 min
+- **Total: 14 min** (edit to ~12 min by trimming long pauses)
+
+### What viewers should know before watching
+
+- **Watching after Part 1:** You've already created governance rules. This part shows what happens when someone tries to change a report.
+- **Watching standalone:** This part still makes sense. You'll understand the PR workflow even without Part 1's governance setup.
+- **Next step:** If you want to continue, [Part 3](part-3-release-governance.md) shows how platform teams automate CI/CD and scale governance.
 
 
 
