@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2560" viewBox="0 0 1600 2560">
+<defs>
+<radialGradient id="blueGlow"><stop offset="0" stop-color="#0078D4" stop-opacity=".65"/><stop offset="1" stop-color="#0078D4" stop-opacity="0"/></radialGradient>
+<radialGradient id="tealGlow"><stop offset="0" stop-color="#008C95" stop-opacity=".55"/><stop offset="1" stop-color="#008C95" stop-opacity="0"/></radialGradient>
+<pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M80 0H0V80" fill="none" stroke="#17213A" stroke-width="1"/></pattern>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6L0 12Z" fill="#B9C4D6"/></marker>
+</defs>
+<rect width="1600" height="2560" fill="#0B1020"/>
+<rect width="1600" height="2560" fill="url(#grid)"/>
+<circle cx="250" cy="1850" r="650" fill="url(#blueGlow)"/>
+<circle cx="1350" cy="1850" r="650" fill="url(#tealGlow)"/>
+<text x="130" y="190" font-family="Segoe UI" font-size="44" font-weight="700" fill="#F4B400" text-anchor="start">A GOVERNED DELIVERY PRACTICE</text>
+<rect x="122" y="225" width="1356" height="7" rx="4" fill="#F4B400"/>
+<text x="125" y="455" font-family="Georgia" font-size="150" font-weight="700" fill="#FFFFFF" text-anchor="start">BI DEVOPS</text>
+<text x="125" y="625" font-family="Georgia" font-size="150" font-weight="700" fill="#FFFFFF" text-anchor="start">WITH FABRIC</text>
+<text x="135" y="730" font-family="Segoe UI" font-size="44" font-weight="700" fill="#B9C4D6" text-anchor="start">FOR ENTERPRISE POWER BI &amp; MICROSOFT FABRIC</text>
+<text x="800" y="900" font-family="Segoe UI" font-size="52" font-weight="normal" fill="#FFFFFF" text-anchor="middle">From PBIP Validation to Confident,</text>
+<text x="800" y="965" font-family="Segoe UI" font-size="52" font-weight="normal" fill="#FFFFFF" text-anchor="middle">Auditable Releases</text>
+<rect x="82" y="1330" width="230" height="130" rx="24" fill="#0078D4" stroke="#FFFFFF" stroke-width="3"/>
+<text x="197.0" y="1408" font-family="Cascadia Mono" font-size="28" font-weight="normal" fill="#FFFFFF" text-anchor="middle">VALIDATE</text>
+<path d="M320 1395H355" stroke="#B9C4D6" stroke-width="5" marker-end="url(#arrow)"/>
+<rect x="365" y="1330" width="200" height="130" rx="24" fill="#F4B400" stroke="#FFFFFF" stroke-width="3"/>
+<text x="465.0" y="1408" font-family="Cascadia Mono" font-size="28" font-weight="normal" fill="#FFFFFF" text-anchor="middle">QUALITY</text>
+<path d="M573 1395H608" stroke="#B9C4D6" stroke-width="5" marker-end="url(#arrow)"/>
+<rect x="618" y="1330" width="160" height="130" rx="24" fill="#5C2D91" stroke="#FFFFFF" stroke-width="3"/>
+<text x="698.0" y="1408" font-family="Cascadia Mono" font-size="28" font-weight="normal" fill="#FFFFFF" text-anchor="middle">TEST</text>
+<path d="M786 1395H821" stroke="#B9C4D6" stroke-width="5" marker-end="url(#arrow)"/>
+<rect x="831" y="1330" width="200" height="130" rx="24" fill="#008C95" stroke="#FFFFFF" stroke-width="3"/>
+<text x="931.0" y="1408" font-family="Cascadia Mono" font-size="28" font-weight="normal" fill="#FFFFFF" text-anchor="middle">DEPLOY</text>
+<path d="M1039 1395H1074" stroke="#B9C4D6" stroke-width="5" marker-end="url(#arrow)"/>
+<rect x="1084" y="1330" width="210" height="130" rx="24" fill="#D13438" stroke="#FFFFFF" stroke-width="3"/>
+<text x="1189.0" y="1408" font-family="Cascadia Mono" font-size="28" font-weight="normal" fill="#FFFFFF" text-anchor="middle">GOVERN</text>
+<path d="M1302 1395H1337" stroke="#B9C4D6" stroke-width="5" marker-end="url(#arrow)"/>
+<rect x="1347" y="1330" width="180" height="130" rx="24" fill="#107C10" stroke="#FFFFFF" stroke-width="3"/>
+<text x="1437.0" y="1408" font-family="Cascadia Mono" font-size="28" font-weight="normal" fill="#FFFFFF" text-anchor="middle">ADOPT</text>
+<rect x="125" y="1545" width="1350" height="495" rx="38" fill="none" stroke="#AEB9CC" stroke-width="3"/>
+<text x="170" y="1640" font-family="Segoe UI" font-size="40" font-weight="700" fill="#F4B400" text-anchor="start">THE PBIP-TO-PRODUCTION TRUST CHAIN</text>
+<text x="185" y="1740" font-family="Segoe UI" font-size="34" font-weight="700" fill="#CDBBF5" text-anchor="start">RIGHT STRUCTURE</text>
+<text x="185" y="1800" font-family="Segoe UI" font-size="28" font-weight="normal" fill="#FFFFFF" text-anchor="start">PBIP validation / branch-aware rules</text>
+<text x="185" y="1900" font-family="Segoe UI" font-size="34" font-weight="700" fill="#CDBBF5" text-anchor="start">RIGHT QUALITY</text>
+<text x="185" y="1960" font-family="Segoe UI" font-size="28" font-weight="normal" fill="#FFFFFF" text-anchor="start">PBI Inspector / Tabular Editor BPA</text>
+<line x1="795" y1="1660" x2="795" y2="1988" stroke="#F4B400" stroke-width="5"/>
+<text x="825" y="1740" font-family="Segoe UI" font-size="34" font-weight="700" fill="#9CE2E5" text-anchor="start">RIGHT EVIDENCE</text>
+<text x="825" y="1800" font-family="Segoe UI" font-size="28" font-weight="normal" fill="#FFFFFF" text-anchor="start">Readiness scores / manifests / PR summaries</text>
+<text x="825" y="1900" font-family="Segoe UI" font-size="34" font-weight="700" fill="#9CE2E5" text-anchor="start">RIGHT RELEASE</text>
+<text x="825" y="1960" font-family="Segoe UI" font-size="28" font-weight="normal" fill="#FFFFFF" text-anchor="start">Dev / feature workspace deploys, any CI/CD</text>
+<text x="800" y="2030" font-family="Cascadia Mono" font-size="28" font-weight="normal" fill="#F4B400" text-anchor="middle">AZURE DEVOPS · GITHUB ACTIONS · GITLAB CI/CD</text>
+<text x="130" y="2295" font-family="Segoe UI" font-size="48" font-weight="700" fill="#FFFFFF" text-anchor="start">BRANDON CAMPBELL</text>
+<text x="130" y="2370" font-family="Segoe UI" font-size="33" font-weight="normal" fill="#B9C4D6" text-anchor="start">PBIP CI/CD / QUALITY GATES / GOVERNANCE / RELEASE ENGINEERING / ADOPTION</text>
+<rect x="125" y="2410" width="1350" height="7" rx="3" fill="#008C95"/>
+</svg>

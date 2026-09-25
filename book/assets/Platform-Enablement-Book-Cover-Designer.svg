@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2560" viewBox="0 0 1600 2560">
+<defs>
+<radialGradient id="orangeGlow"><stop offset="0" stop-color="#D2691E" stop-opacity=".5"/><stop offset="1" stop-color="#D2691E" stop-opacity="0"/></radialGradient>
+<radialGradient id="tealGlow2"><stop offset="0" stop-color="#00A5AE" stop-opacity=".45"/><stop offset="1" stop-color="#00A5AE" stop-opacity="0"/></radialGradient>
+<pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M80 0H0V80" fill="none" stroke="#17213A" stroke-width="1"/></pattern>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6L0 12Z" fill="#8FA3C4"/></marker>
+</defs>
+<rect width="1600" height="2560" fill="#0A0F1E"/>
+<rect width="1600" height="2560" fill="url(#grid)"/>
+<circle cx="1350" cy="450" r="500" fill="url(#tealGlow2)"/>
+<circle cx="200" cy="2200" r="600" fill="url(#orangeGlow)"/>
+
+<!-- Fabric-style cube mark -->
+<g transform="translate(1370,230)">
+  <path d="M-70 -40 L0 -80 L70 -40 L70 40 L0 80 L-70 40 Z" fill="none" stroke="#2DD4BF" stroke-width="4"/>
+  <path d="M-70 -40 L0 0 L70 -40 M0 0 V80" fill="none" stroke="#2DD4BF" stroke-width="3" opacity="0.8"/>
+  <text x="0" y="14" font-family="Georgia" font-size="60" font-weight="700" fill="#2DD4BF" text-anchor="middle">F</text>
+</g>
+
+<text x="150" y="112" font-family="Segoe UI" font-size="40" font-weight="700" fill="#F4B400" text-anchor="start" letter-spacing="4">A GOVERNED DELIVERY PRACTICE</text>
+<rect x="150" y="140" width="1150" height="6" rx="3" fill="#F4B400"/>
+
+<text x="125" y="330" font-family="Georgia" font-size="128" font-weight="700" fill="#FFFFFF" text-anchor="start">PLATFORM</text>
+<text x="125" y="470" font-family="Georgia" font-size="128" font-weight="700" fill="#FFFFFF" text-anchor="start">ENABLEMENT</text>
+<text x="130" y="545" font-family="Segoe UI" font-size="40" font-weight="700" fill="#5AC8FA" text-anchor="start" letter-spacing="2">FOR ENTERPRISE POWER BI &amp; MICROSOFT FABRIC</text>
+<rect x="128" y="575" width="1150" height="4" fill="#5AC8FA" opacity="0.6"/>
+
+<rect x="128" y="630" width="6" height="150" fill="#F4B400"/>
+<text x="160" y="670" font-family="Segoe UI" font-size="40" font-weight="normal" fill="#FFFFFF" text-anchor="start">From PBIP Validation</text>
+<text x="160" y="718" font-family="Segoe UI" font-size="40" font-weight="normal" fill="#FFFFFF" text-anchor="start">to Confident, Auditable</text>
+<text x="160" y="766" font-family="Segoe UI" font-size="40" font-weight="normal" fill="#FFFFFF" text-anchor="start">Releases</text>
+
+<circle cx="125.0" cy="1220" r="62" fill="#0F1830" stroke="#0078D4" stroke-width="4"/>
+<circle cx="125.0" cy="1220" r="70" fill="none" stroke="#0078D4" stroke-opacity="0.35" stroke-width="2"/>
+
+    <path d="M125.0 1182 L157.0 1196 V1230 C157.0 1252 141.0 1266 125.0 1272
+             C109.0 1266 93.0 1252 93.0 1230 V1196 Z"
+          fill="none" stroke="#0078D4" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M111.0 1220 L122.0 1232 L141.0 1208" fill="none" stroke="#0078D4" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="125.0" y="1324" font-family="Segoe UI" font-size="25" font-weight="700" fill="#E8EDF7" text-anchor="middle">VALIDATE</text>
+<line x1="201.0" y1="1220" x2="319.0" y2="1220" stroke="#8FA3C4" stroke-width="4" marker-end="url(#arrow)"/>
+<circle cx="395.0" cy="1220" r="62" fill="#0F1830" stroke="#D9A21B" stroke-width="4"/>
+<circle cx="395.0" cy="1220" r="70" fill="none" stroke="#D9A21B" stroke-opacity="0.35" stroke-width="2"/>
+
+    <circle cx="395.0" cy="1212" r="24" fill="none" stroke="#D9A21B" stroke-width="5"/>
+    <path d="M389.0 1233 L392.0 1222 M401.0 1233 L398.0 1222" stroke="#D9A21B" stroke-width="1"/>
+    <path d="M381.0 1234 L373.0 1262 L389.0 1252 Z" fill="#D9A21B"/>
+    <path d="M409.0 1234 L417.0 1262 L401.0 1252 Z" fill="#D9A21B"/>
+    <path d="M387.0 1212 L393.0 1220 L405.0 1204" fill="none" stroke="#D9A21B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="395.0" y="1324" font-family="Segoe UI" font-size="25" font-weight="700" fill="#E8EDF7" text-anchor="middle">QUALITY</text>
+<line x1="471.0" y1="1220" x2="589.0" y2="1220" stroke="#8FA3C4" stroke-width="4" marker-end="url(#arrow)"/>
+<circle cx="665.0" cy="1220" r="62" fill="#0F1830" stroke="#7A4FD1" stroke-width="4"/>
+<circle cx="665.0" cy="1220" r="70" fill="none" stroke="#7A4FD1" stroke-opacity="0.35" stroke-width="2"/>
+
+    <path d="M657.0 1182 V1214 L637.0 1250 C633.0 1258 639.0 1266 649.0 1266
+             H681.0 C691.0 1266 697.0 1258 693.0 1250 L673.0 1214 V1182"
+          fill="none" stroke="#7A4FD1" stroke-width="5" stroke-linejoin="round"/>
+    <line x1="651.0" y1="1182" x2="679.0" y2="1182" stroke="#7A4FD1" stroke-width="5" stroke-linecap="round"/>
+    <line x1="645.0" y1="1236" x2="685.0" y2="1236" stroke="#7A4FD1" stroke-width="4"/>
+    <text x="665.0" y="1324" font-family="Segoe UI" font-size="25" font-weight="700" fill="#E8EDF7" text-anchor="middle">TEST</text>
+<line x1="741.0" y1="1220" x2="859.0" y2="1220" stroke="#8FA3C4" stroke-width="4" marker-end="url(#arrow)"/>
+<circle cx="935.0" cy="1220" r="62" fill="#0F1830" stroke="#00A5AE" stroke-width="4"/>
+<circle cx="935.0" cy="1220" r="70" fill="none" stroke="#00A5AE" stroke-opacity="0.35" stroke-width="2"/>
+
+    <path d="M935.0 1180 C955.0 1205 955.0 1238 943.0 1254 L927.0 1254
+             C915.0 1238 915.0 1205 935.0 1180 Z"
+          fill="none" stroke="#00A5AE" stroke-width="5" stroke-linejoin="round"/>
+    <circle cx="935.0" cy="1214" r="7" fill="none" stroke="#00A5AE" stroke-width="4"/>
+    <path d="M927.0 1242 L911.0 1258 L927.0 1254 Z M943.0 1242 L959.0 1258 L943.0 1254 Z"
+          fill="#00A5AE"/>
+    <path d="M929.0 1254 L925.0 1268 M941.0 1254 L945.0 1268" stroke="#00A5AE" stroke-width="4" stroke-linecap="round"/>
+    <text x="935.0" y="1324" font-family="Segoe UI" font-size="25" font-weight="700" fill="#E8EDF7" text-anchor="middle">DEPLOY</text>
+<line x1="1011.0" y1="1220" x2="1129.0" y2="1220" stroke="#8FA3C4" stroke-width="4" marker-end="url(#arrow)"/>
+<circle cx="1205.0" cy="1220" r="62" fill="#0F1830" stroke="#D13438" stroke-width="4"/>
+<circle cx="1205.0" cy="1220" r="70" fill="none" stroke="#D13438" stroke-opacity="0.35" stroke-width="2"/>
+
+    <path d="M1171.0 1210 L1205.0 1186 L1239.0 1210 Z" fill="none" stroke="#D13438" stroke-width="5" stroke-linejoin="round"/>
+    <line x1="1175.0" y1="1214" x2="1235.0" y2="1214" stroke="#D13438" stroke-width="5"/>
+    <line x1="1183.0" y1="1218" x2="1183.0" y2="1250" stroke="#D13438" stroke-width="5"/>
+    <line x1="1197.0" y1="1218" x2="1197.0" y2="1250" stroke="#D13438" stroke-width="5"/>
+    <line x1="1213.0" y1="1218" x2="1213.0" y2="1250" stroke="#D13438" stroke-width="5"/>
+    <line x1="1227.0" y1="1218" x2="1227.0" y2="1250" stroke="#D13438" stroke-width="5"/>
+    <line x1="1169.0" y1="1254" x2="1241.0" y2="1254" stroke="#D13438" stroke-width="5"/>
+    <text x="1205.0" y="1324" font-family="Segoe UI" font-size="25" font-weight="700" fill="#E8EDF7" text-anchor="middle">GOVERN</text>
+<line x1="1281.0" y1="1220" x2="1399.0" y2="1220" stroke="#8FA3C4" stroke-width="4" marker-end="url(#arrow)"/>
+<circle cx="1475.0" cy="1220" r="62" fill="#0F1830" stroke="#3E8E2E" stroke-width="4"/>
+<circle cx="1475.0" cy="1220" r="70" fill="none" stroke="#3E8E2E" stroke-opacity="0.35" stroke-width="2"/>
+
+    <circle cx="1457.0" cy="1202" r="11" fill="none" stroke="#3E8E2E" stroke-width="4"/>
+    <path d="M1441.0 1234 C1441.0 1218 1473.0 1218 1473.0 1234" fill="none" stroke="#3E8E2E" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="1493.0" cy="1202" r="11" fill="none" stroke="#3E8E2E" stroke-width="4"/>
+    <path d="M1477.0 1234 C1477.0 1218 1509.0 1218 1509.0 1234" fill="none" stroke="#3E8E2E" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="1475.0" cy="1196" r="13" fill="none" stroke="#3E8E2E" stroke-width="4"/>
+    <path d="M1455.0 1250 C1455.0 1228 1495.0 1228 1495.0 1250" fill="none" stroke="#3E8E2E" stroke-width="4" stroke-linecap="round"/>
+    <text x="1475.0" y="1324" font-family="Segoe UI" font-size="25" font-weight="700" fill="#E8EDF7" text-anchor="middle">ADOPT</text>
+
+
+<rect x="125" y="1420" width="1350" height="565" rx="38" fill="#0E1730" stroke="#3A4A6B" stroke-width="3"/>
+<text x="800" y="1495" font-family="Segoe UI" font-size="40" font-weight="700" fill="#F4B400" text-anchor="middle" letter-spacing="2">THE PBIP-TO-PRODUCTION TRUST CHAIN</text>
+<line x1="200" y1="1520" x2="1400" y2="1520" stroke="#3A4A6B" stroke-width="2"/>
+
+
+    <rect x="214" y="1567" width="32" height="20" rx="3" fill="none" stroke="#5AC8FA" stroke-width="4"/>
+    <rect x="188" y="1615" width="32" height="20" rx="3" fill="none" stroke="#5AC8FA" stroke-width="4"/>
+    <rect x="240" y="1615" width="32" height="20" rx="3" fill="none" stroke="#5AC8FA" stroke-width="4"/>
+    <path d="M230 1587 V1601 M204 1601 H256 M204 1601 V1615 M256 1601 V1615"
+          fill="none" stroke="#5AC8FA" stroke-width="4"/>
+    
+<text x="290" y="1595" font-family="Segoe UI" font-size="32" font-weight="700" fill="#5AC8FA" text-anchor="start">RIGHT STRUCTURE</text>
+<text x="290" y="1633" font-family="Segoe UI" font-size="26" fill="#D7DEEC" text-anchor="start">PBIP validation /</text>
+<text x="290" y="1666" font-family="Segoe UI" font-size="26" fill="#D7DEEC" text-anchor="start">branch-aware rules</text>
+
+
+    <rect x="202" y="1718" width="56" height="66" rx="6" fill="none" stroke="#D9A21B" stroke-width="5"/>
+    <rect x="218" y="1710" width="24" height="14" rx="3" fill="none" stroke="#D9A21B" stroke-width="4"/>
+    <path d="M214 1746 L222 1754 L240 1736" fill="none" stroke="#D9A21B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="214" y1="1768" x2="246" y2="1768" stroke="#D9A21B" stroke-width="4"/>
+    
+<text x="290" y="1740" font-family="Segoe UI" font-size="32" font-weight="700" fill="#D9A21B" text-anchor="start">RIGHT QUALITY</text>
+<text x="290" y="1778" font-family="Segoe UI" font-size="26" fill="#D7DEEC" text-anchor="start">PBI Inspector /</text>
+<text x="290" y="1811" font-family="Segoe UI" font-size="26" fill="#D7DEEC" text-anchor="start">Tabular Editor BPA</text>
+
+<line x1="800" y1="1540" x2="800" y2="1850" stroke="#3A4A6B" stroke-width="2"/>
+
+
+    <path d="M856 1569 H890 L904 1583 V1641 H856 Z"
+          fill="none" stroke="#4FD1D9" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M890 1569 V1583 H904" fill="none" stroke="#4FD1D9" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M868 1607 L878 1617 L896 1595" fill="none" stroke="#4FD1D9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    
+<text x="925" y="1595" font-family="Segoe UI" font-size="32" font-weight="700" fill="#4FD1D9" text-anchor="start">RIGHT EVIDENCE</text>
+<text x="925" y="1633" font-family="Segoe UI" font-size="26" fill="#D7DEEC" text-anchor="start">Readiness scores /</text>
+<text x="925" y="1666" font-family="Segoe UI" font-size="26" fill="#D7DEEC" text-anchor="start">manifests / PR summaries</text>
+
+
+    <path d="M880 1715 C900 1740 900 1773 888 1789 L872 1789
+             C860 1773 860 1740 880 1715 Z"
+          fill="none" stroke="#F0555A" stroke-width="5" stroke-linejoin="round"/>
+    <circle cx="880" cy="1749" r="7" fill="none" stroke="#F0555A" stroke-width="4"/>
+    <path d="M872 1777 L856 1793 L872 1789 Z M888 1777 L904 1793 L888 1789 Z"
+          fill="#F0555A"/>
+    <path d="M874 1789 L870 1803 M886 1789 L890 1803" stroke="#F0555A" stroke-width="4" stroke-linecap="round"/>
+    
+<text x="925" y="1740" font-family="Segoe UI" font-size="32" font-weight="700" fill="#F0555A" text-anchor="start">RIGHT RELEASE</text>
+<text x="925" y="1778" font-family="Segoe UI" font-size="26" fill="#D7DEEC" text-anchor="start">Dev / feature workspace</text>
+<text x="925" y="1811" font-family="Segoe UI" font-size="26" fill="#D7DEEC" text-anchor="start">deploys, any CI/CD</text>
+
+<line x1="200" y1="1875" x2="1400" y2="1875" stroke="#3A4A6B" stroke-width="1" stroke-dasharray="6 8"/>
+<text x="800" y="1930" font-family="Cascadia Mono" font-size="27" fill="#F4B400" text-anchor="middle" letter-spacing="1">AZURE DEVOPS &#183; GITHUB ACTIONS &#183; GITLAB CI/CD</text>
+
+<text x="130" y="2295" font-family="Segoe UI" font-size="48" font-weight="700" fill="#FFFFFF" text-anchor="start">BRANDON CAMPBELL</text>
+<text x="130" y="2360" font-family="Segoe UI" font-size="28" fill="#9FB0CC" text-anchor="start" letter-spacing="1">PBIP CI/CD &#183; QUALITY GATES &#183; GOVERNANCE &#183; RELEASE ENGINEERING &#183; ADOPTION</text>
+<rect x="125" y="2410" width="1350" height="6" rx="3" fill="#00A5AE"/>
+</svg>

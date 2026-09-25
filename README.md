@@ -160,6 +160,7 @@ Use the sparse clone scripts when you want only the folders needed for a specifi
 | GitLab CI/CD | `shared/scripts/Clone-SparseGitLabProfile.ps1` | `gitlab`, `shared`, `docs`, `tools`, `images` |
 | Toolkit | `shared/scripts/Clone-SparseToolkitProfile.ps1` | Platform-specific folders plus either standard toolkit assets or minimal CI/CD assets. Workshop files are excluded unless `-IncludeWorkshop` is passed. |
 | PowerShell UI | `shared/scripts/Start-SparseCloneUI.ps1` | Form-based Windows UI for running toolkit or platform-specific sparse clone scripts |
+| Bash UI | `shared/scripts/start-sparse-clone-ui.sh` | Interactive terminal wizard for Linux/macOS/WSL that walks through the same choices and runs the sparse clone natively in bash (no PowerShell dependency) |
 
 The clone scripts use sparse checkout only during setup. They finish by converting the selected files into a fresh standalone repository with a new initial commit, so unselected platform folders are not carried forward. Create a new empty remote repository, then attach it with `git remote add origin <new-repo-url>`.
 
@@ -172,6 +173,14 @@ To use a form-based Windows UI instead of typing arguments manually:
 ```
 
 The UI lets users choose the destination parent folder and enter a new repo folder name separately, then runs the selected sparse clone script with the combined final path.
+
+On Linux, macOS, or WSL, use the bash wizard instead:
+
+```bash
+./shared/scripts/start-sparse-clone-ui.sh
+```
+
+It prompts for the same options (clone mode, repository URL, destination, branch, platform, profile, workshop material), previews the resulting settings, and performs the sparse clone directly with `git` — no PowerShell required.
 
 Example:
 

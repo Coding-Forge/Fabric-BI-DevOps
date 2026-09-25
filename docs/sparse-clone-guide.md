@@ -16,6 +16,14 @@ shared/scripts/Start-SparseCloneUI.ps1
 
 It opens a PowerShell UI where users can fill in repository URL, destination, branch, platform, profile, and workshop inclusion before running the appropriate sparse clone script.
 
+If you are on Linux, macOS, or WSL and prefer an interactive prompt instead of typing script arguments, use the bash equivalent:
+
+```text
+shared/scripts/start-sparse-clone-ui.sh
+```
+
+It asks the same questions (clone mode, repository URL, destination, branch, platform, profile, workshop inclusion), previews the resulting settings, and performs the sparse clone directly with `git`. It does not require PowerShell and reproduces the same profile/platform path selection logic as `Clone-SparseToolkitProfile.ps1` and the legacy platform scripts.
+
 The UI separates:
 
 - **Destination folder**: the parent folder where the new repo folder should be created.
@@ -54,6 +62,20 @@ The UI can run:
 - `Clone-SparseGitLabProfile.ps1`
 
 Use **Toolkit** mode when you want platform, profile, and workshop options. Use the platform-specific modes when you want the original platform profile behavior.
+
+## Bash wizard (Linux / macOS / WSL)
+
+Run the interactive wizard from the repository root:
+
+```bash
+./shared/scripts/start-sparse-clone-ui.sh
+```
+
+It mirrors the PowerShell UI's flow (clone mode, repository URL, destination, branch, platform, profile, workshop inclusion), shows a settings preview before running, and then performs the sparse clone natively with `git` — no PowerShell required. It follows the same rules as the underlying scripts:
+
+- **Toolkit** mode applies the `Platform`/`Profile`/`IncludeWorkshop` selection logic from `Clone-SparseToolkitProfile.ps1`.
+- **Azure DevOps**, **GitHub**, and **GitLab** modes reproduce the legacy platform-specific scripts' folder selections.
+- The destination is left as a normal, non-sparse, standalone Git repository with a fresh initial commit and no source remote, exactly like the PowerShell scripts.
 
 ## Commit-safe clone behavior
 
